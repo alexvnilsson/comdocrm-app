@@ -1,11 +1,21 @@
-<div class="container-fluid">
-  <navbar-navbar></navbar-navbar>
-</div>
+<navbar-header>
+    <div class="container-fluid">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Company</td>
+                </tr>
+            </thead>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-7">
-      Leads
+            <tbody>
+                <tr role="button" *ngFor="let lead of leads" #model (click)="openLead(model.id)"> 
+                    <td>{{ lead.name }}</td>
+                    <td>{{ lead.company.name }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-  </div>
-</div>
+</navbar-header>
+
+<lead-details #modal></lead-details>

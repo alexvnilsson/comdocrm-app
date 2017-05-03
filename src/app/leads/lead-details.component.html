@@ -1,0 +1,14 @@
+ <modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+    (onOpen)="opened()" #modal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Lead</h4>
+    </modal-header>
+    <modal-body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4"><h5>Name</h5></div> <div class="col-md-6">{{ lead?.name }}</div>
+            </div>
+        </div>
+    </modal-body>
+    <modal-footer></modal-footer>
+</modal>
