@@ -1,3 +1,4 @@
 export default class Lead {
-    name: String;
+    id: number;
+    name: string;
 }

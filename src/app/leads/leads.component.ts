@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { SlugifyService } from 'app/slugify.service';
 
 import { LeadsService, Lead } from 'app/leads/leads.service';
 
@@ -8,12 +9,9 @@ import { LeadsService, Lead } from 'app/leads/leads.service';
     templateUrl: './leads.component.html'
 })
 export class LeadsComponent implements OnInit {
-    @ViewChild('modal') modal: ModalComponent;
-
     leads: Array<any>;
 
-
-    constructor(private leadsService: LeadsService) {}
+    constructor(private router: Router, private slug: SlugifyService, private leadsService: LeadsService) {}
 
     ngOnInit() {
         this.leadsService.getLeads().subscribe(
@@ -24,6 +22,6 @@ export class LeadsComponent implements OnInit {
     }
 
     openLead(lead: Lead) {
-        this.modal.open();
+        this.router.navigate(['/leads', this.slug.slugify(lead.name), lead.id ]);
     }
 }

@@ -1,5 +1,13 @@
-<navbar-header>
+<navbar-header section="leads">
     <div class="container-fluid">
+        <nav class="navbar navbar-light hidden-md-down">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a role="button" class="btn btn-outline-primary" href="#">+ Lead</a>
+                </li>
+            </ul>
+        </nav>
+
         <table class="table table-hover table-striped">
             <thead>
                 <tr>
@@ -9,13 +17,19 @@
             </thead>
 
             <tbody>
-                <tr role="button" *ngFor="let lead of leads" #model (click)="openLead(model.id)"> 
+                <tr role="button" *ngFor="let lead of leads" #model (click)="openLead(lead)"> 
                     <td>{{ lead.name }}</td>
                     <td>{{ lead.company.name }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
-</navbar-header>
 
-<lead-details #modal></lead-details>
+    <nav class="navbar fixed-bottom bg-faded navbar-light hidden-xl-up">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <button role="button" class="btn btn-outline-primary btn-block"><fa name="plus"></fa> Lead</button>
+            </li>
+        </ul>
+    </nav>
+</navbar-header>

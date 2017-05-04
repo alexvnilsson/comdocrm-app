@@ -5,34 +5,34 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SharedModule } from 'app/shared.module';
-import { ViewModule } from 'app/leads/view/view.module';
 
 import { LeadsService } from 'app/leads/leads.service';
 
-import { LeadsComponent } from 'app/leads/leads.component';
-import { LeadListItemComponent } from 'app/leads/lead-list-item.component';
+import { ViewComponent } from './view.component';
+import { TimelineMessageComponent } from './timeline-message.component';
+import { TimelineAddMessageComponent } from './timeline-add-message.component';
 
 const moduleRoutes: Routes = [
     {
-        path: 'leads',
-        component: LeadsComponent
+        path: 'leads/:name/:id',
+        component: ViewComponent
     }
 ];
 
 @NgModule({
   declarations: [
-    LeadsComponent,
-    LeadListItemComponent
+    ViewComponent,
+    TimelineMessageComponent,
+    TimelineAddMessageComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forChild(moduleRoutes),
-    SharedModule,
-    ViewModule
+    SharedModule
   ],
   providers: [LeadsService],
-  bootstrap: [LeadsComponent]
+  bootstrap: [ViewComponent]
 })
-export class LeadsModule { }
+export class ViewModule { }

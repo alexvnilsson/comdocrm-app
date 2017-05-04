@@ -21,6 +21,16 @@ class LeadsService {
                 return text || null;
             });
     }
+
+    public getLead(id: Number): Observable<Lead> {
+        return this.http
+            .get(this.serviceBaseAddr + '/leads/one/' + id)
+            .map((res: Response) => {
+                let text = res.json();
+
+                return text || null;
+            });
+    }
 }
 
 export { LeadsService, Lead }
