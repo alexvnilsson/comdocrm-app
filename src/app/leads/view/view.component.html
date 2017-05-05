@@ -8,6 +8,26 @@
         <div class="row">
             <div class="col">
                 <div class="container-fluid">
+                    <div class="card card-block bg-faded mb-5">
+                        <form>
+                            <div class="form-group">
+                                <label class="d-block">Current status</label>
+                                <div class="btn-group" dropdown>
+                                    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle" role="button">
+                                        {{ lead?.status.text || 'Status' }} <span class="caret"></span>
+                                    </button>
+                                        
+                                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                        <li role="menuitem" *ngFor="let status of statusTable"><button class="dropdown-item"
+                                            (click)="setLeadStatus(status._id)">{{ status.text }}</button></li>
+                                        <li class="divider dropdown-divider"></li>
+                                        <li role="menuitem"><a class="dropdown-item" href="#">Account/sold</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                     <h4 class="display-4 mb-3"><fa name="history"></fa> Timeline</h4>
                     
                     <nav class="navbar navbar-light hidden-md-down">
@@ -20,6 +40,10 @@
 
                     <leads-timeline-message *ngFor="let message of lead?.messages" [message]="message"></leads-timeline-message>
                 </div>
+            </div>
+
+            <div class="col-md-8 mb-5 hidden-xl-up">
+
             </div>
 
             <div class="col-sm-3">

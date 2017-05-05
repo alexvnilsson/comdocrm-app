@@ -22,6 +22,6 @@ export class LeadsComponent implements OnInit {
     }
 
     openLead(lead: Lead) {
-        this.router.navigate(['/leads', this.slug.slugify(lead.name), lead.id ]);
+        this.router.navigate(['/leads', this.slug.slugify(lead.name), lead._id ]);
     }
 }

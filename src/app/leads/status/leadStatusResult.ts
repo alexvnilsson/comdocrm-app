@@ -1,7 +1,6 @@
 import LeadStatus from './leadStatus';
 
-export default class Lead {
-    _id: number;
-    name: string;
+export default class LeadStatusResult {
+    result: boolean;
     status: LeadStatus;
 }

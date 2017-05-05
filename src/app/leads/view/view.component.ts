@@ -5,6 +5,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 
 import { LeadsService } from 'app/leads/leads.service';
 import Lead from 'app/leads/lead';
+import LeadStatus from 'app/leads/status/leadStatus';
 
 import { TimelineAddMessageComponent } from './timeline-add-message.component';
 
@@ -19,7 +20,8 @@ export class ViewComponent implements OnInit {
     @ViewChild('addMessage')
     addMessage: TimelineAddMessageComponent;
 
-    lead: Lead;
+    @Input() lead: Lead;
+    statusTable: Array<LeadStatus>;
 
     constructor(private route: ActivatedRoute, private leadsService: LeadsService) {}
 
@@ -28,7 +30,15 @@ export class ViewComponent implements OnInit {
 
         if(id != undefined) {
             this.leadsService.getLead(id).subscribe(lead => this.lead = lead);
+
+            this.leadsService.getLeadStatusTable().subscribe(statusTable => {
+                this.statusTable = statusTable;
+            });
         }
+    }
+
+    setLeadStatus(statusId: number) {
+        this.leadsService.setStatus(this.lead, statusId);
     }
 
     openAddMessage() {
