@@ -12,6 +12,7 @@ import { LeadsService } from 'app/leads/leads.service';
 import { LeadsComponent } from 'app/leads/leads.component';
 import { LeadListItemComponent } from 'app/leads/lead-list-item.component';
 
+
 const moduleRoutes: Routes = [
     {
         path: 'leads',

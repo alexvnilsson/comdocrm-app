@@ -46,7 +46,7 @@ class LeadsService {
             });
     }
 
-    public setStatus(lead: Lead, statusId: number) {
+    public setStatus(lead: Lead, statusId: number, callback?: (lead: LeadStatus) => any) {
         let reqHeaders = new Headers({
             'Content-Type': 'application/x-www-form-urlencoded'
         });
@@ -62,6 +62,9 @@ class LeadsService {
 
             if(leadStatusResult) {
                 lead.status = leadStatusResult;
+
+                if(callback)
+                    callback(lead.status);
             }
         })
     }

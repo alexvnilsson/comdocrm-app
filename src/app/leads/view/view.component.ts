@@ -6,8 +6,10 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { LeadsService } from 'app/leads/leads.service';
 import Lead from 'app/leads/lead';
 import LeadStatus from 'app/leads/status/leadStatus';
+import LeadStatusPendingChange from 'app/leads/status/leadStatusPendingChange';
 
 import { TimelineAddMessageComponent } from './timeline-add-message.component';
+import { StatusFormComponent } from 'app/leads/status/status-form.component';
 
 @Component({
     selector: 'leads-view',
@@ -20,8 +22,13 @@ export class ViewComponent implements OnInit {
     @ViewChild('addMessage')
     addMessage: TimelineAddMessageComponent;
 
+    @ViewChild('statusChangedForm')
+    statusChangedForm: StatusFormComponent;
+
     @Input() lead: Lead;
     statusTable: Array<LeadStatus>;
+
+    @Input() statusPending: LeadStatusPendingChange;
 
     constructor(private route: ActivatedRoute, private leadsService: LeadsService) {}
 
@@ -37,8 +44,17 @@ export class ViewComponent implements OnInit {
         }
     }
 
+    public onLeadBeforeStatusChange(status: LeadStatus) {
+        
+    }
+
+    public onLeadStatusChanged(status: LeadStatus) {
+        
+    }
+
     setLeadStatus(statusId: number) {
-        this.leadsService.setStatus(this.lead, statusId);
+        if(this.lead.status == null || this.lead.status._id != statusId)
+            this.leadsService.setStatus(this.lead, statusId);
     }
 
     openAddMessage() {

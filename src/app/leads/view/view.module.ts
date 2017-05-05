@@ -9,6 +9,8 @@ import { SharedModule } from 'app/shared.module';
 import { LeadsService } from 'app/leads/leads.service';
 
 import { ViewComponent } from './view.component';
+import { StatusSelectorComponent } from 'app/leads/status/status-selector.component';
+import { StatusFormComponent } from 'app/leads/status/status-form.component';
 import { TimelineMessageComponent } from './timeline-message.component';
 import { TimelineAddMessageComponent } from './timeline-add-message.component';
 
@@ -22,6 +24,8 @@ const moduleRoutes: Routes = [
 @NgModule({
   declarations: [
     ViewComponent,
+    StatusSelectorComponent,
+    StatusFormComponent,
     TimelineMessageComponent,
     TimelineAddMessageComponent
   ],

@@ -19,11 +19,11 @@ import { NavbarModule } from 'app/navbar.module';
   providers: [SlugifyService],
   bootstrap: [],
   exports: [
-      NavbarModule,
-      ModalModule,
-      TooltipModule,
-      BsDropdownModule,
-      Angular2FontAwesomeModule
+    NavbarModule,
+    ModalModule,
+    TooltipModule,
+    BsDropdownModule,
+    Angular2FontAwesomeModule
   ]
 })
 export class SharedModule { }
