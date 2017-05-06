@@ -1,34 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
 
+import { HttpClientService } from 'app/http-client.service';
+import { SlugifyService } from 'app/slugify.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import Lead from 'app/leads/lead';
-import LeadStatus from 'app/leads/status/leadStatus';
+import { Lead, LeadStatus } from 'app/leads/lead';
 import LeadStatusResult from 'app/leads/status/leadStatusResult';
+import { TimelineItem } from 'app/leads/view/timeline/timeline';
 
 @Injectable()
 class LeadsService {
-    private serviceBaseAddr = 'http://localhost:3000';
+    private apiHost = 'http://localhost:3000';
 
-    constructor(private http: Http) {
-        
-    }
+    constructor(private httpClient: HttpClientService, private slugService: SlugifyService, private http: Http) {}
 
-    public getLeadStatusTable(): Observable<Array<LeadStatus>> {
-        return this.http
-            .get(this.serviceBaseAddr + '/leads/status/table')
-            .map((res: Response) => {
-                let text = res.json();
+    private _leadStatuses: Array<LeadStatus> = null;
+    public getLeadStatusTable(callback: (leadStatuses: Array<LeadStatus>) => any) {
+        if(this._leadStatuses === null) {
+            this.http
+                .get(this.apiHost + '/leads/status/table')
+                .subscribe((res: Response) => {
+                    let leadStatuses: Array<LeadStatus> = res.json() || null;
 
-                return text || null;
-            });
+                    if(leadStatuses != null) {
+                        this._leadStatuses = leadStatuses;
+                        callback(this._leadStatuses);
+                    }
+                });
+        }
+        else
+            callback(this._leadStatuses);
+
+        return this;
     }
 
     public getLeads(): Observable<Array<Lead>> {
         return this.http
-            .get(this.serviceBaseAddr + '/leads')
+            .get(this.apiHost + '/leads')
             .map((res: Response) => {
                 let text = res.json();
 
@@ -36,27 +46,31 @@ class LeadsService {
             });
     }
 
-    public getLead(id: string): Observable<Lead> {
-        return this.http
-            .get(this.serviceBaseAddr + '/leads/one/' + id)
-            .map((res: Response) => {
-                let text = res.json();
+    private _lead: Lead = null;
+    public getLead(company: string, lead: string, id?: string, callback?: (lead: Lead) => any) {
+        if(this._lead === null) {
+            this.http
+                .get(this.apiHost + '/leads/one/' + this.slugService.slugify(company) + '/' + this.slugService.slugify(lead))
+                .subscribe((res: Response) => {
+                    let lead: Lead = res.json() || null;
+                    this._lead = lead;
 
-                return text || null;
-            });
+                    if(this._lead != null)
+                        callback(this._lead);
+                });
+        }
+        else
+            callback(this._lead);
+
+        return this;
     }
 
-    public setStatus(lead: Lead, statusId: number, callback?: (lead: LeadStatus) => any) {
-        let reqHeaders = new Headers({
-            'Content-Type': 'application/x-www-form-urlencoded'
-        });
-        let reqOptions = new RequestOptions({ headers: reqHeaders });
-
+    public setStatus(lead: Lead, status: LeadStatus, callback?: (lead: LeadStatus) => any) {
         let requestData = new URLSearchParams();
         requestData.append('lead', lead._id.toString())
-        requestData.append('status', statusId.toString());
+        requestData.append('status', status._id.toString());
 
-        this.http.post(this.serviceBaseAddr + '/leads/status', requestData, reqOptions)
+        this.http.post(this.apiHost + '/leads/status', requestData)
         .subscribe((res: Response) => {
             let leadStatusResult: LeadStatus = res.json();
 

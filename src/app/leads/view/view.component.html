@@ -1,75 +1,63 @@
-<navbar-header section="leads">
-    <div class="container-fluid">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/leads">Leads</a></li>
-            <li class="breadcrumb-item active">{{ lead?.name }}</li>
-        </ol>
+<div class="container-fluid">
+    <ol class="breadcrumb pt-1 pb-1">
+        <li class="breadcrumb-item"><a routerLink="/leads">Leads</a></li>
+        <li class="breadcrumb-item active">{{ lead?.name }}</li>
+    </ol>
 
-        
+    <div class="row">
+        <div class="col">
+            <div class="card card-block d-flex flex-row bg-transparent border-0 p-0">
+                <leads-status-selector [lead]="lead" [statuses]="leadStatuses" (statusChanged)="onLeadStatusChanged($event)"></leads-status-selector>
 
-        <div class="row">
-            <div class="col">
-                <div class="card card-block bg-transparent border-0 p-0">
-                    <leads-status-selector [statusForm]="statusChangedForm" [lead]="lead" [statuses]="statusTable" (beforeStatusChange)="onLeadBeforeStatusChange($event)" (statusChanged)="onLeadStatusChanged($event)"></leads-status-selector>
-                </div>
-
-                <leads-status-form #statusChangedForm></leads-status-form>
-
-                <div class="mb-5"></div>
-
-                <div class="container-fluid">
-                    <h4 class="display-4 mb-3"><fa name="history"></fa> Timeline</h4>
-                    
-                    <nav class="navbar navbar-light hidden-md-down">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <button role="button" class="btn btn-outline-primary" (click)="openAddMessage()"><fa name="plus"></fa> Timeline entry</button>
-                            </li>
-                        </ul>
-                    </nav>
-
-                    <leads-timeline-message *ngFor="let message of lead?.messages" [message]="message"></leads-timeline-message>
-                </div>
+                <button class="btn btn-outline-primary ml-2" (click)="openAddMessage()" role="button"><fa name="plus"></fa> Event</button>
             </div>
 
-            <div class="col-md-8 mb-5 hidden-xl-up">
+            <div class="mb-5"></div>
 
+            <div class="container-fluid">
+                <h4 class="display-4 mb-3"><fa name="history"></fa> Timeline</h4>
+
+                <leads-timeline [items]="lead?.timeline"></leads-timeline>
             </div>
+        </div>
 
-            <div class="col-sm-3">
-                <div class="container-fluid">
-                    <div class="card">
-                        <div class="card-block">
-                            <h4 class="card-title">{{ lead?.name }}</h4>
-                            <div class="card-text">
-                                <div class="d-flex flex-row">
-                                    <div class="p-2"><span class="text-muted">Phone</span></div>
-                                    <div class="p-2">{{ lead?.contact.phone }}</div>
-                                </div>
+        <div class="col-md-8 mb-5 hidden-xl-up">
 
-                                <div class="d-flex flex-row">
-                                    <div class="p-2"><span class="text-muted">E-mail</span></div>
-                                    <div class="p-2"><a [href]="'mailto:' + lead?.contact.email">{{ lead?.contact.email }}</a></div>
-                                </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-block">
+                        <h4 class="card-title">{{ lead?.name }}</h4>
+                        <div class="card-text">
+                            <div class="d-flex flex-row">
+                                <div class="p-2"><span class="text-muted">Phone</span></div>
+                                <div class="p-2">{{ lead?.contact.phone }}</div>
+                            </div>
+
+                            <div class="d-flex flex-row">
+                                <div class="p-2"><span class="text-muted">E-mail</span></div>
+                                <div class="p-2"><a [href]="'mailto:' + lead?.contact.email">{{ lead?.contact.email }}</a></div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="container-fluid mt-3" *ngIf="lead?.company">
-                    <div class="card">
-                        <div class="card-block">
-                            <h4 class="card-title">{{ lead?.company.name }}</h4>
-                            <div class="card-text">
-                                <div class="d-flex flex-row">
-                                    <div class="p-2"><span class="text-muted">Phone</span></div>
-                                    <div class="p-2">{{ lead?.company.contact.phone }}</div>
-                                </div>
+            <div class="container-fluid mt-3" *ngIf="lead?.company">
+                <div class="card">
+                    <div class="card-block">
+                        <h4 class="card-title">{{ lead?.company.name }}</h4>
+                        <div class="card-text">
+                            <div class="d-flex flex-row">
+                                <div class="p-2"><span class="text-muted">Phone</span></div>
+                                <div class="p-2">{{ lead?.company.contact.phone }}</div>
+                            </div>
 
-                                <div class="d-flex flex-row">
-                                    <div class="p-2"><span class="text-muted">E-mail</span></div>
-                                    <div class="p-2"><a [href]="'mailto:' + lead?.contact.email">{{ lead?.company.contact.email }}</a></div>
-                                </div>
+                            <div class="d-flex flex-row">
+                                <div class="p-2"><span class="text-muted">E-mail</span></div>
+                                <div class="p-2"><a [href]="'mailto:' + lead?.contact.email">{{ lead?.company.contact.email }}</a></div>
                             </div>
                         </div>
                     </div>
@@ -77,13 +65,11 @@
             </div>
         </div>
     </div>
-    <nav class="navbar fixed-bottom bg-faded navbar-light hidden-xl-up">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <button role="button" class="btn btn-outline-primary btn-block" (click)="openAddMessage()"><fa name="plus"></fa> Timeline entry</button>
-            </li>
-        </ul>
-    </nav>
-</navbar-header>
-
-<leads-timeline-add-message #addMessage></leads-timeline-add-message>
+</div>
+<nav class="navbar fixed-bottom bg-faded navbar-light hidden-xl-up">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <button role="button" class="btn btn-outline-primary btn-block" (click)="openAddMessage()"><fa name="plus"></fa> Timeline entry</button>
+        </li>
+    </ul>
+</nav>

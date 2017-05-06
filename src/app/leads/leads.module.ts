@@ -10,8 +10,7 @@ import { ViewModule } from 'app/leads/view/view.module';
 import { LeadsService } from 'app/leads/leads.service';
 
 import { LeadsComponent } from 'app/leads/leads.component';
-import { LeadListItemComponent } from 'app/leads/lead-list-item.component';
-
+import { LeadListItemDirective } from 'app/leads/lead-list-item.directive';
 
 const moduleRoutes: Routes = [
     {
@@ -23,7 +22,7 @@ const moduleRoutes: Routes = [
 @NgModule({
   declarations: [
     LeadsComponent,
-    LeadListItemComponent
+    LeadListItemDirective
   ],
   imports: [
     BrowserModule,

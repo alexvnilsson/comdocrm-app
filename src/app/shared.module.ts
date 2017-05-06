@@ -1,25 +1,32 @@
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RequestOptions } from '@angular/http';
 import { ModalModule, TooltipModule, BsDropdownModule } from 'ngx-bootstrap';
 import { SlugifyService } from 'app/slugify.service';
 import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
 
-import { NavbarModule } from 'app/navbar.module';
+import { HttpClientService } from 'app/http-client.service';
+import { NavigationService } from 'app/navigation.service';
 
 @NgModule({
   declarations: [
     
   ],
   imports: [
-    NavbarModule,
+    BrowserAnimationsModule,
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
     Angular2FontAwesomeModule
   ],
-  providers: [SlugifyService],
+  providers: [
+    SlugifyService,
+    HttpClientService,
+    NavigationService
+  ],
   bootstrap: [],
   exports: [
-    NavbarModule,
+    BrowserAnimationsModule,
     ModalModule,
     TooltipModule,
     BsDropdownModule,

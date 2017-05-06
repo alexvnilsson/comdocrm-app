@@ -10,13 +10,12 @@ import { LeadsService } from 'app/leads/leads.service';
 
 import { ViewComponent } from './view.component';
 import { StatusSelectorComponent } from 'app/leads/status/status-selector.component';
-import { StatusFormComponent } from 'app/leads/status/status-form.component';
-import { TimelineMessageComponent } from './timeline-message.component';
+import { TimelineService, TimelineComponent, TimelineItemComponent } from 'app/leads/view/timeline/timeline';
 import { TimelineAddMessageComponent } from './timeline-add-message.component';
 
 const moduleRoutes: Routes = [
     {
-        path: 'leads/:name/:id',
+        path: 'leads/:company/:lead',
         component: ViewComponent
     }
 ];
@@ -25,9 +24,8 @@ const moduleRoutes: Routes = [
   declarations: [
     ViewComponent,
     StatusSelectorComponent,
-    StatusFormComponent,
-    TimelineMessageComponent,
-    TimelineAddMessageComponent
+    TimelineComponent,
+    TimelineItemComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +34,10 @@ const moduleRoutes: Routes = [
     RouterModule.forChild(moduleRoutes),
     SharedModule
   ],
-  providers: [LeadsService],
+  providers: [
+      LeadsService,
+      TimelineService
+    ],
   bootstrap: [ViewComponent]
 })
 export class ViewModule { }
