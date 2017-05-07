@@ -8,8 +8,5 @@ import { RouterLinkActive } from '@angular/router';
     }
 })
 export class NavbarItemDirective {
-    @Input() section: string;
-    @Input() active: boolean;
-
-    @ViewChild('linkActive') linkActive: RouterLinkActive;
+    
 }

@@ -4,9 +4,7 @@ import { LeadsService } from 'app/leads/leads.service';
 
 import { Subscription } from 'rxjs/Subscription';
 
-import { Lead, LeadStatus } from 'app/leads/lead';
-import LeadStatusPendingChange from 'app/leads/status/leadStatusPendingChange';
-
+import { Lead, LeadStatus, LeadChangedEvent } from 'app/leads/lead';
 import { TimelineItem, TimelineService } from 'app/leads/view/timeline/timeline';
 
 @Component({
@@ -28,7 +26,7 @@ export class StatusSelectorComponent implements OnInit, OnDestroy {
     @Input() lead: Lead;
     @Input() statuses: Array<LeadStatus>;
 
-    @Output() statusChanged = new EventEmitter();
+    private onLeadLoadListener: Subscription;
 
     constructor(
         private leadsService: LeadsService,
@@ -36,28 +34,28 @@ export class StatusSelectorComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
+        this.onLeadLoadListener = this.leadsService.onLeadLoad.subscribe(this.leadOnLoad.bind(this));
+    }
 
+    leadOnLoad(lead: Lead) {
+        this.lead = lead;
+
+        this.leadsService.addLeadChangedEventListener(this.lead, this.leadOnStatusChange.bind(this));
     }
 
     public select(status: LeadStatus) {
-        if(this.lead.status == null || this.lead.status._id != status._id) {            
-            this.leadsService.setStatus(this.lead, status, (status: LeadStatus) => {
-                this.statusChanged.emit(status);
+        if(this.lead.status == null || this.lead.status.name != status.name) {            
+            this.leadsService.setStatus(this.lead.company.slug, this.lead.slug, status);
+        }
+    }
 
-                this.timelineService.publishItem(new TimelineItem(
-                    new Date(),
-                    TimelineItem.Classifications.LeadStatusChanged,
-                    true,
-                    null,
-                    false
-                ));
-            });
-
-
+    leadOnStatusChange(event: LeadChangedEvent) {
+        if(event.newStatus) {
+            this.lead.status = event.newStatus;
         }
     }
 
     ngOnDestroy() {
-        
+        this.onLeadLoadListener.unsubscribe();
     }
 }

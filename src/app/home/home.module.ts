@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './home.component';
-import { NavbarComponent } from '../navbar.component';
+import { NavbarComponent } from 'app/navbar/navbar.component';
 
 const moduleRoutes: Routes = [
     {

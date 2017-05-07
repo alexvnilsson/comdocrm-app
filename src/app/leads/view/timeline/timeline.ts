@@ -1,7 +1,6 @@
 import { TimelineService } from './timeline.service';
 
 import { TimelineComponent } from './timeline.component';
-import { TimelineItemComponent } from './timeline-item.component';
 
 class TimelineItem {
     public static Classifications = {
@@ -27,8 +26,6 @@ class TimelineEvent {
 
 export {
     TimelineService,
-    TimelineComponent,
-    TimelineItemComponent,
     TimelineItem,
     TimelineEvent
 }

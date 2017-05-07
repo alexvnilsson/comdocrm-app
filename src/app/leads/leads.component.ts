@@ -20,16 +20,14 @@ import { LeadsService, Lead } from 'app/leads/leads.service';
 export class LeadsComponent implements OnInit {
     leads: Array<any>;
 
-    constructor(private router: Router, private navigation: NavigationService, private slug: SlugifyService, private leadsService: LeadsService) {
-        this.navigation.setSection('leads');
-    }
+    constructor(private router: Router, private slug: SlugifyService, private leadsService: LeadsService) {}
 
     ngOnInit() {
-        this.leadsService.getLeads().subscribe(
-            leads => {
-                this.leads = leads;
-            }
-        );
+        this.leadsService.getLeads(this.leadsOnLoad.bind(this));
+    }
+
+    leadsOnLoad(leads: Array<Lead>) {
+        this.leads = leads;
     }
 
     openLead(lead: Lead) {

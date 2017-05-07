@@ -1,10 +1,8 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
 
-import { TimelineService } from 'app/leads/view/timeline/timeline.service';
-
 import { Subscription } from 'rxjs/Subscription';
-import { TimelineItem, TimelineEvent } from 'app/leads/view/timeline/timeline';
+import { TimelineService, TimelineItem, TimelineEvent } from 'app/leads/view/timeline/timeline';
 
 @Component({
     selector: 'leads-timeline',
@@ -33,17 +31,23 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     private timelineChangeListener: Subscription;
 
-    constructor(private timelineService: TimelineService) {
-        this.timelineChangeListener = this.timelineService.timelineChanged.subscribe((event: TimelineEvent) => this.onTimelineChanged(event));
-    }
+    constructor(private timelineService: TimelineService) {}
 
     ngOnInit() {
-        
+        this.timelineChangeListener = this.timelineService.onTimelineChanged.subscribe(this.onTimelineChanged.bind(this));
     }
 
-    onTimelineChanged(event: TimelineEvent) {
-        if(this.items && this.items instanceof Array && event.newItem) {
-            this.timelineService.addItem(this.items, event.newItem);
+    onTimelineItemAdded(item: TimelineItem) {
+        this.timelineService.publishItem(this.items, item);
+    }
+
+    onTimelineChanged(items: Array<TimelineItem>) {
+        if(items != null && items.length > 0) {
+            console.log('before', this.items);
+
+            this.items = items;
+
+            console.log('after', this.items);
         }
     }
 

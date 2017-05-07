@@ -1,20 +1,33 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
 
 import { HttpClientService } from 'app/http-client.service';
 import { SlugifyService } from 'app/slugify.service';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { Lead, LeadStatus } from 'app/leads/lead';
-import LeadStatusResult from 'app/leads/status/leadStatusResult';
+import { Lead, LeadStatus, LeadChangedEvent } from 'app/leads/lead';
 import { TimelineItem } from 'app/leads/view/timeline/timeline';
 
 @Injectable()
-class LeadsService {
+export class LeadsService {
     private apiHost = 'http://localhost:3000';
 
+    public onLeadLoad: EventEmitter<Lead> = new EventEmitter();
+    private onLeadChanged: EventEmitter<LeadChangedEvent> = new EventEmitter();
+
     constructor(private httpClient: HttpClientService, private slugService: SlugifyService, private http: Http) {}
+
+    public addLeadChangedEventListener(lead: Lead, callback: (event: LeadChangedEvent) => any) {
+        this.onLeadChanged.subscribe((event: LeadChangedEvent) => {
+            if(event.company == lead.company.slug && event.lead == lead.slug) {
+                callback(event);
+            }
+        });
+
+        return this;
+    }
 
     private _leadStatuses: Array<LeadStatus> = null;
     public getLeadStatusTable(callback: (leadStatuses: Array<LeadStatus>) => any) {
@@ -36,14 +49,21 @@ class LeadsService {
         return this;
     }
 
-    public getLeads(): Observable<Array<Lead>> {
+    private _leads: Array<Lead> = null;
+    public getLeads(callback: (leads: Array<Lead>) => any) {
+        if(this._leads === null) {
         return this.http
             .get(this.apiHost + '/leads')
-            .map((res: Response) => {
-                let text = res.json();
+            .subscribe((res: Response) => {
+                let leads: Array<Lead> = res.json() || null;
+                this._leads = leads;
 
-                return text || null;
+                if(this._leads != null)
+                    callback(this._leads);
             });
+        }
+        else
+            callback(this._leads);
     }
 
     private _lead: Lead = null;
@@ -55,33 +75,31 @@ class LeadsService {
                     let lead: Lead = res.json() || null;
                     this._lead = lead;
 
-                    if(this._lead != null)
-                        callback(this._lead);
+                    if(this._lead != null) {
+                        this.onLeadLoad.emit(this._lead);
+                    }
                 });
         }
         else
-            callback(this._lead);
+            this.onLeadLoad.emit(this._lead);
 
         return this;
     }
 
-    public setStatus(lead: Lead, status: LeadStatus, callback?: (lead: LeadStatus) => any) {
+    public setStatus(company: string, lead: string, status: LeadStatus) {
         let requestData = new URLSearchParams();
-        requestData.append('lead', lead._id.toString())
-        requestData.append('status', status._id.toString());
+        requestData.append('company', this.slugService.slugify(company));
+        requestData.append('lead',  this.slugService.slugify(lead));
+        requestData.append('status', status.name);
 
-        this.http.post(this.apiHost + '/leads/status', requestData)
+        this.http.post(this.apiHost + '/leads/status/', requestData)
         .subscribe((res: Response) => {
-            let leadStatusResult: LeadStatus = res.json();
+            let newStatus: LeadStatus = res.json();
 
-            if(leadStatusResult) {
-                lead.status = leadStatusResult;
-
-                if(callback)
-                    callback(lead.status);
-            }
-        })
+            if(newStatus)
+                this.onLeadChanged.emit(new LeadChangedEvent(company, lead, newStatus));
+        });
     }
 }
 
-export { LeadsService, Lead }
+export { Lead }

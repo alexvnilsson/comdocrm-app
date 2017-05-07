@@ -2,19 +2,31 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
 import { HttpClientService } from 'app/http-client.service';
 
+import { LeadsService } from 'app/leads/lead';
 import { TimelineItem, TimelineEvent } from './timeline';
 
 @Injectable()
 export class TimelineService {
-    public timelineChanged: EventEmitter<TimelineEvent> = new EventEmitter();
+    private items: Array<TimelineItem> = null;
+
+    public onTimelineChanged: EventEmitter<Array<TimelineItem>> = new EventEmitter();
 
     constructor(private httpClient: HttpClientService, private http: Http) {}
 
-    public publishItem(item: TimelineItem) {
-        this.timelineChanged.emit(new TimelineEvent(item));
+    public onItemsLoaded(items: Array<TimelineItem>) {
+        this.items = items;
     }
 
-    public addItem(items: Array<TimelineItem>, newItem: TimelineItem) {
+    public onItemAdded(item: TimelineItem) {
+        if(this.items !== null)
+            this.publishItem(this.items, item);
+    }
+
+    public publishItem(items: Array<TimelineItem>, item: TimelineItem) {
+        this.onTimelineChanged.emit(this.addItem(items, item));
+    }
+
+    private addItem(items: Array<TimelineItem>, newItem: TimelineItem) {
         let _items: Array<TimelineItem> = items;
         _items.push(newItem);
         return this.sortByDate(_items);

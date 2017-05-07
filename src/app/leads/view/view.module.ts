@@ -10,8 +10,9 @@ import { LeadsService } from 'app/leads/leads.service';
 
 import { ViewComponent } from './view.component';
 import { StatusSelectorComponent } from 'app/leads/status/status-selector.component';
-import { TimelineService, TimelineComponent, TimelineItemComponent } from 'app/leads/view/timeline/timeline';
-import { TimelineAddMessageComponent } from './timeline-add-message.component';
+import { TimelineService } from 'app/leads/view/timeline/timeline';
+import { TimelineComponent } from 'app/leads/view/timeline/timeline.component';
+import { TimelineItemComponent } from 'app/leads/view/timeline/timeline-item.component';
 
 const moduleRoutes: Routes = [
     {
