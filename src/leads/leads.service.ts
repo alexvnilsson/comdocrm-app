@@ -7,8 +7,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { Lead, LeadStatus, LeadChangedEvent } from 'app/leads/lead';
-import { TimelineItem } from 'app/leads/view/timeline/timeline';
+import { Lead, LeadStatus, LeadChangedEvent } from 'leads/leads';
+import { TimelineItem } from 'leads/view/timeline/timeline';
 
 @Injectable()
 export class LeadsService {
@@ -20,13 +20,11 @@ export class LeadsService {
     constructor(private httpClient: HttpClientService, private slugService: SlugifyService, private http: Http) {}
 
     public addLeadChangedEventListener(lead: Lead, callback: (event: LeadChangedEvent) => any) {
-        this.onLeadChanged.subscribe((event: LeadChangedEvent) => {
+        return this.onLeadChanged.subscribe((event: LeadChangedEvent) => {
             if(event.company == lead.company.slug && event.lead == lead.slug) {
                 callback(event);
             }
         });
-
-        return this;
     }
 
     private _leadStatuses: Array<LeadStatus> = null;

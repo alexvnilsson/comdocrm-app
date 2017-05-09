@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, Input, HostBinding, Output, EventEmitter } from '@angular/core';
 
-import { LeadsService } from 'app/leads/leads.service';
+import { LeadsService } from 'leads/leads.service';
 
 import { Subscription } from 'rxjs/Subscription';
 
-import { Lead, LeadStatus, LeadChangedEvent } from 'app/leads/lead';
-import { TimelineItem, TimelineService } from 'app/leads/view/timeline/timeline';
+import { Lead, LeadStatus, LeadChangedEvent } from 'leads/leads';
+import { TimelineItem, TimelineService } from 'leads/view/timeline/timeline';
 
 @Component({
     selector: 'leads-status-selector',

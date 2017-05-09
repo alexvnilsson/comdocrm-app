@@ -6,24 +6,25 @@ import { HttpModule, RequestOptions } from '@angular/http';
 import { RouterModule, RouterOutletMap, Routes } from '@angular/router';
 
 import { SharedModule } from 'app/shared.module';
-import { LeadsModule } from 'app/leads/leads.module';
+import { LeadsModule } from 'leads/leads.module';
 
-import { NavbarComponent } from './navbar/navbar.component';
-import { NavbarItemDirective } from 'app/navbar/navbar-item.directive';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { NavbarModule, NavbarRouteConfig } from 'navbar/navbar.module';
+import { HomeComponent } from 'home/home.component';
 
-const moduleRoutes: Routes = [
+const moduleRoutes: NavbarRouteConfig = [
     {
+        mainNav: false,
         path: '',
-        component: HomeComponent
+        component: HomeComponent,
+        module: null,
+        text: 'Home',
+        faIcon: 'home'
     }
 ];
 
 @NgModule({
   declarations: [
-    NavbarComponent,
-    NavbarItemDirective,
     AppComponent,
     HomeComponent
   ],
@@ -32,6 +33,7 @@ const moduleRoutes: Routes = [
     FormsModule,
     HttpModule,
     RouterModule.forRoot(moduleRoutes),
+    NavbarModule,
     SharedModule,
     LeadsModule,
     BrowserAnimationsModule

@@ -6,9 +6,9 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { RouteTransitionAnimation } from 'app/route-transition.animation';
 import { Subscription } from 'rxjs/Subscription';
 
-import { TimelineItemComponent } from 'app/leads/view/timeline/timeline-item.component';
-import { TimelineService, TimelineItem } from 'app/leads/view/timeline/timeline';
-import { Lead, Company, LeadStatus, LeadChangedEvent, LeadsService } from 'app/leads/lead';
+import { TimelineItemComponent } from 'leads/view/timeline/timeline-item.component';
+import { TimelineService, TimelineItem } from 'leads/view/timeline/timeline';
+import { Lead, Company, LeadStatus, LeadChangedEvent, LeadsService } from 'leads/leads';
 
 @Component({
     selector: 'leads-view',
@@ -28,6 +28,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     @Input() leadStatuses: Array<LeadStatus>;
 
     private onLeadLoadListener: Subscription;
+    private onLeadStatusTableLoadListener: Subscription;
 
     constructor(private route: ActivatedRoute, private leadsService: LeadsService, private timelineService: TimelineService) {}
 
@@ -47,7 +48,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     leadOnLoad(lead: Lead) {
         this.lead = lead;
 
-        this.leadsService.addLeadChangedEventListener(lead, this.leadOnChange.bind(this));
+        this.onLeadStatusTableLoadListener = this.leadsService.addLeadChangedEventListener(lead, this.leadOnChange.bind(this));
     }
 
     leadStatusTableLoaded(statuses: Array<LeadStatus>) {
@@ -64,5 +65,6 @@ export class ViewComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.onLeadLoadListener.unsubscribe();
+        this.onLeadStatusTableLoadListener.unsubscribe();
     }
 }

@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
 
 import { Subscription } from 'rxjs/Subscription';
-import { TimelineService, TimelineItem, TimelineEvent } from 'app/leads/view/timeline/timeline';
+import { TimelineService, TimelineItem, TimelineEvent } from 'leads/view/timeline/timeline';
+import { Lead, LeadsService } from 'leads/leads';
 
 @Component({
     selector: 'leads-timeline',
@@ -29,12 +30,21 @@ import { TimelineService, TimelineItem, TimelineEvent } from 'app/leads/view/tim
 export class TimelineComponent implements OnInit, OnDestroy {
     @Input() items: Array<TimelineItem>;
 
+    private onLeadLoadListener: Subscription;
     private timelineChangeListener: Subscription;
 
-    constructor(private timelineService: TimelineService) {}
+    constructor(private timelineService: TimelineService, private leadsService: LeadsService) {
+        this.onLeadLoadListener = this.leadsService.onLeadLoad.subscribe(this.leadOnLoad.bind(this));
+    }
 
     ngOnInit() {
         this.timelineChangeListener = this.timelineService.onTimelineChanged.subscribe(this.onTimelineChanged.bind(this));
+    }
+
+    leadOnLoad(lead: Lead) {
+        this.items = lead.timeline;
+
+        this.timelineService.onItemsLoaded(this.items);
     }
 
     onTimelineItemAdded(item: TimelineItem) {
@@ -43,15 +53,12 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     onTimelineChanged(items: Array<TimelineItem>) {
         if(items != null && items.length > 0) {
-            console.log('before', this.items);
-
             this.items = items;
-
-            console.log('after', this.items);
         }
     }
 
     ngOnDestroy() {
+        this.onLeadLoadListener.unsubscribe();
         this.timelineChangeListener.unsubscribe();
     }
 }

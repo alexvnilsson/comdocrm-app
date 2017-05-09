@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
 import { HttpClientService } from 'app/http-client.service';
 
-import { LeadsService } from 'app/leads/lead';
+import { LeadsService } from 'leads/leads';
 import { TimelineItem, TimelineEvent } from './timeline';
 
 @Injectable()
@@ -27,9 +27,16 @@ export class TimelineService {
     }
 
     private addItem(items: Array<TimelineItem>, newItem: TimelineItem) {
-        let _items: Array<TimelineItem> = items;
+        let _items: Array<TimelineItem> = [];
         _items.push(newItem);
-        return this.sortByDate(_items);
+        
+        items.forEach((item: TimelineItem) => {
+            _items.push(item);
+        });
+
+        this.items = _items;
+
+        return this.items;
     }
 
     private sortByDate(items: Array<TimelineItem>): Array<TimelineItem> {

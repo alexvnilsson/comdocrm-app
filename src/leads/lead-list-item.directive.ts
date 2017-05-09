@@ -1,6 +1,6 @@
 import { Directive, Input } from '@angular/core';
 
-import { Lead } from 'app/leads/lead';
+import { Lead } from 'leads/leads';
 
 @Directive({
     selector: '[leadListItem]',

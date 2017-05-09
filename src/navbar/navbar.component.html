@@ -5,7 +5,7 @@
 
     <ul class="nav nav-pills justify-content-center">
         <li navbar-item *ngFor="let item of items" class="nav-item">
-            <a class="nav-link" [routerLink]="item.href" routerLinkActive="active"><fa [name]="item.iconName"></fa> {{ item.title }}</a>
+            <a class="nav-link" [routerLink]="item.path" routerLinkActive="active"><fa [name]="item.faIcon"></fa> {{ item.text }}</a>
         </li>
     </ul>
 </nav>

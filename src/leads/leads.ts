@@ -1,5 +1,5 @@
-import { LeadsService } from 'app/leads/leads.service';
-import { TimelineItem } from 'app/leads/view/timeline/timeline';
+import { LeadsService } from 'leads/leads.service';
+import { TimelineItem } from 'leads/view/timeline/timeline';
 
 export class Company {
     slug: string;
