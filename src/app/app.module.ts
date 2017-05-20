@@ -6,42 +6,52 @@ import { HttpModule, RequestOptions } from '@angular/http';
 import { RouterModule, RouterOutletMap, Routes } from '@angular/router';
 
 import { SharedModule } from 'app/shared.module';
-import { LeadsModule } from 'leads/leads.module';
+import { OnlineAdsModule } from 'app/modules/online-ads/online-ads.module';
+import { SalesModule } from 'app/modules/sales/sales.module';
 
 import { AppComponent } from './app.component';
-import { NavbarModule, NavbarRouteConfig } from 'navbar/navbar.module';
-import { HomeComponent } from 'home/home.component';
+import { NavbarComponent, NavbarRouteConfig } from './navbar/navbar.component';
 
 const moduleRoutes: NavbarRouteConfig = [
     {
-        mainNav: false,
         path: '',
-        component: HomeComponent,
-        module: null,
-        text: 'Home',
-        faIcon: 'home'
+        loadChildren: 'app/modules/home/home.module#HomeModule'
+    },
+    {
+      mainNav: true,
+      path: 'sales',
+      loadChildren: 'app/modules/sales/sales.module#SalesModule',
+      text: 'Sales',
+      faIcon: 'user-circle-o'
+    },
+    {
+      mainNav: true,
+      path: 'ads',
+      loadChildren: 'app/modules/online-ads/online-ads.module#OnlineAdsModule',
+      text: 'Adverts',
+      faIcon: 'newspaper-o'
     }
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent
-  ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot(moduleRoutes),
-    NavbarModule,
-    SharedModule,
-    LeadsModule,
-    BrowserAnimationsModule
+    SharedModule
   ],
+  declarations: [
+    AppComponent,
+    NavbarComponent
+  ],  
   providers: [
     RouterOutletMap
   ],
-  bootstrap: [AppComponent],
-  exports: []
+  bootstrap: [ AppComponent ],
+  exports: [
+    
+  ]
 })
 export class AppModule { }

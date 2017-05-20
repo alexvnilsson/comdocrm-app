@@ -1,0 +1,11 @@
+<nav class="navbar navbar-light mb-3">
+    <a class="navbar-brand mb-3" routerLink="/">
+        Comdo Market Relations
+    </a>
+
+    <ul class="nav nav-pills justify-content-center">
+        <li navbar-item *ngFor="let item of items" class="nav-item">
+            <a class="nav-link" [routerLink]="item.path" routerLinkActive="active"><fa [name]="item.faIcon"></fa> {{ item.text }}</a>
+        </li>
+    </ul>
+</nav>

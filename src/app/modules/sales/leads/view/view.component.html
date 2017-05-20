@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <ol class="breadcrumb pt-1 pb-1">
+        <li class="breadcrumb-item"><a routerLink="/sales/leads">Leads</a></li>
+        <li class="breadcrumb-item active">{{ lead?.name }}</li>
+    </ol>
+
+    <div class="nav justify-content-start">
+        <leads-status-selector [lead]="lead" [statuses]="leadStatuses" (statusChanged)="onLeadStatusChanged($event)"></leads-status-selector>
+
+        <button class="btn btn-outline-primary ml-2" (click)="openAddMessage()" role="button"><fa name="plus"></fa> Event</button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="mb-3 hidden-md-down"></div>
+
+    <div class="row">
+        <div class="col-sm">
+            <div class="card card-body bg-faded border-0">
+                <h4 class="card-title m-2"><fa name="user-circle-o"></fa> {{ lead?.name }}</h4>
+
+                <div class="card-text">
+                    <ng-container *ngIf="lead?.contact?.phone?.length > 0">
+                      <p *ngFor="let phone of lead?.contact?.phone" class="col-sm"><span class="text-muted">Phone ({{ phone.name }})</span><br><span>{{ phone.number }}</span></p>
+                    </ng-container>
+                    
+                    <ng-container *ngIf="lead?.contact?.email?.length > 0">
+                      <p *ngFor="let email of lead?.contact?.email" class="col-sm"><span class="text-muted">E-mail ({{ email.name }})</span><br><span>{{ email.address }}</span></p>
+                    </ng-container>
+
+                    <p *ngIf="lead?.contact == false">Nothing to show</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm mb-3 hidden-md-down"></div>
+
+        <div class="col-sm">
+            <div class="card card-body bg-faded border-0">
+                <h4 class="card-title m-2"><fa name="building-o"></fa> {{ lead?.company?.name }}</h4>
+
+                <div class="card-text">
+                    <p *ngIf="lead?.company?.contact?.phone" class="col-sm"><span class="text-muted">Phone</span><br><span>{{ lead?.company?.contact?.phone }}</span></p>
+                    <p *ngIf="lead?.company?.contact?.email" class="col-sm"><span class="text-muted">E-mail</span><br><span>{{ lead?.company?.contact?.email }}</span></p>
+
+                    <p *ngIf="lead?.company?.contact == false">Nothing to show</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3 hidden-md-down"></div>
+
+    <div class="row">
+        <div class="col">
+            <div class="navbar navbar-light bg-faded">
+                <h4 class="navbar-brand"><fa name="history"></fa> Timeline</h4>
+            </div>
+
+            <leads-timeline [items]="lead?.timeline"></leads-timeline>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar fixed-bottom bg-faded navbar-light hidden-md-up">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <button role="button" class="btn btn-outline-primary btn-block" (click)="openAddMessage()"><fa name="plus"></fa> Timeline entry</button>
+        </li>
+    </ul>
+</nav>

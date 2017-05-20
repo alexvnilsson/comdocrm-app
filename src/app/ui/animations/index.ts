@@ -1,0 +1,1 @@
+export { RouteTransitionAnimation } from './route-transition.animation';

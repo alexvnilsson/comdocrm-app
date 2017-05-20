@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
 
-import { RouteTransitionAnimation } from 'app/route-transition.animation';
+import { RouteTransitionAnimation } from 'app/ui/animations';
 
 @Component({
   selector: 'app-root',
