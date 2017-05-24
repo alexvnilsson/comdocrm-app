@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { SharedModule } from 'app/shared.module';
 
-import { LeadsModule } from './leads/leads.module';
+import { AccountsModule } from './accounts/accounts.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Route[] = [
@@ -12,8 +12,8 @@ const routes: Route[] = [
     component: DashboardComponent
   },
   {
-    path: 'leads',
-    loadChildren: 'app/modules/sales/leads/leads.module#LeadsModule'
+    path: 'accounts',
+    loadChildren: 'app/modules/sales/accounts/accounts.module#AccountsModule'
   }
 ]
 

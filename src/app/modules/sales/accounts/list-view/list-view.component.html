@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="/sales">Sales</a></li>
+    <li class="breadcrumb-item active">Accounts</li>
+  </ol>
+</div>
+
+<div class="container-fluid">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th><fa name="history"></fa></th>
+        <th>Name</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let account of accounts" (click)="onOpenAccount(account?.id)" role="button">
+        <th scope="row">2017</th>
+        <td>{{ account.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
