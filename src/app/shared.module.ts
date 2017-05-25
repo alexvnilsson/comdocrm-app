@@ -1,19 +1,23 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 import { RequestOptions } from '@angular/http';
 import { ModalModule, TooltipModule, BsDropdownModule } from 'ngx-bootstrap';
 import { SlugifyService } from 'app/slugify.service';
 import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
+import { PageNavbarComponent } from './navbar/page-navbar/page-navbar.component';
+import { PageNavbarItemDirective } from './navbar/page-navbar/page-navbar-item.directive';
 
 @NgModule({
-  declarations: [
-    
+  declarations: [    
+    PageNavbarComponent, PageNavbarItemDirective
   ],
   imports: [
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
-    Angular2FontAwesomeModule
+    Angular2FontAwesomeModule,
+    FormsModule
   ],
   providers: [
     SlugifyService
@@ -22,7 +26,10 @@ import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-a
     ModalModule,
     TooltipModule,
     BsDropdownModule,
-    Angular2FontAwesomeModule
+    Angular2FontAwesomeModule,
+    FormsModule,
+    PageNavbarComponent,
+    PageNavbarItemDirective
   ]
 })
 export class SharedModule { }

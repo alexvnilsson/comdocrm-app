@@ -20,13 +20,24 @@ const moduleRoutes: NavbarRouteConfig = [
     {
       mainNav: true,
       path: 'sales',
-      loadChildren: 'app/modules/sales/sales.module#SalesModule',
+      href: '/sales',
       text: 'Sales',
-      faIcon: 'user-circle-o'
+      faIcon: 'user-circle-o',
+      children: [
+        {
+          mainNav: true,
+          path: 'accounts',
+          href: '/sales/accounts',
+          loadChildren: 'app/modules/sales/accounts/accounts.module#AccountsModule',
+          text: 'Accounts',
+          faIcon: 'building-o'
+        }
+      ]
     },
     {
       mainNav: true,
       path: 'ads',
+      href: '/ads',
       loadChildren: 'app/modules/online-ads/online-ads.module#OnlineAdsModule',
       text: 'Adverts',
       faIcon: 'newspaper-o'

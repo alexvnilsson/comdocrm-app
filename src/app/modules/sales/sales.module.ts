@@ -6,13 +6,14 @@ import { SharedModule } from 'app/shared.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-const routes: Route[] = [
+import { NavbarComponent, NavbarRouteConfig } from 'app/navbar/navbar.component';
+
+const routes: NavbarRouteConfig = [
   {
-    path: '',
-    component: DashboardComponent
-  },
-  {
+    mainNav: true,
     path: 'accounts',
+    href: '/sales/accounts',
+    text: 'Accounts',
     loadChildren: 'app/modules/sales/accounts/accounts.module#AccountsModule'
   }
 ]
@@ -26,8 +27,7 @@ const routes: Route[] = [
   declarations: [ DashboardComponent ],  
   providers: [],
   exports: [
-    
-  ],
-  bootstrap: [ DashboardComponent ]
+    RouterModule
+  ]
 })
 export class SalesModule {}

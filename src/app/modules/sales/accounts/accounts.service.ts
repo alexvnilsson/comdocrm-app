@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-
 import { Account } from './account';
+import { AccountListView } from './list-view/account-list-view';
 
 @Injectable()
 export class AccountsService {
@@ -9,7 +9,7 @@ export class AccountsService {
 
   constructor(private http: Http) { }
 
-  getAll(callback: (accounts: Array<Account>) => any) {
+  getAll(callback: (accounts: Array<AccountListView>) => any) {
     this.http.get(`${this.baseAddr}/accounts`).subscribe((res: Response) => {
       let data = res.json() || null;
 

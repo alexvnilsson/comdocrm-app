@@ -1,16 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { AccountsService } from '../accounts.service';
-import { Account } from '../account';
+import { AccountListView } from './account-list-view';
+
+import { RouteTransitionAnimation } from 'app/ui/animations';
 
 @Component({
   selector: 'app-list-view',
   templateUrl: './list-view.component.html',
-  styleUrls: ['./list-view.component.scss']
+  styleUrls: ['./list-view.component.scss'],
+  animations: [ RouteTransitionAnimation ],
+  host: {
+    '[@routeTransition]': 'true'
+  }
 })
 export class ListViewComponent implements OnInit {
-  accounts: Array<Account>;
+  accounts: Array<AccountListView>;
 
   constructor(
     private router: Router,
@@ -21,11 +26,11 @@ export class ListViewComponent implements OnInit {
     this.accountsService.getAll(this.onAccountsLoad.bind(this));
   }
 
-  onAccountsLoad(accounts: Array<Account>) {
+  onAccountsLoad(accounts: Array<AccountListView>) {
     this.accounts = accounts;
   }
 
-  onOpenAccount(account: string) {
-    this.router.navigate([ 'sales/accounts', account ]);
+  onOpenAccount(accountId: string) {
+    this.router.navigate([ 'sales/accounts', accountId ]);
   }
 }

@@ -1,0 +1,33 @@
+<div bsModal #modalAccountEditor="bs-modal" class="modal fade">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ account?.name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #accountForm="ngForm" *ngIf="account">
+          <div class="form-group row">
+            <label for="accountEmail" class="col-4 col-form-label small">Email address</label>
+            <div class="col-8">
+              <input id="accountEmail" #elementAccountEmail type="email" class="form-control" placeholder="Email address" [(ngModel)]="account.contact.email" name="contact_email">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="accountPhone" class="col-4 col-form-label small">Phone number</label>
+            <div class="col-8">
+              <input id="accountPhone" #elementAccountEmail type="tel" class="form-control" placeholder="Phone number" [(ngModel)]="account.contact.phone" name="contact_phone">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

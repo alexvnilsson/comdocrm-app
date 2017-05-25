@@ -1,35 +1,28 @@
 export class Account {
     id: string;
     slug: string;
-    legalName: string;
     name: string;
-    created: string;
-    contact: AccountContact;
-    status: AccountStatus;
+    businessEntity: {
+      legalName: string;
+      registrationNumber: string;
+      address: Address;
+      billing: {
+        accountant: {
+          legalName: string;
+        };
+        address: Address;
+      };
+    };
+    contact: {
+      email: string;
+      phone: string;
+    }
 }
 
-export class AccountContact {
-    emails: Array<AccountContactEmail>;
-    phones: Array<AccountContactPhone>;
-}
-
-export class AccountContactEmail {
-    displayName: string;
-    value: string;
-}
-
-export class AccountContactPhone {
-    displayName: string;
-    value: string;
-}
-
-export class AccountStatus {
-    name: string;
-    displayName: string;
-    appearance: AccountStatusAppearance;
-}
-
-export class AccountStatusAppearance {
-    backgroundColor: string;
-    foreColor: string;
+export class Address {
+  streetAddress: string;
+  city: string;
+  state: string;
+  country: string;
+  postalCode: string;
 }

@@ -1,16 +1,12 @@
-<div class="container-fluid">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="/sales">Sales</a></li>
-    <li class="breadcrumb-item active">Accounts</li>
-  </ol>
-</div>
+<app-page-navbar>
+  <button appPageNavbarItem><fa name="plus"></fa> Account</button>
+</app-page-navbar>
 
 <div class="container-fluid">
   <table class="table table-striped table-hover">
     <thead>
       <tr>
-        <th><fa name="history"></fa></th>
+        <th><fa name="history" aria-hidden="true"></fa> Last contact</th>
         <th>Name</th>
       </tr>
     </thead>

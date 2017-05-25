@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit, OnDestroy, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, UrlTree, RouterLinkActive } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { NavbarRouteConfig, NavbarItemRoute } from './navbar-route.config';
@@ -17,9 +17,17 @@ export class NavbarComponent implements OnInit {
 
     ngOnInit() {
         this.router.config.forEach((route: NavbarItemRoute) => {
-            if(route.mainNav === true)
-                this.items.push(route);
+            this.items.push(route);
         });
+    }
+
+    public isParentActive(parentPath: string) {
+      return this.router.isActive(parentPath, false);
+    }
+
+    onLinkClick(shouldCancel: boolean) {
+      if(shouldCancel)
+        return false;
     }
 }
 

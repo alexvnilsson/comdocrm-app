@@ -5,6 +5,7 @@ import { SharedModule } from 'app/shared.module';
 import { AccountsService } from './accounts.service';
 import { ListViewComponent } from './list-view/list-view.component';
 import { AccountViewComponent } from './account-view/account-view.component';
+import { AccountEditorComponent } from './account-view/account-editor/account-editor.component';
 
 const routes: Route[] = [
   {
@@ -25,7 +26,8 @@ const routes: Route[] = [
   ],
   declarations: [
     ListViewComponent,
-    AccountViewComponent
+    AccountViewComponent,
+    AccountEditorComponent
   ],
   providers: [
     AccountsService
