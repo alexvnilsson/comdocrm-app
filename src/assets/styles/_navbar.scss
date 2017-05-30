@@ -1,26 +1,54 @@
+@import "./bootstrap/_variables";
+
+$nav-item-hover-bg-color: #1565C0;
+$nav-item-active-bg-color: #0D47A1;
+
+.main-navbar {
+  .nav-link {
+    border-radius: 0;
+
+    &:not(.active) {
+      color: #e2e2e2;
+    }
+
+    &:hover, &:focus, &:active {
+      background-color: $nav-item-hover-bg-color;
+    }
+
+    &.active {
+      background-color: $nav-item-active-bg-color;
+      color: #fff;
+    }
+  }
+}
+
 .page-navbar {
-  margin: 0 0 1em 0;
+  margin: 0;
   padding: 0 1em 0 1em;
 
-  border-bottom: 1px solid #ddd;
+  background: $nav-item-active-bg-color;
 
   .page-navbar-item {
     padding: 0.75em 1em;
+    border: 0;
     border-radius: 0;
-    border-top: 0; border-bottom: 0; border-left: 0;
 
-    border-color: #ddd;
-    color: #111;
+    color: #f6f6f6;
 
     .fa {
       margin-right: 0.25em;
-      color: #BDBDBD;
+      color: #FEFEFE;
+      font-size: 12px;
+      vertical-align: middle;
 
       transition: .25s ease-in-out;
+
+      &:after {
+        vertical-align: middle;
+      }
     }
 
     &:hover, &:focus {
-      border-color: $brand-primary;
       color: #fff;
 
       .fa {
@@ -31,9 +59,7 @@
 
   .page-navbar-separator {
     display: block;
-    width: 25px;
-
-    border-right: 1px solid #ddd;
+    width: $spacer;
   }
 }
 

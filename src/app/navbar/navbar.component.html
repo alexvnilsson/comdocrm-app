@@ -1,9 +1,9 @@
-<nav class="navbar navbar-light mb-0 pb-0">
+<nav class="main-navbar navbar navbar-inverse bg-primary mb-0 pb-0">
     <a class="navbar-brand mb-0" routerLink="/">
         Comdo Market Relations
     </a>
 
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-pills">
         <ng-container *ngFor="let item of items">
           <li navbar-item *ngIf="item.mainNav && ( !item.children || item.children?.length == 0)" class="nav-item">
               <a class="nav-link" [routerLink]="item.href" [routerLinkActiveOptions]="{exact:false}" routerLinkActive="active"><fa [name]="item.faIcon"></fa> {{ item.text }}</a>

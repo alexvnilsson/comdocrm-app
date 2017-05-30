@@ -1,22 +1,12 @@
 export class Account {
     id: string;
     slug: string;
-    name: string;
-    businessEntity: {
-      legalName: string;
-      registrationNumber: string;
-      address: Address;
-      billing: {
-        accountant: {
-          legalName: string;
-        };
-        address: Address;
-      };
-    };
-    contact: {
-      email: string;
-      phone: string;
+    source: {
+      id: string;
+      slug: string;
+      displayName: string;
     }
+    displayName: string;
 }
 
 export class Address {

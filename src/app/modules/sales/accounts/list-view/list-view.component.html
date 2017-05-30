@@ -2,8 +2,8 @@
   <button appPageNavbarItem><fa name="plus"></fa> Account</button>
 </app-page-navbar>
 
-<div class="container-fluid">
-  <table class="table table-striped table-hover">
+<div class="container-fluid" style="position: relative">
+  <table class="table table-hover">
     <thead>
       <tr>
         <th><fa name="history" aria-hidden="true"></fa> Last contact</th>
@@ -12,9 +12,9 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let account of accounts" (click)="onOpenAccount(account?.id)" role="button">
+      <tr *ngFor="let account of accounts" (click)="onOpenAccount(account.slug)" role="button">
         <th scope="row">2017</th>
-        <td>{{ account.name }}</td>
+        <td>{{ account.displayName }}</td>
       </tr>
     </tbody>
   </table>

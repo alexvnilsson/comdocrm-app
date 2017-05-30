@@ -1,32 +1,48 @@
-<div bsModal #modalAccountEditor="bs-modal" class="modal fade">
+<div class="modal fade" bsModal #modal="bs-modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{ account?.name }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+      <div class="modal-header" *ngIf="account">
+        <h5 class="modal-title"><fa name="pencil"></fa> {{ account.displayName }}</h5>
+        <button type="button" class="close" (click)="hideModal()" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form #accountForm="ngForm" *ngIf="account">
-          <div class="form-group row">
-            <label for="accountEmail" class="col-4 col-form-label small">Email address</label>
-            <div class="col-8">
-              <input id="accountEmail" #elementAccountEmail type="email" class="form-control" placeholder="Email address" [(ngModel)]="account.contact.email" name="contact_email">
-            </div>
-          </div>
+      <div class="modal-body p-0">
+        <ng-container *ngIf="account && !state.loading">
+          <div class="container p-0">
+            <form #accountForm="ngForm">
+              <div class="container bg-faded p-3">
+                <h3><small class="text-muted">Contact information</small></h3><br>
 
-          <div class="form-group row">
-            <label for="accountPhone" class="col-4 col-form-label small">Phone number</label>
-            <div class="col-8">
-              <input id="accountPhone" #elementAccountEmail type="tel" class="form-control" placeholder="Phone number" [(ngModel)]="account.contact.phone" name="contact_phone">
-            </div>
+                <div class="row">
+                  <div class="form-group col">
+                    <label for="accountPhone">Phone number</label>
+                    <input id="accountPhone" #elementAccountEmail type="tel" class="form-control" placeholder="Phone number" [(ngModel)]="account.contact.phoneNumber" name="contact_phone">
+                  </div>
+
+                  <div class="form-group col">
+                    <label for="accountEmail">Email address</label>
+                    <input id="accountEmail" #elementAccountEmail type="email" class="form-control" placeholder="Email address" [(ngModel)]="account.contact.emailAddress" name="contact_email">
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
-        </form>
+        </ng-container>
+
+        <ng-container *ngIf="state.loading == true && state.error != true">
+          <app-ui-spinner></app-ui-spinner>
+        </ng-container>
+
+        <ng-container *ngIf="state.error == true">
+          <div class="container">
+            <h2>Some error</h2>
+          </div>
+        </ng-container>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveAccount()">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="hideModal()" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

@@ -6,6 +6,8 @@ import { SharedModule } from 'app/shared.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+import { AuthGuardService } from 'app/auth/auth-guard.service';
+
 import { NavbarComponent, NavbarRouteConfig } from 'app/navbar/navbar.component';
 
 const routes: NavbarRouteConfig = [
@@ -14,6 +16,10 @@ const routes: NavbarRouteConfig = [
     path: 'accounts',
     href: '/sales/accounts',
     text: 'Accounts',
+    data: {
+      scopes: ['read:accounts', 'write:accounts']
+    },
+    canLoad: [ AuthGuardService ],
     loadChildren: 'app/modules/sales/accounts/accounts.module#AccountsModule'
   }
 ]

@@ -30,7 +30,7 @@ export class ListViewComponent implements OnInit {
     this.accounts = accounts;
   }
 
-  onOpenAccount(accountId: string) {
-    this.router.navigate([ 'sales/accounts', accountId ]);
+  onOpenAccount(accountSlug: string) {
+    this.router.navigate([ '/sales/accounts/view', accountSlug ]);
   }
 }

@@ -1,5 +1,5 @@
 @import 'variables'; 
-@import '../node_modules/bootstrap/scss/bootstrap';
+@import './assets/styles/bootstrap/bootstrap';
 
 html, body {
     cursor: default;
@@ -10,6 +10,7 @@ body {
 }
 
 @import 'assets/styles/_navbar';
+@import 'assets/styles/_sizing';
 
 .vertical-align-middle {
     vertical-align: middle;

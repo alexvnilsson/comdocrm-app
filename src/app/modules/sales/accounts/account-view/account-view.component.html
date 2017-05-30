@@ -4,37 +4,44 @@
   <button appPageNavbarItem>Other action</button>
 </app-page-navbar>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-10">
-      
-    
+<div class="row no-gutters">
+  <div class="col-md-9">
+    <div class="container p-5">
+      <app-status-view></app-status-view>
     </div>
+  </div>
 
-    <div class="col-md-2 pl-5 justify-content-end">
-      <div class="card card-block">        
-        <h4 class="card-title">{{ account?.name }}</h4>
+  <div class="col-md-3 vh-100 p-5 justify-content-end bg-faded">
+    <div class="container">
+      <ng-container *ngIf="account">    
+        <h4>{{ account.displayName }}</h4>
         
-        <div class="card-text">
+        <ng-container *ngIf="account.contact">
           <div class="row">
-            <div class="col text-muted">
-              Phone
+            <div class="col">
+              <span class="text-muted d-block">Phone</span>
+
+              <span *ngIf="account.contact.phoneNumber; else contactPhoneNulled">{{ account.contact.phoneNumber }}</span>
+              <ng-template #contactPhoneNulled>
+                <span class="text-muted small">Not saved</span>
+              </ng-template>
             </div>
 
             <div class="col">
-              {{ account?.contact?.phone }}
+              <span class="text-muted d-block">Email</span>
+              
+              <span *ngIf="account.contact.emailAddress; else contactEmailNulled">{{ account.contact.emailAddress }}</span>
+              <ng-template #contactEmailNulled>
+                <span class="text-muted small">Not saved</span>
+              </ng-template>
             </div>
           </div>
+        </ng-container>
 
-          <div class="pt-2">
-            <button class="btn btn-link btn-sm align-self-start" role="button" (click)="onEditAccount()">Edit</button>
-          </div>
+        <div class="pt-2">
+          <button class="btn btn-secondary btn-sm align-self-start" role="button" (click)="onEditAccount()">Edit</button>
         </div>
-
-        
-      </div>
+      </ng-container>
     </div>
   </div>
 </div>
-
-<app-account-editor #accountEditor [account]="account"></app-account-editor>

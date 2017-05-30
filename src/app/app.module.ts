@@ -9,13 +9,18 @@ import { SharedModule } from 'app/shared.module';
 import { OnlineAdsModule } from 'app/modules/online-ads/online-ads.module';
 import { SalesModule } from 'app/modules/sales/sales.module';
 
+import { AuthGuardService } from 'app/auth/auth-guard.service';
+
 import { AppComponent } from './app.component';
 import { NavbarComponent, NavbarRouteConfig } from './navbar/navbar.component';
 
 const moduleRoutes: NavbarRouteConfig = [
     {
         path: '',
-        loadChildren: 'app/modules/home/home.module#HomeModule'
+        loadChildren: 'app/modules/home/home.module#HomeModule',
+        data: {
+          scopes: ['nothing']
+        }
     },
     {
       mainNav: true,
@@ -30,7 +35,11 @@ const moduleRoutes: NavbarRouteConfig = [
           href: '/sales/accounts',
           loadChildren: 'app/modules/sales/accounts/accounts.module#AccountsModule',
           text: 'Accounts',
-          faIcon: 'building-o'
+          faIcon: 'building-o',
+          canActivate: [ AuthGuardService ],
+          data: {
+            scopes: ['read:accounts', 'write:accounts']
+          }
         }
       ]
     },
@@ -41,6 +50,11 @@ const moduleRoutes: NavbarRouteConfig = [
       loadChildren: 'app/modules/online-ads/online-ads.module#OnlineAdsModule',
       text: 'Adverts',
       faIcon: 'newspaper-o'
+    },
+    {
+      mainNav: false,
+      path: 'auth',
+      loadChildren: 'app/auth/auth.module#AuthModule'
     }
 ];
 

@@ -10,6 +10,7 @@
       "assets": [
         "assets",
         "favicon.ico",
+        "assets/conf/auth.json",
         "assets/static/oauthconstent.html",
         "assets/static/oauthcallback.html"
       ],
@@ -25,7 +26,7 @@
         "../node_modules/font-awesome/css/font-awesome.css"
       ],
       "scripts": [
-        
+        "../node_modules/auth0-js/build/auth0.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountsService } from '../accounts.service';
 import { Account } from '../account';
 import { AccountEditorComponent } from './account-editor/account-editor.component';
+import { Subscription } from 'rxjs/Subscription';
 
 import { RouteTransitionAnimation } from 'app/ui/animations';
 
@@ -15,28 +16,45 @@ import { RouteTransitionAnimation } from 'app/ui/animations';
     '[@routeTransition]': 'true'
   }
 })
-export class AccountViewComponent implements OnInit {
+export class AccountViewComponent implements OnInit, OnDestroy {
   @ViewChild('accountEditor') accountEditor: AccountEditorComponent;
   account: Account;
 
+  private onAccountUpdateListener: Subscription;
+
   constructor(
     private activatedRouter: ActivatedRoute,
-    private accountsService: AccountsService
+    private accountsService: AccountsService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.activatedRouter.params.subscribe(params => {
-      let accountId = params.id;
+      let accountSlug = params.slug;
 
-      this.accountsService.getById(accountId, this.onAccountLoad.bind(this));
+      this.accountsService.getBySlug(accountSlug, this.onAccountLoad.bind(this), this.onAccountLoadError.bind(this));
     });
+
+    this.onAccountUpdateListener = this.accountsService.onAccountUpdate.subscribe(this.onAccountUpdate.bind(this));
   }
 
   onAccountLoad(account: Account) {
     this.account = account;
   }
 
+  onAccountLoadError() {
+
+  }
+
+  onAccountUpdate(account: Account) {
+    this.account = account;
+  }
+
   onEditAccount() {
-    this.accountEditor.openModal();
+    this.router.navigate([ '/sales/accounts', { outlets: { 'modal': [ 'edit', this.account.slug ] } } ]);
+  }
+
+  ngOnDestroy() {
+    this.onAccountUpdateListener.unsubscribe();
   }
 }
