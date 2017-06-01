@@ -1,9 +1,9 @@
-<nav class="main-navbar navbar navbar-inverse bg-primary mb-0 pb-0 d-flex flex-row">
-    <a class="navbar-brand col-md-2 mb-0" routerLink="/">
+<nav class="main-navbar navbar navbar-inverse bg-primary mb-0 pb-0 d-flex flex-row flex-wrap flex-lg-nowrap">
+    <a class="navbar-brand mb-0" routerLink="/">
         Comdo Market Relations
     </a>
 
-    <ul class="nav nav-pills col-md-6">
+    <ul class="nav nav-pills col-md-5">
         <ng-container *ngFor="let item of items">
             <li navbar-item *ngIf="item.mainNav && ( !item.children || item.children?.length == 0)" class="nav-item">
                 <a class="nav-link" [routerLink]="item.href" [routerLinkActiveOptions]="{exact:false}" routerLinkActive="active">
@@ -23,12 +23,4 @@
             </li>
         </ng-container>
     </ul>
-
-    <div class="justify-content-end align-self-center col-md-4">
-        <div class="container text-right text-white">
-            <ng-container *ngIf="userProfile">
-                Hello, {{ userProfile.nickname }}
-            </ng-container>
-        </div>
-    </div>
 </nav>

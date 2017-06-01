@@ -1,49 +1,66 @@
 <app-page-navbar>
-  <button appPageNavbarItem><fa name="bars"></fa> All accounts</button>
-  <span class="page-navbar-separator"></span>
-  <button appPageNavbarItem>Other action</button>
+    <button appPageNavbarItem><fa name="bars"></fa> All accounts</button>
+    <span class="page-navbar-separator"></span>
+    <button appPageNavbarItem>Other action</button>
 </app-page-navbar>
 
 <div class="row no-gutters">
-  <div class="col-md-9">
-    <div class="container p-5">
-      <ng-container *ngIf="account && account.statuses">
-        <app-status-view [statuses]="account.statuses"></app-status-view>
-      </ng-container>
-    </div>
-  </div>
-
-  <div class="col-md-3 vh-100 p-5 justify-content-end bg-faded">
-    <div class="container">
-      <ng-container *ngIf="account">    
-        <h4>Contact details</h4>
-        
-        <ng-container *ngIf="account.contact">
-          <div class="row">
-            <div class="col">
-              <span class="text-muted d-block">Phone</span>
-
-              <span *ngIf="account.contact.phoneNumber; else contactPhoneNulled">{{ account.contact.phoneNumber }}</span>
-              <ng-template #contactPhoneNulled>
-                <span class="text-muted small">Not saved</span>
-              </ng-template>
-            </div>
-
-            <div class="col">
-              <span class="text-muted d-block">Email</span>
-              
-              <span *ngIf="account.contact.emailAddress; else contactEmailNulled">{{ account.contact.emailAddress }}</span>
-              <ng-template #contactEmailNulled>
-                <span class="text-muted small">Not saved</span>
-              </ng-template>
-            </div>
-          </div>
-        </ng-container>
-
-        <div class="pt-2">
-          <button class="btn btn-secondary btn-sm align-self-start" role="button" (click)="onEditAccount()">Edit</button>
+    <div class="col-md-9">
+        <div class="container pt-3">
+            <ng-container *ngIf="account && account.statuses">
+                <app-status-view [statuses]="account.statuses"></app-status-view>
+            </ng-container>
         </div>
-      </ng-container>
     </div>
-  </div>
+
+    <div class="col-md-3 vh-100 p-5 justify-content-end bg-faded">
+        <div class="container">
+            <ng-container *ngIf="account">
+                <h4>Contact details</h4>
+
+                <ng-container *ngIf="account.contact">
+                    <div class="row">
+                        <div class="col">
+                            <span class="text-muted d-block">Phone</span>
+
+                            <span *ngIf="account.contact.phoneNumber; else contactPhoneNulled">{{ account.contact.phoneNumber }}</span>
+                            <ng-template #contactPhoneNulled>
+                                <span class="text-muted small">Not saved</span>
+                            </ng-template>
+                        </div>
+
+                        <div class="col">
+                            <span class="text-muted d-block">Email</span>
+
+                            <span *ngIf="account.contact.emailAddress; else contactEmailNulled">{{ account.contact.emailAddress }}</span>
+                            <ng-template #contactEmailNulled>
+                                <span class="text-muted small">Not saved</span>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button class="btn btn-secondary btn-sm align-self-start" role="button" (click)="onEditAccount()">Edit</button>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
+                    <div class="row person-card" *ngFor="let person of account.peopleOfInterest">
+                        <div class="col">
+                            <span class="text-muted d-block">Name</span>
+                            <app-inline-editor placeholder="First and last name" [(ngModel)]="person.fullName" name="fullName">
+                                {{ person.fullName }}
+                            </app-inline-editor>
+                        </div>
+
+                        <div class="col">
+                            <span class="text-muted d-block">Phone</span>
+                            <span *ngIf="person.contact.phoneNumber">{{ person.contact.phoneNumber }} <a href="#" ><fa name="pencil" size="1"></fa></a></span> 
+                            <button *ngIf="!person.contact.phoneNumber" role="button" class="btn btn-link btn-sm">Add</button>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
 </div>

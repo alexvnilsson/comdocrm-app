@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, RequestOptions } from '@angular/http';
+import { CommonModule } from '@angular/common';
 import { ModalModule, TooltipModule, BsDropdownModule } from 'ngx-bootstrap';
 import { Angular2FontAwesomeModule } from 'angular2-font-awesome/angular2-font-awesome';
 import { PageNavbarComponent } from './navbar/page-navbar/page-navbar.component';
@@ -14,19 +15,22 @@ import { AuthService } from 'app/auth/auth.service';
 import { AuthGuardService } from 'app/auth/auth-guard.service';
 import { AuthHttp } from 'angular2-jwt';
 import { authHttpServiceFactory } from 'app/auth/http.service';
+import { InlineEditorComponent } from './ui/editor/inline-editor/inline-editor.component';
 
 @NgModule({
   declarations: [    
     PageNavbarComponent,
     PageNavbarItemDirective,
-    SpinnerComponent
+    SpinnerComponent,
+    InlineEditorComponent
   ],
   imports: [
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
     Angular2FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   providers: [
     ConfigurationService,
@@ -47,7 +51,8 @@ import { authHttpServiceFactory } from 'app/auth/http.service';
     FormsModule,
     PageNavbarComponent,
     PageNavbarItemDirective,
-    SpinnerComponent
+    SpinnerComponent,
+    InlineEditorComponent
   ]
 })
 export class SharedModule { }

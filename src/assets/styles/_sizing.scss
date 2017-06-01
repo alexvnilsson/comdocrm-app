@@ -22,3 +22,26 @@ $vertical-height-map: (
     height: map-get($map, height);
   }
 }
+
+.fa {
+    &.fa-1 {
+        font-size: 14px;
+        width: 14px; height: 14px;
+    }
+    &.fa-2 {
+        font-size: 32px;
+        width: 32px; height: 32px;
+    }
+    &.fa-3 {
+        font-size: 42px;
+        width: 42px; height: 42px;
+    }
+    &.fa-4 {
+        font-size: 56px;
+        width: 56px; height: 56px;
+    }
+    &.fa-5 {
+        font-size: 72px;
+        width: 72px; height: 72px;
+    }
+}

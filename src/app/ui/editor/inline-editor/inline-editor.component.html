@@ -1,0 +1,13 @@
+<ng-container *ngIf="!isEditing; else isEditingBlock">
+    <ng-content></ng-content>
+    <a href="#"><fa name="pencil" size="1" class="edit-link" [class.force]="!model || model.length == 0" (click)="clickEditLink($event)"></fa></a>
+</ng-container>
+
+
+<ng-template #isEditingBlock>
+    <form #inlineEditorForm (ngSubmit)="onEditorInputSubmit(inlineEditorInput.value)">
+        <div [@fadeIn]="isEditing" class="input-group">
+            <input #inlineEditorInput autocomplete="off" class="form-control p-1" type="text" [placeholder]="placeholder" (blur)="onEditorInputSubmit(inlineEditorInput.value)" [(ngModel)]="model" name="model" />
+        </div>
+    </form>
+</ng-template>
