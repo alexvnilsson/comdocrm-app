@@ -1,5 +1,5 @@
 <div class="container pt-2 pt-2">
   <h1 class="display-4 mb-4">Statuses</h1>
 
-  <app-status-item></app-status-item>
+  <app-status-item *ngFor="let status of statuses" [status]="status"></app-status-item>
 </div>

@@ -9,10 +9,7 @@ import { HomeComponent } from './home.component';
 const moduleRoutes: Routes = [
     {
         path: '',
-        component: HomeComponent,
-        data: {
-          scopes: ['nothing']
-        }
+        component: HomeComponent
     }
 ];
 

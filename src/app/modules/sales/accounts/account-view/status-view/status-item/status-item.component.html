@@ -1,3 +1,16 @@
 <div class="card card-block bg-faded border-0">
+  <h4 class="card-title">{{ status.headerText }}</h4>
 
+  <p [@fadeIn]="statusMessage?.messageText" class="card-text">
+    {{ statusMessage.messageText }}
+    
+    <button *ngIf="statusMessage.trimmed" class="btn-link" role="button" (click)="showAllStatusMessageText()">(more)</button>
+    <button *ngIf="!statusMessage.trimmed" class="btn-link" role="button" (click)="showLessStatusMessageText()">(less)</button>
+  </p>
+
+  <p>
+    <span class="text-muted">{{ status.footerText }}</span>
+    <br>
+    <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
+  </p>
 </div>

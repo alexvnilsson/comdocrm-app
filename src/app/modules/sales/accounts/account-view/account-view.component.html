@@ -7,14 +7,16 @@
 <div class="row no-gutters">
   <div class="col-md-9">
     <div class="container p-5">
-      <app-status-view></app-status-view>
+      <ng-container *ngIf="account && account.statuses">
+        <app-status-view [statuses]="account.statuses"></app-status-view>
+      </ng-container>
     </div>
   </div>
 
   <div class="col-md-3 vh-100 p-5 justify-content-end bg-faded">
     <div class="container">
       <ng-container *ngIf="account">    
-        <h4>{{ account.displayName }}</h4>
+        <h4>Contact details</h4>
         
         <ng-container *ngIf="account.contact">
           <div class="row">

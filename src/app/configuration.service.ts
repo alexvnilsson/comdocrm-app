@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { AuthOptions } from 'auth0-js';
 
 export class Configuration {
   clientId: string;
@@ -17,7 +18,7 @@ export class ConfigurationService {
     
    }
 
-   public getConfiguration(callback: (configuration: Configuration) => any) {
+   public getConfiguration(callback: (configuration: AuthOptions) => any) {
     this.http.get('assets/conf/auth.json')
       .map((res: Response) => res.json())
       .subscribe(

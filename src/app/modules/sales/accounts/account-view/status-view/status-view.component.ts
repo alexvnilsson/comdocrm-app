@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Status } from '../../account';
 
 @Component({
   selector: 'app-status-view',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./status-view.component.scss']
 })
 export class StatusViewComponent implements OnInit {
+  @Input() statuses: Status[];
 
   constructor() { }
 

@@ -36,10 +36,7 @@ const moduleRoutes: NavbarRouteConfig = [
           loadChildren: 'app/modules/sales/accounts/accounts.module#AccountsModule',
           text: 'Accounts',
           faIcon: 'building-o',
-          canActivate: [ AuthGuardService ],
-          data: {
-            scopes: ['read:accounts', 'write:accounts']
-          }
+          canActivate: [ AuthGuardService ]
         }
       ]
     },
