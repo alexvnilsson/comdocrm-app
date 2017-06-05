@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
-import { Status } from '../../../account';
+import { AccountStatus } from '../../../account';
 import { XmlEntities } from 'html-entities';
 
 @Component({
@@ -29,11 +29,12 @@ export class StatusItemComponent implements OnInit, AfterViewInit {
     private TrimmedMessageTextLength = 64;
 
     state: string = 'active';
-    @Input() status: Status;
+    @Input() status: AccountStatus;
 
     statusMessage = {
         messageText: null,
-        trimmed: false
+        trimmed: false,
+        canTrim: false
     };
 
     constructor(private changeDetector: ChangeDetectorRef) {
@@ -45,7 +46,8 @@ export class StatusItemComponent implements OnInit, AfterViewInit {
 
         this.statusMessage = {
             messageText: trimmedMessageText,
-            trimmed: this.isStatusMessageTextTrimmed(trimmedMessageText)
+            trimmed: this.isStatusMessageTextTrimmed(trimmedMessageText),
+            canTrim: this.isMessageStatusTextTrimmable()
         };
     }
 
@@ -64,6 +66,16 @@ export class StatusItemComponent implements OnInit, AfterViewInit {
         return this.status.messageText;
     }
 
+    private isMessageStatusTextTrimmable() {
+        if(this.status && this.status.messageText) {
+            var statusWordLength = this.status.messageText.split(' ').length;
+
+            return statusWordLength >= this.TrimmedMessageTextLength;
+        }
+
+        return null;
+    }
+
     private isStatusMessageTextTrimmed(statusMessage: string): boolean {
         return statusMessage.split(' ').length < this.status.messageText.split(' ').length;
     }
@@ -75,7 +87,8 @@ export class StatusItemComponent implements OnInit, AfterViewInit {
             if (this.statusMessage.trimmed)
                 this.statusMessage = {
                     messageText: trimmedMessageText,
-                    trimmed: this.isStatusMessageTextTrimmed(trimmedMessageText)
+                    trimmed: this.isStatusMessageTextTrimmed(trimmedMessageText),
+                    canTrim: this.isMessageStatusTextTrimmable()
                 };
         }
 
@@ -89,7 +102,8 @@ export class StatusItemComponent implements OnInit, AfterViewInit {
             if (!this.statusMessage.trimmed)
                 this.statusMessage = {
                     messageText: this.trimMessageStatusText(),
-                    trimmed: this.isStatusMessageTextTrimmed(trimmedMessageText)
+                    trimmed: this.isStatusMessageTextTrimmed(trimmedMessageText),
+                    canTrim: this.isMessageStatusTextTrimmable()
                 };
         }
 

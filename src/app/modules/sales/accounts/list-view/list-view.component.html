@@ -2,20 +2,59 @@
   <button appPageNavbarItem><fa name="plus"></fa> Account</button>
 </app-page-navbar>
 
-<div class="container-fluid" style="position: relative">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th><fa name="history" aria-hidden="true"></fa> Last contact</th>
-        <th>Name</th>
-      </tr>
-    </thead>
+<div class="row no-gutters">
+    <div class="col-md-8">
+        <div class="container" style="position: relative">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+                </thead>
 
-    <tbody>
-      <tr *ngFor="let account of accounts" (click)="onOpenAccount(account.slug)" role="button">
-        <th scope="row">2017</th>
-        <td>{{ account.displayName }}</td>
-      </tr>
-    </tbody>
-  </table>
+                <tbody>
+                    <ng-container *ngFor="let account of accounts">
+                        <tr *ngIf="getFilterAcceptsAccount(account)" (click)="onOpenAccount(account.slug)" role="button">
+                            <td>{{ account.displayName }}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-4 vh-100 p-5 justify-content-end bg-faded ">
+        <div class="container">
+            <div class="container mb-3">
+                <h5 class="display-5">Account sources</h5>
+
+                <div class="input-group" *ngIf="accountSources">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false" [title]="getAccountSourceName(true) || 'Any'">
+                            {{ getAccountSourceName() || 'Any' }}
+                        </button>
+
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item" (click)="resetAccountSource(null)">Any</a>
+                            <a href="#" class="dropdown-item" *ngFor="let source of accountSources" (click)="setAccountSource(source)">{{ source.displayName }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mb-3">
+                <h5 class="display-5">Sort accounts</h5>
+
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false">By date of account</button>
+
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">By publication date</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,0 +1,45 @@
+<div class="modal fade" bsModal #modal="bs-modal">
+  <div class="modal-dialog" role="document">      
+    <div class="modal-content">
+        <div class="modal-header" *ngIf="account">
+            <h5 class="modal-title">Account timeline</h5>
+            <button type="button" class="close" (click)="hideModal()" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body p-0">
+            <ng-container *ngIf="!state.loading && !state.error">
+                <div class="container p-0">
+                    <form #statusForm="ngForm">
+                        <div class="container bg-faded p-3">
+                            <h3><small class="text-muted">Account status update</small></h3><br>
+
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="statusDescription">Summary</label>
+                                    <textarea id="statusDescription" #statusDescription class="form-control" placeholder="Details surrounding the update, etc..."
+                                        [(ngModel)]="statusModel.messageText" name="messageText"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="state.loading && !state.error">
+                <app-ui-spinner></app-ui-spinner>
+            </ng-container>
+
+            <ng-container *ngIf="state.error">
+                <div class="container">
+                    <h2>Some error</h2>
+                </div>
+            </ng-container>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="onStatusSaved(statusForm)">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="hideModal()" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
+</div>

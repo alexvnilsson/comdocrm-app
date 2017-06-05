@@ -1,54 +1,75 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Account } from './account';
+import { Account, AccountStatus, AccountStatusMetadata } from './account';
 import { AccountListView } from './list-view/account-list-view';
 import { AuthHttp } from 'angular2-jwt';
 
 export interface AccountUpdateResult {
-  updated: boolean;
+    updated: boolean;
 }
 
 @Injectable()
 export class AccountsService {
-  private baseAddr: string = "http://localhost:5000/api/sales";
+    private baseAddr: string = "http://localhost:5000/api/sales";
 
-  public onAccountUpdate: EventEmitter<Account> = new EventEmitter();
+    public onAccountUpdate: EventEmitter<Account> = new EventEmitter();
 
-  constructor(private http: AuthHttp) { }
+    _accountList: Array<Account> = null;
 
-  getAll(callback: (accounts: Array<AccountListView>) => any) {
-    this.http.get(`${this.baseAddr}/accounts`).subscribe((res: Response) => {
-      let data = res.json() || null;
+    constructor(private http: AuthHttp) { }
 
-      if(data !== null)
-        callback(data);
-    });
-  }
+    getAll(callback: (accounts: Array<Account>) => any) {
+        if(this._accountList === null) {
+            this.http.get(`${this.baseAddr}/accounts`).subscribe((res: Response) => {
+                let accountsResult: Array<Account> = res.json() || null;
 
-  getByAny(accountQuery: string, callback: (account: Account) => any, errorCallback: (message?: string, code?: string) => any) {
-    this.http.get(`${this.baseAddr}/accounts/${accountQuery}`)
-      .map((res: Response) => res.json() || null)
-      .subscribe(
-        data => { callback(data); },
-        err => { errorCallback(); });
-  }
+                if (accountsResult !== null) {
+                    this._accountList = accountsResult;
 
-  getById(account: string, callback: (account: Account) => any, errorCallback: (message?: string, code?: string) => any) {
-    this.getByAny(account, callback, errorCallback);
-  }
+                    callback(this._accountList);
+                }
+            });
+        } else {
+            callback(this._accountList);
+        }
+    }
 
-  getBySlug(account: string, callback: (account: Account) => any, errorCallback: (message?: string, code?: string) => any) {
-    this.getByAny(account, callback, errorCallback);
-  }
+    getByAny(accountQuery: string, callback: (account: Account) => any, errorCallback: (message?: string, code?: string) => any) {
+        this.http.get(`${this.baseAddr}/accounts/${accountQuery}`)
+            .map((res: Response) => res.json() || null)
+            .subscribe(
+            data => { callback(data); },
+            err => { errorCallback(); });
+    }
 
-  saveChanges(account: Account, callback: (result: AccountUpdateResult) => any) {
-    this.http.post(`${this.baseAddr}/accounts/save/${account.id}`, account).subscribe((res: Response) => {
-      let resultData: AccountUpdateResult = res.json() || null;
+    getById(account: string, callback: (account: Account) => any, errorCallback?: (message?: string, code?: string) => any) {
+        this.getByAny(account, callback, errorCallback);
+    }
 
-      if(resultData.updated == true)
-        this.onAccountUpdate.next(account);
+    getBySlug(account: string, callback: (account: Account) => any, errorCallback?: (message?: string, code?: string) => any) {
+        this.getByAny(account, callback, errorCallback);
+    }
 
-      callback({ updated: resultData.updated });
-    })
-  }
+    addStatusToAccount(account: Account, status: AccountStatus, callback: (result: AccountUpdateResult) => any) {
+        this.http.post(`${this.baseAddr}/accounts/status/add/${account.id}`, status).subscribe((res: Response) => {
+            let resultData: AccountUpdateResult = res.json() || null;
+
+            if(resultData != null) {
+                callback({ updated: resultData.updated });
+            }
+      });
+    }
+
+    saveChanges(account: Account, callback: (result: AccountUpdateResult) => any) {
+        this.http.post(`${this.baseAddr}/accounts/save/${account.id}`, account).subscribe((res: Response) => {
+            let resultData: AccountUpdateResult = res.json() || null;
+
+            if (resultData != null) {
+                if (resultData.updated == true)
+                    this.onAccountUpdate.next(account);
+
+                callback({ updated: resultData.updated });
+            }
+        })
+    }
 }

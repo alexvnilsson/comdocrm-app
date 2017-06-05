@@ -1,67 +1,61 @@
 import { Component, Inject, Input, OnInit, OnDestroy, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
-import { ActivatedRoute, Router, UrlTree, RouterLinkActive } from '@angular/router';
-import { Auth0UserProfile } from 'auth0-js';
-import { AuthService } from 'app/auth/auth.service';
+import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
+import { ActivatedRoute, Router, UrlTree, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { NavbarRouteConfig, NavbarItemRoute } from './navbar-route.config';
 
 @Component({
     selector: 'app-navbar',
-    templateUrl: './navbar.component.html'
+    templateUrl: './navbar.component.html',
+    animations: [
+        trigger('navSubTransition', [
+            state('void', style({
+                opacity: '0',
+                transform: 'translateY(-50%)'
+            })),
+            state('*',   style({
+                opacity: '1.0',
+                transform: 'translateY(0%)'
+            })),
+            transition('void => *', animate('200ms ease-in')),
+            transition('* => void', animate('200ms ease-out'))
+        ])
+    ]
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-    userProfile: Auth0UserProfile;
     @Input() items: Array<NavbarItemRoute> = [];
+    currentNavItem: NavbarItemRoute = null;
 
-    private onAuthenticatedListener: Subscription;
+    private onRouterNavigatedListener: Subscription;
 
-    constructor(private router: Router, private authService: AuthService) {
-        this.userProfile = null;
-    }
+    constructor(private router: Router) {}
 
     ngOnInit() {
         this.router.config.forEach((route: NavbarItemRoute) => {
             this.items.push(route);
         });
 
-        if (this.authService.isAuthenticated()) {
-            this.getUserProfile().then((profile: Auth0UserProfile) => {
-                this.userProfile = profile;
-            })
-        }
-        else
-            this.onAuthenticatedListener = this.authService.onAuthenticatedHandler.subscribe(this.onUserAuthenticated.bind(this));
-    }
-
-    getUserProfile(): Promise<Auth0UserProfile> {
-        return new Promise((resolve, reject) => {
-            if (this.authService.isAuthenticated()) {
-                this.authService.getProfile((error: any, profile: Auth0UserProfile) => {
-                    if (!error && profile)                     
-                        resolve(profile);
-                    else
-                        reject(error);
-                });
+        this.onRouterNavigatedListener = this.router.events.subscribe((event) => {
+            if(event instanceof NavigationEnd) {
+                this.onRouterNavigated(event);
             }
-        })
-    }
-
-    onUserAuthenticated(profile?: Auth0UserProfile) {
-        if (profile !== null) {
-            this.userProfile = profile;
-        }
-        else {
-            this.getUserProfile().then((profile: Auth0UserProfile) => {
-                this.userProfile = profile;
-            });
-        }
-
-        this.onAuthenticatedListener.unsubscribe();
+        });
     }
 
     public isParentActive(parentPath: string) {
         return this.router.isActive(parentPath, false);
+    }
+
+    onRouterNavigated(event: NavigationEnd) {
+        this.items.forEach((item: NavbarItemRoute) => {
+            if(item.href && event.url.startsWith(item.href))
+                this.currentNavItem = item;
+        })
+    }
+
+    onNavItemClicked(event: Event, item: NavbarItemRoute) {
+        this.currentNavItem = item;
     }
 
     onLinkClick(shouldCancel: boolean) {
@@ -69,8 +63,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
             return false;
     }
 
+    isNavItemShown(item: NavbarItemRoute): boolean {
+        if(this.router.isActive(item.path, false) && this.currentNavItem == item)
+            return true;
+
+        if(this.currentNavItem == item)
+            return true;
+
+        return false;
+    }
+
     ngOnDestroy() {
-        this.onAuthenticatedListener.unsubscribe();
+        this.onRouterNavigatedListener.unsubscribe();
     }
 }
 

@@ -5,22 +5,32 @@
 
     <ul class="nav nav-pills col-md-5">
         <ng-container *ngFor="let item of items">
-            <li navbar-item *ngIf="item.mainNav && ( !item.children || item.children?.length == 0)" class="nav-item">
-                <a class="nav-link" [routerLink]="item.href" [routerLinkActiveOptions]="{exact:false}" routerLinkActive="active">
-                    <fa [name]="item.faIcon"></fa> {{ item.text }}</a>
+            <li navbar-item *ngIf="item.mainNav && !item.children" class="nav-item" (click)="onNavItemClicked($event, item)">
+                <a class="nav-link" [routerLink]="item.href" [class.active]="isNavItemShown(item)">
+                    <fa *ngIf="item.faIcon" [name]="item.faIcon"></fa> {{ item.text }}
+                </a>
             </li>
 
-            <li class="nav-item dropdown" *ngIf="item.mainNav && item.children?.length > 0">
-                <a class="nav-link dropdown-toggle" href="#" (click)="onLinkClick(true)" [class.active]="isParentActive(item.path)" data-toggle="dropdown"
-                    role="button" aria-haspopup="true" aria-expanded="false">
-                    <fa [name]="item.faIcon"></fa> {{ item.text }}</a>
-                <div class="dropdown-menu mt-0">
-                    <ng-container *ngFor="let child of item.children">
-                        <a navbar-item *ngIf="child.mainNav" class="dropdown-item" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active"
-                            [routerLink]="child.href">{{ child.text }}</a>
-                    </ng-container>
-                </div>
+            <li class="nav-item dropdown" *ngIf="item.mainNav && item.children" (click)="onNavItemClicked($event, item)">
+                <a class="nav-link dropdown-toggle" href="#" (click)="onLinkClick(true)" [class.active]="isNavItemShown(item)" role="button">
+                    <fa *ngIf="item.faIcon" [name]="item.faIcon"></fa> {{ item.text }}
+                </a>
             </li>
         </ng-container>
     </ul>
 </nav>
+
+<ng-container *ngFor="let item of items">
+    <ng-container *ngIf="item.mainNav && item.children && isNavItemShown(item)">
+        <div  class="module-navbar navbar-inverse container-fluid d-flex d-flex-row">
+            <ul [@navSubTransition] class="nav nav-pills">
+                <ng-container *ngFor="let itemChild of item.children">
+                    <li navbar-item class="nav-item">
+                        <a class="nav-link" [routerLink]="itemChild.href" [routerLinkActiveOptions]="{exact:false}" routerLinkActive="active">
+                            <fa *ngIf="itemChild.faIcon" [name]="itemChild.faIcon"></fa> {{ itemChild.text }}</a>
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
+    </ng-container>
+</ng-container>

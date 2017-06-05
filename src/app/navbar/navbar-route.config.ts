@@ -5,7 +5,8 @@ export interface NavbarItemRoute extends Route {
     href?: string,
     text?: string,
     faIcon?: string,
-    children?: NavbarItemRoute[]
+    children?: NavbarItemRoute[],
+    showSub?: boolean;
 }
 
 export declare type NavbarRouteConfig = NavbarItemRoute[];

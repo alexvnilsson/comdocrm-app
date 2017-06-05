@@ -3,7 +3,22 @@
 $nav-item-hover-bg-color: #1565C0;
 $nav-item-active-bg-color: #0D47A1;
 
-.main-navbar {
+.main-navbar,
+.module-navbar {
+  .nav-link {
+    border-radius: 0;
+
+    &:not(.active) {
+      color: #e2e2e2;
+    }
+
+    &:hover, &:focus, &:active, &.active {
+      color: #fff;
+    }
+  }
+}
+
+.module-navbar {
   .nav-link {
     border-radius: 0;
 
@@ -22,6 +37,10 @@ $nav-item-active-bg-color: #0D47A1;
   }
 }
 
+.module-navbar {
+    background: $blue;
+}
+
 .page-navbar {
   margin: 0;
   padding: 0 1em 0 1em;
@@ -33,7 +52,7 @@ $nav-item-active-bg-color: #0D47A1;
     border: 0;
     border-radius: 0;
 
-    color: #f6f6f6;
+    color: #e8e8e8;
 
     .fa {
       margin-right: 0.25em;
@@ -49,7 +68,8 @@ $nav-item-active-bg-color: #0D47A1;
     }
 
     &:hover, &:focus {
-      color: #fff;
+        background: $nav-item-active-bg-color;
+        color: #fff;
 
       .fa {
         color: #EEEEEE;

@@ -22,10 +22,12 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.scss",
-        "../node_modules/font-awesome/css/font-awesome.css"
+        "assets/styles/styles.scss",
+        "../node_modules/font-awesome/css/font-awesome.css",
+        "../node_modules/tether/dist/css/tether.min.css"
       ],
       "scripts": [
+        "../node_modules/tether/dist/js/tether.min.js",
         "../node_modules/auth0-js/build/auth0.min.js"
       ],
       "environmentSource": "environments/environment.ts",

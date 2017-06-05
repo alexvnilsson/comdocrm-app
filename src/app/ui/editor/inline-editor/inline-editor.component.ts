@@ -64,7 +64,9 @@ export class InlineEditorComponent implements OnInit, AfterViewInit, ControlValu
     }
 
     onEditorEnabled() {
-        
+        setTimeout(() => {
+            this.inlineEditorInput.nativeElement.focus();
+        }, 200);
     }
 
     onEditorDisabled() {

@@ -4,8 +4,10 @@
   <p [@fadeIn]="statusMessage?.messageText" class="card-text">
     {{ statusMessage.messageText }}
     
-    <button *ngIf="statusMessage.trimmed" class="btn-link" role="button" (click)="showAllStatusMessageText()">(more)</button>
-    <button *ngIf="!statusMessage.trimmed" class="btn-link" role="button" (click)="showLessStatusMessageText()">(less)</button>
+    <ng-container *ngIf="statusMessage.canTrim">
+        <button *ngIf="statusMessage.trimmed" class="btn-link" role="button" (click)="showAllStatusMessageText()">(more)</button>
+        <button *ngIf="!statusMessage.trimmed" class="btn-link" role="button" (click)="showLessStatusMessageText()">(less)</button>
+    </ng-container>
   </p>
 
   <p>

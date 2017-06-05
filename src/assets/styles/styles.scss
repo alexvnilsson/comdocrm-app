@@ -1,5 +1,5 @@
 @import 'variables'; 
-@import './assets/styles/bootstrap/bootstrap';
+@import './bootstrap/bootstrap';
 
 html, body {
     cursor: default;
@@ -9,8 +9,8 @@ body {
     padding-bottom: 70px;
 }
 
-@import 'assets/styles/_navbar';
-@import 'assets/styles/_sizing';
+@import 'navbar';
+@import 'sizing';
 
 .vertical-align-middle {
     vertical-align: middle;

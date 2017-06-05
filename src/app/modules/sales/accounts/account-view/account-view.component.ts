@@ -8,53 +8,57 @@ import { Subscription } from 'rxjs/Subscription';
 import { RouteTransitionAnimation } from 'app/ui/animations';
 
 @Component({
-  selector: 'app-account-view',
-  templateUrl: './account-view.component.html',
-  styleUrls: ['./account-view.component.scss'],
-  animations: [ RouteTransitionAnimation ],
-  host: {
-    '[@routeTransition]': 'true'
-  }
+    selector: 'app-account-view',
+    templateUrl: './account-view.component.html',
+    styleUrls: ['./account-view.component.scss'],
+    animations: [RouteTransitionAnimation],
+    host: {
+        '[@routeTransition]': 'true'
+    }
 })
 export class AccountViewComponent implements OnInit, OnDestroy {
-  @ViewChild('accountEditor') accountEditor: AccountEditorComponent;
-  account: Account;
+    @ViewChild('accountEditor') accountEditor: AccountEditorComponent;
+    account: Account;
 
-  private onAccountUpdateListener: Subscription;
+    private onAccountUpdateListener: Subscription;
 
-  constructor(
-    private activatedRouter: ActivatedRoute,
-    private accountsService: AccountsService,
-    private router: Router
-  ) { }
+    constructor(
+        private activatedRouter: ActivatedRoute,
+        private accountsService: AccountsService,
+        private router: Router
+    ) { }
 
-  ngOnInit() {
-    this.activatedRouter.params.subscribe(params => {
-      let accountSlug = params.slug;
+    ngOnInit() {
+        this.activatedRouter.params.subscribe(params => {
+            let accountSlug = params.slug;
 
-      this.accountsService.getBySlug(accountSlug, this.onAccountLoad.bind(this), this.onAccountLoadError.bind(this));
-    });
+            this.accountsService.getBySlug(accountSlug, this.onAccountLoad.bind(this), this.onAccountLoadError.bind(this));
+        });
 
-    this.onAccountUpdateListener = this.accountsService.onAccountUpdate.subscribe(this.onAccountUpdate.bind(this));
-  }
+        this.onAccountUpdateListener = this.accountsService.onAccountUpdate.subscribe(this.onAccountUpdate.bind(this));
+    }
 
-  onAccountLoad(account: Account) {
-    this.account = account;
-  }
+    onAccountLoad(account: Account) {
+        this.account = account;
+    }
 
-  onAccountLoadError() {
+    onAccountLoadError() {
 
-  }
+    }
 
-  onAccountUpdate(account: Account) {
-    this.account = account;
-  }
+    onAccountUpdate(account: Account) {
+        this.account = account;
+    }
 
-  onEditAccount() {
-    this.router.navigate([ '/sales/accounts', { outlets: { 'modal': [ 'edit', this.account.slug ] } } ]);
-  }
+    onEditAccount() {
+        this.router.navigate(['/sales/accounts', { outlets: { 'modal': ['edit', this.account.slug] } }]);
+    }
 
-  ngOnDestroy() {
-    this.onAccountUpdateListener.unsubscribe();
-  }
+    onAddStatusMessage() {
+        this.router.navigate(['/sales/accounts', { outlets: { 'modal': ['status-add', this.account.slug] } }]);
+    }
+
+    ngOnDestroy() {
+        this.onAccountUpdateListener.unsubscribe();
+    }
 }

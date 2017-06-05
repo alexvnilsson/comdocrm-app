@@ -7,48 +7,54 @@ export class Account {
       displayName: string;
     }
     displayName: string;
-    contact: Contact;
-    business: Business;
-    peopleOfInterest: PersonOfInterest[];
-    datesOfInterest: DateOfInterest[];
-    statuses: Status[];
+    contact: AccountContact;
+    business: AccountBusiness;
+    peopleOfInterest: AccountPersonOfInterest[];
+    datesOfInterest: AccountDateOfInterest[];
+    statuses: AccountStatus[];
 }
 
-export class Contact {
+export class AccountSource {
+    id: string;
+    slug: string;
+    displayName: string;
+}
+
+export class AccountContact {
   emailAddress: string;
   phoneNumber: string;
 }
 
-export class Business {
+export class AccountBusiness {
   displayName: string;
   registrationNumber: string;
 }
 
-export class PersonOfInterest {
+export class AccountPersonOfInterest {
   fullName: string;
   jobTitle: string;
-  contact: Contact;
+  contact: AccountContact;
   decisionMaker: boolean;
 }
 
-export class DateOfInterest {
+export class AccountDateOfInterest {
   displayName: string;
   dateTime: string;
 }
 
-export class Status {
+export class AccountStatus {
   publicationDate: Date;
-  headerText: string;
+  headerText?: string;
   messageText: string;
-  footerText: string;
-  metadata: StatusMetadata;
+  footerText?: string;
+  metadata?: AccountStatusMetadata;
 }
 
-export class StatusMetadata {
+export class AccountStatusMetadata {
   sourceUrl: string;
 }
 
-export class Address {
+export class AccountAddress {
   streetAddress: string;
   city: string;
   state: string;

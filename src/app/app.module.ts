@@ -19,61 +19,76 @@ const moduleRoutes: NavbarRouteConfig = [
         path: '',
         loadChildren: 'app/modules/home/home.module#HomeModule',
         data: {
-          scopes: ['nothing']
+            scopes: ['nothing']
         }
     },
     {
-      mainNav: true,
-      path: 'sales',
-      href: '/sales',
-      text: 'Sales',
-      faIcon: 'user-circle-o',
-      children: [
-        {
-          mainNav: true,
-          path: 'accounts',
-          href: '/sales/accounts',
-          loadChildren: 'app/modules/sales/accounts/accounts.module#AccountsModule',
-          text: 'Accounts',
-          faIcon: 'building-o',
-          canActivate: [ AuthGuardService ]
-        }
-      ]
+        mainNav: true,
+        path: 'sales',
+        href: '/sales',
+        text: 'Sales',
+        faIcon: 'user-circle-o',
+        children: [
+            {
+                mainNav: true,
+                path: 'accounts',
+                href: '/sales/accounts',
+                loadChildren: 'app/modules/sales/accounts/accounts.module#AccountsModule',
+                text: 'Accounts',
+                faIcon: 'building-o',
+                canActivate: [AuthGuardService]
+            }
+        ]
     },
     {
-      mainNav: true,
-      path: 'ads',
-      href: '/ads',
-      loadChildren: 'app/modules/online-ads/online-ads.module#OnlineAdsModule',
-      text: 'Adverts',
-      faIcon: 'newspaper-o'
+        mainNav: true,
+        path: 'test',
+        href: '/test',
+        text: 'Test',
+        children: [
+            {
+                mainNav: true,
+                path: 'test',
+                href: '/test/test',
+                text: 'Test',
+                redirectTo: '/'
+            }
+        ]
     },
     {
-      mainNav: false,
-      path: 'auth',
-      loadChildren: 'app/auth/auth.module#AuthModule'
+        mainNav: true,
+        path: 'ads',
+        href: '/ads',
+        loadChildren: 'app/modules/online-ads/online-ads.module#OnlineAdsModule',
+        text: 'Adverts',
+        faIcon: 'newspaper-o'
+    },
+    {
+        mainNav: false,
+        path: 'auth',
+        loadChildren: 'app/auth/auth.module#AuthModule'
     }
 ];
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    HttpModule,
-    RouterModule.forRoot(moduleRoutes),
-    SharedModule
-  ],
-  declarations: [
-    AppComponent,
-    NavbarComponent
-  ],  
-  providers: [
-    RouterOutletMap
-  ],
-  bootstrap: [ AppComponent ],
-  exports: [
-    
-  ]
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        HttpModule,
+        RouterModule.forRoot(moduleRoutes),
+        SharedModule
+    ],
+    declarations: [
+        AppComponent,
+        NavbarComponent
+    ],
+    providers: [
+        RouterOutletMap
+    ],
+    bootstrap: [AppComponent],
+    exports: [
+
+    ]
 })
 export class AppModule { }
