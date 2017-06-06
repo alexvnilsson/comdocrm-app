@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
+import { TranslateService } from 'app/i18n/translate.service';
 import { AccountStatus } from '../../../account';
 import { XmlEntities } from 'html-entities';
 
@@ -8,7 +9,17 @@ import { XmlEntities } from 'html-entities';
     templateUrl: './status-item.component.html',
     styleUrls: ['./status-item.component.scss'],
     animations: [
-        trigger('fadeIn', [
+        trigger('statusItemTransition', [
+            transition('void => *', [
+                style({ opacity: 0, transform: 'translateY(-10%)' }),
+                animate(250, style({ opacity: 1, transform: 'translateY(0%)' }))
+            ]),
+            transition('* => void', [
+                style({ opacity: 1 }),
+                animate(250, style({ opacity: 0 }))
+            ])
+        ]),
+        trigger('messageTextTransitions', [
             state('in', style({ opacity: '0' })),
             transition(':enter', [
                 style({ opacity: '0' }),
@@ -29,7 +40,9 @@ export class StatusItemComponent implements OnInit, AfterViewInit {
     private TrimmedMessageTextLength = 64;
 
     state: string = 'active';
-    @Input() status: AccountStatus;
+    @Input() status: AccountStatus = null;
+
+    blankStatus: boolean = false;
 
     statusMessage = {
         messageText: null,
@@ -37,18 +50,29 @@ export class StatusItemComponent implements OnInit, AfterViewInit {
         canTrim: false
     };
 
-    constructor(private changeDetector: ChangeDetectorRef) {
+    constructor(
+        private changeDetector: ChangeDetectorRef,
+        private translate: TranslateService
+    ) {
 
     }
 
     ngOnInit() {
-        var trimmedMessageText = this.trimMessageStatusText();
+        if(this.status !== null) {
+            var trimmedMessageText = this.trimMessageStatusText();
 
-        this.statusMessage = {
-            messageText: trimmedMessageText,
-            trimmed: this.isStatusMessageTextTrimmed(trimmedMessageText),
-            canTrim: this.isMessageStatusTextTrimmable()
-        };
+            this.statusMessage = {
+                messageText: trimmedMessageText,
+                canTrim: null,
+                trimmed: null
+            };
+
+            this.statusMessage.canTrim = this.isMessageStatusTextTrimmable();
+            this.statusMessage.trimmed = this.isStatusMessageTextTrimmed(trimmedMessageText);
+            
+        } else {
+            this.blankStatus = true;
+        }
     }
 
     ngAfterViewInit() {
@@ -77,7 +101,10 @@ export class StatusItemComponent implements OnInit, AfterViewInit {
     }
 
     private isStatusMessageTextTrimmed(statusMessage: string): boolean {
-        return statusMessage.split(' ').length < this.status.messageText.split(' ').length;
+        if(this.status && this.status.messageText)
+            return statusMessage.split(' ').length < this.status.messageText.split(' ').length;
+        else
+            return null;
     }
 
     showAllStatusMessageText() {

@@ -1,0 +1,17 @@
+{
+    "App": {
+        "Navigation": {
+            "Sales": {
+                "Sales": "Sales",
+                "AccountsAndProspects": "Accounts and prospects"
+            },
+            "Ads": {
+                "Ads": "Ads"
+            }
+        }
+    },
+    "Any": "Any",
+    "New": "New",
+    "Save": "Save",
+    "Source": "Source"
+}

@@ -5,14 +5,13 @@ html, body {
     cursor: default;
 }
 
-body {
-    padding-bottom: 70px;
-}
-
 @import 'navbar';
+@import 'input';
+@import 'shapes';
+
+@import 'alignment';
 @import 'sizing';
-
-.vertical-align-middle {
-    vertical-align: middle;
-}
-
+@import 'colors';
+@import 'display';
+@import 'position';
+@import 'transitions';

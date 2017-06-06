@@ -1,0 +1,20 @@
+.shape-circle {
+    border-radius: 50%;
+}
+
+.shape-border {
+    &-1 {
+        border-width: 1px;
+        border-style: solid;
+    }
+
+    &-2 {
+        border-width: 2px;
+        border-style: solid;
+    }
+
+    &-vh-max {
+        min-width: 1px;
+        max-width: 1px;
+    }
+}

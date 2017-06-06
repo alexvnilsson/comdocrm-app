@@ -1,0 +1,47 @@
+<div class="row no-gutters">
+    <div class="col-3 no-gutters">
+        <div class="row d-flex flex-row justify-content-center no-gutters minh-100">
+            <div class="col-3 d-flex flex-column justify-content-center align-items-center no-gutters minh-100 position-relative">
+                <div class="h-100 bg-gray-lighter shape-border-vh-max margin-invert-left-1"></div>
+            </div>
+
+            <div class="col-9 d-flex align-items-start">
+                <span class="small text-muted"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-9 transition-all transition-duration-500" [class.opacity-70]="!editState.isEditing">
+        <form #statusForm="ngForm" (ngSubmit)="onFormSubmit(statusForm)">
+            <div class="form-group mb-2">
+                <input 
+                    required
+                    minlength="4"
+                    maxlength="128"
+                    class="form-control"
+                    [placeholder]="'Sales.Status.NewStatusMessage' | translate"
+                    (focus)="onInputFocus()"
+                    (blur)="onInputBlur()"
+                    [(ngModel)]="status.headerText"
+                    name="headerText"
+                    autocomplete="off"/>
+            </div>
+
+            <div [@editorTransition] *ngIf="editState.isEditing">
+                <div class="form-group" >
+                    <textarea
+                        class="form-control input-text-resize-none"
+                        [placeholder]="'Sales.Status.NewStatusMessageSummary' | translate"
+                        (focus)="onInputFocus()"
+                        [(ngModel)]="status.messageText"
+                        name="messageText">
+                    </textarea>
+                </div>
+
+                <div class="form-group d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary" role="button">{{ 'Save' | translate }}</button>
+                </div>
+            </div>
+        </form>
+    </div>        
+</div>

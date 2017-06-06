@@ -1,0 +1,21 @@
+.transition {
+    &-opacity {
+        transition-property: opacity;
+        transition-timing-function: ease-in;
+    }
+
+    &-all {
+        transition-property: all;
+        transition-timing-function: ease-in;
+    }
+
+    &-duration {
+        &-250 {
+            transition-duration: 250ms;
+        }
+
+        &-500 {
+            transition-duration: 500ms;
+        }
+    }
+}

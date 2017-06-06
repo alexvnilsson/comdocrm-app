@@ -26,7 +26,7 @@ const moduleRoutes: NavbarRouteConfig = [
         mainNav: true,
         path: 'sales',
         href: '/sales',
-        text: 'Sales',
+        text: 'App.Navigation.Sales.Sales',
         faIcon: 'user-circle-o',
         children: [
             {
@@ -34,7 +34,7 @@ const moduleRoutes: NavbarRouteConfig = [
                 path: 'accounts',
                 href: '/sales/accounts',
                 loadChildren: 'app/modules/sales/accounts/accounts.module#AccountsModule',
-                text: 'Accounts',
+                text: 'App.Navigation.Sales.AccountsAndProspects',
                 faIcon: 'building-o',
                 canActivate: [AuthGuardService]
             }
@@ -60,7 +60,7 @@ const moduleRoutes: NavbarRouteConfig = [
         path: 'ads',
         href: '/ads',
         loadChildren: 'app/modules/online-ads/online-ads.module#OnlineAdsModule',
-        text: 'Adverts',
+        text: 'App.Navigation.Ads.Ads',
         faIcon: 'newspaper-o'
     },
     {

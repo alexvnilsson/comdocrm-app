@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddStatusComponent } from './add-status.component';
+import { BlankStatusItemComponent } from './blank-status-item.component';
 
-describe('AddStatusComponent', () => {
-  let component: AddStatusComponent;
-  let fixture: ComponentFixture<AddStatusComponent>;
+describe('BlankStatusItemComponent', () => {
+  let component: BlankStatusItemComponent;
+  let fixture: ComponentFixture<BlankStatusItemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddStatusComponent ]
+      declarations: [ BlankStatusItemComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddStatusComponent);
+    fixture = TestBed.createComponent(BlankStatusItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

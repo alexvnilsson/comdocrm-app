@@ -1,0 +1,9 @@
+.input {
+    &-text {
+        &-resize {
+            &-none {
+                resize: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "App": {
+        "Navigation": {
+            "Sales": {
+                "Sales": "Försäljning",
+                "AccountsAndProspects": "Kunder och kundprospekt"
+            },
+            "Ads": {
+                "Ads": "Annonser"
+            }
+        }
+    },
+    "Any": "Alla",
+    "New": "Ny",
+    "Save": "Spara",
+    "Source": "Källa"
+}

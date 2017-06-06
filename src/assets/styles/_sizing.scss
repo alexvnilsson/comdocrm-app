@@ -23,25 +23,92 @@ $vertical-height-map: (
   }
 }
 
-.fa {
-    &.fa-1 {
-        font-size: 14px;
-        width: 14px; height: 14px;
+$icon-size-map: (
+    1: (
+        key: 1,
+        size: 14px,
+    ),
+    2: (
+        key: 2,
+        size: 32px,
+    ),
+    3: (
+        key: 3,
+        size: 42px,
+    ),
+    4: (
+        key: 4,
+        size: 56px,
+    ),
+    5: (
+        key: 5,
+        size: 72px,
+    )
+);
+
+@each $label, $map in $icon-size-map {
+    .fa-#{map-get($map, key)} {
+        font-size: map-get($map, size); width: map-get($map, size); height: map-get($map, size);
     }
-    &.fa-2 {
-        font-size: 32px;
-        width: 32px; height: 32px;
+}
+
+$heading-size-map: (
+    5: (
+        key: 5,
+        font-size--sm: 1.25rem,
+        font-size--lg: 1.75rem
+    ),
+    6: (
+        key: 6,
+        font-size--sm: 1rem,
+        font-size--lg: 1.25rem
+    )
+);
+
+@each $label, $map in $heading-size-map {
+    @include media-breakpoint-up(sm) {
+        .display-#{map-get($map, key)} {
+            font-size: map-get($map, font-size--sm);
+            font-weight: 300;
+        }
     }
-    &.fa-3 {
-        font-size: 42px;
-        width: 42px; height: 42px;
+
+    @include media-breakpoint-up(lg) {
+        .display-#{map-get($map, key)} {
+            font-size: map-get($map, font-size--lg);
+            font-weight: 300;
+        }
     }
-    &.fa-4 {
-        font-size: 56px;
-        width: 56px; height: 56px;
+}
+
+.minh {
+    &-25 {
+        min-height: 25%;
     }
-    &.fa-5 {
-        font-size: 72px;
-        width: 72px; height: 72px;
+
+    &-50 {
+        min-height: 50%;
+    }
+
+    &-75 {
+        min-height: 75%;
+    }
+
+    &-100 {
+        min-height: 100%;
+    }
+
+    &-rem {
+        &-1-25 {
+            min-height: 1.25rem;
+        }
+    }
+}
+
+.size {
+    &-absolute {
+        &-fill {
+            top: 0; left: 0; right: 0; bottom: 0;
+        }
     }
 }

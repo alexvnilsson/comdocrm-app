@@ -1,0 +1,15 @@
+.bg {
+    &-white {
+        background: #fff;
+    }
+
+    &-gray {
+        &-light {
+            background-color: #757575;
+        }
+
+        &-lighter {
+            background-color: #9E9E9E;
+        }
+    }
+}

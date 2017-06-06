@@ -11,9 +11,7 @@ import { ListViewComponent } from './list-view/list-view.component';
 import { AccountViewComponent } from './account-view/account-view.component';
 import { AccountEditorComponent } from './account-view/account-editor/account-editor.component';
 import { StatusItemComponent } from './account-view/status-view/status-item/status-item.component';
-import { StatusViewComponent } from './account-view/status-view/status-view.component';
-
-import { AddStatusComponent } from './account-view/add-status/add-status.component';
+import { BlankStatusItemComponent } from './account-view/status-view/blank-status-item/blank-status-item.component';
 
 const routes: Route[] = [
     {
@@ -28,11 +26,6 @@ const routes: Route[] = [
     {
         path: 'view/:slug',
         component: AccountViewComponent
-    },
-    {
-        path: 'status-add/:slug',
-        component: AddStatusComponent,
-        outlet: 'modal'
     }
 ]
 
@@ -47,8 +40,7 @@ const routes: Route[] = [
         AccountViewComponent,
         AccountEditorComponent,
         StatusItemComponent,
-        StatusViewComponent,
-        AddStatusComponent
+        BlankStatusItemComponent
     ],
     providers: [
         AccountsService,

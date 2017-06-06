@@ -1,56 +1,50 @@
 <app-page-navbar>
-  <button appPageNavbarItem><fa name="plus"></fa> Account</button>
+  <button appPageNavbarItem><fa name="plus"></fa> <span translate>{{ 'Sales.Account' | translate }}</span></button>
 </app-page-navbar>
 
 <div class="row no-gutters">
     <div class="col-md-8">
-        <div class="container" style="position: relative">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                </tr>
-                </thead>
+        <div class="container pt-2" style="position: relative">
+            <ng-container *ngFor="let account of accounts">
+                <div role="button" *ngIf="isFilterAccepting(account)" class="card card-block mb-2" (click)="clickAccount(account)">
+                    <h5 class="display-6" [title]="account.displayName">{{ account.displayName | wordSplice:12 }}</h5>
 
-                <tbody>
-                    <ng-container *ngFor="let account of accounts">
-                        <tr *ngIf="getFilterAcceptsAccount(account)" (click)="onOpenAccount(account.slug)" role="button">
-                            <td>{{ account.displayName }}</td>
-                        </tr>
-                    </ng-container>
-                </tbody>
-            </table>
+                    <span>
+                        <span class="badge badge-default" *ngIf="account.source">{{ account.source?.displayName }}</span>
+                    </span>
+                </div>
+            </ng-container>
         </div>
     </div>
 
-    <div class="col-md-4 vh-100 p-5 justify-content-end bg-faded ">
-        <div class="container">
-            <div class="container mb-3">
-                <h5 class="display-5">Account sources</h5>
+    <div class="col-md-4 vh-100 pt-5 pl-2 pr-2 justify-content-end bg-faded">
+        <div class="container-fluid">
+            <div class="mb-3">
+                <h5 class="display-5">{{ 'Source' | translate }}</h5>
 
                 <div class="input-group" *ngIf="accountSources">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false" [title]="getAccountSourceName(true) || 'Any'">
-                            {{ getAccountSourceName() || 'Any' }}
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false" [title]="listState.accountSource?.displayName || 'Any'">
+                            {{ ( listState.accountSource?.displayName || ( 'Any' | translate ) ) | trim:24 }}
                         </button>
 
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item" (click)="resetAccountSource(null)">Any</a>
+                            <a href="#" class="dropdown-item" (click)="resetAccountSource(null)">{{ 'Any' | translate }}</a>
                             <a href="#" class="dropdown-item" *ngFor="let source of accountSources" (click)="setAccountSource(source)">{{ source.displayName }}</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="container mb-3">
-                <h5 class="display-5">Sort accounts</h5>
+            <div class="mb-3">
+                <h5 class="display-5">{{ 'Sales.SortAccounts' | translate }}</h5>
 
                 <div class="input-group">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false">By date of account</button>
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false">{{ 'Sales.SortAccountsBy.CreationDate' | translate }}</button>
 
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">By publication date</a>
+                            <a href="#" class="dropdown-item">{{ 'Sales.SortAccountsBy.PublicationDate' | translate }}</a>
                         </div>
                     </div>
                 </div>

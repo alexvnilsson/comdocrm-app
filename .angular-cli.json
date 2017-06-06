@@ -9,8 +9,10 @@
       "outDir": "dist",
       "assets": [
         "assets",
+        "assets/i18n/translations",
         "favicon.ico",
         "assets/conf/auth.json",
+        "assets/scripts/tether.min.js",
         "assets/static/oauthconstent.html",
         "assets/static/oauthcallback.html"
       ],
@@ -27,7 +29,6 @@
         "../node_modules/tether/dist/css/tether.min.css"
       ],
       "scripts": [
-        "../node_modules/tether/dist/js/tether.min.js",
         "../node_modules/auth0-js/build/auth0.min.js"
       ],
       "environmentSource": "environments/environment.ts",

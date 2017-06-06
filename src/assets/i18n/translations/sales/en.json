@@ -1,0 +1,14 @@
+{
+    "Sales": {
+        "Account": "Account",
+        "SortAccounts": "Sort accounts",
+        "SortAccountsBy": {
+            "PublicationDate": "By date of publication",
+            "CreationDate": "By date of creation"
+        },
+        "Status": {
+            "NewStatusMessage": "Something new to report? Let us know here.",
+            "NewStatusMessageSummary": "Describe the event in details"
+        }
+    }
+}

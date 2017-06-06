@@ -14,9 +14,25 @@ export class AccountsService {
 
     public onAccountUpdate: EventEmitter<Account> = new EventEmitter();
 
+    _userState: any = null;
     _accountList: Array<Account> = null;
 
     constructor(private http: AuthHttp) { }
+
+    getUserState(callback: (state: any) => any) {
+        if(this._userState === null) {
+            this.http.get(`${this.baseAddr}/accounts/user/state`).subscribe((res: Response) => {
+                let userStateData: any = res.json() || null;
+
+                if(userStateData) {
+                    this._userState = userStateData;
+                    callback(this._userState);
+                }
+            });
+        }
+        else
+            callback(this._userState);
+    }
 
     getAll(callback: (accounts: Array<Account>) => any) {
         if(this._accountList === null) {
@@ -54,8 +70,16 @@ export class AccountsService {
         this.http.post(`${this.baseAddr}/accounts/status/add/${account.id}`, status).subscribe((res: Response) => {
             let resultData: AccountUpdateResult = res.json() || null;
 
-            if(resultData != null) {
-                callback({ updated: resultData.updated });
+            if(resultData) {
+                if(resultData.updated) {
+                    let rawStatus = JSON.stringify(status);
+                    let _status: AccountStatus = JSON.parse(rawStatus);
+
+                    console.log(_status);
+                    account.statuses.unshift(_status);
+                }
+
+                callback(resultData);
             }
       });
     }
@@ -64,11 +88,12 @@ export class AccountsService {
         this.http.post(`${this.baseAddr}/accounts/save/${account.id}`, account).subscribe((res: Response) => {
             let resultData: AccountUpdateResult = res.json() || null;
 
-            if (resultData != null) {
-                if (resultData.updated == true)
+            if (resultData) {
+                if (resultData.updated) {
                     this.onAccountUpdate.next(account);
+                }
 
-                callback({ updated: resultData.updated });
+                callback(resultData);
             }
         })
     }
