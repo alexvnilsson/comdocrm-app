@@ -27,6 +27,7 @@ export class TranslateService extends NGXTranslateService {
             this.setTranslation(this.currentLang, translation, true);
 
             subject.next(true);
+            subject.complete();
         });
 
         return subject.asObservable();

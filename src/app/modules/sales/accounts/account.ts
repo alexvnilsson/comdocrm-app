@@ -1,4 +1,4 @@
-export class Account {
+﻿export class Account {
     id: string;
     slug: string;
     source: {

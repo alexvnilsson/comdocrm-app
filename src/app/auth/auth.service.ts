@@ -19,7 +19,7 @@ export class AuthService implements OnDestroy {
 
     private getAuth(callback: () => any) {
         if (this.Auth0 === null) {
-            this.configurationService.getConfiguration((config: Auth0.AuthOptions) => {
+            this.configurationService.getConfiguration('auth', (config: Auth0.AuthOptions) => {
                 this.Auth0 = new Auth0.WebAuth(config);
 
                 callback();

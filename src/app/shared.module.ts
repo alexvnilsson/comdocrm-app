@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,6 +10,8 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import { MomentModule } from 'angular2-moment';
 
+import { UserTaskModule } from 'comdocrm-lib-user-task';
+
 import { ConfigurationService } from 'app/configuration.service';
 import { SlugifyService } from 'app/slugify.service';
 import { AuthService } from 'app/auth/auth.service';
@@ -20,10 +22,12 @@ import { PageNavbarComponent } from './navbar/page-navbar/page-navbar.component'
 import { PageNavbarItemDirective } from './navbar/page-navbar/page-navbar-item.directive';
 import { SpinnerComponent } from './ui/animations/spinner/spinner.component';
 import { AuthHttp } from 'angular2-jwt';
-import { authHttpServiceFactory } from 'app/auth/http.service';
+import { authHttpServiceFactory, AuthHttpExtended } from 'app/auth/http.service';
 import { InlineEditorComponent } from './ui/editor/inline-editor/inline-editor.component';
 import { WordSplicePipe } from './ui/pipes/word-splice.pipe';
 import { TrimPipe } from './ui/pipes/trim.pipe';
+import { TabsComponent } from './ui/component/tabs/tabs.component';
+import { TabsTabDirective } from './ui/component/tabs-tab.directive';
 
 export function TranslateHttpLoaderFactory(http: Http) {
     return new TranslateHttpLoader(http, '/assets/i18n/translations/', '.json');
@@ -36,7 +40,9 @@ export function TranslateHttpLoaderFactory(http: Http) {
     SpinnerComponent,
     InlineEditorComponent,
     WordSplicePipe,
-    TrimPipe
+    TrimPipe,
+    TabsComponent,
+    TabsTabDirective
   ],
   imports: [
     ModalModule.forRoot(),
@@ -52,7 +58,8 @@ export function TranslateHttpLoaderFactory(http: Http) {
             deps: [ Http ]
         }
     }),
-    MomentModule
+    MomentModule,
+    UserTaskModule
   ],
   providers: [
     ConfigurationService,
@@ -60,9 +67,9 @@ export function TranslateHttpLoaderFactory(http: Http) {
     AuthService,
     AuthGuardService,
     {
-      provide: AuthHttp,
-      useFactory: authHttpServiceFactory,
-      deps: [ Http, RequestOptions ]
+        provide: AuthHttpExtended,
+        useFactory: authHttpServiceFactory,
+        deps: [ Http, RequestOptions, ConfigurationService ]
     },
     TranslateService
   ],
@@ -78,8 +85,11 @@ export function TranslateHttpLoaderFactory(http: Http) {
     PageNavbarItemDirective,
     SpinnerComponent,
     InlineEditorComponent,
+    TabsComponent,
     WordSplicePipe,
-    TrimPipe
+    TrimPipe,
+    TabsTabDirective,
+    UserTaskModule
   ]
 })
 export class SharedModule { }

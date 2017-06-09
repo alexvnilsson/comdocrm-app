@@ -1,35 +1,43 @@
-<div [@statusItemTransition] class="row no-gutters" *ngIf="status">
-    <div class="col-3 no-gutters">
-        <div class="row d-flex flex-row justify-content-center no-gutters minh-100">
-            <div class="col-3 d-flex flex-column justify-content-center align-items-center no-gutters minh-100 position-relative">                
-                <div class="h-100 bg-gray-lighter shape-border-vh-max margin-invert-left-1"></div>
+<div [@statusItemTransition] class="row" *ngIf="status">
+    <div class="col-1">
+        <div class="row d-flex flex-row justify-content-center min-max-width-1-5 minh-100">
+            <div class="col d-flex flex-column justify-content-center align-items-center minh-100 position-relative">                
+                <div class="h-100 bg-darkgray shape-border-vh-max margin-invert-left-1"></div>
 
                 <div class="position-absolute size-absolute-fill d-flex justify-content-center align-items-start">
-                    <i class="mt-2 shape-circle shape-border-2 timeline-circle border-color-light-dark bg-white"></i>
+                    <i  class="mt-2 shape-circle shape-border-2 timeline-circle border-color-light-dark bg-white"
+                        [tooltip]="status.publicationDate | amDateFormat:'YYYY-MM-DD HH:mm'"
+                        placement="right"
+                        container="body"></i>
                 </div>
-            </div>
-
-            <div class="col-9 d-flex align-items-start">
-                <span class="mt-1 small text-muted">{{ status.publicationDate | amCalendar }}</span>
             </div>
         </div>
     </div>
 
-    <div class="col-9">
-        <h4 class="card-title">{{ status.headerText }}</h4>
+    <div class="col-11 mb-4">
+        <div class="row">
+            <div class="col-md-2">
+                <span 
+                    class="mt-1 small text-muted">{{ status.publicationDate | amTimeAgo }}</span>
+            </div>
 
-        <p [@messageTextTransitions]="statusMessage?.messageText" class="card-text">
-            {{ statusMessage.messageText }}
-            
-            <ng-container *ngIf="statusMessage.canTrim">
-                <button *ngIf="statusMessage.trimmed" class="btn-link" role="button" (click)="showAllStatusMessageText()">(more)</button>
-                <button *ngIf="!statusMessage.trimmed" class="btn-link" role="button" (click)="showLessStatusMessageText()">(less)</button>
-            </ng-container>
-        </p>
+            <div class="col-md-10">
+                <h4 class="card-title">{{ status.headerText }}</h4>
 
-        <div class="d-flex flex-column align-items-start">
-            <span class="text-muted">{{ status.footerText }}</span>
-            <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
+                <p [@messageTextTransitions]="statusMessage?.messageText" class="card-text">
+                    {{ statusMessage.messageText }}
+                    
+                    <ng-container *ngIf="statusMessage.canTrim">
+                        <button *ngIf="statusMessage.trimmed" class="btn-link" role="button" (click)="showAllStatusMessageText()">(more)</button>
+                        <button *ngIf="!statusMessage.trimmed" class="btn-link" role="button" (click)="showLessStatusMessageText()">(less)</button>
+                    </ng-container>
+                </p>
+
+                <div class="d-flex flex-column align-items-start">
+                    <span class="text-muted">{{ status.footerText }}</span>
+                    <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
+                </div>
+            </div>
         </div>
     </div>        
 </div>

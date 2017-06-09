@@ -1,0 +1,9 @@
+.border {
+    &-0 {
+        @include media-breakpoint-down(sm) {
+            &-sm {
+                border: 0;
+            }
+        }
+    }
+}

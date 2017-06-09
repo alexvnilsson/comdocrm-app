@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Account, AccountStatus, AccountStatusMetadata } from './account';
 import { AccountListView } from './list-view/account-list-view';
-import { AuthHttp } from 'angular2-jwt';
+import { AuthHttpExtended } from 'app/auth/http.service';
 
 export interface AccountUpdateResult {
     updated: boolean;
@@ -10,14 +10,14 @@ export interface AccountUpdateResult {
 
 @Injectable()
 export class AccountsService {
-    private baseAddr: string = "http://localhost:5000/api/sales";
+    private baseAddr: string = "/api/sales";
 
     public onAccountUpdate: EventEmitter<Account> = new EventEmitter();
 
     _userState: any = null;
     _accountList: Array<Account> = null;
 
-    constructor(private http: AuthHttp) { }
+    constructor(private http: AuthHttpExtended) { }
 
     getUserState(callback: (state: any) => any) {
         if(this._userState === null) {

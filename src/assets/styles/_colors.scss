@@ -3,13 +3,43 @@
         background: #fff;
     }
 
+    &-darkgray {
+        background-color: #757575;
+    }
+
     &-gray {
         &-light {
-            background-color: #757575;
+            background-color: #EEEEEE;
         }
 
         &-lighter {
-            background-color: #9E9E9E;
+            background-color: #FAFAFA;
+        }
+    }
+
+    &-even {
+        &-gray {
+            &-light:nth-child(even) {
+                background-color: #EEEEEE;
+            }
+
+            &-lighter:nth-child(even) {
+                background-color: #FAFAFA;
+            }
+        }
+
+        @include media-breakpoint-down(sm) {
+            &-sm {
+                &-gray {
+                    &-light:nth-child(even) {
+                        background-color: #EEEEEE;
+                    }
+
+                    &-lighter:nth-child(even) {
+                        background-color: #FAFAFA;
+                    }
+                }
+            }
         }
     }
 }

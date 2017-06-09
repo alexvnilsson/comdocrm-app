@@ -23,6 +23,14 @@ $vertical-height-map: (
   }
 }
 
+@each $label, $map in $vertical-height-map {
+    @include media-breakpoint-up(lg) {
+        .lg-vh-#{map-get($map, percent)} {
+            height: map-get($map, height);
+        }
+    }
+}
+
 $icon-size-map: (
     1: (
         key: 1,
@@ -105,10 +113,32 @@ $heading-size-map: (
     }
 }
 
+.min-max-width {
+    &-1-5 {
+        min-width: 1.5em;
+        max-width: 1.5em;
+    }
+
+    &-2 {
+        min-width: 2em;
+        max-width: 2em;
+    }
+}
+
 .size {
     &-absolute {
         &-fill {
             top: 0; left: 0; right: 0; bottom: 0;
+        }
+    }
+}
+
+
+.no-gutters {
+    @include media-breakpoint-down(sm) {
+        &-sm {
+            margin-left: 0; margin-right: 0;
+            padding-left: 0; padding-right: 0;
         }
     }
 }

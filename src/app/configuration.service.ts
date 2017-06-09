@@ -18,8 +18,8 @@ export class ConfigurationService {
     
    }
 
-   public getConfiguration(callback: (configuration: AuthOptions) => any) {
-    this.http.get('assets/conf/auth.json')
+   public getConfiguration(configurationName: string, callback: (configuration: any) => any) {
+    this.http.get(`assets/conf/${configurationName}.json`)
       .map((res: Response) => res.json())
       .subscribe(
         data => callback(data),

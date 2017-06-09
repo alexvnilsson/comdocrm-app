@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+﻿import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -17,10 +17,7 @@ import { NavbarComponent, NavbarRouteConfig } from './navbar/navbar.component';
 const moduleRoutes: NavbarRouteConfig = [
     {
         path: '',
-        loadChildren: 'app/modules/home/home.module#HomeModule',
-        data: {
-            scopes: ['nothing']
-        }
+        loadChildren: 'app/modules/home/home.module#HomeModule'
     },
     {
         mainNav: true,

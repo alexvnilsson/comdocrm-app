@@ -1,17 +1,13 @@
-<div class="row no-gutters">
-    <div class="col-3 no-gutters">
-        <div class="row d-flex flex-row justify-content-center no-gutters minh-100">
-            <div class="col-3 d-flex flex-column justify-content-center align-items-center no-gutters minh-100 position-relative">
-                <div class="h-100 bg-gray-lighter shape-border-vh-max margin-invert-left-1"></div>
-            </div>
-
-            <div class="col-9 d-flex align-items-start">
-                <span class="small text-muted"></span>
+<div class="row">
+    <div class="col-1">
+        <div class="row d-flex flex-row justify-content-center min-max-width-1-5 minh-100">
+            <div class="col d-flex flex-column justify-content-center align-items-center minh-100 position-relative">
+                <div class="h-100 bg-darkgray shape-border-vh-max margin-invert-left-1"></div>
             </div>
         </div>
     </div>
 
-    <div class="col-9 transition-all transition-duration-500" [class.opacity-70]="!editState.isEditing">
+    <div class="col-11 pt-4 pb-4 transition-all transition-duration-500" [class.opacity-70]="!editState.isEditing">
         <form #statusForm="ngForm" (ngSubmit)="onFormSubmit(statusForm)">
             <div class="form-group mb-2">
                 <input 

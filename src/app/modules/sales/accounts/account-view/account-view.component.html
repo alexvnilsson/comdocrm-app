@@ -1,86 +1,123 @@
 <app-page-navbar>
-    <button appPageNavbarItem><fa name="bars"></fa> All accounts</button>
+    <a appPageNavbarItem routerLink="/sales/accounts" role="button"><fa name="angle-left"></fa> {{ 'Back' | translate }}</a>
     <span class="page-navbar-separator"></span>
-    <button appPageNavbarItem (click)="onAddStatusMessage()"><fa name="plus"></fa> Status</button>
 </app-page-navbar>
 
-<div class="row no-gutters">
-    <div class="col-md-9">
-        <div class="container pt-3">
-            <ng-container *ngIf="account && account.statuses">
-                <app-blank-status-item [account]="account"></app-blank-status-item>
+<div [@routeTransition]>
+    <div class="row no-gutters">
+        <div class="col-md-9">
+            <div class="container">
+                <ng-container *ngIf="account && account.statuses">
+                    <app-blank-status-item [account]="account"></app-blank-status-item>
 
-                <app-status-item *ngFor="let status of getSortedAccountStatuses(account.statuses)" [status]="status"></app-status-item>
-            </ng-container>
-        </div>
-    </div>
-
-    <div class="col-md-3 vh-100 pt-4 pl-2 pr-2 justify-content-end bg-faded">
-        <!-- People of Interest -->
-        <div class="container-fluid">
-            <ng-container *ngIf="account">
-                <h4>Contact details</h4>
-
-                <ng-container *ngIf="account.contact">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <span class="text-muted d-block">Phone</span>
-
-                            <span *ngIf="account.contact.phoneNumber; else contactPhoneNulled">{{ account.contact.phoneNumber }}</span>
-                            <ng-template #contactPhoneNulled>
-                                <span class="text-muted small">Not saved</span>
-                            </ng-template>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <span class="text-muted d-block">Email</span>
-
-                            <span *ngIf="account.contact.emailAddress; else contactEmailNulled">{{ account.contact.emailAddress }}</span>
-                            <ng-template #contactEmailNulled>
-                                <span class="text-muted small">Not saved</span>
-                            </ng-template>
-                        </div>
-                    </div>
-
-                    <div class="pt-2">
-                        <button class="btn btn-secondary btn-sm align-self-start" role="button" (click)="onEditAccount()">Edit</button>
-                    </div>
+                    <app-status-item *ngFor="let status of getSortedAccountStatuses(account.statuses)" [status]="status"></app-status-item>
                 </ng-container>
-
-                <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
-                    <div class="row person-card" *ngFor="let person of account.peopleOfInterest">
-                        <div class="col-md-6 text-nowrap mr-1">
-                            <span class="text-muted d-block">Name</span>
-                            <app-inline-editor placeholder="First and last name" [(ngModel)]="person.fullName" name="fullName">
-                                {{ person.fullName }}
-                            </app-inline-editor>
-                        </div>
-
-                        <div class="col-md-6 text-nowrap mr-1">
-                            <span class="text-muted d-block">Phone</span>
-                            <app-inline-editor placeholder="Phone number" [(ngModel)]="person.contact.phoneNumber" name="contact_phoneNumber">
-                                {{ person.contact.phoneNumber }}
-                            </app-inline-editor>
-                        </div>
-                    </div>
-                </ng-container>
-            </ng-container>
-        </div>
-
-        <div class="mt-5"></div>
-        <div class="mb-5" style="border-top: 1px solid #888"></div>
-
-        <!-- Tasks -->
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <form>
-                        <div class="form-group">
-                            <textarea class="form-control" placeholder="What to do?"></textarea>
-                        </div>
-                    </form>
-                </div>
             </div>
+        </div>
+
+        <div class="col-md-3 lg-vh-100 pt-4 pl-2 pr-2 justify-content-end bg-faded">
+            <!-- People of Interest -->
+            <div class="container-fluid overflow-hidden">
+                <ul class="nav nav-tabs mb-4">
+                    <li class="nav-item">
+                        <a 
+                            appTabsTab
+                            #tab0="appTabsTab"
+                            class="nav-link"
+                            [class.active]="isActiveTab(tab0) || !getActiveTab()"
+                            role="button"
+                            index="0"
+                            (click)="onTabClicked(tab0)">
+                            Contacts
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            appTabsTab
+                            #tab1="appTabsTab"
+                            class="nav-link"
+                            [class.active]="isActiveTab(tab1)"
+                            role="button"
+                            index="1"
+                            (click)="onTabClicked(tab1)">
+                            Tasks
+                        </a>
+                    </li>
+                </ul>
+
+                <ng-container *ngIf="(!state.secondary.tab || state.secondary.tab == 0) && account">
+                    <div [@tabsTabTransition] class="container-fluid">
+                        <h4>Contact details</h4>
+
+                        <ng-container *ngIf="account.contact">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <span class="text-muted d-block">Phone</span>
+
+                                    <span *ngIf="account.contact.phoneNumber; else contactPhoneNulled">{{ account.contact.phoneNumber }}</span>
+                                    <ng-template #contactPhoneNulled>
+                                        <span class="text-muted small">Not saved</span>
+                                    </ng-template>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <span class="text-muted d-block">Email</span>
+
+                                    <span *ngIf="account.contact.emailAddress; else contactEmailNulled">{{ account.contact.emailAddress }}</span>
+                                    <ng-template #contactEmailNulled>
+                                        <span class="text-muted small">Not saved</span>
+                                    </ng-template>
+                                </div>
+                            </div>
+
+                            <div class="pt-2">
+                                <button class="btn btn-secondary btn-sm align-self-start" role="button" (click)="onEditAccount()">Edit</button>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
+                            <div class="row person-card" *ngFor="let person of account.peopleOfInterest">
+                                <div class="col-md-6 text-nowrap mr-1">
+                                    <span class="text-muted d-block">Name</span>
+                                    <app-inline-editor placeholder="First and last name" [(ngModel)]="person.fullName" name="fullName">
+                                        {{ person.fullName }}
+                                    </app-inline-editor>
+                                </div>
+
+                                <div class="col-md-6 text-nowrap mr-1">
+                                    <span class="text-muted d-block">Phone</span>
+                                    <app-inline-editor placeholder="Phone number" [(ngModel)]="person.contact.phoneNumber" name="contact_phoneNumber">
+                                        {{ person.contact.phoneNumber }}
+                                    </app-inline-editor>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </div>
+
+            <!-- Tasks -->
+            <ng-container  *ngIf="state.secondary.tab == 1">
+                <div [@tabsTabTransition] class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form>
+                                <div class="form-group">
+                                    <textarea class="form-control" placeholder="What to do?"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ccrm-user-task-item *ngFor="let task of userTasks" [task]="task">
+                                {{ task.name }}
+                            </ccrm-user-task-item>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
         </div>
     </div>
 </div>

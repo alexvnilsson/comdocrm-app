@@ -1,13 +1,13 @@
 {
     "Sales": {
-        "Account": "Kundprospekt",
-        "SortAccounts": "Sortera prospekt",
+        "Account": "Kontakt",
+        "SortAccounts": "Sortera kontakter",
         "SortAccountsBy": {
             "PublicationDate": "Efter publikationsdatum",
             "CreationDate": "Efter datum då de skapades"
         },
         "Status": {
-            "NewStatusMessage": "Något ny händelse att berätta om? Berätta här.",
+            "NewStatusMessage": "Kontakthändelse? Berätta här.",
             "NewStatusMessageSummary": "Längre beskrivning av händelsen"
         }
     }
