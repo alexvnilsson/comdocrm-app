@@ -1,9 +1,9 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { AuthService } from './auth/auth.service';
-import { TranslateService } from 'app/i18n/translate.service';
+import { AuthenticationService } from '@comdocrm/common/authentication';
+import { TranslateService } from '@comdocrm/common/i18n/translate.service';
 import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
 
-import { RouteTransitionAnimation } from 'app/ui/animations';
+import { RouteTransitionAnimation } from '@comdocrm/common/ui/animations';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ import { RouteTransitionAnimation } from 'app/ui/animations';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  constructor(private authService: AuthService, private translateService: TranslateService) {}
+  constructor(private authService: AuthenticationService, private translateService: TranslateService) {}
 
   ngOnInit() {
     
