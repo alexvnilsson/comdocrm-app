@@ -83,3 +83,35 @@ $nav-item-active-bg-color: #0D47A1;
   }
 }
 
+.tab-bar {
+    padding: 0;
+
+    .tab-item {
+        display: inline-block;        
+        list-style-type: none;
+
+        .tab-link {
+            display: inline-block;
+            min-width: 3rem;
+            padding: 0.5rem 1rem;
+
+            font: 300 18px "Roboto";
+
+            &:not(.active) {
+                border-bottom: 1px solid transparent;
+                color: #757575;
+
+                &:hover {
+                    color: #121212;
+                }
+            }
+
+            &.active {
+                border-bottom: 1px solid #121212;
+                color: #121212;
+            }
+
+            transition: all .25s ease-in;
+        }
+    }
+}

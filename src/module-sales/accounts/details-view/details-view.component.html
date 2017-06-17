@@ -1,0 +1,109 @@
+<ccrm-ui-navbar-sub>
+    <a ccrmUiNavbarSubItem routerLink="/sales/accounts" role="button"><fa name="angle-left"></fa> <span i18n>Back</span></a>
+    <span class="page-navbar-separator"></span>
+</ccrm-ui-navbar-sub>
+
+<div [@routeTransition]>
+    <div class="row no-gutters">
+        <div class="col-md-8">
+            <div class="container">
+                <ng-container *ngIf="account && account.statuses">
+                    <ccrm-sales-accounts-blank-status-item [account]="account"></ccrm-sales-accounts-blank-status-item>
+
+                    <ccrm-sales-accounts-status-item *ngFor="let status of getSortedAccountStatuses(account.statuses)" [status]="status"></ccrm-sales-accounts-status-item>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="col-md-4 lg-vh-100 pt-4 pl-2 pr-2 justify-content-end bg-faded">
+            <!-- People of Interest -->
+            <div class="container-fluid overflow-hidden">
+                <ul class="tab-bar mb-4">
+                    <li class="tab-item">
+                        <a 
+                            ccrmUiTab
+                            #tab0="ccrmUiTab"
+                            class="tab-link"
+                            [class.active]="isActiveTab(tab0) || !getActiveTab()"
+                            role="button"
+                            index="0"
+                            (click)="onTabClicked(tab0)" i18n>
+                            Account
+                        </a>
+                    </li>
+                    <li class="tab-item">
+                        <a
+                            ccrmUiTab
+                            #tab1="ccrmUiTab"
+                            class="tab-link"
+                            [class.active]="isActiveTab(tab1)"
+                            role="button"
+                            index="1"
+                            (click)="onTabClicked(tab1)" i18n>
+                            Tasks
+                        </a>
+                    </li>
+                </ul>
+
+                <ng-container *ngIf="(!state.secondary.tab || state.secondary.tab == 0) && account">
+                    <div [@tabsTabTransition] class="container-fluid">
+                        <ng-container *ngIf="account">
+                            <div class="row mb-5">
+                                <div class="col">
+                                    <span class="text-muted d-block">Prospect</span>
+
+                                    <span *ngIf="account.displayName">{{ account.displayName }}</span>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
+                            <div class="row person-card pt-1 pb-1" *ngFor="let person of account.peopleOfInterest">
+                                <div class="col text-nowrap mr-1">
+                                    <span class="text-muted d-block">Name</span>
+                                    <ccrm-ui-inline-editor placeholder="First and last name" [(ngModel)]="person.fullName" name="fullName">
+                                        {{ person.fullName }}
+                                    </ccrm-ui-inline-editor>
+                                </div>
+
+                                <div class="col text-nowrap mr-1">
+                                    <span class="text-muted d-block">Phone</span>
+                                    <ccrm-ui-inline-editor placeholder="Phone number" [(ngModel)]="person.contact.phoneNumber" name="contact_phoneNumber">
+                                        {{ person.contact.phoneNumber }}
+                                    </ccrm-ui-inline-editor>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <div class="row person-card pt-1 pb-1">
+                            <div class="col">
+                                <button (click)="clickAddPersonOfInterest()" class="btn btn-link" role="button">
+                                    <fa name="plus"></fa>
+                                    <span class="ml-2" i18n>Contact</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+
+            <!-- Tasks -->
+            <ng-container *ngIf="state.secondary.tab == 1">
+                <div [@tabsTabTransition] class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <ccrm-user-tasks-create-task></ccrm-user-tasks-create-task>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <ccrm-user-tasks-list-view></ccrm-user-tasks-list-view>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<router-outlet name="modal"></router-outlet>

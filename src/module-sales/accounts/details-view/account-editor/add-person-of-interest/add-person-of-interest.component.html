@@ -1,0 +1,74 @@
+<div class="modal fade" bsModal #modal="bs-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" *ngIf="account">
+                <h5 class="modal-title">
+                    <fa name="pencil"></fa> <span i18n>Add new person of interest</span></h5>
+                <button type="button" class="close" (click)="hideModal()" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body p-0">
+                <ng-container *ngIf="!state.loading">
+                    <div class="container p-0">
+                        <form #accountForm="ngForm">
+                            <div class="container bg-faded p-3">
+                                <h3><small class="text-muted">Contact information</small></h3><br>
+
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <label for="contactFullName">Name</label>
+                                        <input id="contactFullName" 
+                                            type="tel" 
+                                            class="form-control" 
+                                            placeholder="First and last name" 
+                                            [(ngModel)]="person.fullName"
+                                            name="person_fullname">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <label for="personContactPhone">Phone number</label>
+                                        <input id="personContactPhone" 
+                                            type="tel" 
+                                            class="form-control" 
+                                            placeholder="(+00) 000-000 000" 
+                                            [(ngModel)]="person.contact.phoneNumber"
+                                            name="person_contact_phone">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <label for="personContactEmail">Email address</label>
+                                        <input id="personContactEmail" 
+                                            type="email" 
+                                            class="form-control" 
+                                            placeholder="name@company.com" 
+                                            [(ngModel)]="person.contact.emailAddress"
+                                            name="person_contact_email">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="state.loading == true && state.error != true">
+                    <ccrm-ui-spinner></ccrm-ui-spinner>
+                </ng-container>
+
+                <ng-container *ngIf="state.error == true">
+                    <div class="container">
+                        <h2>Some error</h2>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="savePerson()">Save</button>
+                <button type="button" class="btn btn-secondary" (click)="hideModal()" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

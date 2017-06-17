@@ -19,3 +19,19 @@
         }
     }
 }
+
+.anim-transition {
+    &-fade-up-down {
+        &:not(.anim-transition-active) {
+            transform: "translateY(-20%)";
+            opacity: 0;
+        }
+
+        .anim-transition-active {
+            transform: "translateY(0%)";
+            opacity: 1;
+        }
+
+        transition: all .25s ease-in;
+    }
+}

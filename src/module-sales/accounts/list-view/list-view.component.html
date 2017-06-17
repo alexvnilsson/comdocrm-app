@@ -1,0 +1,59 @@
+<ccrm-ui-navbar-sub>
+  <button ccrmUiNavbarSubItem><fa name="plus"></fa> <span i18n="A new account in the context of sales and prospects">New account</span></button>
+</ccrm-ui-navbar-sub>
+
+<div [@routeTransition]>
+    <div class="row no-gutters">
+        <div class="col-md-8">
+            <div id="listView" class="container no-gutters-sm pt-2 pl-0 pr-0" style="position: relative">
+                <ng-container *ngFor="let account of accounts">
+                    <div role="button" *ngIf="isFilterAccepting(account)" class="card card-block pl-5 pr-5 border-0" (click)="clickAccount(account)">
+                        <h5 class="display-6" [title]="account.displayName">{{ account.displayName | wordSplice:12 }}</h5>
+
+                        <span>
+                            <span class="badge badge-default" *ngIf="account.source">{{ account.source?.displayName }}</span>
+                        </span>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="col-md-4 vh-100 pt-5 pl-2 pr-2 justify-content-end bg-faded">
+            <div class="container-fluid">
+                <div class="mb-3">
+                    <h5 class="display-5" i18n="The source of the account, i.e. where did the data come from">Source</h5>
+
+                    <div class="input-group" *ngIf="accountSources">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false" [title]="listState.accountSource?.displayName || 'Any'">
+                                <span *ngIf="listState.accountSource && listState.accountSource.displayName; else accountDisplayNameNull">{{ listState.accountSource.displayName | trim: 42 }}</span>
+                                <ng-template #accountDisplayNameNull>
+                                    <span i18n="Any account source">Any</span>
+                                </ng-template>
+                            </button>
+
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item" (click)="resetAccountSource()" i18n="Any account source">Any</a>
+                                <a href="#" class="dropdown-item" *ngFor="let source of accountSources" (click)="setAccountSource(source)">{{ source.displayName }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="display-5" i18n>Sort accounts by...</h5>
+
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false" i18n>Date of creation</button>
+
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item" i18n>Date of dead-line</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

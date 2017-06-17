@@ -1,0 +1,1 @@
+export { TabDirective } from './tab.directive';

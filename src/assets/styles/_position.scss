@@ -7,3 +7,12 @@
         position: absolute;
     }
 }
+
+.position {
+    &-coords {
+        &-top-right {
+            top: 0;
+            right: 0;
+        }
+    }
+}
