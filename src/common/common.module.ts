@@ -32,6 +32,7 @@ import { InlineEditorComponent } from './ui/components/editor/inline-editor/inli
 import { CallbackComponent } from './authentication/callback/callback.component';
 import { DatepickerComponent } from './ui/components/datepicker/datepicker.component';
 import { DashboardComponent } from '../module-sales/dashboard/dashboard.component';
+import { DatepickerDirective } from './ui/components/datepicker/datepicker.directive';
 
 @NgModule({
     imports: [
@@ -50,7 +51,8 @@ import { DashboardComponent } from '../module-sales/dashboard/dashboard.componen
         InlineEditorComponent,
         NavbarSubComponent,
         NavbarSubDirective,
-        DatepickerComponent
+        DatepickerComponent,
+        DatepickerDirective
     ],
     providers: [
         
@@ -71,7 +73,8 @@ import { DashboardComponent } from '../module-sales/dashboard/dashboard.componen
         InlineEditorComponent,
         NavbarSubComponent,
         NavbarSubDirective,
-        DatepickerComponent
+        DatepickerComponent,
+        DatepickerDirective
     ]
 })
 export class ComdoCrmCommonModule {

@@ -85,7 +85,7 @@ export class AccountsService {
         });
     }
 
-    addStatusToAccount(account: Account, status: AccountStatus): Observable<AccountUpdateResult> {
+    addStatus(account: Account, status: AccountStatus): Observable<AccountUpdateResult> {
         return new Observable(observer => {
             this.http.post(`${this.baseAddr}/accounts/statuses/add`, status).subscribe((res: Response) => {
                 let resultData: AccountUpdateResult = res.json() || null;

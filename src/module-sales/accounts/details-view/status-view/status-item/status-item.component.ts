@@ -50,6 +50,10 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
         canTrim: false
     };
 
+    userTaskEditor = {
+        isEditing: false
+    };
+
     private onUserTaskAddedListener: Subscription;
 
     constructor(
@@ -85,7 +89,9 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     clickAddReminder() {
-        this.router.navigate([ '.', { outlets: { 'modal': [ 'reminders-add', this.status.id, 'no-details' ] }} ], { relativeTo: this.route });
+        //this.router.navigate([ '.', { outlets: { 'modal': [ 'reminders-add', this.status.id, 'no-details' ] }} ], { relativeTo: this.route });
+
+        this.userTaskEditor.isEditing = true;
     }
 
     private trimMessageStatusText(noTrim?: boolean) {

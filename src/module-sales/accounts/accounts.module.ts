@@ -16,6 +16,7 @@ import { BlankStatusItemComponent } from './details-view/status-view/blank-statu
 import { AddPersonOfInterestComponent } from './details-view/account-editor/add-person-of-interest/add-person-of-interest.component';
 import { PersonOfInterestComponent } from './details-view/person-of-interest/person-of-interest.component';
 import { AddReminderComponent } from './details-view/status-view/add-reminder/add-reminder.component';
+import { AddReminderInlineComponent } from './details-view/status-view/status-item/add-reminder-inline/add-reminder-inline.component';
 
 const routes: Route[] = [
     {
@@ -55,7 +56,8 @@ const routes: Route[] = [
         StatusItemComponent,
         BlankStatusItemComponent,
         PersonOfInterestComponent,
-        AddReminderComponent
+        AddReminderComponent,
+        AddReminderInlineComponent
     ],
     providers: [
         AccountsService,

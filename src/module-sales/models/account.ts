@@ -50,6 +50,7 @@ export class AccountDateOfInterest {
 }
 
 export class AccountStatus {
+    account?: string;
     id?: string;
     publicationDate: Date;
     headerText?: string;
