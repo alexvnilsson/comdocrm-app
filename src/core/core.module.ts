@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule, Router, RouterOutlet, Route } from '@angular/router';
-import { ModalModule, TooltipModule, BsDropdownModule } from 'ngx-bootstrap';
+import { ModalModule, TooltipModule, BsDropdownModule, DatepickerModule } from 'ngx-bootstrap';
 import { ComdoCrmCommonModule } from 'common';
 
 import { ConfigurationService } from 'common/configuration';
@@ -57,6 +57,7 @@ const routes: CustomRoute[] = [
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
         BsDropdownModule.forRoot(),
+        DatepickerModule.forRoot(),
         RouterModule.forRoot(routes),
         ComdoCrmCommonModule.forRoot(),
         UserTasksModule.forRoot()

@@ -25,10 +25,12 @@
       "prefix": "ccrm",
       "styles": [
         "assets/styles/styles.scss",
+        "assets/styles/bootstrap-datepicker/index.min.css",
         "../node_modules/font-awesome/css/font-awesome.css",
         "../node_modules/tether/dist/css/tether.min.css"
       ],
       "scripts": [
+          "assets/scripts/bootstrap-datepicker/index.min.js",
         "../node_modules/auth0-js/build/auth0.min.js"
       ],
       "environmentSource": ".environments/environment.ts",

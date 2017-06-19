@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { UserTasksService } from '../../user-tasks.service';
-import { UserTask } from '../../models/userTask';
+import { UserTask } from '../../user-task';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -11,6 +11,9 @@ import { Subscription } from 'rxjs/Subscription';
     ]
 })
 export class ListViewComponent implements OnInit, OnDestroy {
+    @Input('container') containerName: string;
+    @Input('containerId') containerId: string;
+
     items: Array<UserTask> = [];
 
     private userTaskListener: Subscription;
@@ -20,7 +23,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.userTasks.getAll().subscribe(tasks => {
+        this.userTasks.getAll(this.containerName, this.containerId).subscribe(tasks => {
             this.items = tasks;
         });
 

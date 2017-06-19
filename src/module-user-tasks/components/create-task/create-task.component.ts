@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { trigger, state, transition, style, animate, keyframes } from '@angular/animations';
 
 import { UserTasksService } from '../../user-tasks.service';
-import { UserTask } from '../../models/userTask';
+import { UserTask } from '../../user-task';
 
 @Component({
     selector: 'ccrm-user-tasks-create-task',
@@ -29,12 +29,15 @@ import { UserTask } from '../../models/userTask';
 })
 export class CreateTaskComponent implements OnInit, OnDestroy {
     task: UserTask = {
+        container: {
+            name: 'test'
+        },
+        type: {
+            name: 'UserReminders'
+        },
         displayName: null,
         summaryText: null,
-        container: {
-            type: 'test',
-            id: 'test'
-        }
+        hasReminder: false
     };
 
     state = {

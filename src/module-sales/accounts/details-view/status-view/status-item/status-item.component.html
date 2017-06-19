@@ -15,11 +15,15 @@
     <div class="col-11 mb-4">
         <div class="row">
             <div class="col-md-2">
-                <span 
-                    class="mt-1 small text-muted"
-                    [tooltip]="status.publicationDate | amDateFormat:'YYYY-MM-DD HH:mm'"
-                    placement="right"
-                    container="body">{{ status.publicationDate | amTimeAgo }}</span>
+                <div class="row">
+                    <div class="col">
+                        <span 
+                            class="mt-1 small text-muted"
+                            [tooltip]="status.publicationDate | amDateFormat:'YYYY-MM-DD HH:mm'"
+                            placement="right"
+                            container="body">{{ status.publicationDate | amTimeAgo }}</span>
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-10">
@@ -33,6 +37,24 @@
                         <button *ngIf="!statusMessage.trimmed" class="btn-link" role="button" (click)="showLessStatusMessageText()">(less)</button>
                     </ng-container>
                 </p>
+
+                <ng-container *ngIf="status.userTasks">
+                    <ng-container *ngFor="let userTask of status.userTasks">
+                        <div class="text-muted"><fa name="calendar"></fa> <span *ngIf="userTask.reminderDate">{{ userTask.reminderDate | date }}</span> <span *ngIf="userTask.displayName">- {{ userTask.displayName }}</span></div>
+                    </ng-container>
+                </ng-container>
+
+                <div class="mt-3">
+                    <span 
+                        (click)="clickAddReminder()" 
+                        role="button" 
+                        tooltip="New reminder"
+                        i18n-tooltip
+                        placement="top" 
+                        container="body">
+                        + <fa name="calendar"></fa>
+                    </span>
+                </div>
 
                 <div class="d-flex flex-column align-items-start">
                     <span class="text-muted">{{ status.footerText }}</span>

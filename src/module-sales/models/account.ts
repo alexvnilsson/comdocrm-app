@@ -1,4 +1,6 @@
-﻿export class Account {
+﻿import { UserTask } from 'module-user-tasks';
+import { EventEmitter } from '@angular/core';
+export class Account {
     id: string;
     slug: string;
     source: {
@@ -11,7 +13,9 @@
     business: AccountBusiness;
     peopleOfInterest: AccountPersonOfInterest[];
     datesOfInterest: AccountDateOfInterest[];
+
     statuses: AccountStatus[];
+    userTasks: Array<UserTask> = [];
 }
 
 export class AccountSource {
@@ -46,11 +50,14 @@ export class AccountDateOfInterest {
 }
 
 export class AccountStatus {
+    id?: string;
     publicationDate: Date;
     headerText?: string;
     messageText: string;
     footerText?: string;
     metadata?: AccountStatusMetadata;
+
+    userTasks?: Array<UserTask> = [];
 }
 
 export class AccountStatusMetadata {

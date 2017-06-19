@@ -72,7 +72,7 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
         });
         
         this.onUserTaskChangedListener = this.userTasksService.addEventListener('userTasksChanged').subscribe((items: Array<UserTask>) => {
-            console.log("detailsViewComponent: ", items);
+            
         });
 
         this.onAccountUpdateListener = this.accountsService.onAccountUpdate.subscribe(this.onAccountUpdate.bind(this));
@@ -91,7 +91,7 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     }
 
     clickAddPersonOfInterest() {
-        this.router.navigate(['./contacts', { outlets: { 'modal': [ 'add', this.account.id ] } }], { relativeTo: this.route });
+        this.router.navigate([{ outlets: { 'modal': [ 'contacts-add', this.account.id ] } }], { relativeTo: this.route });
     }
 
     getSortedAccountStatuses(statuses: Array<AccountStatus>) {

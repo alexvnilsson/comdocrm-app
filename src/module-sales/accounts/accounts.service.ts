@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { UsersService } from 'common/users';
 
 import { Account, AccountStatus, AccountStatusMetadata, AccountPersonOfInterest } from '../models/account';
+import { UserTask } from 'module-user-tasks/user-task';
+import { UserTaskException } from '../../module-user-tasks/user-task/user-task-exception';
 
 export interface AccountUpdateResult {
     updated: boolean;
@@ -71,28 +73,49 @@ export class AccountsService {
         return this.getByAny(account);
     }
 
+    getByStatus(statusId: string): Observable<Account> {
+        return new Observable(observer => {
+            this.http.get(`${this.baseAddr}/accounts/statuses/${statusId}`).subscribe((res: Response) => {
+                let resultData: Account = res.json() || null;
+
+                if(resultData) {
+                    observer.next(resultData);
+                }
+            })
+        });
+    }
+
     addStatusToAccount(account: Account, status: AccountStatus): Observable<AccountUpdateResult> {
         return new Observable(observer => {
-                this.http.post(`${this.baseAddr}/accounts/status/add/${account.id}`, status).subscribe((res: Response) => {
-                    let resultData: AccountUpdateResult = res.json() || null;
+            this.http.post(`${this.baseAddr}/accounts/statuses/add`, status).subscribe((res: Response) => {
+                let resultData: AccountUpdateResult = res.json() || null;
 
-                    if(resultData) {
-                        if(resultData.updated) {
-                            let rawStatus = JSON.stringify(status);
-                            let _status: AccountStatus = JSON.parse(rawStatus);
+                if(resultData) {
+                    if(resultData.updated) {
+                        let rawStatus = JSON.stringify(status);
+                        let _status: AccountStatus = JSON.parse(rawStatus);
 
-                            account.statuses.unshift(_status);
-                        }
-
-                        observer.next(resultData);
+                        account.statuses.unshift(_status);
                     }
+
+                    observer.next(resultData);
+                }
             });
         });
     }
 
-    addPersonOfInterestToAccount(account: Account, personOfInterest: AccountPersonOfInterest): Observable<AccountUpdateResult> {
+    addPersonOfInterest(account: Account, personOfInterest: AccountPersonOfInterest): Observable<AccountUpdateResult> {
         return new Observable(observer => {
             this.http.post(`${this.baseAddr}/accounts/contacts/add`, personOfInterest).subscribe(result => {
+                if(result.ok)
+                    observer.next();
+            });
+        });
+    }
+
+    updatePersonOfInterest(personOfInterest: AccountPersonOfInterest): Observable<AccountUpdateResult> {
+        return new Observable(observer => {
+            this.http.post(`${this.baseAddr}/accounts/contacts/update`, personOfInterest).subscribe(result => {
                 if(result.ok)
                     observer.next();
             });

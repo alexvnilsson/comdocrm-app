@@ -1,3 +1,3 @@
 export { UserTasksModule } from './user-tasks.module';
 export { UserTasksService } from './user-tasks.service';
-export { UserTask } from './models/userTask';
+export { UserTask, UserTaskContainer, UserTaskType } from './user-task';

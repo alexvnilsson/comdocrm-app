@@ -1,7 +1,13 @@
 <div class="container p-2 mt-1 bg-white">
     <div class="row">
         <div class="col-10">
-            <p class="lead">{{ item.displayName }}</p>
+            <span class="lead">{{ item.displayName }}</span>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="item.hasReminder && item.reminderDate">
+        <div class="col-md-12">
+            <span class="text-muted"><fa name="calendar"></fa> {{ item.reminderDate | date }}</span>
         </div>
     </div>
 
@@ -12,8 +18,24 @@
     </div>
 
     <div class="row mt-2">
-        <div class="col">
-            <button class="btn btn-primary" role="button">Action</button>
+        <div class="col-md-3 d-flex flex-row justify-content-start">
+            <div 
+                class="input-group-btn">
+                <button 
+                    class="btn btn-primary btn-sm dropdown-toggle" 
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspop="true"
+                    aria-expanded="false">
+                    Set... <span class="caret"></span>
+                </button>
+
+                <div
+                    class="dropdown-menu border-0" 
+                    role="menu">
+                    <a class="dropdown-item" href="#" role="button"><fa name="check-circle"></fa> Done</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { AuthHttpExtended } from '../authentication/auth-http-extended';
 import { Observable } from 'rxjs/Observable';
+import { UserTask } from 'module-user-tasks';
 
 @Injectable()
 export class UsersService {

@@ -10,7 +10,7 @@
                 <ng-container *ngIf="account && account.statuses">
                     <ccrm-sales-accounts-blank-status-item [account]="account"></ccrm-sales-accounts-blank-status-item>
 
-                    <ccrm-sales-accounts-status-item *ngFor="let status of getSortedAccountStatuses(account.statuses)" [status]="status"></ccrm-sales-accounts-status-item>
+                    <ccrm-sales-accounts-status-item *ngFor="let status of getSortedAccountStatuses(account.statuses)" [account]="account" [status]="status"></ccrm-sales-accounts-status-item>
                 </ng-container>
             </div>
         </div>
@@ -58,28 +58,14 @@
                         </ng-container>
 
                         <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
-                            <div class="row person-card pt-1 pb-1" *ngFor="let person of account.peopleOfInterest">
-                                <div class="col text-nowrap mr-1">
-                                    <span class="text-muted d-block">Name</span>
-                                    <ccrm-ui-inline-editor placeholder="First and last name" [(ngModel)]="person.fullName" name="fullName">
-                                        {{ person.fullName }}
-                                    </ccrm-ui-inline-editor>
-                                </div>
-
-                                <div class="col text-nowrap mr-1">
-                                    <span class="text-muted d-block">Phone</span>
-                                    <ccrm-ui-inline-editor placeholder="Phone number" [(ngModel)]="person.contact.phoneNumber" name="contact_phoneNumber">
-                                        {{ person.contact.phoneNumber }}
-                                    </ccrm-ui-inline-editor>
-                                </div>
+                            <div *ngFor="let person of account.peopleOfInterest">
+                                <ccrm-sales-accounts-person-of-interest [person]="person"></ccrm-sales-accounts-person-of-interest>
                             </div>
                         </ng-container>
 
                         <div class="row person-card pt-1 pb-1">
                             <div class="col">
-                                <button (click)="clickAddPersonOfInterest()" class="btn btn-link" role="button">
-                                    <fa name="plus"></fa>
-                                    <span class="ml-2" i18n>Contact</span></button>
+                                <button (click)="clickAddPersonOfInterest()" class="btn btn-link pl-0 pr-0" role="button"><fa name="plus"></fa>Contact</button>
                             </div>
                         </div>
                     </div>
@@ -97,7 +83,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <ccrm-user-tasks-list-view></ccrm-user-tasks-list-view>
+                            <ccrm-user-tasks-list-view container="Account" [containerId]="account.id"></ccrm-user-tasks-list-view>
                         </div>
                     </div>
                 </div>

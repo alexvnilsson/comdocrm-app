@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, Route, ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Http, RequestOptions } from '@angular/http';
 import { CommonModule } from '@angular/common';
-import { ModalModule, TooltipModule, BsDropdownModule } from 'ngx-bootstrap';
+import { DatepickerModule, ModalModule, TooltipModule, BsDropdownModule } from 'ngx-bootstrap';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { TranslateStore } from '@ngx-translate/core/src/translate.store';
 import { MomentModule } from 'angular2-moment';
@@ -30,6 +30,8 @@ import { TrimPipe } from './ui/pipes/trim.pipe';
 import { InlineEditorComponent } from './ui/components/editor/inline-editor/inline-editor.component';
 
 import { CallbackComponent } from './authentication/callback/callback.component';
+import { DatepickerComponent } from './ui/components/datepicker/datepicker.component';
+import { DashboardComponent } from '../module-sales/dashboard/dashboard.component';
 
 @NgModule({
     imports: [
@@ -37,7 +39,8 @@ import { CallbackComponent } from './authentication/callback/callback.component'
         RouterModule,
         AngularFontAwesomeModule,
         FormsModule,
-        MomentModule
+        MomentModule,
+        DatepickerModule
     ],
     declarations: [
         TabDirective,
@@ -46,7 +49,8 @@ import { CallbackComponent } from './authentication/callback/callback.component'
         TrimPipe,
         InlineEditorComponent,
         NavbarSubComponent,
-        NavbarSubDirective
+        NavbarSubDirective,
+        DatepickerComponent
     ],
     providers: [
         
@@ -59,13 +63,15 @@ import { CallbackComponent } from './authentication/callback/callback.component'
         FormsModule,
         RouterModule,
         MomentModule,
+        DatepickerModule,
         TabDirective,
         SpinnerComponent,
         WordSplicePipe,
         TrimPipe,
         InlineEditorComponent,
         NavbarSubComponent,
-        NavbarSubDirective
+        NavbarSubDirective,
+        DatepickerComponent
     ]
 })
 export class ComdoCrmCommonModule {

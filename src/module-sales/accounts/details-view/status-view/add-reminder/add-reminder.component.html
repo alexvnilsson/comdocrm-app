@@ -1,0 +1,69 @@
+<div class="modal fade" bsModal #addReminderModal="bs-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" i18n>Reminder</h5>
+                <button type="button" class="close" (click)="hideModal()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form #reminderForm="ngForm" (ngSubmit)="saveReminder(reminderForm)">
+                <div class="modal-body p-0">
+                    <ng-container *ngIf="!formState.isLoading">
+                        <div class="p-2">
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input
+                                            required
+                                            autocomplete="off"
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Summary"
+                                            [(ngModel)]="userTask.displayName"
+                                            name="displayName" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-12 d-flex flex-row justify-content-center">
+                                    <ccrm-ui-datepicker 
+                                        required
+                                        [(ngModel)]="userTask.reminderDate"
+                                        name="reminderDate"></ccrm-ui-datepicker>
+                                </div>
+                            </div>
+
+                            
+
+                            <ng-container *ngIf="formStateExtra.hasDetails">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <textarea
+                                                class="form-control"
+                                                placeholder="Further details if necessary"
+                                                [(ngModel)]="userTask.summaryText"
+                                                name="summaryText"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="formState.isLoading">
+                        <ccrm-ui-spinner></ccrm-ui-spinner>
+                    </ng-container>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" role="button" [disabled]="!reminderForm.form.valid">Save</button>
+                    <button type="button" class="btn btn-secondary" (click)="hideModal()" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

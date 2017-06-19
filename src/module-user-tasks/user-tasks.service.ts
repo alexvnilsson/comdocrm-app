@@ -1,15 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AuthHttpExtended } from 'common/authentication';
 
 import { UserTasksStore } from './user-tasks.store';
-import { UserTask } from './models/userTask';
+import { UserTask, UserTaskContainer, UserTaskType } from './user-task';
+import { UserTaskException } from './user-task/user-task-exception';
+import { AccountStatus } from '../module-sales/models/account';
 
 @Injectable()
 export class UserTasksService {
-    private baseAddr: string = '/api/user_tasks';
+    private baseAddr: string = '/api/users/tasks';
+
+    private OnUserTaskAdded: EventEmitter<UserTask> = new EventEmitter();
 
     constructor(
         private store: UserTasksStore,
@@ -18,17 +22,49 @@ export class UserTasksService {
 
     }
 
-    addOne(userTask: UserTask) {
-        let newUserTask: UserTask = JSON.parse(JSON.stringify(userTask));
-
-        this.http.post(`${this.baseAddr}/create`, newUserTask).subscribe(result => {
-            this.store.add(newUserTask);
+    onUserTaskAdded(status: AccountStatus): Observable<UserTask> {
+        return new Observable(observer => {
+            this.OnUserTaskAdded.subscribe((userTask: UserTask) => {
+                if(userTask.container) {
+                    if(userTask.container.id === status.id) {
+                        observer.next(userTask);
+                    }
+                }
+            });
         });
     }
 
-    getAll(): Observable<Array<UserTask>> {
+    addOne(userTask: UserTask): Observable<Response> {
         return new Observable(observer => {
-            this.http.get(`${this.baseAddr}/test/test`).subscribe(res => {
+            if(!userTask.container)
+                observer.error(new UserTaskException({
+                    Message: 'UserTask requires Container.',
+                    NoContainer: true
+                }));
+
+            if(!userTask.type)
+                observer.error(new UserTaskException({
+                    Message: 'UserTask requires Type.',
+                    NoType: true
+                }));
+
+            let newUserTask: UserTask = JSON.parse(JSON.stringify(userTask));
+
+            this.http.post(`${this.baseAddr}/add`, newUserTask).subscribe(result => {
+                if(result.ok) {
+                    this.OnUserTaskAdded.next(newUserTask);
+
+                    this.store.add(newUserTask);
+
+                    observer.next(result);
+                }
+            });
+        });
+    }
+
+    getAll(container: string, id: string): Observable<Array<UserTask>> {
+        return new Observable(observer => {
+            this.http.get(`${this.baseAddr}/${container}/${id}`).subscribe(res => {
                 let jsonResult = res.json() || null;
 
                 if(jsonResult)

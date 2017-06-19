@@ -14,6 +14,8 @@ import { DetailsViewComponent } from './details-view/details-view.component';
 import { StatusItemComponent } from './details-view/status-view/status-item/status-item.component';
 import { BlankStatusItemComponent } from './details-view/status-view/blank-status-item/blank-status-item.component';
 import { AddPersonOfInterestComponent } from './details-view/account-editor/add-person-of-interest/add-person-of-interest.component';
+import { PersonOfInterestComponent } from './details-view/person-of-interest/person-of-interest.component';
+import { AddReminderComponent } from './details-view/status-view/add-reminder/add-reminder.component';
 
 const routes: Route[] = [
     {
@@ -26,15 +28,15 @@ const routes: Route[] = [
         component: DetailsViewComponent,
         children: [
             {
-                path: 'contacts',
-                children: [
-                    {
-                        path: 'add/:id',
-                        component: AddPersonOfInterestComponent,
-                        outlet: 'modal'
-                    }
-                ]
+                path: 'contacts-add/:id',
+                component: AddPersonOfInterestComponent,
+                outlet: 'modal'
             },
+            {
+                path: 'reminders-add/:id/:details',
+                component: AddReminderComponent,
+                outlet: 'modal'
+            }
         ]
     }
 ]
@@ -51,7 +53,9 @@ const routes: Route[] = [
         DetailsViewComponent,
         AddPersonOfInterestComponent,
         StatusItemComponent,
-        BlankStatusItemComponent
+        BlankStatusItemComponent,
+        PersonOfInterestComponent,
+        AddReminderComponent
     ],
     providers: [
         AccountsService,

@@ -1,6 +1,10 @@
-import { Component, Input, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
-import { AccountStatus } from '../../../../models/account';
+import { AccountStatus, Account } from '../../../../models/account';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { AccountsService } from '../../../accounts.service';
+import { UserTasksService } from 'module-user-tasks';
 
 export const STATUS_MESSAGE_TRIMMED_MAX_LENGTH = 64;
 
@@ -36,7 +40,8 @@ export const STATUS_MESSAGE_TRIMMED_MAX_LENGTH = 64;
         ]
     )]
 })
-export class StatusItemComponent implements OnInit, AfterViewInit {
+export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
+    @Input() account: Account = null;
     @Input() status: AccountStatus = null;
 
     statusMessage = {
@@ -45,8 +50,13 @@ export class StatusItemComponent implements OnInit, AfterViewInit {
         canTrim: false
     };
 
+    private onUserTaskAddedListener: Subscription;
+
     constructor(
-        private changeDetector: ChangeDetectorRef
+        private changeDetector: ChangeDetectorRef,
+        private userTasksService: UserTasksService,
+        private router: Router,
+        private route: ActivatedRoute
     ) {
         
     }
@@ -63,12 +73,19 @@ export class StatusItemComponent implements OnInit, AfterViewInit {
 
             this.statusMessage.canTrim = this.isMessageStatusTextTrimmable();
             this.statusMessage.trimmed = this.isStatusMessageTextTrimmed(trimmedMessageText);
-            
+
+            this.onUserTaskAddedListener = this.userTasksService.onUserTaskAdded(this.status).subscribe(userTask => {
+                this.status.userTasks.push(userTask);
+            });
         }
     }
 
     ngAfterViewInit() {
         
+    }
+
+    clickAddReminder() {
+        this.router.navigate([ '.', { outlets: { 'modal': [ 'reminders-add', this.status.id, 'no-details' ] }} ], { relativeTo: this.route });
     }
 
     private trimMessageStatusText(noTrim?: boolean) {
@@ -127,5 +144,9 @@ export class StatusItemComponent implements OnInit, AfterViewInit {
         }
 
         this.changeDetector.detectChanges();
+    }
+
+    ngOnDestroy() {
+        this.onUserTaskAddedListener.unsubscribe();
     }
 }

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { UserTasksService } from '../../user-tasks.service';
-import { UserTask } from '../../models/userTask';
+import { UserTask } from '../../user-task';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -12,8 +12,6 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ListViewItemComponent implements OnInit, OnDestroy {
     @Input('task') item: UserTask;
-
-    
 
     constructor(
         private userTasks: UserTasksService

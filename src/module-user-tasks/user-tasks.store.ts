@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { UserTask } from './models/userTask';
+import { UserTask } from './user-task';
 
 @Injectable()
 export class UserTasksStore implements IUserTasksStore {

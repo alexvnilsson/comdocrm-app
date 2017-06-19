@@ -18,7 +18,6 @@
                     i18n-placeholder
                     placeholder="Something new related to this account?"
                     (focus)="onInputFocus()"
-                    (blur)="onInputBlur()"
                     [(ngModel)]="status.headerText"
                     name="headerText"
                     autocomplete="off"/>
@@ -31,7 +30,6 @@
                         i18n-placeholder
                         placeholder="Optional detailed summary of the event..."
                         (focus)="onInputFocus()"
-                        (blur)="onInputBlur()"
                         [(ngModel)]="status.messageText"
                         name="messageText">
                     </textarea>
@@ -42,7 +40,6 @@
                         type="submit"
                         class="btn btn-primary"
                         (focus)="onInputFocus()"
-                        (blur)="onInputBlur()"
                         role="button"
                         i18n>Save</button>
                 </div>

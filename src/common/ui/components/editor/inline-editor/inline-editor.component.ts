@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, ViewChild, OnChanges, AfterViewChecked, SimpleChanges, ElementRef, forwardRef, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, OnInit, AfterViewInit, ViewChild, OnChanges, AfterViewChecked, SimpleChanges, ElementRef, forwardRef, ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { trigger, state, transition, style, animate } from '@angular/animations';
 
@@ -38,6 +38,8 @@ export class InlineEditorComponent implements OnInit, AfterViewInit, ControlValu
     @Input() placeholder: string;
 
     public isEditing: boolean = false;
+
+    @Output() onModelUpdated: EventEmitter<any> = new EventEmitter();
 
     constructor(private changeDetector: ChangeDetectorRef) { }
 
@@ -79,9 +81,11 @@ export class InlineEditorComponent implements OnInit, AfterViewInit, ControlValu
 
     registerOnTouched() {}
 
-    onEditorInputSubmit(value: any) {        
+    onEditorInputSubmit(value: any) {
         this.model = value;      
         this.setEditingMode(false);
+
+        this.onModelUpdated.next(this.model);
     }
 
     setEditingMode(state: boolean) {

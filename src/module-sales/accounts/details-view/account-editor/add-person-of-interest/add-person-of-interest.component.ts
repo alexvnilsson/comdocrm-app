@@ -5,6 +5,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { AccountsService, AccountUpdateResult } from '../../../accounts.service';
 import { Account, AccountPersonOfInterest } from '../../../../models/account';
+import { FormState } from '../../../../../common/ui/forms/form-state';
 
 @Component({
     selector: 'ccrm-accounts-add-person-of-interest',
@@ -23,10 +24,9 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
         decisionMaker: false,
     };
 
-    public state = {
-        loading: true,
-        error: null
-    };
+    public formState: FormState = new FormState({
+        isLoading: true
+    });
 
     constructor(
         private location: Location,
@@ -48,12 +48,12 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
         this.account = account;
         this.person.account = this.account.id;
 
-        this.state.loading = false;
+        this.formState.isLoading = false;
     }
 
     onAccountLoadError(message: string, code: string) {
-        this.state.loading = false;
-        this.state.error = true;
+        this.formState.isLoading = false;
+        this.formState.hasErrors = true;
     }
 
     ngAfterViewInit() {
@@ -73,7 +73,7 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
     }
 
     savePerson() {
-        this.accountsService.addPersonOfInterestToAccount(this.account, this.person).subscribe(result => {
+        this.accountsService.addPersonOfInterest(this.account, this.person).subscribe(result => {
             this.account.peopleOfInterest.push(JSON.parse(JSON.stringify(this.person)));
             this.accountsService.onAccountUpdate.next(this.account);
 
@@ -84,7 +84,7 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
     hideModal() {
         this.modal.hide();
 
-        this.router.navigate(['.', { outlets: { modal: null }}], { relativeTo: this.activatedRoute.parent } );
+        this.router.navigate(['.', { outlets: { modal: null } }], { relativeTo: this.activatedRoute.parent } );
     }
 
     ngOnDestroy() {
