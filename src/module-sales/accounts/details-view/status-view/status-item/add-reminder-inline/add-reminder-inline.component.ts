@@ -50,8 +50,8 @@ import { DatepickerDirective } from '../../../../../../common/ui/components/date
         </ng-container>
 
         <ng-container *ngIf="!editorState.isEditing">
-            <div [@editorTransition]="editorState.isEditing" class="row mt-3 d-flex flex-row align-items-center">
-                <span 
+            <div  class="row mt-3">
+                <span [@editorTransition]="editorState.isEditing"
                     (click)="onAddUserTask()"
                     (focus)="onInputFocused()"
                     (blur)="onInputBlurred()"
