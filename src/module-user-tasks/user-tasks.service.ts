@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AuthHttpExtended } from 'common/authentication';
 
 import { UserTasksStore } from './user-tasks.store';
-import { UserTask, UserTaskContainer, UserTaskType } from './user-task';
+import { UserTask } from './user-task';
 import { UserTaskException } from './user-task/user-task-exception';
 import { AccountStatus } from '../module-sales/models/account';
 
@@ -22,32 +22,8 @@ export class UserTasksService {
 
     }
 
-    onUserTaskAdded(status: AccountStatus): Observable<UserTask> {
-        return new Observable(observer => {
-            this.OnUserTaskAdded.subscribe((userTask: UserTask) => {
-                if(userTask.container) {
-                    if(userTask.container.id === status.id) {
-                        observer.next(userTask);
-                    }
-                }
-            });
-        });
-    }
-
     addOne(userTask: UserTask): Observable<Response> {
         return new Observable(observer => {
-            if(!userTask.container)
-                observer.error(new UserTaskException({
-                    Message: 'UserTask requires Container.',
-                    NoContainer: true
-                }));
-
-            if(!userTask.type)
-                observer.error(new UserTaskException({
-                    Message: 'UserTask requires Type.',
-                    NoType: true
-                }));
-
             let newUserTask: UserTask = JSON.parse(JSON.stringify(userTask));
 
             this.http.post(`${this.baseAddr}/add`, newUserTask).subscribe(result => {

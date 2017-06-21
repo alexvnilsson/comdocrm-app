@@ -13,11 +13,19 @@ export interface AccountUpdateResult {
     updated: boolean;
 }
 
+export class StatusUserTaskAddedEvent {
+    constructor(
+        public status: AccountStatus,
+        public userTask: UserTask
+    ) {}
+}
+
 @Injectable()
 export class AccountsService {
     private baseAddr: string = "/api/sales";
 
     public onAccountUpdate: EventEmitter<Account> = new EventEmitter();
+    public onUserTaskAddedToStatus: EventEmitter<StatusUserTaskAddedEvent> = new EventEmitter();
 
     _userState: any = null;
     _accountList: Array<Account> = null;
@@ -100,6 +108,9 @@ export class AccountsService {
 
                     observer.next(resultData);
                 }
+                else {
+                    observer.error();
+                }
             });
         });
     }
@@ -109,6 +120,8 @@ export class AccountsService {
             this.http.post(`${this.baseAddr}/accounts/contacts/add`, personOfInterest).subscribe(result => {
                 if(result.ok)
                     observer.next();
+                else
+                    observer.error();
             });
         });
     }
@@ -118,8 +131,28 @@ export class AccountsService {
             this.http.post(`${this.baseAddr}/accounts/contacts/update`, personOfInterest).subscribe(result => {
                 if(result.ok)
                     observer.next();
+                else
+                    observer.error();
             });
         });
+    }
+
+    addUserTask(status: AccountStatus, _userTask: UserTask): Observable<AccountUpdateResult> {
+        return new Observable(observer => {
+            let userTask: UserTask = JSON.parse(JSON.stringify(_userTask));
+            userTask.ownerId = status.id;
+
+            this.http.post(`${this.baseAddr}/accounts/statuses/usertask/add`, userTask).subscribe(result => {
+                if(result.ok){
+                    status.userTasks.push(userTask);
+
+                    this.onUserTaskAddedToStatus.next(new StatusUserTaskAddedEvent(status, userTask));
+                    observer.next({ updated: true });
+                }
+                else
+                    observer.error();
+            })
+        })
     }
 
     saveChanges(account: Account, callback: (result: AccountUpdateResult) => any): Observable<Account> {

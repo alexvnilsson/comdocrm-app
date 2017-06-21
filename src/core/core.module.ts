@@ -59,8 +59,7 @@ const routes: CustomRoute[] = [
         BsDropdownModule.forRoot(),
         DatepickerModule.forRoot(),
         RouterModule.forRoot(routes),
-        ComdoCrmCommonModule.forRoot(),
-        UserTasksModule.forRoot()
+        ComdoCrmCommonModule.forRoot()
     ],
     declarations: [
         CoreComponent,

@@ -53,16 +53,16 @@ export class AccountStatus {
     account?: string;
     id?: string;
     publicationDate: Date;
-    headerText?: string;
-    messageText: string;
-    footerText?: string;
-    metadata?: AccountStatusMetadata;
-
+    message: {
+        header: string;
+        body: string;
+        footer: string;
+    };
+    metadata?: {
+        publishedByUser: string;
+        sourceUrl: string;
+    }
     userTasks?: Array<UserTask> = [];
-}
-
-export class AccountStatusMetadata {
-    sourceUrl: string;
 }
 
 export class AccountAddress {

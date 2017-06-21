@@ -27,13 +27,6 @@ export class AddReminderComponent implements OnInit, AfterViewInit, OnDestroy {
     status: AccountStatus = null;
 
     userTask: UserTask = {
-        container: {
-            name: 'AccountStatus',
-            id: null
-        },
-        type: {
-            name: 'UserReminders'
-        },
         displayName: null,
         summaryText: null,
         hasReminder: true
@@ -42,8 +35,7 @@ export class AddReminderComponent implements OnInit, AfterViewInit, OnDestroy {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private accountsService: AccountsService,
-        private userTasksService: UserTasksService
+        private accountsService: AccountsService
     ) {}
 
     ngOnInit() {
@@ -69,7 +61,6 @@ export class AddReminderComponent implements OnInit, AfterViewInit, OnDestroy {
 
             if(status) {
                 this.status = status;
-                this.userTask.container.id = this.statusId;
             }
         }
     }
@@ -86,9 +77,8 @@ export class AddReminderComponent implements OnInit, AfterViewInit, OnDestroy {
         if(form.invalid)
             return;
 
-        this.userTasksService.addOne(this.userTask).subscribe(result => {
-            if(result.ok) {
-                this.status.userTasks.push(JSON.parse(JSON.stringify(this.userTask)));
+        this.accountsService.addUserTask(this.status, this.userTask).subscribe(result => {
+            if(result.updated) {
                 this.hideModal();
             }
         });

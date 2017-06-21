@@ -27,7 +27,7 @@
             </div>
 
             <div class="col-md-10">
-                <h4 class="card-title">{{ status.headerText }}</h4>
+                <h4 class="card-title">{{ status.message.header }}</h4>
 
                 <p [@messageTextTransitions]="statusMessage?.messageText" class="card-text">
                     {{ statusMessage.messageText }}
@@ -38,16 +38,18 @@
                     </ng-container>
                 </p>
 
-                <ng-container *ngIf="status.userTasks">
-                    <ng-container *ngFor="let userTask of status.userTasks">
-                        <div class="text-muted"><fa name="calendar"></fa> <span *ngIf="userTask.reminderDate">{{ userTask.reminderDate | date }}</span> <span *ngIf="userTask.displayName">- {{ userTask.displayName }}</span></div>
-                    </ng-container>
-                </ng-container>
-
                 <div class="d-flex flex-column align-items-start">
-                    <span class="text-muted">{{ status.footerText }}</span>
+                    <span class="text-muted">{{ status.message.footer }}</span>
                     <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
                 </div>
+
+                <ng-container *ngIf="status.userTasks">
+                    <div class="mt-4"></div>
+
+                    <ng-container *ngFor="let userTask of status.userTasks">
+                        <div class="text-muted small"><fa name="calendar"></fa> <span *ngIf="userTask.reminderDate">{{ userTask.reminderDate | date }}</span> <span *ngIf="userTask.displayName">- {{ userTask.displayName }}</span></div>
+                    </ng-container>
+                </ng-container>
 
                 <ccrm-sales-accounts-status-add-reminder-inline [status]="status"></ccrm-sales-accounts-status-add-reminder-inline>
             </div>

@@ -56,7 +56,6 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
         private activatedRouter: ActivatedRoute,
         private accountsService: AccountsService,
         private usersService: UsersService,
-        private userTasksService: UserTasksService,
         private router: Router,
         private route: ActivatedRoute
     ) { }
@@ -69,10 +68,6 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
 
             if(accountSlug)
                 this.accountsService.getBySlug(accountSlug).subscribe(this.onAccountLoad.bind(this));
-        });
-        
-        this.onUserTaskChangedListener = this.userTasksService.addEventListener('userTasksChanged').subscribe((items: Array<UserTask>) => {
-            
         });
 
         this.onAccountUpdateListener = this.accountsService.onAccountUpdate.subscribe(this.onAccountUpdate.bind(this));

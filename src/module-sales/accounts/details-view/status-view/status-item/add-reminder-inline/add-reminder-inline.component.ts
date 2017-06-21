@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { trigger, state, transition, style, animate, keyframes } from '@angular/animations';
 import { AccountStatus } from '../../../../../models/account';
-import { UserTask, UserTaskContainer, UserTaskType } from 'module-user-tasks/user-task';
+import { UserTask } from 'module-user-tasks/user-task';
 import { FormState } from '../../../../../../common/ui/forms/form-state';
 import { AccountsService } from '../../../../accounts.service';
 import { UserTasksService } from 'module-user-tasks';
@@ -53,8 +53,6 @@ import { DatepickerDirective } from '../../../../../../common/ui/components/date
             <div  class="row mt-3">
                 <span [@editorTransition]="editorState.isEditing"
                     (click)="onAddUserTask()"
-                    (focus)="onInputFocused()"
-                    (blur)="onInputBlurred()"
                     role="button" 
                     tooltip="New reminder"
                     i18n-tooltip
@@ -92,13 +90,6 @@ export class AddReminderInlineComponent implements OnInit {
     @Input() status: AccountStatus;
 
     userTask: UserTask = {
-        container: {
-            name: 'AccountStatus',
-            id: null
-        },
-        type: {
-            name: 'UserReminders'
-        },
         displayName: null,
         summaryText: null,
         hasReminder: true,
@@ -110,12 +101,11 @@ export class AddReminderInlineComponent implements OnInit {
     };
 
     constructor(
-        private accountsService: AccountsService,
-        private userTasksService: UserTasksService
+        private accountsService: AccountsService
     ) {}
 
     ngOnInit() {
-        this.userTask.container.id = this.status.id;
+        
     }
 
     onEditorEnabled() {
@@ -149,8 +139,8 @@ export class AddReminderInlineComponent implements OnInit {
 
     saveUserTask(form: NgForm) {
         if(!form.invalid) {
-            this.userTasksService.addOne(this.userTask).subscribe(result => {
-                if(result.ok) {
+            this.accountsService.addUserTask(this.status, this.userTask).subscribe(result => {
+                if(result.updated) {
                     form.reset();
                     this.editorState.isEditing = false;
                 }

@@ -3,8 +3,7 @@ import { trigger, state, transition, style, animate } from '@angular/animations'
 import { AccountStatus, Account } from '../../../../models/account';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { AccountsService } from '../../../accounts.service';
-import { UserTasksService } from 'module-user-tasks';
+import { AccountsService, StatusUserTaskAddedEvent } from '../../../accounts.service';
 
 export const STATUS_MESSAGE_TRIMMED_MAX_LENGTH = 64;
 
@@ -58,7 +57,7 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(
         private changeDetector: ChangeDetectorRef,
-        private userTasksService: UserTasksService,
+        private accountsService: AccountsService,
         private router: Router,
         private route: ActivatedRoute
     ) {
@@ -78,8 +77,10 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
             this.statusMessage.canTrim = this.isMessageStatusTextTrimmable();
             this.statusMessage.trimmed = this.isStatusMessageTextTrimmed(trimmedMessageText);
 
-            this.onUserTaskAddedListener = this.userTasksService.onUserTaskAdded(this.status).subscribe(userTask => {
-                this.status.userTasks.push(userTask);
+            this.onUserTaskAddedListener = this.accountsService.onUserTaskAddedToStatus.subscribe((event: StatusUserTaskAddedEvent) => {
+                if(event.status.id === this.status.id) {
+                    
+                }
             });
         }
     }
@@ -95,19 +96,19 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private trimMessageStatusText(noTrim?: boolean) {
-        if (this.status && this.status.messageText && noTrim !== true) {
-            var statusWords = this.status.messageText.split(' ');
+        if (this.status && this.status.message.body && noTrim !== true) {
+            var statusWords = this.status.message.body.split(' ');
 
             if (statusWords.length >= STATUS_MESSAGE_TRIMMED_MAX_LENGTH)
                 return `${statusWords.splice(0, STATUS_MESSAGE_TRIMMED_MAX_LENGTH).join(' ')}...`;
         }
 
-        return this.status.messageText;
+        return this.status.message.body;
     }
 
     private isMessageStatusTextTrimmable() {
-        if(this.status && this.status.messageText) {
-            var statusWordLength = this.status.messageText.split(' ').length;
+        if(this.status && this.status.message.body) {
+            var statusWordLength = this.status.message.body.split(' ').length;
 
             return statusWordLength >= STATUS_MESSAGE_TRIMMED_MAX_LENGTH;
         }
@@ -116,8 +117,8 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private isStatusMessageTextTrimmed(statusMessage: string): boolean {
-        if(this.status && this.status.messageText)
-            return statusMessage.split(' ').length < this.status.messageText.split(' ').length;
+        if(this.status && this.status.message.body)
+            return statusMessage.split(' ').length < this.status.message.body.split(' ').length;
         else
             return null;
     }
