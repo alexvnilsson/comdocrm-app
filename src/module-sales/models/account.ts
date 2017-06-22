@@ -35,8 +35,7 @@ export class AccountBusiness {
 }
 
 export class AccountPersonOfInterest {
-    /* When POST:ing new person of interest to server, include account's id */
-    account?: string;
+    accountId?: string;
 
     fullName: string;
     jobTitle: string;
@@ -50,7 +49,7 @@ export class AccountDateOfInterest {
 }
 
 export class AccountStatus {
-    account?: string;
+    accountId?: string;
     id?: string;
     publicationDate: Date;
     message: {

@@ -13,6 +13,7 @@ import { AddPersonOfInterestComponent } from './account-editor/add-person-of-int
 import { TabDirective } from 'common/ui/directives/tab';
 
 import { RouteTransitionAnimation } from 'common/ui/animations';
+import { ViewState } from '../../../common/ui/views/view-state';
 
 @Component({
     selector: 'ccrm-sales-accounts-details-view',
@@ -43,6 +44,11 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     userState: any;
     userTasks: UserTask[] = [];
 
+    viewState: ViewState = new ViewState({
+        isLoading: true,
+        hasErrors: false
+    });
+
     state = {
         secondary: {
             tab: null
@@ -50,7 +56,6 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     };
 
     private onAccountUpdateListener: Subscription;
-    private onUserTaskChangedListener: Subscription;
 
     constructor(
         private activatedRouter: ActivatedRoute,
@@ -75,6 +80,8 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
 
     onAccountLoad(account: Account) {
         this.account = account;
+
+        this.viewState.isLoading = false;
     }
 
     onAccountLoadError() {
@@ -113,6 +120,5 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.onAccountUpdateListener.unsubscribe();
-        this.onUserTaskChangedListener.unsubscribe();
     }
 }

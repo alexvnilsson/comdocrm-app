@@ -8,6 +8,7 @@ import { AccountSourcesService } from '../account-sources.service';
 import { UsersService } from 'common/users';
 
 import { Account, AccountSource } from '../../models/account';
+import { ViewState } from '../../../common/ui/views/view-state';
 
 export interface AccountListState {
     accountSource?: AccountSource;
@@ -29,6 +30,11 @@ export const USER_STATE = {
 export class ListViewComponent implements OnInit {
     accounts: Array<Account>;
     accountSources: Array<AccountSource>;
+
+    viewState: ViewState = new ViewState({
+        isLoading: true,
+        hasErrors: false
+    });
 
     listState: AccountListState = {
         accountSource: null
@@ -58,6 +64,8 @@ export class ListViewComponent implements OnInit {
         this.accountSourcesService.getAllAccountSources(this.accounts).subscribe(sources => this.accountSources = sources);
 
         this.usersService.getState().subscribe(this.onUserStateLoaded.bind(this));
+
+        this.viewState.isLoading = false;
     }
 
     clickAccount(account: Account) {

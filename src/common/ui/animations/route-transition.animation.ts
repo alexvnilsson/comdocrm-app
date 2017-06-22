@@ -9,9 +9,6 @@ export const RouteTransitionAnimation = trigger('routeTransition', [
         ]))
     ]),
     transition('* => void', [
-        animate(300, keyframes([
-            style({ opacity: '1', offset: 0 }),
-            style({ opacity: '0', offset: 1 })
-        ]))
+        style({ opacity: '0', offset: 1 })
     ])
 ]);

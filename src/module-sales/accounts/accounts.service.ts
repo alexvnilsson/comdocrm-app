@@ -95,6 +95,9 @@ export class AccountsService {
 
     addStatus(account: Account, status: AccountStatus): Observable<AccountUpdateResult> {
         return new Observable(observer => {
+            status.accountId = account.id;
+            status.publicationDate = new Date();
+
             this.http.post(`${this.baseAddr}/accounts/statuses/add`, status).subscribe((res: Response) => {
                 let resultData: AccountUpdateResult = res.json() || null;
 
@@ -117,6 +120,9 @@ export class AccountsService {
 
     addPersonOfInterest(account: Account, personOfInterest: AccountPersonOfInterest): Observable<AccountUpdateResult> {
         return new Observable(observer => {
+            console.log(account, personOfInterest);
+            personOfInterest.accountId = account.id;
+
             this.http.post(`${this.baseAddr}/accounts/contacts/add`, personOfInterest).subscribe(result => {
                 if(result.ok)
                     observer.next();
@@ -142,7 +148,9 @@ export class AccountsService {
             let userTask: UserTask = JSON.parse(JSON.stringify(_userTask));
             userTask.ownerId = status.id;
 
-            this.http.post(`${this.baseAddr}/accounts/statuses/usertask/add`, userTask).subscribe(result => {
+            console.log(userTask);
+
+            this.http.post(`${this.baseAddr}/accounts/statuses/usertasks/add`, userTask).subscribe(result => {
                 if(result.ok){
                     status.userTasks.push(userTask);
 

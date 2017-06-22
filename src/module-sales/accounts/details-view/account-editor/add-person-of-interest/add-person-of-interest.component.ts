@@ -5,7 +5,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { AccountsService, AccountUpdateResult } from '../../../accounts.service';
 import { Account, AccountPersonOfInterest } from '../../../../models/account';
-import { FormState } from '../../../../../common/ui/forms/form-state';
+import { FormState } from '../../../../../common/ui/views/form-state';
 
 @Component({
     selector: 'ccrm-accounts-add-person-of-interest',
@@ -46,7 +46,6 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
 
     onAccountLoad(account: Account) {
         this.account = account;
-        this.person.account = this.account.id;
 
         this.formState.isLoading = false;
     }

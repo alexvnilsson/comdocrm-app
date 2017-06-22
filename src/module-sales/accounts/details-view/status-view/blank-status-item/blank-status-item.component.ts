@@ -55,9 +55,6 @@ export class BlankStatusItemComponent implements OnInit {
 
     onFormSubmit(statusForm: NgForm) {
         if(statusForm.valid) {
-            this.status.account = this.account.id;
-            this.status.publicationDate = new Date();
-
             this.accountsService.addStatus(this.account, this.status).subscribe(result => {
                 if(result.updated)
                     this.onStatusSavedSuccess(statusForm);

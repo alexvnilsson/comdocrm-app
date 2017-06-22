@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { FormState } from '../../../../../common/ui/forms/form-state';
+import { FormState } from '../../../../../common/ui/views/form-state';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AccountsService } from '../../../accounts.service';

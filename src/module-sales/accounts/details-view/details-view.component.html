@@ -3,7 +3,11 @@
     <span class="page-navbar-separator"></span>
 </ccrm-ui-navbar-sub>
 
-<div [@routeTransition]>
+<div [@routeTransition] *ngIf="viewState.isLoading">
+    <ccrm-ui-spinner></ccrm-ui-spinner>
+</div>
+
+<div [@routeTransition] *ngIf="!viewState.isLoading">
     <div class="row no-gutters">
         <div class="col-md-8">
             <div class="container">

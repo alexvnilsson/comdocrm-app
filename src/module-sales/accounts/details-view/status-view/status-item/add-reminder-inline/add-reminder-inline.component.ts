@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { trigger, state, transition, style, animate, keyframes } from '@angular/animations';
 import { AccountStatus } from '../../../../../models/account';
 import { UserTask } from 'module-user-tasks/user-task';
-import { FormState } from '../../../../../../common/ui/forms/form-state';
+import { FormState } from '../../../../../../common/ui/views/form-state';
 import { AccountsService } from '../../../../accounts.service';
 import { UserTasksService } from 'module-user-tasks';
 import { NgForm } from '@angular/forms';
@@ -14,7 +14,7 @@ import { DatepickerDirective } from '../../../../../../common/ui/components/date
     <form #userTaskForm="ngForm" (ngSubmit)="saveUserTask(userTaskForm)">                    
         <ng-container *ngIf="editorState.isEditing">
             <div [@editorTransition]="editorState.isEditing" class="row mt-3 d-flex flex-row align-items-center">
-                <div class="col-3">
+                <div class="col-md-3">
                     <div ccrmUiDatepicker [(ngModel)]="userTask.reminderDate" required name="reminderDate" class="input-group date">
                         <span class="input-group-addon"><fa name="calendar"></fa></span>
                         <input
@@ -27,7 +27,7 @@ import { DatepickerDirective } from '../../../../../../common/ui/components/date
                     </div>
                 </div>
 
-                <div class="col-9">
+                <div class="col-md-9">
                     <input
                         #displayNameInput
                         (focus)="onInputFocused()"
@@ -50,13 +50,13 @@ import { DatepickerDirective } from '../../../../../../common/ui/components/date
         </ng-container>
 
         <ng-container *ngIf="!editorState.isEditing">
-            <div  class="row mt-3">
+            <div class="row mt-3 pl-2 pr-2">
                 <span [@editorTransition]="editorState.isEditing"
                     (click)="onAddUserTask()"
                     role="button" 
                     tooltip="New reminder"
                     i18n-tooltip
-                    placement="top" 
+                    placement="right" 
                     container="body">
                     + <fa name="calendar"></fa>
                 </span>
