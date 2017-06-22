@@ -6,7 +6,6 @@ import { Http, RequestOptions } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { DatepickerModule, ModalModule, TooltipModule, BsDropdownModule } from 'ngx-bootstrap';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
-import { TranslateStore } from '@ngx-translate/core/src/translate.store';
 import { MomentModule } from 'angular2-moment';
 
 import { AuthenticationModule, AuthenticationService } from './authentication';

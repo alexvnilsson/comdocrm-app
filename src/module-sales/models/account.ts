@@ -58,11 +58,13 @@ export class AccountStatus {
         body: string;
         footer: string;
     };
-    metadata?: {
-        publishedByUser: string;
-        sourceUrl: string;
-    }
+    metadata?: AccountStatusMetadata;
     userTasks?: Array<UserTask> = [];
+}
+
+export class AccountStatusMetadata {
+    publishedByUser: string;
+    sourceUrl: string;
 }
 
 export class AccountAddress {

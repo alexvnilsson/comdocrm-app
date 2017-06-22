@@ -18,7 +18,7 @@
                     i18n-placeholder
                     placeholder="Something new related to this account?"
                     (focus)="onInputFocus()"
-                    [(ngModel)]="status.headerText"
+                    [(ngModel)]="status.message.header"
                     name="headerText"
                     autocomplete="off"/>
             </div>
@@ -30,7 +30,7 @@
                         i18n-placeholder
                         placeholder="Optional detailed summary of the event..."
                         (focus)="onInputFocus()"
-                        [(ngModel)]="status.messageText"
+                        [(ngModel)]="status.message.body"
                         name="messageText">
                     </textarea>
                 </div>

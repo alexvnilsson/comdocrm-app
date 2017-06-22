@@ -33,9 +33,11 @@ export class BlankStatusItemComponent implements OnInit {
 
     status: AccountStatus = {
         publicationDate: null,
-        headerText: '',
-        messageText: '',
-        footerText: ''
+        message: {
+            header: '',
+            body: '',
+            footer: ''
+        }
     };
 
     editState = {
@@ -77,8 +79,8 @@ export class BlankStatusItemComponent implements OnInit {
         if(
             this.status && 
             (
-                (this.status.headerText && this.status.headerText.length > 0) ||
-                (this.status.messageText && this.status.messageText.length > 0)
+                (this.status.message.header && this.status.message.header.length > 0) ||
+                (this.status.message.body && this.status.message.body.length > 0)
             )
          )
          {} else {
