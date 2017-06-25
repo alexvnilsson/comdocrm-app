@@ -12,11 +12,12 @@ import { AccountSourcesService } from './account-sources.service';
 import { ListViewComponent } from './list-view/list-view.component';
 import { DetailsViewComponent } from './details-view/details-view.component';
 import { StatusItemComponent } from './details-view/status-view/status-item/status-item.component';
-import { BlankStatusItemComponent } from './details-view/status-view/blank-status-item/blank-status-item.component';
 import { AddPersonOfInterestComponent } from './details-view/account-editor/add-person-of-interest/add-person-of-interest.component';
 import { PersonOfInterestComponent } from './details-view/person-of-interest/person-of-interest.component';
 import { AddReminderComponent } from './details-view/status-view/add-reminder/add-reminder.component';
 import { AddReminderInlineComponent } from './details-view/status-view/status-item/add-reminder-inline/add-reminder-inline.component';
+import { ComposerComponent } from './details-view/status-view/composer/composer.component';
+import { LogComposerComponent } from './details-view/status-view/composer/log-composer/log-composer.component';
 
 const routes: Route[] = [
     {
@@ -37,6 +38,11 @@ const routes: Route[] = [
                 path: 'reminders-add/:id/:details',
                 component: AddReminderComponent,
                 outlet: 'modal'
+            },
+            {
+                path: 'log',
+                component: LogComposerComponent,
+                outlet: 'compose'
             }
         ]
     }
@@ -52,9 +58,10 @@ const routes: Route[] = [
     declarations: [
         ListViewComponent,
         DetailsViewComponent,
+        ComposerComponent,
         AddPersonOfInterestComponent,
         StatusItemComponent,
-        BlankStatusItemComponent,
+        LogComposerComponent,
         PersonOfInterestComponent,
         AddReminderComponent,
         AddReminderInlineComponent

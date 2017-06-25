@@ -15,8 +15,11 @@ declare var $: any;
     ]
 })
 export class DatepickerDirective implements AfterViewInit, ControlValueAccessor, OnDestroy {
-    @Input() autoOpen: boolean = false;
-    @Input() keepOpen: boolean = false;
+    @Input() autoOpen: boolean;
+    @Input() autoClose: boolean;
+    @Input() keepOpen: boolean ;
+    @Input() orientation: string;
+    @Input() startDate: Date;
 
     @Output() onDateChanged: EventEmitter<Date> = new EventEmitter();
 
@@ -53,8 +56,11 @@ export class DatepickerDirective implements AfterViewInit, ControlValueAccessor,
         this.touched.push(fn);
     }
 
-    datepickerOptions = {
-        language: 'en'
+    datepickerOptions: {
+        language: string;
+        autoclose: boolean;
+        orientation: string;
+        startDate: Date;
     };
 
     model: Date = null;
@@ -66,9 +72,7 @@ export class DatepickerDirective implements AfterViewInit, ControlValueAccessor,
     }
 
     ngAfterViewInit() {
-        if(navigator.language) {
-            this.datepickerOptions.language = navigator.language;
-        }
+        this.setDatepickerConfiguration();
 
         $(this.elementRef.nativeElement).datepicker(this.datepickerOptions)
             .on('changeDate', (event) => {
@@ -76,12 +80,20 @@ export class DatepickerDirective implements AfterViewInit, ControlValueAccessor,
                     this.onDateChange(event.date);
             });
 
-        if(this.autoOpen) {
+        if(this.autoOpen)
             $(this.elementRef.nativeElement).datepicker('show');
-        }
 
         if(this.keepOpen)
             $(this.elementRef.nativeElement).data('datepicker').hide = () => {};
+    }
+
+    private setDatepickerConfiguration() {
+        this.datepickerOptions = {
+            language: navigator.language || 'en',
+            autoclose: this.autoClose || false,
+            orientation: this.orientation || 'auto',
+            startDate: this.startDate || new Date(0, 0, 0)
+        };
     }
 
     @HostListener('click', ['$event'])
@@ -89,6 +101,13 @@ export class DatepickerDirective implements AfterViewInit, ControlValueAccessor,
         event.preventDefault();
 
         return false;
+    }
+
+    public onClearDate() {
+        if(this.elementRef && this.elementRef.nativeElement)
+            $(this.elementRef.nativeElement).datepicker('clearDates');
+
+        this.value = null;
     }
 
     onDateChange(date: Date) {

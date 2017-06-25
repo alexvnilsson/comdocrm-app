@@ -3,17 +3,19 @@ import { trigger, state, transition, style, animate, keyframes } from '@angular/
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { AccountsService } from '../accounts.service';
+import { AccountsService, AccountUpdateResult } from '../accounts.service';
 import { UsersService } from 'common/users';
 import { UserTasksService, UserTask } from 'module-user-tasks';
 
-import { Account, AccountStatus } from '../../models/account';
+import { Account, AccountStatus, AccountPersonOfInterest } from '../../models/account';
 import { AddPersonOfInterestComponent } from './account-editor/add-person-of-interest';
 
 import { TabDirective } from 'common/ui/directives/tab';
 
 import { RouteTransitionAnimation } from 'common/ui/animations';
 import { ViewState } from '../../../common/ui/views/view-state';
+import { ComposerComponent } from './status-view/composer/composer.component';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'ccrm-sales-accounts-details-view',
@@ -40,6 +42,7 @@ import { ViewState } from '../../../common/ui/views/view-state';
 })
 export class DetailsViewComponent implements OnInit, OnDestroy {
     @ViewChild('accountEditor') accountEditor: AddPersonOfInterestComponent;
+
     account: Account;
     userState: any;
     userTasks: UserTask[] = [];
@@ -48,12 +51,6 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
         isLoading: true,
         hasErrors: false
     });
-
-    state = {
-        secondary: {
-            tab: null
-        }
-    };
 
     private onAccountUpdateListener: Subscription;
 
@@ -78,6 +75,18 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
         this.onAccountUpdateListener = this.accountsService.onAccountUpdate.subscribe(this.onAccountUpdate.bind(this));
     }
 
+    onComposerSelected(composer: string) {
+        this.router.navigate([{ outlets: { 'compose': [ 'log' ] } }], { relativeTo: this.route });
+
+        return false;
+    }
+
+    onLogComposerSubmit(logStatus: AccountStatus) {
+        this.accountsService.addStatus(this.account, logStatus).subscribe(result => {
+
+        });
+    }
+
     onAccountLoad(account: Account) {
         this.account = account;
 
@@ -92,30 +101,20 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
         this.account = account;
     }
 
+    onPersonDeleted(personOfInterest: AccountPersonOfInterest) {
+        if(personOfInterest && this.account) {
+            this.account.peopleOfInterest = this.account.peopleOfInterest.filter((person: AccountPersonOfInterest) => {
+                return person.id !== personOfInterest.id
+            });
+        }
+    }
+
     clickAddPersonOfInterest() {
         this.router.navigate([{ outlets: { 'modal': [ 'contacts-add', this.account.id ] } }], { relativeTo: this.route });
     }
 
     getSortedAccountStatuses(statuses: Array<AccountStatus>) {
         return statuses.sort((a: AccountStatus, b: AccountStatus) => { return +(b.publicationDate > a.publicationDate) || +(b.publicationDate == a.publicationDate) - 1; })
-    }
-
-    getActiveTab(): number {
-        if(this.state && this.state.secondary && this.state.secondary.tab)
-            return this.state.secondary.tab;
-        else
-            return null;
-    }
-
-    isActiveTab(tab: TabDirective): boolean {
-        if(this.state && this.state.secondary && this.state.secondary.tab)
-            return this.state.secondary.tab == tab.getIndex();
-        else
-            return null;
-    }
-
-    onTabClicked(tab: TabDirective) {
-        this.state.secondary.tab = tab.getIndex();
     }
 
     ngOnDestroy() {

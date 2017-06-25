@@ -11,6 +11,8 @@ import { UserTaskException } from '../../module-user-tasks/user-task/user-task-e
 
 export interface AccountUpdateResult {
     updated: boolean;
+
+    id?: string;
 }
 
 export class StatusUserTaskAddedEvent {
@@ -29,6 +31,7 @@ export class AccountsService {
 
     _userState: any = null;
     _accountList: Array<Account> = null;
+    _account: { [id: string]: Account } = {};
 
     constructor(
         private http: AuthHttpExtended,
@@ -62,11 +65,15 @@ export class AccountsService {
 
     getByAny(accountQuery: string): Observable<Account> {
         return new Observable(observer => {
+            if(this._account[accountQuery])
+                return observer.next(this._account[accountQuery]);
+
             this.http.get(`${this.baseAddr}/accounts/${accountQuery}`)
                 .subscribe((res: Response) => {
                     let jsonResult = res.json() || null;
 
                     if(jsonResult) {
+                        this._account[accountQuery] = jsonResult;
                         observer.next(jsonResult);
                     }
                 }, (error: any) => { observer.error(error); });
@@ -106,6 +113,14 @@ export class AccountsService {
                         let rawStatus = JSON.stringify(status);
                         let _status: AccountStatus = JSON.parse(rawStatus);
 
+                        _status.id = resultData.id;
+                        if(status.isDelayed && status.delayDate)
+                            _status.publicationDate = status.delayDate;
+
+                        this.usersService.getProfile().subscribe(profile => {
+                            _status.userName = profile.name;
+                        })
+
                         account.statuses.unshift(_status);
                     }
 
@@ -118,14 +133,34 @@ export class AccountsService {
         });
     }
 
+    deleteStatus( status: AccountStatus): Observable<AccountUpdateResult> {
+        return new Observable(observer => {
+            if(!status.isRemoved) {
+                this.http.delete(`${this.baseAddr}/accounts/statuses/${status.id}`).subscribe(result => {
+                    if(result.ok) {
+                        status.isRemoved = true;
+
+                        observer.next({
+                            updated: true
+                        });
+                    }
+                },
+                error => observer.error(error));
+            }
+        })
+    }
+
     addPersonOfInterest(account: Account, personOfInterest: AccountPersonOfInterest): Observable<AccountUpdateResult> {
         return new Observable(observer => {
-            console.log(account, personOfInterest);
             personOfInterest.accountId = account.id;
 
-            this.http.post(`${this.baseAddr}/accounts/contacts/add`, personOfInterest).subscribe(result => {
-                if(result.ok)
+            this.http.post(`${this.baseAddr}/accounts/contacts/add`, personOfInterest).subscribe(res => {
+                let result: AccountUpdateResult = res.json() || null;
+
+                if(result && result.updated) {
+                    personOfInterest.id = result.id;
                     observer.next();
+                }
                 else
                     observer.error();
             });
@@ -143,6 +178,18 @@ export class AccountsService {
         });
     }
 
+    deletePersonOfInterest(personOfInterest: AccountPersonOfInterest): Observable<AccountUpdateResult> {
+        return new Observable(observer => {
+            this.http.delete(`${this.baseAddr}/accounts/contacts/${personOfInterest.id}`).subscribe(res => {
+                if(res && res.ok) {
+                    
+
+                    observer.next();
+                }
+            });
+        });
+    }
+
     addUserTask(status: AccountStatus, _userTask: UserTask): Observable<AccountUpdateResult> {
         return new Observable(observer => {
             let userTask: UserTask = JSON.parse(JSON.stringify(_userTask));
@@ -150,8 +197,11 @@ export class AccountsService {
 
             console.log(userTask);
 
-            this.http.post(`${this.baseAddr}/accounts/statuses/usertasks/add`, userTask).subscribe(result => {
-                if(result.ok){
+            this.http.post(`${this.baseAddr}/accounts/statuses/usertasks/add`, userTask).subscribe(res => {
+                let result: AccountUpdateResult = res.json() || null;
+
+                if(result && result.updated){
+                    userTask.id = result.id;
                     status.userTasks.push(userTask);
 
                     this.onUserTaskAddedToStatus.next(new StatusUserTaskAddedEvent(status, userTask));

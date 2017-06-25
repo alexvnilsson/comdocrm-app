@@ -25,26 +25,42 @@ export class AuthHttpExtended extends AuthHttp {
                 })
             }), http, options
         );
-    }    
+    }
 
-/**
- * Overrides get() method of parent, injects the hostname of the WebAPI into the requested path and performs the GET-request.
- * @see getBaseUrl()
- * 
- * @param url resource path
- * @param options optional request options
- */
-    get(url: string, options?: RequestOptionsArgs): Observable<Response> {
+    get(url: string, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
         return new Observable(observer => {
-            super.get(envOptions.api.endpoint + url, options).subscribe((res: Response) => {
+            let completeUrl: string = url;
+
+            if(!omitHost)
+                completeUrl = envOptions.api.endpoint + url;
+
+            super.get(completeUrl, options).subscribe((res: Response) => {
                 observer.next(res);
             });
         });
     }
 
-    post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+    post(url: string, body: any, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
         return new Observable(observer => {
-            super.post(envOptions.api.endpoint + url, body, options).subscribe((res: Response) => {
+            let completeUrl: string = url;
+
+            if(!omitHost)
+                completeUrl = envOptions.api.endpoint + url;
+
+            super.post(completeUrl, body, options).subscribe((res: Response) => {
+                observer.next(res);
+            });
+        });
+    }
+
+    delete(url: string, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
+        return new Observable(observer => {
+            let completeUrl: string = url;
+
+            if(!omitHost)
+                completeUrl = envOptions.api.endpoint + url;
+
+            super.delete(completeUrl, options).subscribe((res: Response) => {
                 observer.next(res);
             });
         });

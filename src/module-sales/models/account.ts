@@ -35,6 +35,8 @@ export class AccountBusiness {
 }
 
 export class AccountPersonOfInterest {
+    accountId?: string;
+
     id: string;
     fullName: string;
     jobTitle: string;
@@ -50,7 +52,12 @@ export class AccountDateOfInterest {
 export class AccountStatus {
     accountId?: string;
     id?: string;
+    userId?: string;
+    userName?: string;
+    isDelayed?: boolean;
     publicationDate: Date;
+    delayDate?: Date;
+    isRemoved?: boolean;
     message: {
         header: string;
         body: string;

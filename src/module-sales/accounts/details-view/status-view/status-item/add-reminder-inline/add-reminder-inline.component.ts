@@ -19,6 +19,7 @@ import { DatepickerDirective } from '../../../../../../common/ui/components/date
                         ccrmUiDatepicker
                         autoOpen="true"
                         keepOpen="true"
+                        orientation="top"
                         (focus)="onInputFocused()"
                         (blur)="onInputBlurred()"
                         href="#"

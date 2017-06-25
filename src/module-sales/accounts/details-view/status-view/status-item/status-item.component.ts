@@ -4,6 +4,7 @@ import { AccountStatus, Account } from '../../../../models/account';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { AccountsService, StatusUserTaskAddedEvent } from '../../../accounts.service';
+import { UsersService } from 'common/users';
 
 export const STATUS_MESSAGE_TRIMMED_MAX_LENGTH = 64;
 
@@ -58,6 +59,7 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private accountsService: AccountsService,
+        private usersService: UsersService,
         private router: Router,
         private route: ActivatedRoute
     ) {
@@ -95,6 +97,10 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
         this.userTaskEditor.isEditing = true;
     }
 
+    onRemoveStatus() {
+        this.accountsService.deleteStatus(this.status).subscribe();
+    }
+
     private trimMessageStatusText(noTrim?: boolean) {
         if (this.status && this.status.message.body && noTrim !== true) {
             var statusWords = this.status.message.body.split(' ');
@@ -123,7 +129,7 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
             return null;
     }
 
-    showAllStatusMessageText() {
+    showAllStatusMessageText(event: Event) {
         var trimmedMessageText = this.trimMessageStatusText(true);
 
         if (this.statusMessage) {
@@ -136,21 +142,9 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         this.changeDetector.detectChanges();
-    }
 
-    showLessStatusMessageText() {
-        var trimmedMessageText = this.trimMessageStatusText();
-
-        if (this.statusMessage) {
-            if (!this.statusMessage.trimmed)
-                this.statusMessage = {
-                    messageText: this.trimMessageStatusText(),
-                    trimmed: this.isStatusMessageTextTrimmed(trimmedMessageText),
-                    canTrim: this.isMessageStatusTextTrimmable()
-                };
-        }
-
-        this.changeDetector.detectChanges();
+        event.preventDefault();
+        return false;
     }
 
     ngOnDestroy() {

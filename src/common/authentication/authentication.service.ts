@@ -1,14 +1,19 @@
 import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
+import { Response } from '@angular/http';
 import { envOptions } from '.environments/options'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
 import * as Auth0 from 'auth0-js';
 
 import { Subscription } from 'rxjs/Subscription';
+import { AuthHttpExtended } from './auth-http-extended';
 
 @Injectable()
 export class AuthenticationService implements OnDestroy {
+    private apiBase = `/api/users`;
+
     private Auth0: Auth0.WebAuth = new Auth0.WebAuth({
         domain: envOptions.auth0.domain,
         clientID: envOptions.auth0.clientId,
@@ -17,13 +22,14 @@ export class AuthenticationService implements OnDestroy {
         scope: 'openid profile',
         responseType: 'token id_token'
     });
-    userProfile: Auth0.Auth0UserProfile;
+    userProfile: Auth0.Auth0UserProfile = null;
+    _userProfiles: { [id: string]: Auth0.Auth0UserProfile } = {};
 
     public onAuthenticatedHandler: EventEmitter<Auth0.Auth0UserProfile> = new EventEmitter();
 
     private routerEventListener: Subscription;
 
-    constructor(private router: Router, private route: ActivatedRoute) {}
+    constructor(private router: Router, private route: ActivatedRoute, private http: AuthHttpExtended) {}
 
     public login() {
         this.Auth0.authorize(null);
@@ -36,9 +42,9 @@ export class AuthenticationService implements OnDestroy {
                     window.location.hash = '';
                     this.setSession(authResult);
 
-                    this.getProfile((error: any, profile: Auth0.Auth0UserProfile) => {
-                        if (!error && profile)
-                            this.onAuthenticatedHandler.next(profile);
+                    this.getProfile().subscribe(profile => {
+                        this.userProfile = profile;
+                        this.onAuthenticatedHandler.next(profile);
                     });
 
                     let returnUrl: string = '/';
@@ -58,17 +64,23 @@ export class AuthenticationService implements OnDestroy {
         });
     }
 
-    public getProfile(callback: (error: any, profile: Auth0.Auth0UserProfile) => any): void {
-        const accessToken = localStorage.getItem('access_token');
-        if (!accessToken) {
-            throw new Error('Access token must exist to fetch profile');
-        }
+    public getProfile(): Observable<Auth0.Auth0UserProfile> {
+        return new Observable(observer => {
+            const accessToken = localStorage.getItem('access_token');
+            if (!accessToken)
+                return observer.error('Could not fetch Auth0 UserProfile');
 
-        this.Auth0.client.userInfo(accessToken, (error: any, profile: Auth0.Auth0UserProfile) => {
-            if (profile) {
-                this.userProfile = profile;
-            }
-            callback(error, profile);
+            if(this.userProfile !== null)
+                return observer.next(this.userProfile);
+
+            this.http.get(`${this.apiBase}/me/profile`).subscribe(res => {
+                let profile: Auth0.Auth0UserProfile = res.json() || null;
+
+                if (profile) {
+                    this.userProfile = profile;
+                    observer.next(this.userProfile);
+                }
+            });
         });
     }
 

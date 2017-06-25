@@ -51,6 +51,7 @@ $nav-item-active-bg-color: #0D47A1;
     padding: 0.75em 1em;
     border: 0;
     border-radius: 0;
+    flex: 0;
 
     color: #e8e8e8;
 
@@ -78,8 +79,7 @@ $nav-item-active-bg-color: #0D47A1;
   }
 
   .page-navbar-separator {
-    display: block;
-    width: $spacer;
+    flex: 1;
   }
 }
 

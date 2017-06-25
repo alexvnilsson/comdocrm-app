@@ -17,6 +17,7 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
 
     account: Account;
     person: AccountPersonOfInterest = {
+        id: null,
         fullName: null,
         jobTitle: null,
         contact: {

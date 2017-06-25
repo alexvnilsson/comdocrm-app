@@ -1,6 +1,6 @@
 <ccrm-ui-navbar-sub>
-    <a ccrmUiNavbarSubItem routerLink="/sales/accounts" role="button"><fa name="angle-left"></fa> <span i18n>Back</span></a>
-    <span class="page-navbar-separator"></span>
+    <a ccrmUiNavbarSubItem role="button" tooltip="Internal log message" (click)="onComposerSelected('log')"><fa name="calendar-o"></fa> <span class="small">Log</span></a>
+    <a ccrmUiNavbarSubItem role="button"><fa name="envelope"></fa> <span class="small">Email</span></a>
 </ccrm-ui-navbar-sub>
 
 <div [@routeTransition] *ngIf="viewState.isLoading">
@@ -11,15 +11,19 @@
     <div class="row no-gutters">
         <div class="col-md-8">
             <div class="container">
-                <ng-container *ngIf="account && account.statuses">
-                    <ccrm-sales-accounts-blank-status-item [account]="account"></ccrm-sales-accounts-blank-status-item>
+                <router-outlet name="compose"></router-outlet>
 
+                <ng-container *ngIf="account && account.statuses">
                     <ccrm-sales-accounts-status-item *ngFor="let status of getSortedAccountStatuses(account.statuses)" [account]="account" [status]="status"></ccrm-sales-accounts-status-item>
+                </ng-container>
+
+                <ng-container *ngIf="account && account.statuses.length === 0">
+                    <h2 class="display-4 text-muted align-self-center text-center mt-3">There is nothing here</h2>
                 </ng-container>
             </div>
         </div>
 
-        <div class="col-md-4 lg-vh-100 pt-4 pl-2 pr-2 justify-content-end bg-faded">
+        <div class="col-md-4 lg-vh-100 p-2 justify-content-end bg-faded" style="border-left: 1px solid #e2e2e2">
             <!-- People of Interest -->
             <div class="container-fluid overflow-hidden">
                 <ng-container *ngIf="account">
@@ -36,7 +40,7 @@
 
                         <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
                             <div *ngFor="let person of account.peopleOfInterest">
-                                <ccrm-sales-accounts-person-of-interest [person]="person"></ccrm-sales-accounts-person-of-interest>
+                                <ccrm-sales-accounts-person-of-interest [person]="person" (onPersonDeleted)="onPersonDeleted($event)"></ccrm-sales-accounts-person-of-interest>
                             </div>
                         </ng-container>
 
