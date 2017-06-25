@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
-import { ConfigurationService } from '../configuration';
+import { envOptions } from '.environments/options'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import * as Auth0 from 'auth0-js';
@@ -9,63 +9,51 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class AuthenticationService implements OnDestroy {
-    private Auth0: Auth0.WebAuth = null;
+    private Auth0: Auth0.WebAuth = new Auth0.WebAuth({
+        domain: envOptions.auth0.domain,
+        clientID: envOptions.auth0.clientId,
+        redirectUri: envOptions.auth0.redirectUrl,
+        audience: envOptions.auth0.audience,
+        scope: 'openid profile',
+        responseType: 'token id_token'
+    });
     userProfile: Auth0.Auth0UserProfile;
 
     public onAuthenticatedHandler: EventEmitter<Auth0.Auth0UserProfile> = new EventEmitter();
 
     private routerEventListener: Subscription;
 
-    constructor(private router: Router, private route: ActivatedRoute, private configurationService: ConfigurationService) {
-        
-     }
-
-    private getAuth(callback: () => any) {
-        if (this.Auth0 === null) {
-            this.configurationService.getConfiguration('auth').subscribe((config: Auth0.AuthOptions) => {
-                this.Auth0 = new Auth0.WebAuth(config);
-
-                callback();
-            });
-        }
-        else {
-            callback();
-        }
-    }
+    constructor(private router: Router, private route: ActivatedRoute) {}
 
     public login() {
-        this.getAuth(() => {
-            this.Auth0.authorize(null);
-        });
+        this.Auth0.authorize(null);
     }
 
     public handleAuthentication(): Observable<any> {
         return new Observable(observer => {
-            this.getAuth(() => {
-                this.Auth0.parseHash(null, (err, authResult) => {
-                    if (authResult) {
-                        window.location.hash = '';
-                        this.setSession(authResult);
+            this.Auth0.parseHash(null, (err, authResult) => {
+                if (authResult) {
+                    window.location.hash = '';
+                    this.setSession(authResult);
 
-                        this.getProfile((error: any, profile: Auth0.Auth0UserProfile) => {
-                            if (!error && profile)
-                                this.onAuthenticatedHandler.next(profile);
-                        });
+                    this.getProfile((error: any, profile: Auth0.Auth0UserProfile) => {
+                        if (!error && profile)
+                            this.onAuthenticatedHandler.next(profile);
+                    });
 
-                        let returnUrl: string = '/';
+                    let returnUrl: string = '/';
 
-                        if(localStorage.getItem('auth:returnUrl').length > 0) {
-                            returnUrl = localStorage.getItem('auth:returnUrl');
-                            localStorage.removeItem('auth:returnUrl');
-                        }
-
-                        observer.next();
-                        this.router.navigate([returnUrl]);
-                    } else if (err) {
-                        observer.error(err);
-                        this.router.navigate(['/']);
+                    if(localStorage.getItem('auth:returnUrl').length > 0) {
+                        returnUrl = localStorage.getItem('auth:returnUrl');
+                        localStorage.removeItem('auth:returnUrl');
                     }
-                });
+
+                    observer.next();
+                    this.router.navigate([returnUrl]);
+                } else if (err) {
+                    observer.error(err);
+                    this.router.navigate(['/']);
+                }
             });
         });
     }
@@ -76,13 +64,11 @@ export class AuthenticationService implements OnDestroy {
             throw new Error('Access token must exist to fetch profile');
         }
 
-        this.getAuth(() => {
-            this.Auth0.client.userInfo(accessToken, (error: any, profile: Auth0.Auth0UserProfile) => {
-                if (profile) {
-                    this.userProfile = profile;
-                }
-                callback(error, profile);
-            });
+        this.Auth0.client.userInfo(accessToken, (error: any, profile: Auth0.Auth0UserProfile) => {
+            if (profile) {
+                this.userProfile = profile;
+            }
+            callback(error, profile);
         });
     }
 

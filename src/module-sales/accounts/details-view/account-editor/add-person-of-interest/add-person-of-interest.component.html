@@ -17,10 +17,10 @@
                                     <div class="form-group col">
                                         <label for="contactFullName">Name</label>
                                         <input id="contactFullName"
-                                            autofocus
-                                            type="tel" 
-                                            class="form-control" 
-                                            placeholder="First and last name" 
+                                            #contactFullName
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="First and last name"
                                             [(ngModel)]="person.fullName"
                                             name="person_fullname">
                                     </div>
@@ -30,9 +30,9 @@
                                     <div class="form-group col">
                                         <label for="personContactPhone">Phone number</label>
                                         <input id="personContactPhone" 
-                                            type="tel" 
-                                            class="form-control" 
-                                            placeholder="(+00) 000-000 000" 
+                                            type="tel"
+                                            class="form-control"
+                                            placeholder="(+00) 000-000 000"
                                             [(ngModel)]="person.contact.phoneNumber"
                                             name="person_contact_phone">
                                     </div>
@@ -42,9 +42,9 @@
                                     <div class="form-group col">
                                         <label for="personContactEmail">Email address</label>
                                         <input id="personContactEmail" 
-                                            type="email" 
-                                            class="form-control" 
-                                            placeholder="name@company.com" 
+                                            type="email"
+                                            class="form-control"
+                                            placeholder="name@company.com"
                                             [(ngModel)]="person.contact.emailAddress"
                                             name="person_contact_email">
                                     </div>

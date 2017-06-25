@@ -14,30 +14,34 @@ import { DatepickerDirective } from '../../../../../../common/ui/components/date
     <form #userTaskForm="ngForm" (ngSubmit)="saveUserTask(userTaskForm)">                    
         <ng-container *ngIf="editorState.isEditing">
             <div [@editorTransition]="editorState.isEditing" class="row mt-3 d-flex flex-row align-items-center">
-                <div class="col-md-3">
-                    <div ccrmUiDatepicker [(ngModel)]="userTask.reminderDate" required name="reminderDate" class="input-group date">
-                        <span class="input-group-addon"><fa name="calendar"></fa></span>
-                        <input
-                            #dateInput
-                            (focus)="onInputFocused()"
-                            (blur)="onInputBlurred()"
-                            autofocus
-                            type="text"
-                            class="form-control">
-                    </div>
-                </div>
-
-                <div class="col-md-9">
-                    <input
-                        #displayNameInput
+                <div class="col-md-1">
+                    <a
+                        ccrmUiDatepicker
+                        autoOpen="true"
+                        keepOpen="true"
                         (focus)="onInputFocused()"
                         (blur)="onInputBlurred()"
+                        href="#"
+                        [(ngModel)]="userTask.reminderDate"
                         required
+                        name="reminderDate"
+                        class="pt-2 pb-2 no-underline color-black">
+                        <fa name="calendar"></fa>
+                    </a>
+                </div>
+
+                <div class="col-md hidden-lg-up mt-2"></div>
+
+                <div class="col-md-11">
+                    <input
+                        (focus)="onInputFocused()"
+                        (blur)="onInputBlurred()"
                         [(ngModel)]="userTask.displayName"
+                        required
                         name="displayName"
                         autocomplete="off"
-                        class="form-control"
-                        placeholder="Summary" />
+                        class="form-control should-validate"
+                        placeholder="Summarize the reminder" />
                 </div>
 
                 <div class="col">
@@ -84,10 +88,9 @@ import { DatepickerDirective } from '../../../../../../common/ui/components/date
     ]
 })
 export class AddReminderInlineComponent implements OnInit {
-    @ViewChild('dateInput') dateInput: ElementRef;
-    @ViewChild('displayNameInput') displayNameInput: ElementRef;
-
     @Input() status: AccountStatus;
+
+    private waitBlurTimer = null;
 
     userTask: UserTask = {
         displayName: null,
@@ -110,10 +113,6 @@ export class AddReminderInlineComponent implements OnInit {
 
     onEditorEnabled() {
         this.editorState.isEditing = true;
-
-        setTimeout(() => {
-            this.dateInput.nativeElement.focus();
-        }, 100);
     }
 
     onEditorDisabled() {
@@ -122,15 +121,21 @@ export class AddReminderInlineComponent implements OnInit {
 
     onInputFocused() {
         this.editorState.isWaitingExit = false;
+
+        if(this.waitBlurTimer)
+            clearTimeout(this.waitBlurTimer);
     }
 
     onInputBlurred() {
         this.editorState.isWaitingExit = true;
 
-        setTimeout(() => {
+        if(this.waitBlurTimer)
+            clearTimeout(this.waitBlurTimer);
+
+        this.waitBlurTimer = setTimeout(() => {
             if(this.editorState.isWaitingExit)
                 this.onEditorDisabled();
-        }, 1000);
+        }, 10000);
     }
 
     onAddUserTask() {

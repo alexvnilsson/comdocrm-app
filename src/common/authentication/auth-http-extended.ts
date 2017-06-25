@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Http, BaseRequestOptions, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
-import { ConfigurationService } from '../configuration/configuration.service';
+import { envOptions } from '.environments/options';
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/fromPromise";
 import "rxjs/add/observable/defer";
 import "rxjs/add/operator/mergeMap";
 
 export class AuthHttpExtended extends AuthHttp {
-    private webApiHost: string = null;
+    private webApiHost: string = envOptions.api.endpoint;
 
 /**
  * Constructs the AuthHttpExtended-class, resolves dependencies and constructs base-class AuthHttp.
@@ -17,7 +17,7 @@ export class AuthHttpExtended extends AuthHttp {
  * @param options HTTP request options
  * @param configService Configuration service
  */
-    constructor(http: Http, options: RequestOptions, private configService: ConfigurationService) {
+    constructor(http: Http, options: RequestOptions) {
         super(
             new AuthConfig({
                 tokenGetter: (() => {
@@ -36,44 +36,22 @@ export class AuthHttpExtended extends AuthHttp {
  */
     get(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return new Observable(observer => {
-            this.getHost().subscribe(host => {
-                super.get(host + url, options).subscribe((res: Response) => {
-                    observer.next(res);
-                });
+            super.get(envOptions.api.endpoint + url, options).subscribe((res: Response) => {
+                observer.next(res);
             });
         });
     }
 
     post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         return new Observable(observer => {
-            this.getHost().subscribe(host => {
-                super.post(host + url, body, options).subscribe((res: Response) => {
-                    observer.next(res);
-                });
-            })
+            super.post(envOptions.api.endpoint + url, body, options).subscribe((res: Response) => {
+                observer.next(res);
+            });
         });
-    }
-
-    // Private helpers
-
-    /**
-     * Returns the hostname of the back-end WebAPI.
-     */
-    private getHost(): Observable<string> {
-        return new Observable(observer => {
-            if(this.webApiHost == null) {
-                this.configService.getConfiguration('api').subscribe((config) => {
-                    if(config && config.server && config.server.serverUrl)
-                        observer.next(this.webApiHost = config.server.serverUrl);
-                });
-            }
-            else
-                observer.next(this.webApiHost);
-        })
     }
 }
 
-export function authHttpExtendedFactory(http: Http, options: RequestOptions, configService: ConfigurationService) {    
+export function authHttpExtendedFactory(http: Http, options: RequestOptions) {    
     return new AuthHttpExtended(
-        http, options, configService);
+        http, options);
 }

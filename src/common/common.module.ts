@@ -10,7 +10,6 @@ import { MomentModule } from 'angular2-moment';
 
 import { AuthenticationModule, AuthenticationService } from './authentication';
 import { AuthenticationGuard } from './router/authentication.guard';
-import { ConfigurationService } from './configuration/configuration.service';
 import { UsersService } from './users/users.service';
 
 import { AuthHttp } from 'angular2-jwt';
@@ -82,7 +81,6 @@ export class ComdoCrmCommonModule {
             ngModule: ComdoCrmCommonModule,
             providers: [
                 RouterOutlet,
-                ConfigurationService,
                 AuthenticationService,
                 {
                     provide: AuthenticationGuard,
@@ -92,7 +90,7 @@ export class ComdoCrmCommonModule {
                 {
                     provide: AuthHttpExtended,
                     useFactory: authHttpExtendedFactory,
-                    deps: [ Http, RequestOptions, ConfigurationService ]
+                    deps: [ Http, RequestOptions ]
                 },
                 UsersService
             ]

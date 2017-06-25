@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, AfterContentInit, OnDestroy, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterContentInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -13,6 +13,8 @@ import { FormState } from '../../../../../common/ui/views/form-state';
 })
 export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
     @ViewChild('modal') modal: ModalDirective;
+    @ViewChild('contactFullName') contactFullNameInput: ElementRef;
+
     account: Account;
     person: AccountPersonOfInterest = {
         fullName: null,
@@ -59,7 +61,7 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
         this.modal.show();
 
         this.modal.onShown.subscribe(() => {
-            
+            this.contactFullNameInput.nativeElement.focus();
         });
 
         this.modal.onHidden.subscribe(() => {

@@ -1,6 +1,6 @@
 <ng-container *ngIf="!isEditing; else isEditingBlock">
     <ng-content></ng-content>
-    <a href="#" (click)="clickEditLink($event)"><fa name="pencil" size="1" class="edit-link" *ngIf="model"></fa><span *ngIf="!model">Add</span></a>
+    <a href="#" (click)="clickEditLink($event)"><fa name="pencil" size="1" class="edit-link"></fa></a>
 </ng-container>
 
 

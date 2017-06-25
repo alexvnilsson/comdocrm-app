@@ -43,3 +43,19 @@
         }
     }
 }
+
+.color {
+    &-black {
+       color: #222;
+    }
+}
+
+a.color {
+    &-black {
+        color: #222;
+
+        &:hover, &:active, &:focus {
+            color: #000;
+        }
+    }
+}

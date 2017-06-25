@@ -22,39 +22,12 @@
         <div class="col-md-4 lg-vh-100 pt-4 pl-2 pr-2 justify-content-end bg-faded">
             <!-- People of Interest -->
             <div class="container-fluid overflow-hidden">
-                <ul class="tab-bar mb-4">
-                    <li class="tab-item">
-                        <a 
-                            ccrmUiTab
-                            #tab0="ccrmUiTab"
-                            class="tab-link"
-                            [class.active]="isActiveTab(tab0) || !getActiveTab()"
-                            role="button"
-                            index="0"
-                            (click)="onTabClicked(tab0)" i18n>
-                            Account
-                        </a>
-                    </li>
-                    <li class="tab-item">
-                        <a
-                            ccrmUiTab
-                            #tab1="ccrmUiTab"
-                            class="tab-link"
-                            [class.active]="isActiveTab(tab1)"
-                            role="button"
-                            index="1"
-                            (click)="onTabClicked(tab1)" i18n>
-                            Tasks
-                        </a>
-                    </li>
-                </ul>
-
-                <ng-container *ngIf="(!state.secondary.tab || state.secondary.tab == 0) && account">
+                <ng-container *ngIf="account">
                     <div [@tabsTabTransition] class="container-fluid">
                         <ng-container *ngIf="account">
                             <div class="row mb-5">
                                 <div class="col">
-                                    <span class="text-muted d-block">Prospect</span>
+                                    <span class="text-muted d-block">Account</span>
 
                                     <span *ngIf="account.displayName">{{ account.displayName }}</span>
                                 </div>
@@ -75,23 +48,6 @@
                     </div>
                 </ng-container>
             </div>
-
-            <!-- Tasks -->
-            <ng-container *ngIf="state.secondary.tab == 1">
-                <div [@tabsTabTransition] class="container-fluid">
-                    <div class="row">
-                        <div class="col">
-                            
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            
-                        </div>
-                    </div>
-                </div>
-            </ng-container>
         </div>
     </div>
 </div>

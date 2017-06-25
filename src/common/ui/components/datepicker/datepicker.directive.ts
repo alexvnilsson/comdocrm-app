@@ -1,4 +1,4 @@
-import { Directive, Output, ViewChild, AfterViewInit, ElementRef, EventEmitter, forwardRef } from '@angular/core';
+import { Directive, Input, Output, ViewChild, AfterViewInit, HostListener, ElementRef, EventEmitter, forwardRef, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 declare var $: any;
@@ -14,7 +14,10 @@ declare var $: any;
         }
     ]
 })
-export class DatepickerDirective implements AfterViewInit, ControlValueAccessor {
+export class DatepickerDirective implements AfterViewInit, ControlValueAccessor, OnDestroy {
+    @Input() autoOpen: boolean = false;
+    @Input() keepOpen: boolean = false;
+
     @Output() onDateChanged: EventEmitter<Date> = new EventEmitter();
 
     private innerValue: Date;
@@ -72,11 +75,31 @@ export class DatepickerDirective implements AfterViewInit, ControlValueAccessor 
                 if(event.date)
                     this.onDateChange(event.date);
             });
+
+        if(this.autoOpen) {
+            $(this.elementRef.nativeElement).datepicker('show');
+        }
+
+        if(this.keepOpen)
+            $(this.elementRef.nativeElement).data('datepicker').hide = () => {};
+    }
+
+    @HostListener('click', ['$event'])
+    onClick(event: Event) {
+        event.preventDefault();
+
+        return false;
     }
 
     onDateChange(date: Date) {
         if(date) {
             this.value = date;
+        }
+    }
+
+    ngOnDestroy() {
+        if(this.elementRef && this.elementRef.nativeElement) {
+            $(this.elementRef.nativeElement).datepicker('destroy');
         }
     }
 }

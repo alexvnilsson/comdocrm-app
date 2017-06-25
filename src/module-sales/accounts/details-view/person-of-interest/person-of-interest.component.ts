@@ -9,6 +9,7 @@ import { AccountsService } from '../../accounts.service';
             <div class="col text-nowrap mr-1">
                 <ccrm-ui-inline-editor placeholder="First and last name" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.fullName" name="fullName">
                     <span class="lead">{{ person.fullName }}</span>
+                    <span *ngIf="!person.fullName" class="lead text-muted">First and last name</span>
                 </ccrm-ui-inline-editor>
             </div>
         </div>

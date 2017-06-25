@@ -35,8 +35,7 @@ export class AccountBusiness {
 }
 
 export class AccountPersonOfInterest {
-    accountId?: string;
-
+    id: string;
     fullName: string;
     jobTitle: string;
     contact: AccountContact;
