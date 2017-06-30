@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouteTransitionAnimation } from 'common/ui/animations';
+import { RouteTransitionAnimation, DoneLoadingTransitionAnimation } from 'common/ui/animations';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AccountsService } from '../accounts.service';
@@ -9,6 +9,7 @@ import { UsersService } from 'common/users';
 
 import { Account, AccountSource } from '../../models/account';
 import { ViewState } from '../../../common/ui/views/view-state';
+import { UiState, UiStateComponentObject } from '../../../common/interfaces/ui-state.interface';
 
 export interface AccountListState {
     accountSource?: AccountSource;
@@ -22,19 +23,16 @@ export const USER_STATE = {
     selector: 'ccrm-sales-accounts-list-view',
     templateUrl: './list-view.component.html',
     styleUrls: ['./list-view.component.scss'],
-    animations: [RouteTransitionAnimation],
+    animations: [RouteTransitionAnimation, DoneLoadingTransitionAnimation],
     host: {
-        '[@routeTransition]': 'true'
+        '[@routeTransition]': ''
     }
 })
-export class ListViewComponent implements OnInit {
+export class ListViewComponent implements OnInit, UiState {
     accounts: Array<Account>;
     accountSources: Array<AccountSource>;
 
-    viewState: ViewState = new ViewState({
-        isLoading: true,
-        hasErrors: false
-    });
+    uiState: UiStateComponentObject = new UiStateComponentObject(true);
 
     listState: AccountListState = {
         accountSource: null
@@ -52,8 +50,19 @@ export class ListViewComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.accountsService.getAll().subscribe((accounts: Account[]) => this.onAccountsLoad(accounts));
+        this.accountsService.getAll().subscribe(
+            accounts => this.onAccountsLoad(accounts),
+            error => this.uiOnError(error)
+        );
         this.onAccountSourceChangeListener = this.onAccountSourceChange.subscribe(this.onAccountSourceChanged.bind(this));
+    }
+
+    uiOnComplete() {
+
+    }
+
+    uiOnError(error: Error) {
+        this.uiState.onError(error);
     }
 
     /* Account events */
@@ -65,12 +74,12 @@ export class ListViewComponent implements OnInit {
 
         this.usersService.getState().subscribe(this.onUserStateLoaded.bind(this));
 
-        this.viewState.isLoading = false;
+        this.uiState.isComplete = true;
     }
 
     clickAccount(account: Account) {
         if(account)
-            this.router.navigate(['/sales/accounts/view', account.slug]);
+            this.router.navigate(['/sales/accounts/view', account.nameIdentity]);
     }
 
     onAccountSourceChanged(source: AccountSource) {

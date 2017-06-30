@@ -3,23 +3,29 @@ import { AuthenticationService } from 'common/authentication';
 import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
 
 import { RouteTransitionAnimation } from 'common/ui/animations';
+import { Router } from '@angular/router';
+import { CustomRoute } from 'common/router';
 
 @Component({
-  selector: 'ccrm-core',
-  animations: [
-      RouteTransitionAnimation
-  ],
-  templateUrl: './core.component.html',
-  styleUrls: ['./core.component.css']
+    selector: 'ccrm-core',
+    animations: [
+        RouteTransitionAnimation
+    ],
+    templateUrl: './core.component.html',
+    styleUrls: ['./core.component.css']
 })
 export class CoreComponent implements OnInit, AfterViewInit {
-  constructor(private authService: AuthenticationService) {}
+    items: CustomRoute[] = [];
 
-  ngOnInit() {
-    
-  }
+    constructor(private router: Router, private authService: AuthenticationService) { }
 
-  ngAfterViewInit() {
-    
-  }
+    ngOnInit() {
+        this.router.config.forEach((route: CustomRoute) => {
+            this.items.push(route);
+        });
+    }
+
+    ngAfterViewInit() {
+
+    }
 }

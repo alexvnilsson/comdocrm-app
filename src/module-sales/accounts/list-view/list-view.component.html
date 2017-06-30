@@ -2,17 +2,23 @@
   <button ccrmUiNavbarSubItem><fa name="plus"></fa> <span i18n="A new account in the context of sales and prospects">New account</span></button>
 </ccrm-ui-navbar-sub>
 
-<div [@routeTransition] *ngIf="viewState.isLoading">
-    <ccrm-ui-spinner></ccrm-ui-spinner>
+<ccrm-ui-spinner *ngIf="uiState.isLoading"></ccrm-ui-spinner>
+
+<div [@doneLoadingTransition]="uiState.isLoading" *ngIf="!uiState.isLoading && uiState.hasErrors" class="container mt-2 text-center">    
+    <h2 class="lead">Could not load accounts</h2>
 </div>
 
-<div [@routeTransition] *ngIf="!viewState.isLoading">
+<div [@doneLoadingTransition]="uiState.isLoading" *ngIf="!uiState.isLoading && !uiState.hasErrors">
     <div class="row no-gutters">
         <div class="col-md-8">
             <div id="listView" class="container no-gutters-sm pt-2 pl-0 pr-0" style="position: relative">
                 <ng-container *ngFor="let account of accounts">
                     <div role="button" *ngIf="isFilterAccepting(account)" class="card card-block pl-5 pr-5 border-0" (click)="clickAccount(account)">
-                        <h5 class="display-6" [title]="account.displayName">{{ account.displayName | wordSplice:12 }}</h5>
+                        <h5 *ngIf="account.customer.legalName; else legalNameNull"
+                            class="display-6" [title]="account.customer.legalName">{{ account.customer.legalName | wordSplice:12 }}</h5>
+                        <ng-template #legalNameNull>
+                            <h5 class="display-6">Inte tillgängligt</h5>
+                        </ng-template>
 
                         <span>
                             <span class="badge badge-default" *ngIf="account.source">{{ account.source?.displayName }}</span>

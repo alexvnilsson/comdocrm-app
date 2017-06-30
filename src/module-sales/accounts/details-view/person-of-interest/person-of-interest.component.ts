@@ -26,17 +26,17 @@ import { AccountsService } from '../../accounts.service';
         <div class="row person-card pt-1 pb-1">
             <div class="col text-nowrap mr-1">
                 <span class="text-muted d-block">Email</span>
-                <ccrm-ui-inline-editor placeholder="Email" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.contact.emailAddress" name="contact_emailAddress">
-                    {{ person.contact.emailAddress }}
-                    <span *ngIf="!person.contact.emailAddress" class="small text-muted">Email address</span>
+                <ccrm-ui-inline-editor placeholder="Email" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.emailAddress" name="contact_emailAddress">
+                    {{ person.emailAddress }}
+                    <span *ngIf="!person.emailAddress" class="small text-muted">Email address</span>
                 </ccrm-ui-inline-editor>
             </div>
 
             <div class="col text-nowrap mr-1">
                 <span class="text-muted d-block">Phone</span>
-                <ccrm-ui-inline-editor placeholder="Phone number" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.contact.phoneNumber" name="contact_phoneNumber">
-                    {{ person.contact.phoneNumber }}
-                    <span *ngIf="!person.contact.phoneNumber" class="small text-muted">Phone number</span>
+                <ccrm-ui-inline-editor placeholder="Phone number" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.phoneNumber" name="contact_phoneNumber">
+                    {{ person.phoneNumber }}
+                    <span *ngIf="!person.phoneNumber" class="small text-muted">Phone number</span>
                 </ccrm-ui-inline-editor>
             </div>
         </div>

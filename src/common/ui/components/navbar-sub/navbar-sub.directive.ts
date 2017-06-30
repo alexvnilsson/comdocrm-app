@@ -6,7 +6,6 @@ import { Directive } from '@angular/core';
     '[class.page-navbar-item]': 'true',
     '[class.btn]': 'true',
     '[class.btn-outline-primary]': 'true',
-    '[class.text-white]': 'true',
     'role': 'button'
   }
 })

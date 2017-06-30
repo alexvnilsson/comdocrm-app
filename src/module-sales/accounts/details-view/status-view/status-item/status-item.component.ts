@@ -102,19 +102,19 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private trimMessageStatusText(noTrim?: boolean) {
-        if (this.status && this.status.message.body && noTrim !== true) {
-            var statusWords = this.status.message.body.split(' ');
+        if (this.status && this.status.messageBody && noTrim !== true) {
+            var statusWords = this.status.messageBody.split(' ');
 
             if (statusWords.length >= STATUS_MESSAGE_TRIMMED_MAX_LENGTH)
                 return `${statusWords.splice(0, STATUS_MESSAGE_TRIMMED_MAX_LENGTH).join(' ')}...`;
         }
 
-        return this.status.message.body;
+        return this.status.messageBody;
     }
 
     private isMessageStatusTextTrimmable() {
-        if(this.status && this.status.message.body) {
-            var statusWordLength = this.status.message.body.split(' ').length;
+        if(this.status && this.status.messageBody) {
+            var statusWordLength = this.status.messageBody.split(' ').length;
 
             return statusWordLength >= STATUS_MESSAGE_TRIMMED_MAX_LENGTH;
         }
@@ -123,8 +123,8 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private isStatusMessageTextTrimmed(statusMessage: string): boolean {
-        if(this.status && this.status.message.body)
-            return statusMessage.split(' ').length < this.status.message.body.split(' ').length;
+        if(this.status && this.status.messageBody)
+            return statusMessage.split(' ').length < this.status.messageBody.split(' ').length;
         else
             return null;
     }

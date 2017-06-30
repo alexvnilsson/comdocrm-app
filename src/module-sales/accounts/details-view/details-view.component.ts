@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { trigger, state, transition, style, animate, keyframes } from '@angular/animations';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -12,10 +11,12 @@ import { AddPersonOfInterestComponent } from './account-editor/add-person-of-int
 
 import { TabDirective } from 'common/ui/directives/tab';
 
-import { RouteTransitionAnimation } from 'common/ui/animations';
+import { RouteTransitionAnimation, DoneLoadingTransitionAnimation } from 'common/ui/animations';
 import { ViewState } from '../../../common/ui/views/view-state';
 import { ComposerComponent } from './status-view/composer/composer.component';
 import { Observable } from 'rxjs/Observable';
+import { UiState } from 'common/interfaces';
+import { UiStateComponentObject } from '../../../common/interfaces/ui-state.interface';
 
 @Component({
     selector: 'ccrm-sales-accounts-details-view',
@@ -23,34 +24,20 @@ import { Observable } from 'rxjs/Observable';
     styleUrls: ['./details-view.component.scss'],
     animations: [
         RouteTransitionAnimation,
-        trigger('tabsTabTransition', [
-            transition('void => *', [
-                style({ opacity: 0 }),
-                animate('200ms 100ms', keyframes([
-                    style({ opacity: 0, transform: 'translateY(-10%)', offset: 0 }),
-                    style({ opacity: 1, transform: 'translateY(0%)', offset: 1 })
-                ]))
-            ]),
-            transition('* => void', [
-                animate('200ms', keyframes([
-                    style({ opacity: 1, offset: 0 }),
-                    style({ opacity: 0, offset: 1 })
-                ]))
-            ])
-        ])
-    ]
+        DoneLoadingTransitionAnimation
+    ],
+    host: {
+        '[@routeTransition]': ''
+    }
 })
-export class DetailsViewComponent implements OnInit, OnDestroy {
+export class DetailsViewComponent implements OnInit, UiState, OnDestroy {
     @ViewChild('accountEditor') accountEditor: AddPersonOfInterestComponent;
 
     account: Account;
     userState: any;
     userTasks: UserTask[] = [];
 
-    viewState: ViewState = new ViewState({
-        isLoading: true,
-        hasErrors: false
-    });
+    uiState: UiStateComponentObject = new UiStateComponentObject(true);
 
     private onAccountUpdateListener: Subscription;
 
@@ -69,10 +56,18 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
             let accountSlug = params.slug;
 
             if(accountSlug)
-                this.accountsService.getBySlug(accountSlug).subscribe(this.onAccountLoad.bind(this));
+                this.accountsService.getByNameIdentity(accountSlug).subscribe(this.onAccountLoad.bind(this), error => this.uiState.onError(error));
         });
 
         this.onAccountUpdateListener = this.accountsService.onAccountUpdate.subscribe(this.onAccountUpdate.bind(this));
+    }
+
+    uiOnComplete() {
+        this.uiState.isComplete = true;
+    }
+
+    uiOnError() {
+
     }
 
     onComposerSelected(composer: string) {
@@ -90,11 +85,11 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     onAccountLoad(account: Account) {
         this.account = account;
 
-        this.viewState.isLoading = false;
+        this.uiOnComplete();
     }
 
-    onAccountLoadError() {
-
+    onAccountLoadError(error: any) {
+        
     }
 
     onAccountUpdate(account: Account) {
@@ -110,7 +105,7 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     }
 
     clickAddPersonOfInterest() {
-        this.router.navigate([{ outlets: { 'modal': [ 'contacts-add', this.account.id ] } }], { relativeTo: this.route });
+        this.router.navigate([{ outlets: { 'modal': [ 'contacts-add' ] } }], { relativeTo: this.route });
     }
 
     getSortedAccountStatuses(statuses: Array<AccountStatus>) {

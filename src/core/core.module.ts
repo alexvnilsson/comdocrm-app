@@ -5,7 +5,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule, Router, RouterOutlet, Route } from '@angular/router';
-import { ModalModule, TooltipModule, BsDropdownModule, DatepickerModule } from 'ngx-bootstrap';
+import { ModalModule, TooltipModule, PopoverModule, BsDropdownModule, DatepickerModule } from 'ngx-bootstrap';
+import { NglModule } from 'ng-lightning/ng-lightning';
 import { ComdoCrmCommonModule } from 'common';
 
 import { ConfigurationService } from 'common/configuration';
@@ -22,6 +23,7 @@ import { CallbackComponent } from 'common/authentication/callback/callback.compo
 
 import { NavbarComponent } from 'common/ui/components/navbar';
 import { NavbarSubComponent, NavbarSubDirective } from 'common/ui/components/navbar-sub';
+import { TestSpinnerComponent } from './testing/spinner-test.component';
 
 const routes: CustomRoute[] = [
     {
@@ -30,20 +32,17 @@ const routes: CustomRoute[] = [
     },
     {
         mainNav: true,
-        path: 'sales',
-        href: '/sales',
-        text: 'Sales',
+        path: 'sales/accounts',
+        href: '/sales/accounts',
+        text: 'Kunder',
+        loadChildren: '../module-sales/accounts/accounts.module#AccountsModule',
         faIcon: 'user-circle-o',
+        canActivate: [ AuthenticationGuard ]
+    },
+    {
+        path: 'test',
         children: [
-            {
-                mainNav: true,
-                path: 'accounts',
-                href: '/sales/accounts',
-                loadChildren: '../module-sales/accounts/accounts.module#AccountsModule',
-                text: 'Accounts',
-                faIcon: 'building-o',
-                canActivate: [AuthenticationGuard]
-            }
+            
         ]
     }
 ]
@@ -54,8 +53,10 @@ const routes: CustomRoute[] = [
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,
+        NglModule.forRoot(),
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
+        PopoverModule.forRoot(),
         BsDropdownModule.forRoot(),
         DatepickerModule.forRoot(),
         RouterModule.forRoot(routes),
@@ -64,7 +65,9 @@ const routes: CustomRoute[] = [
     declarations: [
         CoreComponent,
         CallbackComponent,
-        NavbarComponent
+        NavbarComponent,
+
+        TestSpinnerComponent
     ],
     providers: [
         

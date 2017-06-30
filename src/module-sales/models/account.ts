@@ -1,8 +1,9 @@
-﻿import { UserTask } from 'module-user-tasks';
-import { EventEmitter } from '@angular/core';
+﻿import { EventEmitter } from '@angular/core';
+import { UserTask } from 'module-user-tasks';
+
 export class Account {
     id: string;
-    slug: string;
+    nameIdentity: string;
     source: {
         id: string;
         slug: string;
@@ -25,6 +26,7 @@ export class AccountSource {
 }
 
 export class AccountContact {
+    id?: string;
     emailAddress: string;
     phoneNumber: string;
 }
@@ -35,12 +37,11 @@ export class AccountBusiness {
 }
 
 export class AccountPersonOfInterest {
-    accountId?: string;
-
     id: string;
     fullName: string;
     jobTitle: string;
-    contact: AccountContact;
+    emailAddress?: string;
+    phoneNumber?: string;
     decisionMaker: boolean;
 }
 
@@ -58,11 +59,9 @@ export class AccountStatus {
     publicationDate: Date;
     delayDate?: Date;
     isRemoved?: boolean;
-    message: {
-        header: string;
-        body: string;
-        footer: string;
-    };
+    messageHeader: string;
+    messageBody: string;
+    messageFooter: string;
     metadata?: AccountStatusMetadata;
     userTasks?: Array<UserTask> = [];
 }

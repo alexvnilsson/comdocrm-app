@@ -41,9 +41,9 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
     }
 
     ngOnInit() {
-        this.activatedRoute.params.subscribe(params => {
-            if(params.id)
-                this.accountsService.getById(params.id).subscribe(this.onAccountLoad.bind(this));
+        this.activatedRoute.parent.params.subscribe(params => {
+            if(params.slug)
+                this.accountsService.getById(params.slug).subscribe(this.onAccountLoad.bind(this));
         });
     }
 

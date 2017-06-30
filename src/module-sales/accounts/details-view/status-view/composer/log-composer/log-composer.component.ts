@@ -46,11 +46,9 @@ export class LogComposerComponent implements OnInit, OnChanges, AfterViewInit {
     userProfile: Auth0.Auth0UserProfile = null;
     status: AccountStatus = {
         publicationDate: null,
-        message: {
-            header: '',
-            body: '',
-            footer: ''
-        }
+        messageHeader: '',
+        messageBody: '',
+        messageFooter: ''
     };
 
     constructor(
@@ -66,7 +64,7 @@ export class LogComposerComponent implements OnInit, OnChanges, AfterViewInit {
 
         this.route.parent.params.subscribe(params => {
             if(params.slug)
-                this.accountsService.getBySlug(params.slug).subscribe(account => this.account = account);
+                this.accountsService.getByNameIdentity(params.slug).subscribe(account => this.account = account);
         });
 
         this.usersService.getProfile().subscribe(profile => {

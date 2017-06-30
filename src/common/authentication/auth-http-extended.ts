@@ -34,9 +34,15 @@ export class AuthHttpExtended extends AuthHttp {
             if(!omitHost)
                 completeUrl = envOptions.api.endpoint + url;
 
-            super.get(completeUrl, options).subscribe((res: Response) => {
-                observer.next(res);
-            });
+            super.get(completeUrl, options).subscribe(
+                (res: Response) => {
+                    observer.next(res);
+                },
+                error => {
+                    observer.error(error)
+                },
+                () => observer.complete()
+            );
         });
     }
 
@@ -47,9 +53,15 @@ export class AuthHttpExtended extends AuthHttp {
             if(!omitHost)
                 completeUrl = envOptions.api.endpoint + url;
 
-            super.post(completeUrl, body, options).subscribe((res: Response) => {
-                observer.next(res);
-            });
+            super.post(completeUrl, body, options).subscribe(
+                (res: Response) => {
+                    observer.next(res);
+                },
+                error => {
+                    observer.error(error)
+                },
+                () => observer.complete()
+            );
         });
     }
 
@@ -60,9 +72,15 @@ export class AuthHttpExtended extends AuthHttp {
             if(!omitHost)
                 completeUrl = envOptions.api.endpoint + url;
 
-            super.delete(completeUrl, options).subscribe((res: Response) => {
-                observer.next(res);
-            });
+            super.delete(completeUrl, options).subscribe(
+                (res: Response) => {
+                    observer.next(res);
+                },
+                error => {
+                    observer.error(error)
+                },
+                () => observer.complete()
+            );
         });
     }
 }

@@ -3,11 +3,13 @@
     <a ccrmUiNavbarSubItem role="button"><fa name="envelope"></fa> <span class="small">Email</span></a>
 </ccrm-ui-navbar-sub>
 
-<div [@routeTransition] *ngIf="viewState.isLoading">
-    <ccrm-ui-spinner></ccrm-ui-spinner>
+<ccrm-ui-spinner [@doneLoadingTransition]="uiState.isLoading" *ngIf="uiState.isLoading"></ccrm-ui-spinner>
+
+<div [@doneLoadingTransition]="uiState.isLoading" *ngIf="!uiState.isLoading && uiState.hasErrors" class="container mt-2 text-center">    
+    <h2 class="lead">Could not load account</h2>
 </div>
 
-<div [@routeTransition] *ngIf="!viewState.isLoading">
+<div [@doneLoadingTransition] *ngIf="!uiState.isLoading">
     <div class="row no-gutters">
         <div class="col-md-8">
             <div class="container">
@@ -27,13 +29,15 @@
             <!-- People of Interest -->
             <div class="container-fluid overflow-hidden">
                 <ng-container *ngIf="account">
-                    <div [@tabsTabTransition] class="container-fluid">
+                    <div class="container-fluid">
                         <ng-container *ngIf="account">
                             <div class="row mb-5">
-                                <div class="col">
-                                    <span class="text-muted d-block">Account</span>
+                                <div class="col pt-2">
+                                    <h3 *ngIf="account.customer.legalName; else customerNameNull">{{ account.customer.legalName }}</h3>
 
-                                    <span *ngIf="account.displayName">{{ account.displayName }}</span>
+                                    <ng-template #customerNameNull>
+                                        <h3 class="muted">Account</h3>
+                                    </ng-template>
                                 </div>
                             </div>
                         </ng-container>

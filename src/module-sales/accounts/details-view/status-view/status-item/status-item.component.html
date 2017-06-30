@@ -28,26 +28,39 @@
                                     {{ status.publicationDate | amTimeAgo }}
                             </span>
 
-                            <span class="ml-2 small">
-                                <fa name="eye"></fa>
+                            <ng-container *ngIf="status.isDelayed">
+                                <span class="ml-2 small">
+                                    <fa name="eye"></fa>
+                                    <span>only you</span>
+                                </span>
+                            </ng-container>
 
-                                <span *ngIf="status.isDelayed">only you</span>
-                                <span *ngIf="!status.isDelayed">authorized staff</span>
+                            <span class="ml-2 small">
+                                <fa name="user"></fa>
+
+                                <span>{{ status.userName || "unknown" }}</span>
                             </span>
                         </p>
                     </div>
 
                     <div class="col-2 d-flex justify-content-end">
+                        <ng-template #removeStatusConfirmation>
+                            <span class="small" i18n>Are you sure?
+                                <button (click)="onRemoveStatus()" class="btn btn-danger btn-sm" role="button">Delete</button>
+                            </span>
+                        </ng-template>
                         <a 
                             class="no-underline color-black ml-2"
-                            (click)="onRemoveStatus()"
+                            [popover]="removeStatusConfirmation"
+                            placement="left"
+                            container="body"
                             role="button">
                             &times;
                         </a>
                     </div>
                 </div>
 
-                <h4 class="card-title">{{ status.message.header }}</h4>
+                <h4 class="card-title">{{ status.messageHeader }}</h4>
 
                 <p [@messageTextTransitions]="statusMessage?.messageText" class="card-text">
                     {{ statusMessage.messageText }} 
@@ -57,8 +70,7 @@
                 </p>
 
                 <div class="d-flex flex-column align-items-start">
-                    <span class="small mb-2"><span class="text-muted">submitted by</span> {{ status.userName || "unknown" }}</span>
-                    <span class="text-muted">{{ status.message.footer }}</span>
+                    <span class="text-muted">{{ status.messageFooter }}</span>
                     <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
                 </div>
 
@@ -66,7 +78,22 @@
                     <div class="mt-4"></div>
 
                     <ng-container *ngFor="let userTask of status.userTasks">
-                        <div class="text-muted small"><fa name="calendar"></fa> <span *ngIf="userTask.reminderDate">{{ userTask.reminderDate | date }}</span> <span *ngIf="userTask.displayName">- {{ userTask.displayName }}</span></div>
+                        <div class="text-muted small"><fa name="calendar"></fa> <span *ngIf="userTask.reminderDate">{{ userTask.reminderDate | date }}</span> <span *ngIf="userTask.displayName">- {{ userTask.displayName }} 
+
+                        <ng-template #removeStatusUserTaskConfirmation>
+                            <span class="small" i18n>Are you sure?
+                                <button class="btn btn-danger btn-sm" role="button">Delete</button>
+                            </span>
+                        </ng-template>
+                        <a 
+                            class="no-underline color-black ml-2"
+                            [popover]="removeStatusUserTaskConfirmation"
+                            placement="right"
+                            container="body"
+                            role="button">
+                            &times;
+                        </a>    
+                        </span></div>
                     </ng-container>
                 </ng-container>
 

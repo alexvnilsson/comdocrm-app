@@ -30,7 +30,7 @@ const routes: Route[] = [
         component: DetailsViewComponent,
         children: [
             {
-                path: 'contacts-add/:id',
+                path: 'contacts-add',
                 component: AddPersonOfInterestComponent,
                 outlet: 'modal'
             },

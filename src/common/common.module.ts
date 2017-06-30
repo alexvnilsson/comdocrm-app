@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, Route, ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Http, RequestOptions } from '@angular/http';
 import { CommonModule } from '@angular/common';
-import { DatepickerModule, ModalModule, TooltipModule, BsDropdownModule } from 'ngx-bootstrap';
+import { DatepickerModule, ModalModule, TooltipModule, PopoverModule, BsDropdownModule } from 'ngx-bootstrap';
+import { NglModule } from 'ng-lightning/ng-lightning';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { MomentModule } from 'angular2-moment';
 
@@ -31,6 +32,9 @@ import { CallbackComponent } from './authentication/callback/callback.component'
 import { DatepickerComponent } from './ui/components/datepicker/datepicker.component';
 import { DashboardComponent } from '../module-sales/dashboard/dashboard.component';
 import { DatepickerDirective } from './ui/components/datepicker/datepicker.directive';
+import { LoadingComponent } from './ui/components/loading/loading.component';
+import { NavigationDirective } from './navigation/navigation.directive';
+import { NavigationItemDirective } from './navigation/navigation-item.directive';
 
 @NgModule({
     imports: [
@@ -39,7 +43,8 @@ import { DatepickerDirective } from './ui/components/datepicker/datepicker.direc
         AngularFontAwesomeModule,
         FormsModule,
         MomentModule,
-        DatepickerModule
+        DatepickerModule,
+        NglModule
     ],
     declarations: [
         TabDirective,
@@ -49,8 +54,11 @@ import { DatepickerDirective } from './ui/components/datepicker/datepicker.direc
         InlineEditorComponent,
         NavbarSubComponent,
         NavbarSubDirective,
+        NavigationDirective,
+        NavigationItemDirective,
         DatepickerComponent,
-        DatepickerDirective
+        DatepickerDirective,
+        LoadingComponent
     ],
     providers: [
         
@@ -58,11 +66,13 @@ import { DatepickerDirective } from './ui/components/datepicker/datepicker.direc
     exports: [
         ModalModule,
         TooltipModule,
+        PopoverModule,
         BsDropdownModule,
         AngularFontAwesomeModule,
         FormsModule,
         RouterModule,
         MomentModule,
+        NglModule,
         DatepickerModule,
         TabDirective,
         SpinnerComponent,
@@ -71,8 +81,11 @@ import { DatepickerDirective } from './ui/components/datepicker/datepicker.direc
         InlineEditorComponent,
         NavbarSubComponent,
         NavbarSubDirective,
+        NavigationDirective,
+        NavigationItemDirective,
         DatepickerComponent,
-        DatepickerDirective
+        DatepickerDirective,
+        LoadingComponent
     ]
 })
 export class ComdoCrmCommonModule {

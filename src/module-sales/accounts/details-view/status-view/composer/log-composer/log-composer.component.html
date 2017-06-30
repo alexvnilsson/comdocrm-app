@@ -34,7 +34,7 @@
                             class="form-control border-0"
                             i18n-placeholder
                             placeholder="Summary, title, etc."
-                            [(ngModel)]="status.message.header"
+                            [(ngModel)]="status.messageHeader"
                             name="headerText"
                             autocomplete="off"/>
                     </div>
@@ -76,8 +76,6 @@
                                     </a>
                                 </p>
                             </ng-container>
-
-                            
                         </p>
                     </div>
                 </div>
@@ -90,10 +88,13 @@
                             <label id="logBodyText" i18n>Detailed description</label>
                             <textarea
                                 id="logBodyText"
+                                required
+                                minlength="8"
+                                maxlength="1024"
                                 class="form-control border-0 input-text-resize-none"
                                 i18n-placeholder
                                 placeholder="Detailed description of the event, information, etc."
-                                [(ngModel)]="status.message.body"
+                                [(ngModel)]="status.messageBody"
                                 name="messageText">
                             </textarea>
                         </div>

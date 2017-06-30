@@ -8,10 +8,10 @@
     }
 }
 
-.should-validate {
+input, textarea {
     &.ng-touched {
         &.ng-invalid:not(form) {
-            border: 1px solid #a94442;
+            border: 1px solid #a94442 !important;
         }
     }
 }

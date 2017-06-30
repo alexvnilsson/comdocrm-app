@@ -84,8 +84,8 @@ export class AccountsService {
         return this.getByAny(account);
     }
 
-    getBySlug(account: string): Observable<Account> {
-        return this.getByAny(account);
+    getByNameIdentity(nameIdentity: string): Observable<Account> {
+        return this.getByAny(nameIdentity);
     }
 
     getByStatus(statusId: string): Observable<Account> {
@@ -152,13 +152,11 @@ export class AccountsService {
 
     addPersonOfInterest(account: Account, personOfInterest: AccountPersonOfInterest): Observable<AccountUpdateResult> {
         return new Observable(observer => {
-            personOfInterest.accountId = account.id;
+            this.http.post(`${this.baseAddr}/accounts/contacts/add/${account.id}`, personOfInterest).subscribe(res => {
+                let result: AccountPersonOfInterest = res.json() || null;
 
-            this.http.post(`${this.baseAddr}/accounts/contacts/add`, personOfInterest).subscribe(res => {
-                let result: AccountUpdateResult = res.json() || null;
-
-                if(result && result.updated) {
-                    personOfInterest.id = result.id;
+                if(result) {
+                    personOfInterest = result;
                     observer.next();
                 }
                 else
@@ -195,9 +193,7 @@ export class AccountsService {
             let userTask: UserTask = JSON.parse(JSON.stringify(_userTask));
             userTask.ownerId = status.id;
 
-            console.log(userTask);
-
-            this.http.post(`${this.baseAddr}/accounts/statuses/usertasks/add`, userTask).subscribe(res => {
+            this.http.post(`${this.baseAddr}/accounts/statuses/usertasks/add/${status.id}`, userTask).subscribe(res => {
                 let result: AccountUpdateResult = res.json() || null;
 
                 if(result && result.updated){
