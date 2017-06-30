@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChild, ElementRef, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { trigger, state, transition, style, animate, keyframes } from '@angular/animations';
 
@@ -54,7 +55,7 @@ export class LogComposerComponent implements OnInit, OnChanges, AfterViewInit {
     constructor(
         private accountsService: AccountsService,
         private usersService: UsersService,
-        private router: Router,
+        private location: Location,
         private route: ActivatedRoute
     ) { }
 
@@ -106,6 +107,6 @@ export class LogComposerComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     onComposingFinished() {
-        this.router.navigate(['.', { outlets: { compose: null } }], { relativeTo: this.route.parent } );
+        this.location.back();
     }
 }

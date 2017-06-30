@@ -5,7 +5,7 @@ import { CustomRoute } from 'common/router';
     selector: '[ccrmNavItem]',
     exportAs: 'ccrmNavItem',
     host: {
-        '[class.text-white]': 'true'
+        '[class.nav-link]': 'true'
     }
 })
 export class NavigationItemDirective {

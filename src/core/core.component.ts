@@ -5,6 +5,7 @@ import { trigger, state, style, animate, transition, keyframes } from '@angular/
 import { RouteTransitionAnimation } from 'common/ui/animations';
 import { Router } from '@angular/router';
 import { CustomRoute } from 'common/router';
+import { ClientService } from '../clients/client.service';
 
 @Component({
     selector: 'ccrm-core',
@@ -17,15 +18,16 @@ import { CustomRoute } from 'common/router';
 export class CoreComponent implements OnInit, AfterViewInit {
     items: CustomRoute[] = [];
 
-    constructor(private router: Router, private authService: AuthenticationService) { }
+    constructor(private router: Router, private client: ClientService, private authService: AuthenticationService) { }
 
     ngOnInit() {
         this.router.config.forEach((route: CustomRoute) => {
-            this.items.push(route);
+            if(route.mainNav && this.items.indexOf(route) === -1)
+                this.items.push(route);
         });
     }
 
     ngAfterViewInit() {
-
+        
     }
 }

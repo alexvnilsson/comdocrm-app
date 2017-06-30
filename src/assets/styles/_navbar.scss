@@ -1,7 +1,85 @@
 @import "./bootstrap/_variables";
+@import 'bootstrap/mixins/breakpoints';
 
 $nav-item-hover-bg-color: #1565C0;
 $nav-item-active-bg-color: #0D47A1;
+
+.sidebar-nav {
+    display: block;
+    flex: 1;
+
+    background: #37474F;
+
+    height: 100vh;
+    
+    .nav-heading {
+        display: block;
+        padding: 1rem;
+
+        border-bottom: 1px solid #263238;
+
+        .nav-brand {
+            display: block;
+
+            text-align: center;
+            color: #f3f3f3;
+        }
+
+        .nav-tagline {
+            display: block;
+            margin-top: 0.5rem;
+
+            color: #90A4AE;
+            font-size: 16px;
+            text-align: center;
+        }
+    }
+
+    @include media-breakpoint-down(md) {
+        .nav-heading {
+            display: none;
+        }
+
+        a.nav-link {
+            span {
+                display: none;
+            }
+        }
+    }
+
+    a.nav-link {
+        flex: 1;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        &:not(.active) {
+            color: #fafafa;
+
+            .fa {
+                color: #546E7A;
+            }
+
+            span {
+                padding-left: 0.5rem;
+            }
+        }
+
+        &.active {
+            background: #263238;
+            color: #fff;
+
+            .fa {
+                color: #90A4AE;
+            }
+
+            span {
+                padding-left: 0.5rem;
+            }
+        }
+    }
+}
 
 .main-navbar,
 .module-navbar {
@@ -43,10 +121,9 @@ $nav-item-active-bg-color: #0D47A1;
 
 .page-navbar {
   margin: 0;
-  padding: 0 1em 0 1em;
+  padding: 0.5rem 1rem;
 
-  background: #e2e2e2;
-  border-bottom: 1px solid #c8c8c8;
+  background: #ECEFF1;
 
   .page-navbar-item {
     padding: 0.5em 1em;

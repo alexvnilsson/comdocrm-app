@@ -23,7 +23,6 @@ import { CallbackComponent } from 'common/authentication/callback/callback.compo
 
 import { NavbarComponent } from 'common/ui/components/navbar';
 import { NavbarSubComponent, NavbarSubDirective } from 'common/ui/components/navbar-sub';
-import { TestSpinnerComponent } from './testing/spinner-test.component';
 
 const routes: CustomRoute[] = [
     {
@@ -65,14 +64,12 @@ const routes: CustomRoute[] = [
     declarations: [
         CoreComponent,
         CallbackComponent,
-        NavbarComponent,
-
-        TestSpinnerComponent
+        NavbarComponent
     ],
     providers: [
         
     ],
-    bootstrap: [CoreComponent],
+    bootstrap: [ CoreComponent ],
     exports: [
         ComdoCrmCommonModule,
         RouterModule

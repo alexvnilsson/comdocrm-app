@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, APP_INITIALIZER } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, Route, ActivatedRoute, RouterOutlet } from '@angular/router';
@@ -35,6 +35,7 @@ import { DatepickerDirective } from './ui/components/datepicker/datepicker.direc
 import { LoadingComponent } from './ui/components/loading/loading.component';
 import { NavigationDirective } from './navigation/navigation.directive';
 import { NavigationItemDirective } from './navigation/navigation-item.directive';
+import { ClientService, ClientServiceInitFactory } from '../clients/client.service';
 
 @NgModule({
     imports: [
@@ -104,6 +105,13 @@ export class ComdoCrmCommonModule {
                     provide: AuthHttpExtended,
                     useFactory: authHttpExtendedFactory,
                     deps: [ Http, RequestOptions ]
+                },
+                ClientService,
+                {
+                    provide: APP_INITIALIZER,
+                    useFactory: ClientServiceInitFactory,
+                    deps: [ ClientService ],
+                    multi: true
                 },
                 UsersService
             ]

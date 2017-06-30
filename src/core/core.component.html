@@ -1,20 +1,29 @@
-<div class="d-flex flex-row justify-content-center align-items-center pt-3 pb-1 bg-primary">
-    <h2 class="lead text-white">ComdoCRM</h2>
-</div>
+
 
 <div class="d-flex flex-row">
-    <div ccrmNavigation>
+    <div 
+        ccrmNavigation
+        class="sidebar-nav">
+        <div class="nav-heading">
+            <h2 class="nav-brand display-4">
+                ComdoCRM
+            </h2>
+
+            <span class="nav-tagline">{{ client.clientInformation.name }}</span>
+        </div>
+
         <a 
             ccrmNavItem
             *ngFor="let route of items"
             [route]="route"
-            [tooltip]="route.text"
-            placement="right"
-            [routerLink]="route.href"><fa *ngIf="route.faIcon" [name]="route.faIcon"></fa></a>
+            routerLinkActive="active"
+            [routerLink]="route.href"><fa *ngIf="route.faIcon" [name]="route.faIcon"></fa> <span i18n>{{ route.text }}</span></a>
     </div>
 
-    <div style="flex: 99;">
-        
+    <div style="flex: 10;">
+        <div class="d-flex flex-row justify-content-start align-items-center p-2 pl-4 pr-4">
+            Do stuff
+        </div>
 
         <router-outlet></router-outlet>
     </div>
