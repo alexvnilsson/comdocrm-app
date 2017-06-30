@@ -4,11 +4,13 @@
 
 <ccrm-ui-spinner *ngIf="uiState.isLoading"></ccrm-ui-spinner>
 
-<div [@doneLoadingTransition]="uiState.isLoading" *ngIf="!uiState.isLoading && uiState.hasErrors" class="container mt-2 text-center">    
-    <h2 class="lead">Could not load accounts</h2>
+<div *ngIf="!uiState.isLoading && uiState.hasErrors" class="container mt-2 text-center">
+    <div class="container bg-faded">
+        <fa name="exclamation"></fa> <h2 class="lead"> Kunde inte hämta kundinformation</h2>
+    </div>
 </div>
 
-<div [@doneLoadingTransition]="uiState.isLoading" *ngIf="!uiState.isLoading && !uiState.hasErrors">
+<div *ngIf="!uiState.isLoading && !uiState.hasErrors">
     <div class="row no-gutters">
         <div class="col-md-8">
             <div id="listView" class="container no-gutters-sm pt-2 pl-0 pr-0" style="position: relative">

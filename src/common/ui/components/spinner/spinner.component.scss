@@ -1,11 +1,8 @@
 .container {
-    width: 40px !important;
-    height: 40px !important;
-
-    padding: 0;
-
-    position: relative;
-    margin: 100px auto;
+    position: absolute;
+    top: 0px; left: 0px; right: 0px; bottom: 0px;
+    
+    display: flex; flex-direction: row; justify-content: center; align-items: center;
 
     .spinner-1, .spinner-2 {
         width: 100%;
@@ -17,10 +14,17 @@
         top: 0;
         left: 0;
     }
+
+    .spinner-container {
+        position: relative;
+
+        width: 40px !important;
+        height: 40px !important;
+    }
 }
 
 
-:host(:not(.ng-leave)) > .container {
+:host(:not(.ng-leave)) > .container .spinner-container {
     .spinner-1, .spinner-2 {
         animation: spinner-kf-bounce 2.0s infinite ease-in-out;
     }
@@ -30,7 +34,7 @@
     }
 }
 
-:host(.ng-leave) > .container {
+:host(.ng-leave) > .container .spinner-container {
     .spinner-1, .spinner-2 {
         animation: spinner-kf-bounce-leave 250ms ease-in;
         animation-fill-mode: forwards;

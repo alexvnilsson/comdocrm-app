@@ -6,8 +6,10 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
     selector: 'ccrm-ui-spinner',
     template: `<div class="container">
-    <div class="spinner-1"></div>
-    <div class="spinner-2"></div>
+    <div class="spinner-container">
+        <div class="spinner-1"></div>
+        <div class="spinner-2"></div>
+    </div>
     </div>`,
     styleUrls: ['./spinner.component.scss'],
     animations: [

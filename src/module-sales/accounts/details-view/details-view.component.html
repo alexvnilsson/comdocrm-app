@@ -3,13 +3,17 @@
     <a ccrmUiNavbarSubItem role="button"><fa name="envelope"></fa> <span class="small">Email</span></a>
 </ccrm-ui-navbar-sub>
 
-<ccrm-ui-spinner [@doneLoadingTransition]="uiState.isLoading" *ngIf="uiState.isLoading"></ccrm-ui-spinner>
+<ccrm-ui-spinner *ngIf="uiState.isLoading"></ccrm-ui-spinner>
 
-<div [@doneLoadingTransition]="uiState.isLoading" *ngIf="!uiState.isLoading && uiState.hasErrors" class="container mt-2 text-center">    
-    <h2 class="lead">Could not load account</h2>
+<div *ngIf="!uiState.isLoading && uiState.hasErrors" class="container mt-2 text-center">
+    <div class="container d-flex flex-row p-3 bg-danger text-white">
+        <fa name="exclamation-circle"></fa>
+           
+        <h2 class="lead ml-2 mb-0"> Kunde inte hämta kundinformation</h2>
+    </div>
 </div>
 
-<div [@doneLoadingTransition] *ngIf="!uiState.isLoading">
+<div *ngIf="uiState.isComplete">
     <div class="row no-gutters">
         <div class="col-md-8">
             <div class="container">
