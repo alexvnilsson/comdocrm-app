@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { UserTask } from 'module-user-tasks';
 import { AuthenticationService } from '../authentication/authentication.service';
 import * as Auth0 from 'auth0-js';
+import { ClientService } from '../../clients/client.service';
 
 @Injectable()
 export class UsersService {
@@ -13,6 +14,7 @@ export class UsersService {
 
     constructor(
         private http: AuthHttpExtended,
+        private clientService: ClientService,
         private authService: AuthenticationService
     ) {}
 
@@ -47,5 +49,9 @@ export class UsersService {
                 this._getState[stateId] = value;
             }
         });
+    }
+
+    getUsers(): Array<any> {
+        return this.clientService.users;
     }
 }

@@ -17,6 +17,7 @@ import { ComposerComponent } from './status-view/composer/composer.component';
 import { Observable } from 'rxjs/Observable';
 import { UiState } from 'common/interfaces';
 import { UiStateComponentObject } from '../../../common/interfaces/ui-state.interface';
+import { User } from '../../../common/users/user';
 
 @Component({
     selector: 'ccrm-sales-accounts-details-view',
@@ -32,6 +33,8 @@ import { UiStateComponentObject } from '../../../common/interfaces/ui-state.inte
 })
 export class DetailsViewComponent implements OnInit, UiState, OnDestroy {
     @ViewChild('accountEditor') accountEditor: AddPersonOfInterestComponent;
+
+    allUsers: Array<any> = [];
 
     account: Account;
     userState: any;
@@ -50,6 +53,10 @@ export class DetailsViewComponent implements OnInit, UiState, OnDestroy {
     ) { }
 
     ngOnInit() {
+        this.allUsers = this.usersService.getUsers();
+
+        console.log(this.allUsers);
+
         this.usersService.getState().subscribe(state => this.userState = state);
 
         this.activatedRouter.params.subscribe(params => {
@@ -106,6 +113,18 @@ export class DetailsViewComponent implements OnInit, UiState, OnDestroy {
 
     clickAddPersonOfInterest() {
         this.router.navigate([{ outlets: { 'modal': [ 'contacts-add' ] } }], { relativeTo: this.route });
+    }
+
+    clickSetManager(event: any, user: User) {
+        if(event && user && user.id) {
+            this.accountsService.setManager(this.account, user.id).subscribe(result => {
+                if(result.updated){
+                    this.account.manager = user;
+                }
+            })
+        }
+
+        return false;
     }
 
     getSortedAccountStatuses(statuses: Array<AccountStatus>) {

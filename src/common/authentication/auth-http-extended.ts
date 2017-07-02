@@ -65,6 +65,25 @@ export class AuthHttpExtended extends AuthHttp {
         });
     }
 
+    put(url: string, body: any, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
+        return new Observable(observer => {
+            let completeUrl: string = url;
+
+            if(!omitHost)
+                completeUrl = envOptions.api.endpoint + url;
+
+            super.put(completeUrl, body, options).subscribe(
+                (res: Response) => {
+                    observer.next(res);
+                },
+                error => {
+                    observer.error(error)
+                },
+                () => observer.complete()
+            );
+        });
+    }
+
     delete(url: string, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
         return new Observable(observer => {
             let completeUrl: string = url;

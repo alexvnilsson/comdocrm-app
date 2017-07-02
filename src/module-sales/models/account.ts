@@ -1,5 +1,6 @@
 ﻿import { EventEmitter } from '@angular/core';
 import { UserTask } from 'module-user-tasks';
+import { User } from '../../common/users/user';
 
 export class Account {
     id: string;
@@ -10,6 +11,7 @@ export class Account {
         displayName: string;
     }
     displayName: string;
+    manager?: User;
     contact: AccountContact;
     business: AccountBusiness;
     peopleOfInterest: AccountPersonOfInterest[];

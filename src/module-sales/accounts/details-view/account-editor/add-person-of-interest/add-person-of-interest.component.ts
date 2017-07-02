@@ -20,10 +20,8 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
         id: null,
         fullName: null,
         jobTitle: null,
-        contact: {
-            phoneNumber: null,
-            emailAddress: null
-        },
+        phoneNumber: null,
+        emailAddress: null,
         decisionMaker: false,
     };
 

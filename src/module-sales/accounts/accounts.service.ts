@@ -105,7 +105,7 @@ export class AccountsService {
             status.accountId = account.id;
             status.publicationDate = new Date();
 
-            this.http.post(`${this.baseAddr}/accounts/statuses/add`, status).subscribe((res: Response) => {
+            this.http.post(`${this.baseAddr}/accounts/statuses`, status).subscribe((res: Response) => {
                 let resultData: AccountUpdateResult = res.json() || null;
 
                 if(resultData) {
@@ -152,7 +152,7 @@ export class AccountsService {
 
     addPersonOfInterest(account: Account, personOfInterest: AccountPersonOfInterest): Observable<AccountUpdateResult> {
         return new Observable(observer => {
-            this.http.post(`${this.baseAddr}/accounts/contacts/add/${account.id}`, personOfInterest).subscribe(res => {
+            this.http.post(`${this.baseAddr}/accounts/contacts/${account.id}`, personOfInterest).subscribe(res => {
                 let result: AccountPersonOfInterest = res.json() || null;
 
                 if(result) {
@@ -167,7 +167,7 @@ export class AccountsService {
 
     updatePersonOfInterest(personOfInterest: AccountPersonOfInterest): Observable<AccountUpdateResult> {
         return new Observable(observer => {
-            this.http.post(`${this.baseAddr}/accounts/contacts/update`, personOfInterest).subscribe(result => {
+            this.http.post(`${this.baseAddr}/accounts/contacts/${personOfInterest.id}`, personOfInterest).subscribe(result => {
                 if(result.ok)
                     observer.next();
                 else
@@ -193,7 +193,7 @@ export class AccountsService {
             let userTask: UserTask = JSON.parse(JSON.stringify(_userTask));
             userTask.ownerId = status.id;
 
-            this.http.post(`${this.baseAddr}/accounts/statuses/usertasks/add/${status.id}`, userTask).subscribe(res => {
+            this.http.post(`${this.baseAddr}/accounts/statuses/usertasks/${status.id}`, userTask).subscribe(res => {
                 let result: AccountUpdateResult = res.json() || null;
 
                 if(result && result.updated){
@@ -209,9 +209,25 @@ export class AccountsService {
         })
     }
 
+    setManager(account: Account, userId: string): Observable<AccountUpdateResult> {
+        return new Observable(observer => {
+            this.http.put(`${this.baseAddr}/accounts/manager/${account.id}/${userId}`, null).subscribe(res => {
+                if(res.ok) {
+                    observer.next({
+                        updated: true
+                    });
+                }
+                else {
+                    observer.error();
+                }
+            },
+            error => observer.error(error))
+        });
+    }
+
     saveChanges(account: Account, callback: (result: AccountUpdateResult) => any): Observable<Account> {
         return new Observable(observer => {
-            this.http.post(`${this.baseAddr}/accounts/save/${account.id}`, account).subscribe((res: Response) => {
+            this.http.put(`${this.baseAddr}/accounts/${account.id}`, account).subscribe((res: Response) => {
                 let resultData: AccountUpdateResult = res.json() || null;
 
                 if (resultData) {

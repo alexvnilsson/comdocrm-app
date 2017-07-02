@@ -46,6 +46,27 @@
                             </div>
                         </ng-container>
 
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <h5 class="muted">Ansvarig</h5>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="input-group" dropdown>
+                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false" [title]="account.manager?.userName || 'Välj...'">
+                                        <span *ngIf="account.manager; else accountDisplayNameNull">{{ account.manager?.fullName | trim: 42 }}</span>
+                                        <ng-template #accountDisplayNameNull>
+                                            <span i18n="Any account source">Välj...</span>
+                                        </ng-template>
+                                    </button>
+
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item" *ngFor="let user of allUsers" (click)="clickSetManager($event, user)">{{ user.fullName }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
                             <div *ngFor="let person of account.peopleOfInterest">
                                 <ccrm-sales-accounts-person-of-interest [person]="person" (onPersonDeleted)="onPersonDeleted($event)"></ccrm-sales-accounts-person-of-interest>
