@@ -44,6 +44,8 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() account: Account = null;
     @Input() status: AccountStatus = null;
 
+    @Input('light') lightMode: boolean;
+
     statusMessage = {
         messageText: null,
         trimmed: false,

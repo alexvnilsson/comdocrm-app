@@ -1,5 +1,5 @@
 <div [@statusItemTransition] class="row" *ngIf="status && !status.isRemoved">
-    <div class="col-1 hidden-sm-down">
+    <div *ngIf="!lightMode" class="col-1 hidden-sm-down">
         <div class="row d-flex flex-row justify-content-center min-max-width-1-5 minh-100">
             <div class="col d-flex flex-column justify-content-center align-items-center minh-100 position-relative">                
                 <div class="h-100 bg-darkgray shape-border-vh-max margin-invert-left-1"></div>
@@ -16,9 +16,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col">
                         <p
-                            style="margin-top: 0.1rem">
+                            [style.margin-top]="'!lightMode ? \'0.1rem\''">
                             <span 
                                     class="mt-1 small text-muted"
                                     [class.text-warning]="status.isDelayed"
@@ -28,36 +28,48 @@
                                     {{ status.publicationDate | amTimeAgo }}
                             </span>
 
-                            <ng-container *ngIf="status.isDelayed">
+                            <ng-container *ngIf="!lightMode">
+                                <ng-container *ngIf="status.isDelayed">
+                                    <span class="ml-2 small">
+                                        <fa name="eye"></fa>
+                                        <span>only you</span>
+                                    </span>
+                                </ng-container>
+
                                 <span class="ml-2 small">
-                                    <fa name="eye"></fa>
-                                    <span>only you</span>
+                                    <fa name="user"></fa>
+
+                                    <span>{{ status.publishedBy.fullName || "unknown" }}</span>
                                 </span>
                             </ng-container>
-
-                            <span class="ml-2 small">
-                                <fa name="user"></fa>
-
-                                <span>{{ status.publishedBy.fullName || "unknown" }}</span>
-                            </span>
                         </p>
                     </div>
 
-                    <div class="col-2 d-flex justify-content-end">
-                        <ng-template #removeStatusConfirmation>
-                            <span class="small" i18n>Are you sure?
-                                <button (click)="onRemoveStatus()" class="btn btn-danger btn-sm" role="button">Delete</button>
+                    <ng-container *ngIf="!lightMode">
+                        <div class="col-2 d-flex justify-content-end">
+                            <ng-template #removeStatusConfirmation>
+                                <span class="small" i18n>Are you sure?
+                                    <button (click)="onRemoveStatus()" class="btn btn-danger btn-sm" role="button">Delete</button>
+                                </span>
+                            </ng-template>
+                            <a 
+                                class="no-underline color-black ml-2"
+                                [popover]="removeStatusConfirmation"
+                                placement="left"
+                                container="body"
+                                role="button">
+                                &times;
+                            </a>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="lightMode">
+                        <div class="col-4">
+                            <span class="small mt-1">
+                                {{ account.customer?.legalName }}
                             </span>
-                        </ng-template>
-                        <a 
-                            class="no-underline color-black ml-2"
-                            [popover]="removeStatusConfirmation"
-                            placement="left"
-                            container="body"
-                            role="button">
-                            &times;
-                        </a>
-                    </div>
+                        </div>
+                    </ng-container>
                 </div>
 
                 <h4 class="card-title">{{ status.messageHeader }}</h4>
@@ -69,35 +81,37 @@
                     </ng-container>
                 </p>
 
-                <div class="d-flex flex-column align-items-start">
-                    <span class="text-muted">{{ status.messageFooter }}</span>
-                    <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
-                </div>
+                <ng-container *ngIf="!lightMode">
+                    <div class="d-flex flex-column align-items-start">
+                        <span class="text-muted">{{ status.messageFooter }}</span>
+                        <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
+                    </div>
 
-                <ng-container *ngIf="status.userTasks">
-                    <div class="mt-4"></div>
+                    <ng-container *ngIf="status.userTasks">
+                        <div class="mt-4"></div>
 
-                    <ng-container *ngFor="let userTask of status.userTasks">
-                        <div class="text-muted small"><fa name="calendar"></fa> <span *ngIf="userTask.reminderDate">{{ userTask.reminderDate | date }}</span> <span *ngIf="userTask.displayName">- {{ userTask.displayName }} 
+                        <ng-container *ngFor="let userTask of status.userTasks">
+                            <div class="text-muted small"><fa name="calendar"></fa> <span *ngIf="userTask.reminderDate">{{ userTask.reminderDate | date }}</span> <span *ngIf="userTask.displayName">- {{ userTask.displayName }} 
 
-                        <ng-template #removeStatusUserTaskConfirmation>
-                            <span class="small" i18n>Are you sure?
-                                <button class="btn btn-danger btn-sm" role="button">Delete</button>
-                            </span>
-                        </ng-template>
-                        <a 
-                            class="no-underline color-black ml-2"
-                            [popover]="removeStatusUserTaskConfirmation"
-                            placement="right"
-                            container="body"
-                            role="button">
-                            &times;
-                        </a>    
-                        </span></div>
+                            <ng-template #removeStatusUserTaskConfirmation>
+                                <span class="small" i18n>Are you sure?
+                                    <button class="btn btn-danger btn-sm" role="button">Delete</button>
+                                </span>
+                            </ng-template>
+                            <a 
+                                class="no-underline color-black ml-2"
+                                [popover]="removeStatusUserTaskConfirmation"
+                                placement="right"
+                                container="body"
+                                role="button">
+                                &times;
+                            </a>    
+                            </span></div>
+                        </ng-container>
                     </ng-container>
-                </ng-container>
 
-                <ccrm-sales-accounts-status-add-reminder-inline [status]="status"></ccrm-sales-accounts-status-add-reminder-inline>
+                    <ccrm-sales-accounts-status-add-reminder-inline [status]="status"></ccrm-sales-accounts-status-add-reminder-inline>
+                </ng-container>
             </div>
         </div>
     </div>        

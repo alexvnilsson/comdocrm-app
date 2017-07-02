@@ -53,8 +53,8 @@
 
                             <div class="col-12">
                                 <div class="input-group" dropdown>
-                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false" [title]="account.manager?.userName || 'Välj...'">
-                                        <span *ngIf="account.manager; else accountDisplayNameNull">{{ account.manager?.fullName | trim: 42 }}</span>
+                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false" [title]="account.manager?.user?.fullName || 'Välj...'">
+                                        <span *ngIf="account.manager; else accountDisplayNameNull">{{ account.manager?.user?.fullName | trim: 42 }}</span>
                                         <ng-template #accountDisplayNameNull>
                                             <span i18n="Any account source">Välj...</span>
                                         </ng-template>

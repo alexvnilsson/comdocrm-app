@@ -77,10 +77,7 @@ export class ListViewComponent implements OnInit, UiState {
         this.uiState.isComplete = true;
     }
 
-    clickAccount(account: Account) {
-        if(account)
-            this.router.navigate(['/sales/accounts/view', account.nameIdentity]);
-    }
+    
 
     onAccountSourceChanged(source: AccountSource) {
 

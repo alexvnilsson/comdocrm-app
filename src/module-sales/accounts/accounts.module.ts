@@ -18,6 +18,7 @@ import { AddReminderComponent } from './details-view/status-view/add-reminder/ad
 import { AddReminderInlineComponent } from './details-view/status-view/status-item/add-reminder-inline/add-reminder-inline.component';
 import { ComposerComponent } from './details-view/status-view/composer/composer.component';
 import { LogComposerComponent } from './details-view/status-view/composer/log-composer/log-composer.component';
+import { ListItemComponent } from './list-view/list-item/list-item.component';
 
 const routes: Route[] = [
     {
@@ -57,6 +58,7 @@ const routes: Route[] = [
     ],
     declarations: [
         ListViewComponent,
+        ListItemComponent,
         DetailsViewComponent,
         ComposerComponent,
         AddPersonOfInterestComponent,
