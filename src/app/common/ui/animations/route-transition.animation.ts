@@ -6,7 +6,7 @@ export const RouteTransitionAnimation = trigger('routeTransition', [
         animate('0.1s 300ms', keyframes([
             style({ opacity: '0', transform: 'translateX(-20%)', position: 'fixed', offset: 0 }),
             style({ opacity: '1', transform: 'translateX(0%)', offset: 0.99 }),
-            style({ opacity: '1', position: 'relative', offset: 1 })
+            style({ opacity: '1', position: 'static', offset: 1 })
         ]))
     ]),
     transition(':leave', [
