@@ -1,0 +1,15 @@
+<div class="card card-block">
+    <h4 class="card-title mb-1">{{ account.customer?.legalName }}</h4>
+
+    <p class="card-text mb-3">
+        <span class="mb-2 small text-muted" tooltip="Senast uppdaterad">
+            <ng-container *ngIf="account.dateModified">
+                <fa name="clock-o"></fa> {{ account.dateModified | date }}
+            </ng-container>
+        </span>
+
+        <span *ngIf="account.manager?.isMe" class="badge badge-primary">Hanteras av mig</span>
+    </p>
+
+    <a href="#" class="card-link" role="button" (click)="clickAccount()">Öppna</a>
+</div>

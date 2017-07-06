@@ -2,7 +2,31 @@
 @import './bootstrap/bootstrap';
 
 html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    
     cursor: default;
+}
+
+body {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.flex-container-full {
+    flex: 1;
+
+    display: flex;
+}
+
+.workspace {   
+    position: relative;
+    
+    flex: 1;
+
+    overflow-y: auto;
 }
 
 @import 'navbar';

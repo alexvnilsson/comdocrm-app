@@ -1,0 +1,108 @@
+<div class="row bg-faded">
+    <div [@slideDownTransition] class="col-md-12 pt-4 pb-4" *ngIf="account">
+        <form #logForm="ngForm" (ngSubmit)="onFormSubmit(logForm)">
+            <div class="row mb-3">
+                <div class="col-10">
+                    <h3 class="lead">Registrera händelse</h3>
+                </div>
+
+                <div class="col-2 text-right">
+                    <button type="button" class="close" (click)="onComposingFinished()" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-8">
+                    <div class="form-group mb-2">
+                        <input 
+                            #logHeaderText
+                            id="logHeaderText"
+                            required
+                            minlength="4"
+                            maxlength="128"
+                            class="form-control"
+                            i18n-placeholder
+                            placeholder="Sammanfatta händelsen"
+                            [(ngModel)]="status.messageHeader"
+                            name="headerText"
+                            autocomplete="off"/>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group mb-0 d-flex flex-row">
+                        <a
+                            #logDelayDate="ccrmUiDatepicker"
+                            id="logDelayDate"
+                            ccrmUiDatepicker
+                            (onDateChanged)="onLogDelayed($event)"
+                            autoClose="true"
+                            [startDate]="dateNextDay"
+                            [(ngModel)]="status.delayDate"
+                            name="delayDate"
+                            class="no-underline color-black"
+                            role="button">
+                            <fa name="calendar"></fa>
+
+                            <ng-container *ngIf="!status.isDelayed">
+                                <span class="small text-muted">Publicera direkt</span>
+                            </ng-container>
+                        </a>
+
+                        <p *ngIf="status.isDelayed" class="pl-1 mb-0 small d-flex flex-row align-items-center">
+                            <span>
+                                <span class="text-muted">Publiceras den</span> {{ status.delayDate | date }}
+                            </span>
+                            <a 
+                                class="no-underline color-black ml-2"
+                                (click)="onLogDelayCancel()"
+                                role="button">
+                                &times;
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div [@editorTransition] class="row">
+                <div class="col-md-12">
+                    <div>
+                        <div class="form-group" >
+                            <textarea
+                                id="logBodyText"
+                                required
+                                minlength="8"
+                                maxlength="1024"
+                                class="form-control input-text-resize-none"
+                                i18n-placeholder
+                                placeholder="Beskrivning av händelsen"
+                                [(ngModel)]="status.messageBody"
+                                name="messageText">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <ng-container *ngIf="userProfile">
+                        <span class="small"><span class="text-muted">publicerar som</span> {{ userProfile.username }}</span>
+                    </ng-container>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group d-flex justify-content-end">
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            role="button"
+                            i18n>Spara</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>        
+</div>

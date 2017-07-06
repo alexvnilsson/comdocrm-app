@@ -1,0 +1,53 @@
+
+<div class="d-flex flex-column" style="flex: 1">
+    <div class="d-flex flex-row" style="flex: 1">
+        <div 
+            ccrmNavigation
+            class="sidebar-nav">
+            <div class="nav-heading">
+                <h2 class="nav-brand display-4">
+                    ComdoCRM
+                </h2>
+
+                <span class="nav-tagline">{{ client.clientInformation.name }}</span>
+            </div>
+
+            <a 
+                ccrmNavItem
+                *ngFor="let route of routeItems"
+                [route]="route"
+                routerLinkActive="active"
+                [routerLink]="route.href"><fa *ngIf="route.faIcon" [name]="route.faIcon"></fa> <span i18n>{{ route.text }}</span></a>
+        </div>
+
+        <div class="bg-faded workspace">
+            <div class="d-flex flex-row pt-2 pb-2" style="z-index: 999">
+                <div class="col-8">
+
+                </div>
+                <!-- User block -->
+                <div class="col-4 d-flex flex-row justify-content-end">
+                    <ng-container *ngIf="userProfile">
+                        <div class="btn-group" dropdown placement="bottom right">
+                            <button dropdownToggle type="button" class="btn btn-secondary border-0 dropdown-toggle" role="button">
+                                <fa name="user"></fa> <span class="caret"></span>
+                            </button>
+                            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                                <li role="menuitem"><a class="dropdown-item" href="#">Inställningar</a></li>
+                                <li class="divider dropdown-divider"></li>
+                                <li role="menuitem"><a class="dropdown-item" href="#">Logga ut</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="position-relative">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>
+
+<router-outlet name="account"></router-outlet>
