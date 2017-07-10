@@ -1,11 +1,11 @@
 <!-- Tab buttons -->
-<div class="d-flex flex-row">
+<div class="container-fluid d-flex flex-row">
     <ng-container *ngFor="let tab of tabs">
         <button class="col btn tab-button" role="button" [class.tab-active]="tab.active" (click)="onTabClicked(tab, $event)">{{ tab.header }}</button>
     </ng-container>
 </div>
 
 <!-- Tab contents -->
-<div class="container">
+<div class="container-fluid">
     <ng-content></ng-content>
 </div>

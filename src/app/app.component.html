@@ -9,7 +9,13 @@
                     ComdoCRM
                 </h2>
 
-                <span class="nav-tagline">{{ client.clientInformation.name }}</span>
+                <span
+                    *ngIf="client && client.clientInformation; else noClientInformation"
+                    class="nav-tagline">{{ client.clientInformation.name }}</span>
+
+                <ng-template #noClientInformation>
+                    <span class="nav-tagline">Okänd kund</span>
+                </ng-template>
             </div>
 
             <a 

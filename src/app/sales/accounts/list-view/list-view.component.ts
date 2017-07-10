@@ -55,7 +55,7 @@ export class ListViewComponent implements OnInit, UiState {
             accounts => this.onAccountsLoad(accounts),
             error => this.uiOnError(error)
         );
-        this.onAccountSourceChangeListener = this.onAccountSourceChange.subscribe(this.onAccountSourceChanged.bind(this));
+        this.onAccountSourceChangeListener = this.onAccountSourceChange.subscribe(this.onAccountSourceChanged.bind(this), this.uiOnError.bind(this));
     }
 
     uiOnComplete() {
@@ -79,7 +79,7 @@ export class ListViewComponent implements OnInit, UiState {
 
         this.usersService.getState().subscribe(this.onUserStateLoaded.bind(this));
 
-        this.uiState.isComplete = true;
+        this.uiState.onComplete();
     }
 
     onAccountClicked(account: Account, event: Event) {

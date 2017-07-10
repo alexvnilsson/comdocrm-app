@@ -221,6 +221,10 @@ export class AccountsService {
 
                 if(result && result.updated){
                     userTask.id = result.id;
+
+                    if(status && !status.userTasks)
+                        status.userTasks = [];
+
                     status.userTasks.push(userTask);
 
                     this.onUserTaskAddedToStatus.next(new StatusUserTaskAddedEvent(status, userTask));

@@ -1,16 +1,16 @@
-<ccrm-ui-navbar-sub>
-  <button ccrmUiNavbarSubItem (click)="onCreateAccount()"><fa name="plus"></fa> <span i18n="A new account in the context of sales and prospects">Skapa</span></button>
-</ccrm-ui-navbar-sub>
-
 <ccrm-ui-spinner *ngIf="uiState.isLoading"></ccrm-ui-spinner>
 
 <div *ngIf="!uiState.isLoading && uiState.hasErrors" class="container mt-2 text-center">
     <div class="container bg-faded">
-        <fa name="exclamation"></fa> <h2 class="lead"> Kunde inte hämta kundinformation</h2>
+        <fa name="exclamation"></fa> <h2 class="lead"> Kunde inte kommunicera med tjänsten. Var god försök igen, eller kontakta kundtjänsten.</h2>
     </div>
 </div>
 
-<div *ngIf="!uiState.isLoading && !uiState.hasErrors">
+<div *ngIf="uiState.isComplete">
+    <ccrm-ui-navbar-sub>
+        <button ccrmUiNavbarSubItem (click)="onCreateAccount()"><fa name="plus"></fa> <span i18n="A new account in the context of sales and prospects">Skapa</span></button>
+    </ccrm-ui-navbar-sub>
+
     <ccrm-tabs>
         <ccrm-tabs-tab header="Kunder">
             <table class="table table-hover">

@@ -7,9 +7,9 @@ import { AccountsService } from '../../accounts.service';
     template: `<ng-container *ngIf="person">
         <div class="row flex-row person-card pt-1 pb-1">
             <div class="col-10">
-                <ccrm-ui-inline-editor placeholder="First and last name" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.fullName" name="fullName">
+                <ccrm-ui-inline-editor placeholder="För- och efternamn" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.fullName" name="fullName">
                     <span class="lead">{{ person.fullName }}</span>
-                    <span *ngIf="!person.fullName" class="lead text-muted">First and last name</span>
+                    <span *ngIf="!person.fullName" class="lead text-muted">För- och efternamn</span>
                 </ccrm-ui-inline-editor>
             </div>
 
@@ -25,18 +25,18 @@ import { AccountsService } from '../../accounts.service';
 
         <div class="row person-card pt-1 pb-1">
             <div class="col text-nowrap mr-1">
-                <span class="text-muted d-block">Email</span>
-                <ccrm-ui-inline-editor placeholder="Email" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.emailAddress" name="contact_emailAddress">
+                <span class="text-muted d-block">E-postadress</span>
+                <ccrm-ui-inline-editor placeholder="E-postadress" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.emailAddress" name="contact_emailAddress">
                     {{ person.emailAddress }}
-                    <span *ngIf="!person.emailAddress" class="small text-muted">Email address</span>
+                    <span *ngIf="!person.emailAddress" class="small text-muted">E-postadress</span>
                 </ccrm-ui-inline-editor>
             </div>
 
             <div class="col text-nowrap mr-1">
-                <span class="text-muted d-block">Phone</span>
-                <ccrm-ui-inline-editor placeholder="Phone number" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.phoneNumber" name="contact_phoneNumber">
+                <span class="text-muted d-block">Telefonnummer</span>
+                <ccrm-ui-inline-editor placeholder="Telefonnummer" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.phoneNumber" name="contact_phoneNumber">
                     {{ person.phoneNumber }}
-                    <span *ngIf="!person.phoneNumber" class="small text-muted">Phone number</span>
+                    <span *ngIf="!person.phoneNumber" class="small text-muted">Telefonnummer</span>
                 </ccrm-ui-inline-editor>
             </div>
         </div>

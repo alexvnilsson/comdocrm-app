@@ -48,7 +48,9 @@ export class UiStateComponentObject {
         this.errors.push(error);
     }
 
-    onDoneLoading() {
-        this.isDoneLoading = true;
+    onComplete() {
+        this.isLoading = false;
+        this.hasErrors = false;
+        this.isComplete = true;
     }
 }

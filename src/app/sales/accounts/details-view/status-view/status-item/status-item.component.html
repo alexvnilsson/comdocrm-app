@@ -2,7 +2,7 @@
     <div class="col-1 hidden-sm-down">
         <div class="row d-flex flex-row justify-content-center min-max-width-1-5 minh-100">
             <div class="col d-flex flex-column justify-content-center align-items-center minh-100 position-relative">                
-                <div class="h-100 bg-darkgray shape-border-vh-max margin-invert-left-1"></div>
+                <div class="h-100 bg-gray-light shape-border-vh-max margin-invert-left-1"></div>
 
                 <div class="position-absolute pt-2 size-absolute-fill d-flex justify-content-center align-items-start">
                     <i 
@@ -27,10 +27,7 @@
                                     container="body">
                                     {{ status.publicationDate | amTimeAgo }}
                             </span>
-
-                            <span *ngIf="lightMode" class="small mt-1">
-                                för kund <i>{{ account.customer?.legalName }}</i>
-                            </span>
+                            <a *ngIf="lightMode" class="small mt-1 ml-1" [routerLink]="[ '/', 'sales', 'accounts', account.alias ]">{{ account.customer?.legalName }}</a>
 
                             <ng-container *ngIf="!lightMode">
                                 <ng-container *ngIf="status.isDelayed">
@@ -72,22 +69,25 @@
 
                 <p [@messageTextTransitions]="statusMessage?.messageText" class="card-text">
                     {{ statusMessage.messageText }} 
-                    <ng-container *ngIf="statusMessage.canTrim">
-                        <a href="#" *ngIf="statusMessage.trimmed" role="button" (click)="showAllStatusMessageText($event)">(more)</a>
-                    </ng-container>
+                    
+                    <a href="#" *ngIf="statusMessage.canTrim && statusMessage.trimmed" role="button" (click)="showAllStatusMessageText($event)">(more)</a>
                 </p>
 
+                <div class="d-flex flex-column align-items-start" *ngIf="!lightMode">
+                    <span class="text-muted">{{ status.messageFooter }}</span>
+                    <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
+                </div>
+                
                 <ng-container *ngIf="!lightMode">
-                    <div class="d-flex flex-column align-items-start">
-                        <span class="text-muted">{{ status.messageFooter }}</span>
-                        <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
-                    </div>
-
                     <ng-container *ngIf="status.userTasks">
                         <div class="mt-4"></div>
 
                         <ng-container *ngFor="let userTask of status.userTasks">
-                            <div class="text-muted small"><fa name="calendar"></fa> <span *ngIf="userTask.reminderDate">{{ userTask.reminderDate | date }}</span> <span *ngIf="userTask.displayName">- {{ userTask.displayName }} 
+                            <div class="small">
+                            <span class="text-muted">    
+                                <fa name="calendar"></fa> <span *ngIf="userTask.reminderDate" [tooltip]="userTask.reminderDate | date:'y-MM-dd'">{{ userTask.reminderDate | amCalendar }}</span>
+                            </span>
+                            <span *ngIf="userTask.displayName">{{ userTask.displayName }}
 
                             <ng-template #removeStatusUserTaskConfirmation>
                                 <span class="small" i18n>Är du säker?
@@ -107,6 +107,7 @@
                         </ng-container>
                     </ng-container>
 
+                    
                     <ccrm-sales-accounts-status-add-reminder-inline [account]="account" [status]="status"></ccrm-sales-accounts-status-add-reminder-inline>
                 </ng-container>
             </div>
