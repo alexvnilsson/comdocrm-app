@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlannerContainer } from '../models/plannerContainer';
 import { MarketingService } from '../marketing.service';
-import { UiState, UiStateComponentObject } from 'app/common/interfaces';
+import { UiState } from 'app/common/interfaces';
 import { RouteTransitionAnimation, DoneLoadingTransitionAnimation } from 'app/common/ui/animations';
 import 'rxjs/add/operator/catch';
 
@@ -11,10 +11,10 @@ import 'rxjs/add/operator/catch';
     animations: [ RouteTransitionAnimation, DoneLoadingTransitionAnimation ],
     host: { '[@routeTransition]': 'true' }
 })
-export class ListViewComponent implements OnInit, UiState {
+export class ListViewComponent implements OnInit {
     plannerContainers: Array<PlannerContainer> = [];
 
-    uiState: UiStateComponentObject = new UiStateComponentObject(true);
+    uiState: UiState = new UiState(true);
 
     constructor(
         private marketingService: MarketingService

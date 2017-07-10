@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthHttpExtended } from 'app/common/authentication';
 import { AccountsService } from '../../../accounts.service';
 import { Account, AccountStates, AccountCustomer } from '../../../accounts';
-import { UiStateComponentObject } from 'app/common/interfaces';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common';
 

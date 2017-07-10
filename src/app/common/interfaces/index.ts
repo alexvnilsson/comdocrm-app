@@ -1,1 +1,1 @@
-export { UiState, UiStateComponentObject } from './ui-state.interface';
+export { UiState } from './ui-state.interface';
