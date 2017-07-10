@@ -54,8 +54,10 @@ export class AuthenticationService implements OnDestroy {
                         localStorage.removeItem('auth:returnUrl');
                     }
 
-                    observer.next();
                     this.router.navigate([returnUrl]);
+
+                    observer.next();
+                    
                 } else if (err) {
                     observer.error(err);
                     this.router.navigate(['/']);

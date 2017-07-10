@@ -9,7 +9,7 @@ import { UsersService } from 'app/common/users';
 
 import { Account, AccountSource } from '../accounts';
 import { ViewState } from '../../../common/ui/views/view-state';
-import { UiState, UiStateComponentObject } from '../../../common/interfaces/ui-state.interface';
+import { UiState } from '../../../common/interfaces/ui-state.interface';
 
 export interface AccountListState {
     accountSource?: AccountSource;
@@ -28,11 +28,11 @@ export const USER_STATE = {
         '[@routeTransition]': ''
     }
 })
-export class ListViewComponent implements OnInit, UiState {
+export class ListViewComponent implements OnInit {
     accounts: Array<Account>;
     accountSources: Array<AccountSource>;
 
-    uiState: UiStateComponentObject = new UiStateComponentObject(true);
+    uiState: UiState = new UiState(true);
 
     listState: AccountListState = {
         accountSource: null

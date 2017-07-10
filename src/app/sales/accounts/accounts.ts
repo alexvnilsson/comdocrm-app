@@ -20,7 +20,7 @@ export class Account {
         displayName: string;
     }
     customer?: AccountCustomer;
-    manager?: AccountManager;
+    managers?: AccountManager[];
     contact: AccountContact;
     business: AccountBusiness;
     peopleOfInterest: AccountPersonOfInterest[];
@@ -28,6 +28,8 @@ export class Account {
 
     statuses: AccountStatus[];
     userTasks: Array<UserTask> = [];
+
+    isManager?: boolean;
 }
 
 export class AccountCustomer {
@@ -38,7 +40,6 @@ export class AccountManager {
     id: string;
     active: boolean;
     assigned: Date;
-    isMe: boolean;    
     user: User;
 
     pendingApproval?: boolean;

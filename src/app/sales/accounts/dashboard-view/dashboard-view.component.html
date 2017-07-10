@@ -1,0 +1,14 @@
+<table class="table table-sm">
+    <thead class="small">
+        <td>
+
+        </td>
+
+        <td>Uppdaterad</td>
+    </thead>
+
+    <tr *ngFor="let account of accounts">
+        <td><a [routerLink]="[ 'sales/accounts', account.alias ]">{{ account.customer?.legalName }}</a></td>
+        <td>{{ account.dateModified | amCalendar }}</td>
+    </tr>
+</table>

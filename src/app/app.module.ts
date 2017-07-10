@@ -23,11 +23,19 @@ import { CallbackComponent } from 'app/common/authentication/callback/callback.c
 
 import { NavbarComponent } from 'app/common/ui/components/navbar';
 import { NavbarSubComponent, NavbarSubDirective } from 'app/common/ui/components/navbar-sub';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardViewComponent } from './sales/accounts/dashboard-view/dashboard-view.component';
+import { AccountsService } from './sales/accounts/accounts.service';
 
 const routes: CustomRoute[] = [
     {
         path: 'auth/callback',
         component: CallbackComponent
+    },
+    {
+        path: '',
+        component: DashboardComponent,
+        canActivate: [ AuthenticationGuard ]
     },
     {
         mainNav: true,
@@ -72,11 +80,13 @@ const routes: CustomRoute[] = [
     ],
     declarations: [
         AppComponent,
+        DashboardComponent,
+        DashboardViewComponent,
         CallbackComponent,
         NavbarComponent
     ],
     providers: [
-        
+        AccountsService
     ],
     bootstrap: [ AppComponent ],
     exports: [

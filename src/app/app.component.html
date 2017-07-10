@@ -5,9 +5,9 @@
             ccrmNavigation
             class="sidebar-nav">
             <div class="nav-heading">
-                <h2 class="nav-brand display-4">
+                <a class="no-underline" routerLink="/"><h2 class="nav-brand display-4">
                     ComdoCRM
-                </h2>
+                </h2></a>
 
                 <span
                     *ngIf="client && client.clientInformation; else noClientInformation"

@@ -7,7 +7,7 @@ import { AccountsService, AccountUpdateResult } from '../accounts.service';
 import { UsersService } from 'app/common/users';
 import { UserTasksService, UserTask } from 'app/user-tasks';
 
-import { Account, AccountStatus, AccountPersonOfInterest, AccountStates } from '../accounts';
+import { Account, AccountStatus, AccountPersonOfInterest, AccountStates, AccountManager } from '../accounts';
 import { AddPersonOfInterestComponent } from './account-editor/add-person-of-interest';
 
 import { TabDirective } from 'app/common/ui/directives/tab';
@@ -17,7 +17,6 @@ import { ViewState } from '../../../common/ui/views/view-state';
 import { ComposerComponent } from './status-view/composer/composer.component';
 import { Observable } from 'rxjs/Observable';
 import { UiState } from 'app/common/interfaces';
-import { UiStateComponentObject } from '../../../common/interfaces/ui-state.interface';
 import { User } from '../../../common/users/user';
 import { SelectItem } from '../../../common/select/select-item';
 
@@ -33,7 +32,7 @@ import { SelectItem } from '../../../common/select/select-item';
         '[@routeTransition]': ''
     }
 })
-export class DetailsViewComponent implements OnInit, UiState, OnDestroy {
+export class DetailsViewComponent implements OnInit, OnDestroy {
     @ViewChild('accountEditor') accountEditor: AddPersonOfInterestComponent;
 
     allUsers: Array<any> = this.usersService.getUsers();
@@ -44,7 +43,7 @@ export class DetailsViewComponent implements OnInit, UiState, OnDestroy {
     userState: any;
     userTasks: UserTask[] = [];
 
-    uiState: UiStateComponentObject = new UiStateComponentObject(true);
+    uiState: UiState = new UiState(true);
 
     private onAccountUpdateListener: Subscription;
 
@@ -124,8 +123,16 @@ export class DetailsViewComponent implements OnInit, UiState, OnDestroy {
                     if(result.updated){
                         var _user = this.allUsers.find((value: User) => { return value.id == user.id });
 
-                        if(_user)
-                            this.account.manager.user = _user;
+                        if(_user) {
+                            let accountManager = new AccountManager();
+
+                            accountManager.active = true;
+                            accountManager.user = _user;
+                            accountManager.assigned = new Date();
+
+                            this.account.managers = [accountManager];
+
+                        }
                     }
                 })
             }
@@ -137,8 +144,15 @@ export class DetailsViewComponent implements OnInit, UiState, OnDestroy {
     }
 
     getManagerSelectItem(): SelectItem[] {
-        if(this.account && this.account.manager && this.account.manager.user)
-            return [ new SelectItem(this.account.manager.user.id, this.account.manager.user.fullName) ];
+        if(this.account && this.account.managers && this.account.managers.length > 0){
+            let items: SelectItem[] = [];
+
+            this.account.managers.forEach((manager: AccountManager) => {
+                items.push(new SelectItem(manager.user.id, manager.user.fullName));
+            })
+
+            return items;
+        }
 
         return null;
     }

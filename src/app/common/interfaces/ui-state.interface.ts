@@ -1,11 +1,4 @@
-export interface UiState {
-    uiState: UiStateComponentObject;
-
-    uiOnComplete(): any;
-    uiOnError(error: any): any;
-}
-
-export class UiStateComponentObject {
+export class UiState {
     private _isLoading: boolean;
     get isLoading() {
         return this._isLoading;
@@ -16,8 +9,6 @@ export class UiStateComponentObject {
 
         this._isLoading = value;
     }
-
-    isDoneLoading: boolean = false;
     
     private _isComplete: boolean;
     get isComplete() {
