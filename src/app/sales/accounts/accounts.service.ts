@@ -32,8 +32,6 @@ export class AccountsService {
     public onUserTaskAddedToStatus: EventEmitter<StatusUserTaskAddedEvent> = new EventEmitter();
 
     _userState: any = null;
-    _accountList: Array<Account> = null;
-    _account: { [id: string]: Account } = {};
 
     constructor(
         private http: AuthHttpExtended,
@@ -91,14 +89,10 @@ export class AccountsService {
 
     getByAny(accountQuery: string, open?: boolean): Observable<Account> {
         return new Observable(observer => {
-            if(this._account[accountQuery])
-                return observer.next(this._account[accountQuery]);
-
             this.http.get(`${this.baseAddr}/accounts/${accountQuery}`)
             .map(res => res.json() as Account || null)
             .subscribe(account => {
                 if(account) {
-                    this._account[accountQuery] = account;
                     observer.next(account);
                 }
             }, (error: any) => { observer.error(error); });
@@ -192,7 +186,7 @@ export class AccountsService {
 
     updatePersonOfInterest(account: Account, personOfInterest: AccountPersonOfInterest): Observable<AccountUpdateResult> {
         return new Observable(observer => {
-            this.http.post(`${this.baseAddr}/accounts/${account.alias}/contacts/${personOfInterest.id}`, personOfInterest).subscribe(result => {
+            this.http.put(`${this.baseAddr}/accounts/${account.alias}/contacts/${personOfInterest.id}`, personOfInterest).subscribe(result => {
                 if(result.ok)
                     observer.next();
                 else
