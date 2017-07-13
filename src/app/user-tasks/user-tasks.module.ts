@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 
 import { UserTasksService } from './user-tasks.service';
-import { UserTasksStore } from './user-tasks.store';
 
 @NgModule({
     imports: [
@@ -27,8 +26,7 @@ export class UserTasksModule {
         return {
             ngModule: UserTasksModule,
             providers: [
-                UserTasksService,
-                UserTasksStore
+                UserTasksService
             ]
         }
     };

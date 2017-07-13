@@ -5,7 +5,7 @@ import { Http } from '@angular/http';
 import { ComdoCrmCommonModule } from 'app/common';
 
 import { AccountsModule } from './accounts/accounts.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/views/dashboard/dashboard.component';
 
 const routes: Route[] = [
     {

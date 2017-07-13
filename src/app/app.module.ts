@@ -5,11 +5,20 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule, Router, RouterOutlet, Route } from '@angular/router';
+
+import { StoreModule } from '@ngrx/store';
+import { RouterStoreModule } from '@ngrx/router-store';
+import { EffectsModule, Effect } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 import { ModalModule, TooltipModule, PopoverModule, BsDropdownModule, DatepickerModule } from 'ngx-bootstrap';
 import { ComdoCrmCommonModule } from 'app/common';
 import { CommonUiModule } from 'app/common-ui/common-ui.module';
 
 import { ConfigurationService } from 'app/common/configuration';
+
+import * as fromRoot from './app.store';
+import { AccountsEffects } from 'app/sales/accounts/store/accounts.effects';
 
 import { AuthenticationModule, AuthenticationService, AuthHttpExtended, authHttpExtendedFactory } from 'app/common/authentication';
 import { CustomRoute, AuthenticationGuard } from 'app/common/router';
@@ -24,8 +33,9 @@ import { CallbackComponent } from 'app/common/authentication/callback/callback.c
 import { NavbarComponent } from 'app/common/ui/components/navbar';
 import { NavbarSubComponent, NavbarSubDirective } from 'app/common/ui/components/navbar-sub';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DashboardViewComponent } from './sales/accounts/dashboard-view/dashboard-view.component';
-import { AccountsService } from './sales/accounts/accounts.service';
+import { DashboardViewComponent } from './sales/accounts/views/dashboard-view/dashboard-view.component';
+import { PageNotFoundComponent } from 'app/common-ui/containers/page-not-found';
+import { AccountsService } from './sales/accounts/services/accounts.service';
 
 const routes: CustomRoute[] = [
     {
@@ -60,6 +70,10 @@ const routes: CustomRoute[] = [
         children: [
             
         ]
+    },
+    {
+        path: '**',
+        component: PageNotFoundComponent
     }
 ]
 
@@ -69,13 +83,17 @@ const routes: CustomRoute[] = [
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,
+        RouterModule.forRoot(routes),
+        StoreModule.provideStore(fromRoot.reducer),
+        RouterStoreModule.connectRouter(),
+        StoreDevtoolsModule.instrumentOnlyWithExtension(),
+        EffectsModule.run(AccountsEffects),
         CommonUiModule.forRoot(),
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
         PopoverModule.forRoot(),
         BsDropdownModule.forRoot(),
-        DatepickerModule.forRoot(),
-        RouterModule.forRoot(routes),
+        DatepickerModule.forRoot(),        
         ComdoCrmCommonModule.forRoot()
     ],
     declarations: [

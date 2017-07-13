@@ -31,7 +31,7 @@ import { InlineEditorComponent } from './ui/components/editor/inline-editor/inli
 
 import { CallbackComponent } from './authentication/callback/callback.component';
 import { DatepickerComponent } from './ui/components/datepicker/datepicker.component';
-import { DashboardComponent } from 'app/sales/dashboard/dashboard.component';
+import { DashboardComponent } from 'app/sales/dashboard/views/dashboard/dashboard.component';
 import { DatepickerDirective } from './ui/components/datepicker/datepicker.directive';
 import { LoadingComponent } from './ui/components/loading/loading.component';
 import { ClientService, ClientServiceInitFactory } from '../clients/client.service';
