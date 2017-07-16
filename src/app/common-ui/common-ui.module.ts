@@ -7,7 +7,8 @@ import { TabsComponent } from './tabs/tabs.component';
 import { TabComponent } from './tabs/tab.component';
 import { NavigationDirective } from './navigation/navigation.directive';
 import { NavigationItemDirective } from './navigation/navigation-item.directive';
-import { ModalComponent } from './modal/modal.component';
+import { ModalContainerComponent } from './modal/modal.component';
+import { StateContainerComponent } from "app/common-ui/containers/state-container";
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { ModalComponent } from './modal/modal.component';
         TabComponent,
         NavigationDirective,
         NavigationItemDirective,
-        ModalComponent
+        ModalContainerComponent,
+        StateContainerComponent
     ],
     exports: [
         PopoverConfirm,
@@ -30,7 +32,8 @@ import { ModalComponent } from './modal/modal.component';
         TabComponent,
         NavigationDirective,
         NavigationItemDirective,
-        ModalComponent
+        ModalContainerComponent,
+        StateContainerComponent
     ]
 })
 export class CommonUiModule {

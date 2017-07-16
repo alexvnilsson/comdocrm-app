@@ -1,5 +1,5 @@
 <ccrm-ui-navbar-sub>
-    <button ccrmUiNavbarSubItem (click)="onCreateAccount()"><fa name="plus"></fa> <span i18n="A new account in the context of sales and prospects">Skapa</span></button>
+    <button ccrmUiNavbarSubItem (click)="onModalOpen.emit('modal_accounts_initialEditor')"><fa name="plus"></fa> <span i18n="A new account in the context of sales and prospects">Skapa</span></button>
 </ccrm-ui-navbar-sub>
 
 <ccrm-tabs>
@@ -29,3 +29,7 @@
         </div>
     </ccrm-tabs-tab>
 </ccrm-tabs>
+
+<modal-container id="modal_accounts_initialEditor" [state]="modalOpen$">
+    <ccrm-sales-accounts-details-initial-editor (onClosed)="onModalOpen.emit(null)"></ccrm-sales-accounts-details-initial-editor>
+</modal-container>

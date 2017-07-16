@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, AfterContentInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterContentInit, OnDestroy, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -15,7 +15,9 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
     @ViewChild('modal') modal: ModalDirective;
     @ViewChild('contactFullName') contactFullNameInput: ElementRef;
 
-    account: Account;
+    @Output() onClosed: EventEmitter<any> = new EventEmitter();
+
+    @Input() account: Account;
     person: AccountPersonOfInterest = {
         id: null,
         fullName: null,
@@ -39,37 +41,16 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
     }
 
     ngOnInit() {
-        this.activatedRoute.parent.params.subscribe(params => {
-            if(params.slug)
-                this.accountsService.getById(params.slug).subscribe(this.onAccountLoad.bind(this));
-        });
-    }
-
-    onAccountLoad(account: Account) {
-        this.account = account;
-
-        this.formState.isLoading = false;
-    }
-
-    onAccountLoadError(message: string, code: string) {
-        this.formState.isLoading = false;
-        this.formState.hasErrors = true;
+        
     }
 
     ngAfterViewInit() {
-        this.modal.show();
-
-        this.modal.onShown.subscribe(() => {
+        if(this.contactFullNameInput && this.contactFullNameInput.nativeElement)
             this.contactFullNameInput.nativeElement.focus();
-        });
-
-        this.modal.onHidden.subscribe(() => {
-            this.location.back();
-        });
     }
 
     ngAfterContentInit() {
-
+        
     }
 
     savePerson() {
@@ -83,6 +64,16 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
 
     hideModal() {
         this.modal.hide();
+    }
+
+    public open() {
+        if(this.modal)
+            this.modal.show();
+    }
+
+    public close() {
+        if(this.modal)
+            this.modal.hide();
     }
 
     ngOnDestroy() {

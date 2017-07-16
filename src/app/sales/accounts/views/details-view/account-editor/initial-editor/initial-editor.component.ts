@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, EventEmitter, Output } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthHttpExtended } from 'app/common/authentication';
@@ -13,11 +13,11 @@ import { Location } from '@angular/common';
     styleUrls: ['./initial-editor.component.scss']
 })
 export class InitialEditorComponent implements OnInit, AfterViewInit {
-    @ViewChild('modal') modal: ModalDirective;
-
     @ViewChild('accountLegalName') accountLegalName: ElementRef;
 
     account: Account = new Account();
+
+    @Output() onClosed: EventEmitter<any> = new EventEmitter();
 
     constructor(
         private router: Router,
@@ -32,17 +32,10 @@ export class InitialEditorComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.modal.show();
-
-        this.modal.onShown.subscribe(event => {
+        if(this.accountLegalName && this.accountLegalName.nativeElement) {
             this.accountLegalName.nativeElement.focus();
             this.accountLegalName.nativeElement.select();
-        });
-
-        this.modal.onHidden.subscribe(event => {
-            if(!this.account.id)
-                this.location.back();
-        });
+        }
     }
 
     onSave(form: NgForm): void {
@@ -56,16 +49,16 @@ export class InitialEditorComponent implements OnInit, AfterViewInit {
             if(account.id){
                 this.account = account;
 
-                this.modal.hide();
+                this.close();
 
                 this.router.navigateByUrl(`/sales/accounts/${this.account.alias}`);
             }
             else
-                this.modal.hide();
+                this.close();
         });
     }
 
     close() {
-        this.modal.hide();
+        this.onClosed.emit();
     }
 }

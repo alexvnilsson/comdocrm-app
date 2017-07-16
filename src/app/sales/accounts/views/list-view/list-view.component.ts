@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouteTransitionAnimation, DoneLoadingTransitionAnimation } from 'app/common/ui/animations';
 import { Subscription } from 'rxjs/Subscription';
@@ -31,6 +31,9 @@ export const USER_STATE = {
 export class ListViewComponent implements OnInit {
     @Input() accounts: Account[];
     accountSources: Array<AccountSource>;
+
+    @Output() onModalOpen: EventEmitter<string> = new EventEmitter();
+    @Input() modalOpen$: string = null;
 
     uiState: UiState = new UiState(true);
 

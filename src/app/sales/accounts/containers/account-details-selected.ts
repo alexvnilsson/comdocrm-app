@@ -36,11 +36,15 @@ export class AccountDetailsSelectedContainerComponent {
 
     constructor(private store: Store<fromRoot.State>) {
         this.account$ = store.select(fromRoot.getAccount);
-        this.modalOpen$ = store.select(fromRoot.getModalOpen);
+        this.modalOpen$ = this.store.select(fromRoot.layoutState).select(fromLayout.openedModalName)
+
+        
     }
 
     private onModalOpened(name: string) {
-        this.store.dispatch(new Layout.OpenModalAction(name));
-        
+        if(name)
+            this.store.dispatch(new Layout.OpenModalAction(name));
+        else
+            this.store.dispatch(new Layout.CloseModalAction());   
     }
 }

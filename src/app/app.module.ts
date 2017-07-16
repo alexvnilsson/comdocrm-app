@@ -51,7 +51,7 @@ const routes: CustomRoute[] = [
         mainNav: true,
         path: 'sales/accounts',
         href: '/sales/accounts',
-        text: 'Kunder',
+        text: 'Kontakter',
         loadChildren: 'app/sales/accounts/accounts.module#AccountsModule',
         faIcon: 'user-circle-o',
         canActivate: [ AuthenticationGuard ]

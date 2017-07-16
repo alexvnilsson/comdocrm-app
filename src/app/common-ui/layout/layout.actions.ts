@@ -14,7 +14,7 @@ export class OpenModalAction implements Action {
 export class CloseModalAction implements Action {
     readonly type = LayoutActionTypes.CLOSE_MODAL;
 
-    constructor(public payload: string) {}
+    constructor() {}
 }
 
 export type LayoutActions = 
