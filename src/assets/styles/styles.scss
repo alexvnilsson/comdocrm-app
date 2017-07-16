@@ -2,9 +2,10 @@
 @import './bootstrap/bootstrap';
 
 html, body {
+    margin: 0; padding: 0;
     width: 100%;
     height: 100%;
-    margin: 0;
+    
     
     cursor: default;
 }
@@ -21,12 +22,30 @@ body {
     display: flex;
 }
 
-.workspace {   
-    position: relative;
-    
-    flex: 1;
+.workspace-wrapper {
+    margin: 0 auto;
+    height: 100%;
+    padding: 0px;
 
-    overflow-y: auto;
+    box-sizing: border-box;
+
+    .workspace-columns {
+        height: 100%;
+
+        overflow-y: hidden;
+    }
+
+    .workspace-main-wrapper {
+        overflow-y: auto;
+    }
+
+    .workspace {   
+        position: relative;
+        
+        flex: 1;
+
+        overflow-y: auto;
+    }
 }
 
 @import 'navbar';

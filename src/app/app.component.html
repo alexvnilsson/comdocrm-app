@@ -1,9 +1,9 @@
 
-<div class="d-flex flex-column" style="flex: 1">
-    <div class="d-flex flex-row" style="flex: 1">
+<div class="container-fluid workspace-wrapper pl-0 pr-0" style="flex: 1">
+    <div class="row workspace-columns no-gutters flex-nowrap" style="overflow-y: hidden">
         <div 
             ccrmNavigation
-            class="sidebar-nav">
+            class="sidebar-nav col-2">
             <div class="nav-heading">
                 <a class="no-underline" routerLink="/"><h2 class="nav-brand display-4">
                     ComdoCRM
@@ -26,8 +26,8 @@
                 [routerLink]="route.href"><fa *ngIf="route.faIcon" [name]="route.faIcon"></fa> <span i18n>{{ route.text }}</span></a>
         </div>
 
-        <div class="bg-faded workspace">
-            <div class="d-flex flex-row pt-2 pb-2" style="z-index: 999">
+        <div class="bg-faded col-10 workspace-main-wrapper">
+            <div class="row no-gutters p-2" style="z-index: 999">
                 <div class="col-8">
 
                 </div>
@@ -49,8 +49,10 @@
                 </div>
             </div>
 
-            <div class="position-relative">
-                <router-outlet></router-outlet>
+            <div class="row no-gutters">
+                <div class="col-12">
+                    <router-outlet></router-outlet>
+                </div>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 import '@ngrx/core/add/operator/select';
 import 'rxjs/add/operator/take';
 
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -16,18 +16,26 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
     selector: 'ccrm-sales-accounts-list',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+    template: `   
         <ccrm-ui-spinner *ngIf="loading$ | async"></ccrm-ui-spinner>
     
         <ccrm-sales-accounts-list-view [accounts]="accounts$ | async"></ccrm-sales-accounts-list-view>
     `
 })
-export class AccountsListContainerComponent {
+export class AccountsListContainerComponent implements OnInit, OnDestroy {
     accounts$: Observable<Account[]>;
     loading$: Observable<boolean>;
 
-    constructor(store: Store<fromRoot.State>) {
-        this.accounts$ = store.select(fromRoot.getAccountsAll);
-        this.loading$ = store.select(fromRoot.getAccountsLoading);
+    constructor(private store: Store<fromRoot.State>) {}
+
+    ngOnInit() {
+        this.store.dispatch(new account.SelectAction(null));
+
+        this.accounts$ = this.store.select(fromRoot.getAccountsAll);
+        this.loading$ = this.store.select(fromRoot.getAccountsLoading);
+    }
+
+    ngOnDestroy() {
+        
     }
 }

@@ -27,7 +27,7 @@ export class AccountDetailsContainerComponent implements OnInit, OnDestroy {
         this.actionsSubscription = this.route.params
             .select<string>('slug')
             .map(alias => new account.SelectAction(alias))
-            .subscribe(this. store);
+            .subscribe(this.store);
     }   
 
     ngOnDestroy() {

@@ -7,26 +7,30 @@ import { TabsComponent } from './tabs/tabs.component';
 import { TabComponent } from './tabs/tab.component';
 import { NavigationDirective } from './navigation/navigation.directive';
 import { NavigationItemDirective } from './navigation/navigation-item.directive';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
     imports: [
         CommonModule,
         TooltipModule,
-        PopoverModule
+        PopoverModule,
+        ModalModule.forRoot()
     ],
     declarations: [
         PopoverConfirm,
         TabsComponent,
         TabComponent,
         NavigationDirective,
-        NavigationItemDirective
+        NavigationItemDirective,
+        ModalComponent
     ],
     exports: [
         PopoverConfirm,
         TabsComponent,
         TabComponent,
         NavigationDirective,
-        NavigationItemDirective
+        NavigationItemDirective,
+        ModalComponent
     ]
 })
 export class CommonUiModule {

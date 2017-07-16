@@ -41,8 +41,9 @@ export class LogComposerComponent implements OnInit, OnChanges, AfterViewInit {
     @ViewChild('logDelayDate') logDelayDate: DatepickerDirective;
 
     @Output() onEntrySubmitted: EventEmitter<any> = new EventEmitter();
+    @Output() onClosed: EventEmitter<any> = new EventEmitter();
 
-    account: Account;
+    @Input() account: Account;
 
     dateNextDay: Date = null;
     userProfile: User = null;
@@ -64,11 +65,6 @@ export class LogComposerComponent implements OnInit, OnChanges, AfterViewInit {
         this.dateNextDay = new Date();
         this.dateNextDay.setDate(this.dateNextDay.getDate() + 1);
 
-        this.route.parent.params.subscribe(params => {
-            if(params.slug)
-                this.accountsService.getByAlias(params.slug).subscribe(account => this.account = account);
-        });
-
         this.usersService.getProfile().subscribe(profile => {
             this.userProfile = profile
         });
@@ -81,7 +77,7 @@ export class LogComposerComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     ngOnChanges(changes) {
-        console.log(changes);
+        
     }
 
     onLogDelayed(event: Date) {
@@ -108,6 +104,6 @@ export class LogComposerComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     onComposingFinished() {
-        this.location.back();
+        this.onClosed.emit();
     }
 }

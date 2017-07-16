@@ -45,3 +45,6 @@ export const getAccount = createSelector(accountsState, fromAccounts.one);
 //     return ids.map(id => entities[id]);
 // });
 
+export const layoutState = (state: State) => state.layout;
+
+export const getModalOpen = createSelector(layoutState, fromLayout.openedModalName);

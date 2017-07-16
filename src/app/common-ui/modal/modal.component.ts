@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter, AfterViewInit, OnInit } from '@angular/core';
 import { ModalDirective, ModalOptions } from 'ngx-bootstrap';
 
 @Component({
@@ -12,18 +12,22 @@ import { ModalDirective, ModalOptions } from 'ngx-bootstrap';
         </div>
     </div>`
 })
-export class ModalComponent implements AfterViewInit {
-    private name: string = 'modalContainer';
-    @ViewChild('modal') private modalRef: ModalDirective;
+export class ModalComponent implements OnInit, AfterViewInit {
+    @Input() name: string = 'modalContainer';
+    @ViewChild('modal') modalRef: ModalDirective;
 
     @Input() set state(_state: any) {
-        if (_state == this.name)
+        if (_state == this.name && this.modalRef)
             this.open();
         else if (this.modalRef)
             this.close();
     }
 
     @Output() onClose = new EventEmitter<any>();
+
+    ngOnInit() {
+        
+    }
 
     ngAfterViewInit() {
         this.modalRef.config = {

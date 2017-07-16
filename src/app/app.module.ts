@@ -71,10 +71,10 @@ const routes: CustomRoute[] = [
             
         ]
     },
-    {
-        path: '**',
-        component: PageNotFoundComponent
-    }
+    // {
+    //     path: '**',
+    //     component: PageNotFoundComponent
+    // }
 ]
 
 @NgModule({

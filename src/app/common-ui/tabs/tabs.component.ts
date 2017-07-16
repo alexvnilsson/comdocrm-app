@@ -1,4 +1,4 @@
-import { Component, Input, ViewChildren, ContentChildren, QueryList, AfterViewChecked, AfterViewInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChildren, ContentChildren, QueryList, AfterViewChecked, AfterViewInit, Output, EventEmitter, OnDestroy, AfterContentInit } from '@angular/core';
 import { TabComponent } from './tab.component';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -9,14 +9,14 @@ import { Subscription } from 'rxjs/Subscription';
 
     ]
 })
-export class TabsComponent implements AfterViewInit, OnDestroy {
+export class TabsComponent implements AfterContentInit, OnDestroy {
     @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
     @Input('default') defaultIndex: number = 0;
 
     private tabListener: Array<Subscription> = [];
 
-    ngAfterViewInit() {
+    ngAfterContentInit() {
         if(this.tabs && this.tabs.length > 0) {
             this.getTabItems();
         }

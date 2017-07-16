@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
@@ -38,13 +38,13 @@ import * as accountReducer from 'app/sales/accounts/store/accounts.reducer';
     }
 })
 export class DetailsViewComponent implements OnInit, OnDestroy {
-    @ViewChild('accountEditor') accountEditor: AddPersonOfInterestComponent;
-
-    allUsers: Array<any> = this.usersService.getUsers();
-
-    public usersSelectList: Array<SelectItem> = this.usersService.getUsersAsSelect();
-
     @Input() account: Account;
+    @Input() modalOpen$: string;
+
+    @Output() onModalOpen: EventEmitter<string> = new EventEmitter();
+
+    composeLogOpen$: EventEmitter<boolean> = new EventEmitter();
+
     userState: any;
     userTasks: UserTask[] = [];
 
@@ -55,29 +55,19 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     public isDraft = AccountStates.Draft;
 
     constructor(
-        private activatedRouter: ActivatedRoute,
-        private accountsStore: Store<accountReducer.State>,
-        private usersService: UsersService,
-        private router: Router,
-        private route: ActivatedRoute
+        
     ) { }
 
     ngOnInit() {
-        this.usersService.getState().subscribe(state => this.userState = state);
+        //this.usersService.getState().subscribe(state => this.userState = state);
     }
 
-    uiOnComplete() {
-        this.uiState.isComplete = true;
+    onComposeLogMessageClick() {
+        this.composeLogOpen$.emit(true);
     }
 
-    uiOnError() {
-
-    }
-
-    onComposerSelected(composer: string) {
-        this.router.navigate([{ outlets: { 'compose': [ 'log' ] } }], { relativeTo: this.route });
-
-        return false;
+    onComposeLogMessageClosed() {
+        this.composeLogOpen$.emit(false);
     }
 
     onLogComposerSubmit(logStatus: AccountStatus) {
@@ -86,30 +76,12 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
         // });
     }
 
-    onAccountLoad(account: Account) {
-        this.account = account;
-
-        this.uiOnComplete();
-    }
-
-    onAccountLoadError(error: any) {
-        
-    }
-
-    onAccountUpdate(account: Account) {
-        this.account = account;
-    }
-
     onPersonDeleted(personOfInterest: AccountPersonOfInterest, event: Event) {
         if(personOfInterest && this.account) {
             this.account.peopleOfInterest = this.account.peopleOfInterest.filter((person: AccountPersonOfInterest) => {
                 return person.id !== personOfInterest.id
             });
         }
-    }
-
-    clickAddPersonOfInterest() {
-        this.router.navigate([{ outlets: { 'contacts': [ 'add' ] } }], { relativeTo: this.route });
     }
 
     onSelectManager(user: SelectItem) {
