@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { SelectComponent } from 'ng2-select';
 
 import * as accountsReducer from '../../store/accounts.reducer';
+import * as accountActions from '../../store/accounts.actions';
 
 import { AccountsService, AccountUpdateResult } from '../../services/accounts.service';
 import { UsersService } from 'app/common/users';
@@ -24,6 +25,10 @@ import { User } from 'app/common/users/user';
 import { SelectItem } from 'app/common/select/select-item';
 import { AccountsEffects } from 'app/sales/accounts/store/accounts.effects';
 import * as accountReducer from 'app/sales/accounts/store/accounts.reducer';
+
+import * as fromRoot from 'app/app.store';
+import * as fromUsers from 'app/common/users/users.reducer';
+import * as userActions from 'app/common/users/users.actions';
 
 @Component({
     selector: 'ccrm-sales-accounts-details-view',
@@ -45,10 +50,18 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
 
     composeLogOpen$: EventEmitter<boolean> = new EventEmitter();
 
+    users$: Observable<User[]>;
+    usersAsSelect$: Observable<SelectItem[]>;
+
     userState: any;
     userTasks: UserTask[] = [];
 
     uiState: UiState = new UiState(true);
+
+    @Output() onManagerUpdated: EventEmitter<{ account: Account, user: User }> = new EventEmitter();
+
+    @Output() onStatusAdded: EventEmitter<{ account: Account, status: AccountStatus }> = new EventEmitter();
+    @Output() onStatusDeleted: EventEmitter<{ account: Account, status: AccountStatus }> = new EventEmitter();
 
     @Output() onPersonOfInterestAdded: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
     @Output() onPersonOfInterestDeleted: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
@@ -61,11 +74,17 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     public isDraft = AccountStates.Draft;
 
     constructor(
-        
+        private store$: Store<fromRoot.State>
     ) { }
 
     ngOnInit() {
         //this.usersService.getState().subscribe(state => this.userState = state);
+
+        this.users$ = this.store$.select(fromRoot.usersState).select(fromUsers.all);
+
+        this.users$.subscribe(users => {
+            this.usersAsSelect$ = Observable.of(users.map(user => new SelectItem(user.id, user.fullName)));
+        });
     }
 
     onComposeLogMessageClick() {
@@ -96,6 +115,17 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     }
 
     onSelectManager(user: SelectItem) {
+        this.store$.select(fromRoot.usersState).select(fromUsers.all).subscribe(users => {
+            let _user: User = users.find(u => u.id === user.id);
+
+            if(_user) {
+                this.store$.dispatch(new accountActions.UpdateManagerAction({
+                    account: this.account,
+                    user: _user
+                }));
+            }
+        })
+
         // if(user) {
         //     if(user.id) {
         //         this.accountsService.setManager(this.account, user.id).subscribe(result => {

@@ -48,6 +48,55 @@ export class AccountsEffects {
         );
 
     @Effect()
+    updateManager$: Observable<Action> = this.actions$
+        .ofType(accountsActions.ActionTypes.UPDATE_MANAGER)
+        .map((action: accountsActions.UpdateManagerAction) => action.payload)
+        .mergeMap(payload => {
+            return this.accountsService.setManager(payload.account, payload.user.id)
+            .map((result: AccountUpdateResult) =>
+                new accountsActions.UpdateManagerResultAction({
+                    success: true,
+                    account: payload.account,
+                    user: payload.user
+                })
+            )
+        });
+
+    @Effect()
+    addStatus$: Observable<Action> = this.actions$
+        .ofType(accountsActions.ActionTypes.ADD_STATUS)
+        .map((action: accountsActions.AddStatusAction) => action.payload)
+        .mergeMap(payload => {
+            let accountStatus = Object.assign({}, payload.status, { 
+                publicationDate: new Date()
+            });
+
+            return this.accountsService.addStatus(payload.account, accountStatus)
+            .map((result: AccountUpdateResult) => 
+                new accountsActions.AddStatusResultAction({
+                    success: true,
+                    account: payload.account,
+                    status: Object.assign({}, accountStatus, { id: result.id })
+                })
+            )
+        });
+
+    @Effect()
+    deleteStatus$: Observable<Action> = this.actions$
+        .ofType(accountsActions.ActionTypes.DELETE_STATUS)
+        .map((action: accountsActions.DeleteStatusAction) => action.payload)
+        .mergeMap(payload => {
+            return this.accountsService.deleteStatus(payload.account, payload.status)
+            .map((result: AccountUpdateResult) => 
+                new accountsActions.DeleteStatusResultAction({
+                    success: true,
+                    account: payload.account,
+                    status: payload.status
+                })
+            )
+        })
+
+    @Effect()
     addPersonOfInterest$: Observable<Action> = this.actions$
         .ofType(accountsActions.ActionTypes.ADD_PERSON_OF_INTEREST)
         .map((action: accountsActions.AddPersonOfInterestAction) => action.payload)

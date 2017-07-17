@@ -67,8 +67,12 @@ export class UsersService {
         });
     }
 
-    getUsers(): Array<User> {
-        return this.clientService.users;
+    getUsers(): Observable<User[]> {
+        return new Observable(observer => { 
+            this.http.get('api/users')
+            .map(res => res.json() as User[] || null)
+            .subscribe(users => observer.next(users))
+        });
     }
 
     getUsersAsSelect(): Array<SelectItem> {

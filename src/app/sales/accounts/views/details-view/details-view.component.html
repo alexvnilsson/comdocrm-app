@@ -20,10 +20,12 @@
                 <ccrm-sales-accounts-status-composer-log 
                     *ngIf="composeLogOpen$ | async"
                     [account]="account"
+                    (onSaved)="onStatusAdded.emit($event)"
                     (onClosed)="onComposeLogMessageClosed()"></ccrm-sales-accounts-status-composer-log>
 
                 <ng-container *ngIf="account.statuses">
                     <ccrm-sales-accounts-status-item *ngFor="let status of account.statuses" [account]="account" [status]="status"
+                        (onStatusDeleted)="onStatusDeleted.emit($event)"
                         (onUserTaskAdded)="onUserTaskAdded.emit($event)"
                         (onUserTaskDeleted)="onUserTaskDeleted.emit($event)"></ccrm-sales-accounts-status-item>
                 </ng-container>
@@ -62,7 +64,7 @@
                                 #accountManagerSelector
                                 [active]="getManagerSelectItem()"
                                 [allowClear]="true"
-                                [items]="usersSelectList"
+                                [items]="usersAsSelect$ | async"
                                 (selected)="onSelectManager($event)"
                                 placeholder="Ansvarig för kund"></ng-select>
                         </div>

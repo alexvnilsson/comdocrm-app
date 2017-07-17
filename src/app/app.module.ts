@@ -19,6 +19,7 @@ import { ConfigurationService } from 'app/common/configuration';
 
 import * as fromRoot from './app.store';
 import { AccountsEffects } from 'app/sales/accounts/store/accounts.effects';
+import { UsersEffects} from 'app/common/users/users.effects';
 
 import { AuthenticationModule, AuthenticationService, AuthHttpExtended, authHttpExtendedFactory } from 'app/common/authentication';
 import { CustomRoute, AuthenticationGuard } from 'app/common/router';
@@ -88,6 +89,7 @@ const routes: CustomRoute[] = [
         RouterStoreModule.connectRouter(),
         StoreDevtoolsModule.instrumentOnlyWithExtension(),
         EffectsModule.run(AccountsEffects),
+        EffectsModule.run(UsersEffects),
         CommonUiModule.forRoot(),
         ModalModule.forRoot(),
         TooltipModule.forRoot(),

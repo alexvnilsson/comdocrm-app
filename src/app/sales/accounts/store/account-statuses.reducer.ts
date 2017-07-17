@@ -12,32 +12,19 @@ import * as accountPayloads from './accounts.payloads';
 export interface State {
     loading: boolean;
     entities: Account[];
-    selectedAccount: string | null;
 }
 
 export const initialState: State = {
     loading: null,
-    entities: [],
-    selectedAccount: null
+    entities: []
 };
 
 export function reducer(state = initialState, action: accountsStore.AccountsActions) {
     switch(action.type) {
-        case accountsStore.ActionTypes.LOAD: {
+        case accountsStore.ActionTypes.LOAD_STATUSES: {
             return Object.assign({}, state, {
                 loading: true
             });
-        }
-
-        case accountsStore.ActionTypes.LOAD_SUCCESS: {
-            const accounts: Account[] = action.payload as Account[];
-            const newAccounts =  accounts.filter(account => !state.entities[account.alias]);
-
-            return {
-                entities: [ ...state.entities, ...newAccounts ],
-                selectedAccount: state.selectedAccount,
-                loading: false
-            };
         }
 
         case accountsStore.ActionTypes.SELECT: {
@@ -53,23 +40,6 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
             else if (action.payload instanceof Account) {
                 return Object.assign({}, state, {
                     entities: state.entities.map(account => account.id === action.payload.id ? action.payload : account)
-                })
-            }
-        }
-
-        case accountsStore.ActionTypes.UPDATE_MANAGER_RESULT: {
-            if(action.payload.account && action.payload.user) {
-                return Object.assign({}, state, {
-                    entities: state.entities.map(account => account.id === action.payload.account.id ?
-                        Object.assign({}, account, {
-                            manager: {
-                                user: action.payload.user,
-                                assigned: new Date(),
-                                active: true,
-                            }
-                        })
-                        : account 
-                    )
                 })
             }
         }

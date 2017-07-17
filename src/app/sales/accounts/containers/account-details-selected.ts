@@ -26,6 +26,8 @@ import { UserTask } from "app/user-tasks";
             [account]="account$ | async"
             [modalOpen$]="modalOpen$ | async"
             (onModalOpen)="onModalOpened($event)"
+            (onStatusAdded)="onStatusAdded($event)"
+            (onStatusDeleted)="onStatusDeleted($event)"
             (onPersonOfInterestAdded)="onPersonOfInterestAdded($event)"
             (onPersonOfInterestDeleted)="onPersonOfInterestDeleted($event)"
             (onUserTaskAdded)="onUserTaskAdded($event)"
@@ -51,41 +53,39 @@ export class AccountDetailsSelectedContainerComponent {
             this.store.dispatch(new Layout.CloseModalAction());   
     }
 
+    private onStatusAdded(payload: { account: Account, status: AccountStatus }) {
+        if(payload && payload.account && payload.status) {
+            this.store.dispatch(new accountActions.AddStatusAction(payload));
+        }
+    }
+
+    private onStatusDeleted(payload: { account: Account, status: AccountStatus }) {
+        if(payload && payload.account && payload.status) {
+            this.store.dispatch(new accountActions.DeleteStatusAction(payload));
+        }
+    }
+
     private onPersonOfInterestAdded(payload: {account: Account, person: AccountPersonOfInterest}) {
         if(payload && payload.person) {
-            this.store.dispatch(new accountActions.AddPersonOfInterestAction({
-                account: payload.account,
-                person: payload.person
-            }));
+            this.store.dispatch(new accountActions.AddPersonOfInterestAction(payload));
         }
     }
 
     private onPersonOfInterestDeleted(payload: {account: Account, person: AccountPersonOfInterest}) {
         if(payload && payload.person) {
-            this.store.dispatch(new accountActions.DeletePersonOfInterestAction({
-                account: payload.account,
-                person: payload.person
-            }));
+            this.store.dispatch(new accountActions.DeletePersonOfInterestAction(payload));
         }
     }
 
     private onUserTaskAdded(payload: {account: Account, status: AccountStatus, userTask: UserTask}) {
         if(payload && payload.account && payload.status && payload.userTask) {
-            this.store.dispatch(new accountActions.AddStatusUserTaskAction({
-                account: payload.account,
-                status: payload.status,
-                userTask: payload.userTask
-            }));
+            this.store.dispatch(new accountActions.AddStatusUserTaskAction(payload));
         }
     }
 
     private onUserTaskDeleted(payload: {account: Account, status: AccountStatus, userTask: UserTask}) {
         if (payload && payload.account && payload.status && payload.userTask) {
-            this.store.dispatch(new accountActions.DeleteStatusUserTaskAction({
-                account: payload.account,
-                status: payload.status,
-                userTask: payload.userTask
-            }));
+            this.store.dispatch(new accountActions.DeleteStatusUserTaskAction(payload));
         }
     }
 }

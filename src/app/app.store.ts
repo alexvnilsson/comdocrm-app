@@ -8,15 +8,18 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 import * as fromLayout from 'app/common-ui/layout/layout.reducers';
 import * as fromAccounts from 'app/sales/accounts/store/accounts.reducer';
+import * as fromUsers from 'app/common/users/users.reducer';
 
 export interface State {
     accounts: fromAccounts.State;
     layout: fromLayout.State;
+    users: fromUsers.State;
 }
 
 const reducers = {
     accounts: fromAccounts.reducer,
-    layout: fromLayout.reducer
+    layout: fromLayout.reducer,
+    users: fromUsers.reducer
 }
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -32,6 +35,7 @@ export function reducer(state: State, action: any) {
 
 //export const layoutState = (state: State) => state.layout;
 
+export const usersState = (state: State) => state.users;
 
 export const accountsState = (state: State) => state.accounts;
 

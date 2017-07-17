@@ -40,7 +40,7 @@ export class LogComposerComponent implements OnInit, OnChanges, AfterViewInit {
     @ViewChild('logHeaderText') logHeaderText: ElementRef;
     @ViewChild('logDelayDate') logDelayDate: DatepickerDirective;
 
-    @Output() onEntrySubmitted: EventEmitter<any> = new EventEmitter();
+    @Output() onSaved: EventEmitter<{ account: Account, status: AccountStatus }> = new EventEmitter();
     @Output() onClosed: EventEmitter<any> = new EventEmitter();
 
     @Input() account: Account;
@@ -93,7 +93,10 @@ export class LogComposerComponent implements OnInit, OnChanges, AfterViewInit {
 
     onFormSubmit(logForm: NgForm) {
         if(this.account && logForm.valid) {
-            this.accountsService.addStatus(this.account, this.status).subscribe();
+            this.onSaved.emit({
+                account: this.account,
+                status: this.status
+            });
 
             this.onComposingFinished();
         }

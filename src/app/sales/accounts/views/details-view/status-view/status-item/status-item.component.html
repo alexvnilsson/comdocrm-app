@@ -50,7 +50,7 @@
                         <div class="col-2 d-flex justify-content-end">
                             <ng-template #removeStatusConfirmation>
                                 <span class="small" i18n>Är du säker?
-                                    <button (click)="onRemoveStatus()" class="btn btn-danger btn-sm" role="button">Ta bort</button>
+                                    <button (click)="onStatusDeleted.emit({ account: account, status: status })" class="btn btn-danger btn-sm" role="button">Ta bort</button>
                                 </span>
                             </ng-template>
                             <a 

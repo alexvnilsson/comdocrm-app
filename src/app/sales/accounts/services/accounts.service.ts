@@ -113,28 +113,10 @@ export class AccountsService {
 
     addStatus(account: Account, status: AccountStatus): Observable<AccountUpdateResult> {
         return new Observable(observer => {
-            status.accountId = account.id;
-            status.publicationDate = new Date();
-
             this.http.post(`${this.baseAddr}/accounts/${account.alias}/statuses`, status).subscribe((res: Response) => {
                 let resultData: AccountUpdateResult = res.json() || null;
 
                 if(resultData) {
-                    if(resultData.updated) {
-                        let _status: AccountStatus = JSON.parse(JSON.stringify(status));
-
-                        _status.id = resultData.id;
-                        if(status.isDelayed && status.delayDate)
-                            _status.publicationDate = status.delayDate;
-
-                        this.usersService.getProfile().subscribe(user => {
-                            _status.publishedBy = user;
-                        })
-
-                        account.statuses.unshift(_status);
-                        console.log(account.statuses);
-                    }
-
                     observer.next(resultData);
                 }
                 else {
@@ -149,8 +131,6 @@ export class AccountsService {
             if(!status.isRemoved) {
                 this.http.delete(`${this.baseAddr}/accounts/${account.alias}/statuses/${status.id}`).subscribe(result => {
                     if(result.ok) {
-                        account.statuses = account.statuses.filter((value: AccountStatus) => { return value.id !== status.id; });
-
                         observer.next({
                             updated: true
                         });

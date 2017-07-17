@@ -39,6 +39,8 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @Input('light') lightMode: boolean;
 
+    @Output() onStatusDeleted: EventEmitter<{ account: Account, status: AccountStatus }> = new EventEmitter();
+
     @Output() onUserTaskAdded: EventEmitter<{ account: Account, status: AccountStatus, userTask: UserTask }> = new EventEmitter();
     @Output() onUserTaskDeleted: EventEmitter<{ account: Account, status: AccountStatus, userTask: UserTask }> = new EventEmitter();
 
