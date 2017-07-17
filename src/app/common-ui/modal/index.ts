@@ -1,1 +1,1 @@
-import { ModalComponent } from './modal.component';
+import { ModalContainerComponent } from './modal.component';

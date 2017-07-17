@@ -23,7 +23,9 @@
                     (onClosed)="onComposeLogMessageClosed()"></ccrm-sales-accounts-status-composer-log>
 
                 <ng-container *ngIf="account.statuses">
-                    <ccrm-sales-accounts-status-item *ngFor="let status of account.statuses" [account]="account" [status]="status"></ccrm-sales-accounts-status-item>
+                    <ccrm-sales-accounts-status-item *ngFor="let status of account.statuses" [account]="account" [status]="status"
+                        (onUserTaskAdded)="onUserTaskAdded.emit($event)"
+                        (onUserTaskDeleted)="onUserTaskDeleted.emit($event)"></ccrm-sales-accounts-status-item>
                 </ng-container>
 
                 <ng-container *ngIf="!account.statuses.length">
@@ -71,7 +73,7 @@
                             <ccrm-sales-accounts-person-of-interest
                                 [account]="account"
                                 [person]="person"
-                                (onPersonDeleted)="onPersonDeleted(person, $event)">
+                                (onPersonDeleted)="onPersonDeleted($event, payload)">
                             </ccrm-sales-accounts-person-of-interest>
                         </div>
                     </ng-container>
@@ -88,7 +90,9 @@
 </div>
 
 <modal-container id="modal_accounts_addPersonOfInterest" [state]="modalOpen$">
-    <ccrm-accounts-add-person-of-interest [account]="account" (onClosed)="onModalOpen.emit(null)"></ccrm-accounts-add-person-of-interest>
+    <ccrm-accounts-add-person-of-interest [account]="account" 
+        (onSaved)="onPersonOfInterestAdded.emit($event, payload)"
+        (onClosed)="onModalOpen.emit(null)"></ccrm-accounts-add-person-of-interest>
 </modal-container>
 
 <router-outlet name="editor"></router-outlet>

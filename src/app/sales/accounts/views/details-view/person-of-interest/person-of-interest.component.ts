@@ -48,22 +48,16 @@ export class PersonOfInterestComponent implements OnInit {
     @Input('account') account: Account;
     @Input('person') person: AccountPersonOfInterest;
 
-    @Output() onPersonDeleted: EventEmitter<AccountPersonOfInterest> = new EventEmitter();
-
-    constructor(private accountsService: AccountsService) {}
+    @Output() onPersonDeleted: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
 
     ngOnInit() {
 
     }
 
     onRemovePersonOfInterest() {
-        this.accountsService.deletePersonOfInterest(this.account, this.person).subscribe(res => {
-            this.onPersonDeleted.next(this.person);
-        });
-    }
-
-    onModelUpdated(event: Event) {
-        this.accountsService.updatePersonOfInterest(this.account, this.person).subscribe(result => {
+        this.onPersonDeleted.emit({
+            account: this.account,
+            person: this.person
         });
     }
 }

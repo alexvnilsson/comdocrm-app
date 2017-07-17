@@ -37,9 +37,9 @@ export const accountsState = (state: State) => state.accounts;
 
 export const getAccountsLoading = createSelector(accountsState, fromAccounts.getLoading);
 
-export const getAccountsAll = createSelector(accountsState, fromAccounts.all);
+export const getAccountsAll = createSelector(accountsState, fromAccounts.allEntities);
 
-export const getAccount = createSelector(accountsState, fromAccounts.one);
+export const getAccount = createSelector(accountsState, fromAccounts.selected);
 
 // export const getAccountsAll = createSelector(accountsState, getAccountsAllIds, (entities, ids) => {
 //     return ids.map(id => entities[id]);

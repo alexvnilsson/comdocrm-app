@@ -6,7 +6,7 @@
     "config": "node .deploy/config.js",
     "build": "ng build",
     "build-prod": "ng build --prod",
-    "start": "ng serve"
+    "start": "ng serve --host localhost --port 4201"
   },
   "repository": {
     "type": "git",

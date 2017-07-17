@@ -91,7 +91,8 @@
 
                             <ng-template #removeStatusUserTaskConfirmation>
                                 <span class="small" i18n>Är du säker?
-                                    <button class="btn btn-danger btn-sm" role="button" (click)="onRemoveUserTask(userTask, $event)">Ta bort</button>
+                                    <button class="btn btn-danger btn-sm" role="button" 
+                                        (click)="onUserTaskDeleted.emit({ account: account, status: status, userTask: userTask })">Ta bort</button>
                                 </span>
                             </ng-template>
 
@@ -108,7 +109,8 @@
                     </ng-container>
 
                     
-                    <ccrm-sales-accounts-status-add-reminder-inline [account]="account" [status]="status"></ccrm-sales-accounts-status-add-reminder-inline>
+                    <ccrm-sales-accounts-status-add-reminder-inline [account]="account" [status]="status"
+                        (onUserTaskAdded)="onUserTaskAdded.emit($event)"></ccrm-sales-accounts-status-add-reminder-inline>
                 </ng-container>
             </div>
         </div>

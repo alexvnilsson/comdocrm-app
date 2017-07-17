@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ChangeDetectorRef, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
 import { AccountStatus, Account } from '../../../../models/accounts';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -38,6 +38,9 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() status: AccountStatus = null;
 
     @Input('light') lightMode: boolean;
+
+    @Output() onUserTaskAdded: EventEmitter<{ account: Account, status: AccountStatus, userTask: UserTask }> = new EventEmitter();
+    @Output() onUserTaskDeleted: EventEmitter<{ account: Account, status: AccountStatus, userTask: UserTask }> = new EventEmitter();
 
     statusMessage = {
         messageText: null,
@@ -90,10 +93,6 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
         //this.router.navigate([ '.', { outlets: { 'modal': [ 'reminders-add', this.status.id, 'no-details' ] }} ], { relativeTo: this.route });
 
         this.userTaskEditor.isEditing = true;
-    }
-
-    onRemoveStatus() {
-        this.accountsService.deleteStatus(this.account, this.status).subscribe();
     }
 
     onRemoveUserTask(userTask: UserTask, event: Event) {

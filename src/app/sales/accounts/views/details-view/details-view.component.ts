@@ -50,6 +50,12 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
 
     uiState: UiState = new UiState(true);
 
+    @Output() onPersonOfInterestAdded: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
+    @Output() onPersonOfInterestDeleted: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
+
+    @Output() onUserTaskAdded: EventEmitter<{ account: Account, status: AccountStatus, userTask: UserTask }> = new EventEmitter();
+    @Output() onUserTaskDeleted: EventEmitter<{ account: Account, status: AccountStatus, userTask: UserTask }> = new EventEmitter();
+
     private onAccountUpdateListener: Subscription;
 
     public isDraft = AccountStates.Draft;
@@ -76,12 +82,17 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
         // });
     }
 
-    onPersonDeleted(personOfInterest: AccountPersonOfInterest, event: Event) {
+    onPersonDeleted(personOfInterest: AccountPersonOfInterest) {
         if(personOfInterest && this.account) {
-            this.account.peopleOfInterest = this.account.peopleOfInterest.filter((person: AccountPersonOfInterest) => {
-                return person.id !== personOfInterest.id
+            this.onPersonOfInterestDeleted.emit({
+                account: this.account,
+                person: personOfInterest
             });
         }
+    }
+
+    _onUserTaskDeleted(event: any) {
+        console.log('onUserTaskDeleted', event);
     }
 
     onSelectManager(user: SelectItem) {

@@ -5,63 +5,51 @@
     </button>
 </div>
 
-<div class="modal-body p-0">
-    <ng-container *ngIf="!formState.loading">
+<form #personOfInterestForm="ngForm" (ngSubmit)="savePersonOfInterest(personOfInterestForm)">
+    <div class="modal-body p-0">
         <div class="container p-0">
-            <form #accountForm="ngForm">
-                <div class="container bg-faded p-3">
-                    <div class="row">
-                        <div class="form-group col">
-                            <label for="contactFullName">För- och efternamn</label>
-                            <input id="contactFullName"
-                                #contactFullName
-                                type="text"
-                                class="form-control"
-                                placeholder="First and last name"
-                                [(ngModel)]="person.fullName"
-                                name="person_fullname">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col">
-                            <label for="personPhoneNumber">Telefonnummer</label>
-                            <input id="personPhoneNumber" 
-                                type="tel"
-                                class="form-control"
-                                placeholder="(+00) 000-000 000"
-                                [(ngModel)]="person.phoneNumber"
-                                name="person_phonenumber">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col">
-                            <label for="personEmailAddress">E-postadress</label>
-                            <input id="personEmailAddress" 
-                                type="email"
-                                class="form-control"
-                                placeholder="name@company.com"
-                                [(ngModel)]="person.emailAddress"
-                                name="person_emailaddress">
-                        </div>
+            <div class="container bg-faded p-3">
+                <div class="row">
+                    <div class="form-group col">
+                        <label for="contactFullName">För- och efternamn</label>
+                        <input id="contactFullName"
+                            #contactFullName
+                            type="text"
+                            class="form-control"
+                            placeholder="Anders Johansson"
+                            [(ngModel)]="person.fullName"
+                            name="person_fullname">
                     </div>
                 </div>
-            </form>
-        </div>
-    </ng-container>
 
-    <ng-container *ngIf="formState.loading && !formState.hasErrors">
-        <ccrm-ui-spinner></ccrm-ui-spinner>
-    </ng-container>
+                <div class="row">
+                    <div class="form-group col">
+                        <label for="personPhoneNumber">Telefonnummer</label>
+                        <input id="personPhoneNumber" 
+                            type="tel"
+                            class="form-control"
+                            placeholder="(+00) 000-000 000"
+                            [(ngModel)]="person.phoneNumber"
+                            name="person_phonenumber">
+                    </div>
+                </div>
 
-    <ng-container *ngIf="formState.hasErrors">
-        <div class="container">
-            <h2>Some error</h2>
+                <div class="row">
+                    <div class="form-group col">
+                        <label for="personEmailAddress">E-postadress</label>
+                        <input id="personEmailAddress" 
+                            type="email"
+                            class="form-control"
+                            placeholder="namn@doman.se"
+                            [(ngModel)]="person.emailAddress"
+                            name="person_emailaddress">
+                    </div>
+                </div>
+            </div>
         </div>
-    </ng-container>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="savePerson()">Save</button>
-    <button type="button" class="btn btn-secondary" (click)="onClosed.emit()" data-dismiss="modal">Close</button>
-</div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="personOfInterestForm.form.invalid">Spara</button>
+        <button type="button" class="btn btn-secondary" (click)="onClosed.emit()" data-dismiss="modal">Stäng</button>
+    </div>
+</form>

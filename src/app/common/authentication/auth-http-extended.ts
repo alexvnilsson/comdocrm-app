@@ -27,81 +27,81 @@ export class AuthHttpExtended extends AuthHttp {
         );
     }
 
-    get(url: string, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
-        return new Observable(observer => {
-            let completeUrl: string = url;
+    // get(url: string, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
+    //     return new Observable(observer => {
+    //         let completeUrl: string = url;
 
-            if(!omitHost)
-                completeUrl = envOptions.api.endpoint + url;
+    //         if(!omitHost)
+    //             completeUrl = envOptions.api.endpoint + url;
 
-            super.get(completeUrl, options).subscribe(
-                (res: Response) => {
-                    observer.next(res);
-                },
-                error => {
-                    observer.error(error)
-                },
-                () => observer.complete()
-            );
-        });
-    }
+    //         super.get(completeUrl, options).subscribe(
+    //             (res: Response) => {
+    //                 observer.next(res);
+    //             },
+    //             error => {
+    //                 observer.error(error)
+    //             },
+    //             () => observer.complete()
+    //         );
+    //     });
+    // }
 
-    post(url: string, body: any, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
-        return new Observable(observer => {
-            let completeUrl: string = url;
+    // post(url: string, body: any, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
+    //     return new Observable(observer => {
+    //         let completeUrl: string = url;
 
-            if(!omitHost)
-                completeUrl = envOptions.api.endpoint + url;
+    //         if(!omitHost)
+    //             completeUrl = envOptions.api.endpoint + url;
 
-            super.post(completeUrl, body, options).subscribe(
-                (res: Response) => {
-                    observer.next(res);
-                },
-                error => {
-                    observer.error(error)
-                },
-                () => observer.complete()
-            );
-        });
-    }
+    //         super.post(completeUrl, body, options).subscribe(
+    //             (res: Response) => {
+    //                 observer.next(res);
+    //             },
+    //             error => {
+    //                 observer.error(error)
+    //             },
+    //             () => observer.complete()
+    //         );
+    //     });
+    // }
 
-    put(url: string, body: any, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
-        return new Observable(observer => {
-            let completeUrl: string = url;
+    // put(url: string, body: any, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
+    //     return new Observable(observer => {
+    //         let completeUrl: string = url;
 
-            if(!omitHost)
-                completeUrl = envOptions.api.endpoint + url;
+    //         if(!omitHost)
+    //             completeUrl = envOptions.api.endpoint + url;
 
-            super.put(completeUrl, body, options).subscribe(
-                (res: Response) => {
-                    observer.next(res);
-                },
-                error => {
-                    observer.error(error)
-                },
-                () => observer.complete()
-            );
-        });
-    }
+    //         super.put(completeUrl, body, options).subscribe(
+    //             (res: Response) => {
+    //                 observer.next(res);
+    //             },
+    //             error => {
+    //                 observer.error(error)
+    //             },
+    //             () => observer.complete()
+    //         );
+    //     });
+    // }
 
-    delete(url: string, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
-        return new Observable(observer => {
-            let completeUrl: string = url;
+    // delete(url: string, options?: RequestOptionsArgs, omitHost?: boolean): Observable<Response> {
+    //     return new Observable(observer => {
+    //         let completeUrl: string = url;
 
-            if(!omitHost)
-                completeUrl = envOptions.api.endpoint + url;
+    //         if(!omitHost)
+    //             completeUrl = envOptions.api.endpoint + url;
 
-            super.delete(completeUrl, options).subscribe(
-                (res: Response) => {
-                    observer.next(res);
-                },
-                error => {
-                    observer.error(error)
-                },
-                () => observer.complete()
-            );
-        });
-    }
+    //         super.delete(completeUrl, options).subscribe(
+    //             (res: Response) => {
+    //                 observer.next(res);
+    //             },
+    //             error => {
+    //                 observer.error(error)
+    //             },
+    //             () => observer.complete()
+    //         );
+    //     });
+    // }
 }
 
 export function authHttpExtendedFactory(http: Http, options: RequestOptions) {    

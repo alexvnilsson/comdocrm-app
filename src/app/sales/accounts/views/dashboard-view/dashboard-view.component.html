@@ -1,14 +1,5 @@
-<table class="table table-sm">
-    <thead class="small">
-        <td>
-
-        </td>
-
-        <td>Uppdaterad</td>
-    </thead>
-
-    <tr *ngFor="let account of accounts">
-        <td><a [routerLink]="[ 'sales/accounts', account.alias ]">{{ account.customer?.legalName }}</a></td>
-        <td>{{ account.dateModified | amCalendar }}</td>
-    </tr>
-</table>
+<div *ngFor="let account of accounts" class="mt-2 mb-2">
+    <a [routerLink]="[ 'sales/accounts', account.alias ]">{{ account.customer?.legalName }}</a>
+    <ng-template #popoverDateModified></ng-template>
+    <span class="small" popover="Senast uppdaterad"><fa name="clock-o"></fa> {{ account.dateModified | amCalendar }}</span>
+</div>

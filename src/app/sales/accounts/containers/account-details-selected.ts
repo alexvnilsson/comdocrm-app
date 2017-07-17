@@ -7,13 +7,14 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from 'app/app.store';
 import * as accountsReducer from '../store/accounts.reducer';
-import * as account from '../store/accounts.actions';
+import * as accountActions from '../store/accounts.actions';
 import * as Layout from 'app/common-ui/layout/layout.actions';
-import { Account } from '../models/accounts';
+import { AccountPersonOfInterest, Account, AccountStatus } from '../models/accounts';
 
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import * as fromLayout from 'app/common-ui/layout/layout.reducers';
+import { UserTask } from "app/user-tasks";
 
 @Component({
     selector: 'ccrm-sales-accounts-details-selected',
@@ -24,7 +25,11 @@ import * as fromLayout from 'app/common-ui/layout/layout.reducers';
         <ccrm-sales-accounts-details-view 
             [account]="account$ | async"
             [modalOpen$]="modalOpen$ | async"
-            (onModalOpen)="onModalOpened($event, name)"
+            (onModalOpen)="onModalOpened($event)"
+            (onPersonOfInterestAdded)="onPersonOfInterestAdded($event)"
+            (onPersonOfInterestDeleted)="onPersonOfInterestDeleted($event)"
+            (onUserTaskAdded)="onUserTaskAdded($event)"
+            (onUserTaskDeleted)="onUserTaskDeleted($event)"
         ></ccrm-sales-accounts-details-view>
     `
 })
@@ -37,8 +42,6 @@ export class AccountDetailsSelectedContainerComponent {
     constructor(private store: Store<fromRoot.State>) {
         this.account$ = store.select(fromRoot.getAccount);
         this.modalOpen$ = this.store.select(fromRoot.layoutState).select(fromLayout.openedModalName)
-
-        
     }
 
     private onModalOpened(name: string) {
@@ -46,5 +49,43 @@ export class AccountDetailsSelectedContainerComponent {
             this.store.dispatch(new Layout.OpenModalAction(name));
         else
             this.store.dispatch(new Layout.CloseModalAction());   
+    }
+
+    private onPersonOfInterestAdded(payload: {account: Account, person: AccountPersonOfInterest}) {
+        if(payload && payload.person) {
+            this.store.dispatch(new accountActions.AddPersonOfInterestAction({
+                account: payload.account,
+                person: payload.person
+            }));
+        }
+    }
+
+    private onPersonOfInterestDeleted(payload: {account: Account, person: AccountPersonOfInterest}) {
+        if(payload && payload.person) {
+            this.store.dispatch(new accountActions.DeletePersonOfInterestAction({
+                account: payload.account,
+                person: payload.person
+            }));
+        }
+    }
+
+    private onUserTaskAdded(payload: {account: Account, status: AccountStatus, userTask: UserTask}) {
+        if(payload && payload.account && payload.status && payload.userTask) {
+            this.store.dispatch(new accountActions.AddStatusUserTaskAction({
+                account: payload.account,
+                status: payload.status,
+                userTask: payload.userTask
+            }));
+        }
+    }
+
+    private onUserTaskDeleted(payload: {account: Account, status: AccountStatus, userTask: UserTask}) {
+        if (payload && payload.account && payload.status && payload.userTask) {
+            this.store.dispatch(new accountActions.DeleteStatusUserTaskAction({
+                account: payload.account,
+                status: payload.status,
+                userTask: payload.userTask
+            }));
+        }
     }
 }

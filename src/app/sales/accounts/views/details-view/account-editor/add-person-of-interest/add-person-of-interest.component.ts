@@ -5,7 +5,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { AccountsService, AccountUpdateResult } from '../../../../services/accounts.service';
 import { Account, AccountPersonOfInterest } from '../../../../models/accounts';
-import { FormState } from 'app/common/ui/views/form-state';
+import { NgForm } from "@angular/forms/forms";
 
 @Component({
     selector: 'ccrm-accounts-add-person-of-interest',
@@ -27,10 +27,6 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
         decisionMaker: false,
     };
 
-    public formState: FormState = new FormState({
-        isLoading: true
-    });
-
     constructor(
         private location: Location,
         private router: Router,
@@ -51,6 +47,15 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
 
     ngAfterContentInit() {
         
+    }
+
+    @Output() onSaved: EventEmitter<AccountPersonOfInterest> = new EventEmitter();
+
+    savePersonOfInterest(form: NgForm) {
+        if(form.form.invalid)
+            return false;
+
+        this.onSaved.emit(this.person);
     }
 
     savePerson() {

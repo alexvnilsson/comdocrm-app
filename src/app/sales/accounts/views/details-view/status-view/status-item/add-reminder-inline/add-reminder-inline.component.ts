@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { trigger, state, transition, style, animate, keyframes } from '@angular/animations';
 import { AccountStatus, Account } from '../../../../../models/accounts';
 import { UserTask } from 'app/user-tasks/user-task';
@@ -48,7 +48,7 @@ import { DatepickerDirective } from 'app/common/ui/components/datepicker/datepic
                 <div class="col-md-1 p-0 m-0 d-flex flex-column justify-content-center align-items-center">
                     <a 
                         class="no-underline color-black ml-2"
-                        (click)="onClickDismiss()"
+                        (click)="clickDismiss()"
                         role="button">
                         &times;
                     </a>
@@ -66,7 +66,7 @@ import { DatepickerDirective } from 'app/common/ui/components/datepicker/datepic
         <ng-container *ngIf="!editorState.isEditing">
             <div class="row mt-3 pl-2 pr-2">
                 <span [@editorTransition]="editorState.isEditing"
-                    (click)="onAddUserTask()"
+                    (click)="clickAdd()"
                     role="button" 
                     tooltip="Lägg till påminnelse"
                     i18n-tooltip
@@ -101,6 +101,8 @@ export class AddReminderInlineComponent implements OnInit {
     @Input() account: Account;
     @Input() status: AccountStatus;
 
+    @Output() onUserTaskAdded: EventEmitter<{ account: Account, status: AccountStatus, userTask: UserTask }> = new EventEmitter();
+
     private waitBlurTimer = null;
 
     userTask: UserTask = {
@@ -121,18 +123,32 @@ export class AddReminderInlineComponent implements OnInit {
     ngOnInit() {
         
     }
-
-    onClickDismiss() {
-        this.clearBlurTimeout();
-
-        this.onEditorDisabled();
+    
+    saveUserTask(form: NgForm) {
+        if(!form.invalid) {
+            this.onUserTaskAdded.emit({
+                account: this.account,
+                status: this.status,
+                userTask: this.userTask
+            });
+        }
     }
 
-    onEditorEnabled() {
+    clickAdd() {
+        this.setEditorEnabled();
+    }
+
+    clickDismiss() {
+        this.clearBlurTimeout();
+
+        this.setEditorDisabled();
+    }
+
+    setEditorEnabled() {
         this.editorState.isEditing = true;
     }
 
-    onEditorDisabled() {
+    setEditorDisabled() {
         this.editorState.isEditing = false;
     }
 
@@ -149,27 +165,12 @@ export class AddReminderInlineComponent implements OnInit {
 
         this.waitBlurTimer = setTimeout(() => {
             if(this.editorState.isWaitingExit)
-                this.onEditorDisabled();
+                this.setEditorDisabled();
         }, 10000);
     }
 
     private clearBlurTimeout() {
         if(this.waitBlurTimer)
             clearTimeout(this.waitBlurTimer);
-    }
-
-    onAddUserTask() {
-        this.onEditorEnabled();
-    }
-
-    saveUserTask(form: NgForm) {
-        if(!form.invalid) {
-            this.accountsService.addUserTask(this.account, this.status, this.userTask).subscribe(result => {
-                if(result.updated) {
-                    form.reset();
-                    this.editorState.isEditing = false;
-                }
-            });
-        }
     }
 }

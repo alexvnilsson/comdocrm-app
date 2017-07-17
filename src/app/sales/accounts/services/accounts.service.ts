@@ -163,12 +163,11 @@ export class AccountsService {
 
     addPersonOfInterest(account: Account, personOfInterest: AccountPersonOfInterest): Observable<AccountUpdateResult> {
         return new Observable(observer => {
-            this.http.post(`${this.baseAddr}/accounts/${account.alias}/contacts`, personOfInterest).subscribe(res => {
-                let result: AccountPersonOfInterest = res.json() || null;
-
+            this.http.post(`${this.baseAddr}/accounts/${account.alias}/contacts`, personOfInterest)
+            .map(res => res.json() as AccountUpdateResult || null)
+            .subscribe(result => {
                 if(result) {
-                    personOfInterest = result;
-                    observer.next();
+                    observer.next(result);
                 }
                 else
                     observer.error();
@@ -197,24 +196,13 @@ export class AccountsService {
         });
     }
 
-    addUserTask(account: Account, status: AccountStatus, _userTask: UserTask): Observable<AccountUpdateResult> {
+    addUserTask(account: Account, status: AccountStatus, userTask: UserTask): Observable<AccountUpdateResult> {
         return new Observable(observer => {
-            let userTask: UserTask = JSON.parse(JSON.stringify(_userTask));
-            userTask.ownerId = status.id;
-
-            this.http.post(`${this.baseAddr}/accounts/${account.alias}/statuses/${status.id}/tasks`, userTask).subscribe(res => {
-                let result: AccountUpdateResult = res.json() || null;
-
+            this.http.post(`${this.baseAddr}/accounts/${account.alias}/statuses/${status.id}/tasks`, userTask)
+            .map(res => res.json() as AccountUpdateResult || null)
+            .subscribe(result => {
                 if(result && result.updated){
-                    userTask.id = result.id;
-
-                    if(status && !status.userTasks)
-                        status.userTasks = [];
-
-                    status.userTasks.push(userTask);
-
-                    this.onUserTaskAddedToStatus.next(new StatusUserTaskAddedEvent(status, userTask));
-                    observer.next({ updated: true });
+                    observer.next(result);
                 }
                 else
                     observer.error();
@@ -224,14 +212,9 @@ export class AccountsService {
 
     deleteUserTask(account: Account, status: AccountStatus, userTask: UserTask): Observable<AccountUpdateResult> {
         return new Observable(observer => {
-            userTask.ownerId = status.id;
-
             this.http.delete(`${this.baseAddr}/accounts/${account.alias}/statuses/${status.id}/tasks/${userTask.id}`)
             .map(res => res.json() as AccountUpdateResult || null)
             .subscribe(result => {
-                if(result.updated)
-                    status.userTasks = status.userTasks.filter((value: UserTask) => { return value.id !== userTask.id });
-
                 observer.next(result);
             });
         });
