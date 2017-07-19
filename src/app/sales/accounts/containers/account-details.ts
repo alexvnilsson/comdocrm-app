@@ -4,8 +4,8 @@ import { Component, ChangeDetectionStrategy, OnDestroy, OnInit } from '@angular/
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import * as accountsReducer from '../store/accounts.reducer';
-import * as account from '../store/accounts.actions';
+import * as fromRoot from 'app/app.store';
+import * as accountsStore from '../store/accounts';
 import { Account } from '../models/accounts';
 
 import { ActivatedRoute } from '@angular/router';
@@ -16,17 +16,17 @@ import { Subscription } from 'rxjs/Subscription';
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `<ccrm-sales-accounts-details-selected></ccrm-sales-accounts-details-selected>`
 })
-export class AccountDetailsContainerComponent implements OnInit, OnDestroy {
+export class AccountDetailsContainer implements OnInit, OnDestroy {
     actionsSubscription: Subscription;
 
     account$: Observable<Account>;
 
-    constructor(private store: Store<accountsReducer.State>, private route: ActivatedRoute) {}
+    constructor(private store: Store<fromRoot.State>, private route: ActivatedRoute) {}
 
     ngOnInit() {
         this.actionsSubscription = this.route.params
             .select<string>('slug')
-            .map(alias => new account.SelectAction(alias))
+            .map(alias => new accountsStore.actions.SelectAction(alias))
             .subscribe(this.store);
     }   
 

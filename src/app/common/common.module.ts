@@ -8,17 +8,16 @@ import { DatepickerModule, ModalModule, TooltipModule, PopoverModule, BsDropdown
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { SelectModule } from 'ng2-select';
 import { MomentModule } from 'angular2-moment';
+import { CommonUiModule } from '../common-ui/common-ui.module';
 import 'moment/locale/sv';
 
 import { AuthenticationModule, AuthenticationService } from './authentication';
 import { AuthenticationGuard } from './router/authentication.guard';
 import { UsersService } from './users/users.service';
+import { ClientService, ClientServiceInitFactory } from '../clients/client.service';
 
 import { AuthHttp } from 'angular2-jwt';
 import { AuthHttpExtended, authHttpExtendedFactory } from './authentication/auth-http-extended';
-
-import { NavbarComponent } from './ui/components/navbar';
-import { NavbarSubComponent, NavbarSubDirective } from './ui/components/navbar-sub';
 
 import { TabDirective } from './ui/directives/tab';
 
@@ -34,8 +33,8 @@ import { DatepickerComponent } from './ui/components/datepicker/datepicker.compo
 import { DashboardComponent } from 'app/sales/dashboard/views/dashboard/dashboard.component';
 import { DatepickerDirective } from './ui/components/datepicker/datepicker.directive';
 import { LoadingComponent } from './ui/components/loading/loading.component';
-import { ClientService, ClientServiceInitFactory } from '../clients/client.service';
-import { CommonUiModule } from '../common-ui/common-ui.module';
+import { NavbarComponent, NavbarItemDirective } from 'app/common-ui/navbar';
+
 
 @NgModule({
     imports: [
@@ -54,11 +53,10 @@ import { CommonUiModule } from '../common-ui/common-ui.module';
         WordSplicePipe,
         TrimPipe,
         InlineEditorComponent,
-        NavbarSubComponent,
-        NavbarSubDirective,
         DatepickerComponent,
         DatepickerDirective,
-        LoadingComponent
+        LoadingComponent,
+        
     ],
     providers: [
         
@@ -79,11 +77,11 @@ import { CommonUiModule } from '../common-ui/common-ui.module';
         WordSplicePipe,
         TrimPipe,
         InlineEditorComponent,
-        NavbarSubComponent,
-        NavbarSubDirective,
         DatepickerComponent,
         DatepickerDirective,
-        LoadingComponent
+        LoadingComponent,
+        NavbarComponent,
+        NavbarItemDirective
     ]
 })
 export class ComdoCrmCommonModule {

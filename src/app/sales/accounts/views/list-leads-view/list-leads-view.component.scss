@@ -1,0 +1,9 @@
+#listView {
+    .card {
+        &:not(:last-child) {
+            border-bottom: 1px solid #BDBDBD !important;
+
+            margin-bottom: 1em;
+        }
+    }
+}

@@ -1,0 +1,25 @@
+<navbar>
+    <a navbarItem routerLink="/sales/accounts"><fa name="address-card"></fa> Återgå till kontakter</a>
+</navbar>
+
+<div class="container-fluid pl-0 pr-0">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Hämtad</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let account of accounts" (click)="onAccountClicked(account, $event)" role="button">
+                <td>{{ account.customer?.legalName || "okänt" }}</td>
+                <td>{{ account.dateModified | amCalendar }}</td>
+            </tr>  
+        </tbody>
+    </table>
+</div>
+
+<modal-container id="accounts_leads_leadCard" [state]="modalOpen$">
+    <ccrm-sales-accounts-lead-card [account]="selectedAccount$ | async" (onClosed)="onModalOpen.emit(null)"></ccrm-sales-accounts-lead-card>
+</modal-container>

@@ -6,8 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from 'app/app.store';
-import * as accountsReducer from '../store/accounts.reducer';
-import * as accountActions from '../store/accounts.actions';
+import * as accountsStore from '../store/accounts';
 import * as Layout from 'app/common-ui/layout/layout.actions';
 import { AccountPersonOfInterest, Account, AccountStatus } from '../models/accounts';
 
@@ -35,7 +34,7 @@ import { UserTask } from "app/user-tasks";
         ></ccrm-sales-accounts-details-view>
     `
 })
-export class AccountDetailsSelectedContainerComponent {
+export class AccountDetailsSelectedContainer {
     actionsSubscription: Subscription;
 
     account$: Observable<Account>;
@@ -55,37 +54,37 @@ export class AccountDetailsSelectedContainerComponent {
 
     private onStatusAdded(payload: { account: Account, status: AccountStatus }) {
         if(payload && payload.account && payload.status) {
-            this.store.dispatch(new accountActions.AddStatusAction(payload));
+            this.store.dispatch(new accountsStore.actions.AddStatusAction(payload));
         }
     }
 
     private onStatusDeleted(payload: { account: Account, status: AccountStatus }) {
         if(payload && payload.account && payload.status) {
-            this.store.dispatch(new accountActions.DeleteStatusAction(payload));
+            this.store.dispatch(new accountsStore.actions.DeleteStatusAction(payload));
         }
     }
 
     private onPersonOfInterestAdded(payload: {account: Account, person: AccountPersonOfInterest}) {
         if(payload && payload.person) {
-            this.store.dispatch(new accountActions.AddPersonOfInterestAction(payload));
+            this.store.dispatch(new accountsStore.actions.AddPersonOfInterestAction(payload));
         }
     }
 
     private onPersonOfInterestDeleted(payload: {account: Account, person: AccountPersonOfInterest}) {
         if(payload && payload.person) {
-            this.store.dispatch(new accountActions.DeletePersonOfInterestAction(payload));
+            this.store.dispatch(new accountsStore.actions.DeletePersonOfInterestAction(payload));
         }
     }
 
     private onUserTaskAdded(payload: {account: Account, status: AccountStatus, userTask: UserTask}) {
         if(payload && payload.account && payload.status && payload.userTask) {
-            this.store.dispatch(new accountActions.AddStatusUserTaskAction(payload));
+            this.store.dispatch(new accountsStore.actions.AddStatusUserTaskAction(payload));
         }
     }
 
     private onUserTaskDeleted(payload: {account: Account, status: AccountStatus, userTask: UserTask}) {
         if (payload && payload.account && payload.status && payload.userTask) {
-            this.store.dispatch(new accountActions.DeleteStatusUserTaskAction(payload));
+            this.store.dispatch(new accountsStore.actions.DeleteStatusUserTaskAction(payload));
         }
     }
 }

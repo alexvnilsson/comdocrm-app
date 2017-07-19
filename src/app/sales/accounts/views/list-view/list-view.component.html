@@ -1,15 +1,16 @@
-<ccrm-ui-navbar-sub>
-    <button ccrmUiNavbarSubItem (click)="onModalOpen.emit('modal_accounts_initialEditor')"><fa name="plus"></fa> <span i18n="A new account in the context of sales and prospects">Skapa</span></button>
-</ccrm-ui-navbar-sub>
+<navbar>
+    <a navbarItem (click)="onModalOpen.emit('modal_accounts_initialEditor')"><fa name="plus"></fa> Skapa</a>
+    <a navbarItem routerLink="/sales/accounts/import"><fa name="search"></fa> Importera</a>
+</navbar>
 
 <ccrm-tabs>
-    <ccrm-tabs-tab header="Kunder">
+    <ccrm-tabs-tab header="Alla kontakter">
         <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Namn</th>
-                    <td>Senast uppdaterad</td>
-                    <td>Ansvarig</td>
+                    <th>Senast uppdaterad</th>
+                    <th>Ansvarig</th>
                 </tr>
             </thead>
 

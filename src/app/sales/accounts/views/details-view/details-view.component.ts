@@ -4,9 +4,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 import { SelectComponent } from 'ng2-select';
 
-import * as accountsReducer from '../../store/accounts.reducer';
-import * as accountActions from '../../store/accounts.actions';
-
 import { AccountsService, AccountUpdateResult } from '../../services/accounts.service';
 import { UsersService } from 'app/common/users';
 import { UserTasksService, UserTask } from 'app/user-tasks';
@@ -23,12 +20,11 @@ import { Observable } from 'rxjs/Observable';
 import { UiState } from 'app/common/interfaces';
 import { User } from 'app/common/users/user';
 import { SelectItem } from 'app/common/select/select-item';
-import { AccountsEffects } from 'app/sales/accounts/store/accounts.effects';
-import * as accountReducer from 'app/sales/accounts/store/accounts.reducer';
 
 import * as fromRoot from 'app/app.store';
-import * as fromUsers from 'app/common/users/users.reducer';
-import * as userActions from 'app/common/users/users.actions';
+
+import * as accountsStore from '../../store/accounts';
+import * as usersStore from 'app/common/users/store';
 
 @Component({
     selector: 'ccrm-sales-accounts-details-view',
@@ -78,9 +74,7 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        //this.usersService.getState().subscribe(state => this.userState = state);
-
-        this.users$ = this.store$.select(fromRoot.usersState).select(fromUsers.all);
+        this.users$ = this.store$.select(fromRoot.usersState).select(usersStore.fromUsers.all);
 
         this.users$.subscribe(users => {
             this.usersAsSelect$ = Observable.of(users.map(user => new SelectItem(user.id, user.fullName)));
@@ -115,11 +109,11 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     }
 
     onSelectManager(user: SelectItem) {
-        this.store$.select(fromRoot.usersState).select(fromUsers.all).subscribe(users => {
+        this.store$.select(fromRoot.usersState).select(usersStore.fromUsers.all).subscribe(users => {
             let _user: User = users.find(u => u.id === user.id);
 
             if(_user) {
-                this.store$.dispatch(new accountActions.UpdateManagerAction({
+                this.store$.dispatch(new accountsStore.actions.UpdateManagerAction({
                     account: this.account,
                     user: _user
                 }));

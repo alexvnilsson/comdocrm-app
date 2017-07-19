@@ -6,11 +6,17 @@ import { AuthHttpExtended } from 'app/common/authentication';
 import { ComdoCrmCommonModule } from 'app/common';
 import { CommonUiModule } from '../../common-ui/common-ui.module';
 import { UserTasksModule } from 'app/user-tasks';
+import { EffectsModule, Effect } from '@ngrx/effects';
 
-import { AccountsService } from './services/accounts.service';
-import { AccountSourcesService } from './services/account-sources.service';
+import { AccountLeadsService, AccountSourcesService } from './services';
+
+import * as accountLeadsStore from './store/accounts/leads';
 
 import { ListViewComponent } from './views/list-view/list-view.component';
+
+import { ListLeadsViewComponent } from './views/list-leads-view/list-leads-view.component';
+import { LeadCardComponent } from './views/list-leads-view/lead-card/lead-card.component';
+
 import { DetailsViewComponent } from './views/details-view/details-view.component';
 import { StatusItemComponent } from './views/details-view/status-view/status-item/status-item.component';
 import { AddPersonOfInterestComponent } from './views/details-view/account-editor/add-person-of-interest/add-person-of-interest.component';
@@ -22,11 +28,14 @@ import { ListItemComponent } from './views/list-view/list-item/list-item.compone
 import { AllStatusesComponent } from './views/list-view/all-statuses/all-statuses.component';
 
 import { InitialEditorComponent } from './views/details-view/account-editor/initial-editor/initial-editor.component';
-import { AccountDetailsContainerComponent } from './containers/account-details';
-import { AccountDetailsSelectedContainerComponent } from './containers/account-details-selected';
+
+import { AccountsListContainer } from './containers/accounts-list';
+import { AccountLeadsListContainer } from './containers/account-leads-list';
+import { AccountDetailsContainer } from './containers/account-details';
+import { AccountDetailsSelectedContainer } from './containers/account-details-selected';
 
 import { routes } from './accounts.routes';
-import { AccountsListContainerComponent } from './containers/accounts-list';
+
 
 @NgModule({
     imports: [
@@ -34,14 +43,17 @@ import { AccountsListContainerComponent } from './containers/accounts-list';
         ComdoCrmCommonModule,
         CommonUiModule,
         RouterModule.forChild(routes),
-        UserTasksModule
+        UserTasksModule,
+        EffectsModule.run(accountLeadsStore.effects.AccountLeadsEffects)
     ],
     declarations: [
-        AccountsListContainerComponent,
-        AccountDetailsContainerComponent,
-        AccountDetailsSelectedContainerComponent,
+        AccountsListContainer,
+        AccountLeadsListContainer,
+        AccountDetailsContainer,
+        AccountDetailsSelectedContainer,
         ListViewComponent,
         ListItemComponent,
+        ListLeadsViewComponent,
         AllStatusesComponent,
         DetailsViewComponent,
         ComposerComponent,
@@ -50,9 +62,11 @@ import { AccountsListContainerComponent } from './containers/accounts-list';
         LogComposerComponent,
         PersonOfInterestComponent,
         AddReminderInlineComponent,
-        InitialEditorComponent
+        InitialEditorComponent,
+        LeadCardComponent
     ],
     providers: [
+        AccountLeadsService,
         AccountSourcesService
     ],
     bootstrap: [ListViewComponent]

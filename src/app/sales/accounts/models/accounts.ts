@@ -19,6 +19,10 @@ export class Account {
         slug: string;
         displayName: string;
     }
+
+    dateCreated?: Date;
+    dateModified?: Date;
+
     customer?: AccountCustomer;
     manager?: AccountManager;
     contact: AccountContact;

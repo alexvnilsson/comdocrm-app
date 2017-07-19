@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
-import { Account, AccountStatus } from '../models/accounts';
+import { Account, AccountStatus } from '../../models/accounts';
 import { AccountPersonOfInterest } from "app/sales/accounts/models";
-import * as Payloads from './accounts.payloads';
 import { UserTask } from "app/user-tasks";
 import { User } from "app/common/users/user";
 

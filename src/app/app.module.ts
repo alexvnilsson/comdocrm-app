@@ -18,8 +18,9 @@ import { CommonUiModule } from 'app/common-ui/common-ui.module';
 import { ConfigurationService } from 'app/common/configuration';
 
 import * as fromRoot from './app.store';
-import { AccountsEffects } from 'app/sales/accounts/store/accounts.effects';
-import { UsersEffects} from 'app/common/users/users.effects';
+
+import * as usersStore from 'app/common/users/store';
+import * as accountsStore from 'app/sales/accounts/store/accounts';
 
 import { AuthenticationModule, AuthenticationService, AuthHttpExtended, authHttpExtendedFactory } from 'app/common/authentication';
 import { CustomRoute, AuthenticationGuard } from 'app/common/router';
@@ -28,15 +29,15 @@ import { AuthHttp } from 'angular2-jwt';
 import { SalesModule } from 'app/sales';
 import { UserTasksModule } from 'app/user-tasks';
 
+import { AccountsService } from './sales/accounts/services';
+
 import { AppComponent } from './app.component';
+
 import { CallbackComponent } from 'app/common/authentication/callback/callback.component';
 
-import { NavbarComponent } from 'app/common/ui/components/navbar';
-import { NavbarSubComponent, NavbarSubDirective } from 'app/common/ui/components/navbar-sub';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardViewComponent } from './sales/accounts/views/dashboard-view/dashboard-view.component';
 import { PageNotFoundComponent } from 'app/common-ui/containers/page-not-found';
-import { AccountsService } from './sales/accounts/services/accounts.service';
 
 const routes: CustomRoute[] = [
     {
@@ -88,8 +89,8 @@ const routes: CustomRoute[] = [
         StoreModule.provideStore(fromRoot.reducer),
         RouterStoreModule.connectRouter(),
         StoreDevtoolsModule.instrumentOnlyWithExtension(),
-        EffectsModule.run(AccountsEffects),
-        EffectsModule.run(UsersEffects),
+        EffectsModule.run(accountsStore.effects.AccountsEffects),
+        EffectsModule.run(usersStore.effects.UsersEffects),
         CommonUiModule.forRoot(),
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
@@ -102,8 +103,7 @@ const routes: CustomRoute[] = [
         AppComponent,
         DashboardComponent,
         DashboardViewComponent,
-        CallbackComponent,
-        NavbarComponent
+        CallbackComponent
     ],
     providers: [
         AccountsService

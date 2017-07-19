@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[ccrmUiNavbarSubItem]',
+  selector: '[navbarItem]',
   host: {
     '[class.page-navbar-item]': 'true',
     '[class.btn]': 'true',
@@ -9,7 +9,7 @@ import { Directive } from '@angular/core';
     'role': 'button'
   }
 })
-export class NavbarSubDirective {
+export class NavbarItemDirective {
 
   constructor() { }
 

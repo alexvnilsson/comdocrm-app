@@ -1,5 +1,5 @@
 <div class="row" *ngIf="status && !status.isRemoved">
-    <div class="col-1 hidden-sm-down">
+    <div class="" style="display: none">
         <div class="row d-flex flex-row justify-content-center min-max-width-1-5 minh-100">
             <div class="col d-flex flex-column justify-content-center align-items-center minh-100 position-relative">                
                 <div class="h-100 bg-gray-light shape-border-vh-max margin-invert-left-1"></div>
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div [@slideDownTransition] class="col-11 pt-2 mb-4" [class.opacity-70]="status.isDelayed">
+    <div [@slideDownTransition] class="status-item-container col-12 pt-2 mb-4" [class.opacity-70]="status.isDelayed">
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
@@ -53,8 +53,9 @@
                                     <button (click)="onStatusDeleted.emit({ account: account, status: status })" class="btn btn-danger btn-sm" role="button">Ta bort</button>
                                 </span>
                             </ng-template>
+
                             <a 
-                                class="no-underline color-black ml-2"
+                                class="close-link no-underline color-black ml-2"
                                 [popover]="removeStatusConfirmation"
                                 placement="left"
                                 container="body"

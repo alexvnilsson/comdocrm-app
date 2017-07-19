@@ -16,8 +16,8 @@ import 'rxjs/add/observable/of';
 
 import * as fromRoot from 'app/app.store';
 
-import { AccountsService, AccountUpdateResult } from '../services/accounts.service';
-import { Account } from '../models/accounts';
+import { AccountsService, AccountUpdateResult } from '../../services/accounts.service';
+import { Account } from '../../models/accounts';
 import * as fromAccounts from './accounts.reducer';
 import * as accountsActions from './accounts.actions';
 

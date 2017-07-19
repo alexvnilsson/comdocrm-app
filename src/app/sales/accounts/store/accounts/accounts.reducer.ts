@@ -1,30 +1,42 @@
 import 'rxjs/add/operator/map';
 
 import { ActionReducer, Action } from '@ngrx/store';
-import { AccountStatus, Account } from '../models/accounts';
+import { AccountStatus, Account } from '../../models/accounts';
 import { createSelector } from 'reselect';
 import { state } from '@angular/animations';
 import { AccountPersonOfInterest } from "app/sales/accounts/models";
 
 import * as accountsStore from './accounts.actions';
-import * as accountPayloads from './accounts.payloads';
 
 export interface State {
     loading: boolean;
     entities: Account[];
+    selectedAccount: string | null;
 }
 
 export const initialState: State = {
     loading: null,
-    entities: []
+    entities: [],
+    selectedAccount: null
 };
 
 export function reducer(state = initialState, action: accountsStore.AccountsActions) {
     switch(action.type) {
-        case accountsStore.ActionTypes.LOAD_STATUSES: {
+        case accountsStore.ActionTypes.LOAD: {
             return Object.assign({}, state, {
                 loading: true
             });
+        }
+
+        case accountsStore.ActionTypes.LOAD_SUCCESS: {
+            const accounts: Account[] = action.payload as Account[];
+            const newAccounts =  accounts.filter(account => !state.entities[account.alias]);
+
+            return {
+                entities: [ ...state.entities, ...newAccounts ],
+                selectedAccount: state.selectedAccount,
+                loading: false
+            };
         }
 
         case accountsStore.ActionTypes.SELECT: {
@@ -44,6 +56,23 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
             }
         }
 
+        case accountsStore.ActionTypes.UPDATE_MANAGER_RESULT: {
+            if(action.payload.account && action.payload.user) {
+                return Object.assign({}, state, {
+                    entities: state.entities.map(account => account.id === action.payload.account.id ?
+                        Object.assign({}, account, {
+                            manager: {
+                                user: action.payload.user,
+                                assigned: new Date(),
+                                active: true,
+                            }
+                        })
+                        : account 
+                    )
+                })
+            }
+        }
+
         case accountsStore.ActionTypes.ADD_STATUS_RESULT: {
             if(!action.payload.account)
                 throw 'No working Account has been selected.';
@@ -52,7 +81,8 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
                 return Object.assign({}, state, {
                     entities: state.entities.map(account => account.id === action.payload.account.id ? 
                         Object.assign({}, account, {
-                            statuses: account.statuses.concat(action.payload.status)
+                            dateModified: new Date(),
+                            statuses: account.statuses.concat(action.payload.status).sort((a, b) => b.publicationDate < a.publicationDate ? -1 : 1)
                         })
                         : account
                     )
@@ -70,7 +100,7 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
                 return Object.assign({}, state, {
                     entities: state.entities.map(account => account.id === action.payload.account.id ?
                         Object.assign({}, account, {
-                            statuses: account.statuses.filter(status => status.id !== action.payload.status.id)
+                            statuses: account.statuses.filter(status => status.id !== action.payload.status.id).sort((a, b) => b.publicationDate < a.publicationDate ? -1 : 1)
                         })
                         : account
                     )
@@ -93,7 +123,10 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
             return Object.assign({}, state, {
                 entities: state.entities.map(account => 
                     account.id == action.payload.account.id
-                        ? Object.assign({}, account, { peopleOfInterest: accountAddPersonOfInterest })
+                        ? Object.assign({}, account, {
+                            dateModified: new Date(),
+                            peopleOfInterest: accountAddPersonOfInterest
+                        })
                         : account)
             });
         }

@@ -18,7 +18,7 @@ import * as fromRoot from 'app/app.store';
 import * as userActions from './users.actions';
 import * as fromUsers from './users.reducer';
 
-import { UsersService } from './users.service';
+import { UsersService } from '../users.service';
 
 @Injectable()
 export class UsersEffects {

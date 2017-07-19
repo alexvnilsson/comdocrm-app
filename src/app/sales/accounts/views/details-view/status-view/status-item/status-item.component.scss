@@ -1,5 +1,11 @@
-.timeline-circle {
-    width: 1rem;
-    height: 1rem;
-    min-height: 1rem;
+.status-item-container {
+    &:hover, &:focus,  {
+        .close-link {
+            visibility: visible;
+        }
+    }
+}
+
+.close-link {
+    visibility: hidden;
 }
