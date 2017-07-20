@@ -117,15 +117,12 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
             if(!account)
                 throw 'Account was not found.';
 
-            let accountAddPersonOfInterest = Object.assign([], account.peopleOfInterest, [ ...account.peopleOfInterest, 
-                ...[ action.payload ]]);
-
             return Object.assign({}, state, {
                 entities: state.entities.map(account => 
                     account.id == action.payload.account.id
                         ? Object.assign({}, account, {
                             dateModified: new Date(),
-                            peopleOfInterest: accountAddPersonOfInterest
+                            peopleOfInterest: account.peopleOfInterest.concat(action.payload.person)
                         })
                         : account)
             });
@@ -140,7 +137,10 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
             if (!account)
                 throw 'Account was not found.';
 
-            let removePersonOfInterest = account.peopleOfInterest.filter(person => person.id !== action.payload.status.id);
+            if(!action.payload.person)
+                throw 'PersonOfInterest not set.';
+
+            let removePersonOfInterest = account.peopleOfInterest.filter(person => person.id !== action.payload.person.id);
 
             return Object.assign({}, state, {
                 entities: state.entities.map(account => account.id == action.payload.account.id ?

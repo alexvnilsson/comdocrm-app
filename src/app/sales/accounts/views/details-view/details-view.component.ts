@@ -95,12 +95,9 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
         // });
     }
 
-    onPersonDeleted(personOfInterest: AccountPersonOfInterest) {
-        if(personOfInterest && this.account) {
-            this.onPersonOfInterestDeleted.emit({
-                account: this.account,
-                person: personOfInterest
-            });
+    onPersonDeleted(payload: { account: Account, person: AccountPersonOfInterest }) {
+        if(payload && payload.account && payload.person) {
+            this.onPersonOfInterestDeleted.emit(payload);
         }
     }
 

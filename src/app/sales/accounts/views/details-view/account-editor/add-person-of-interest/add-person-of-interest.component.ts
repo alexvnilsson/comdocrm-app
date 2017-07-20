@@ -15,6 +15,7 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
     @ViewChild('modal') modal: ModalDirective;
     @ViewChild('contactFullName') contactFullNameInput: ElementRef;
 
+    @Output() onSaved: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
     @Output() onClosed: EventEmitter<any> = new EventEmitter();
 
     @Input() account: Account;
@@ -49,22 +50,16 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
         
     }
 
-    @Output() onSaved: EventEmitter<AccountPersonOfInterest> = new EventEmitter();
-
     savePersonOfInterest(form: NgForm) {
         if(form.form.invalid)
             return false;
 
-        this.onSaved.emit(this.person);
-    }
-
-    savePerson() {
-        this.accountsService.addPersonOfInterest(this.account, this.person).subscribe(result => {
-            this.account.peopleOfInterest.push(JSON.parse(JSON.stringify(this.person)));
-            this.accountsService.onAccountUpdate.next(this.account);
-
-            this.hideModal();
+        this.onSaved.emit({
+            account: this.account,
+            person: this.person
         });
+        
+        this.onClosed.emit();
     }
 
     hideModal() {

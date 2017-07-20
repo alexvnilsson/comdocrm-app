@@ -65,13 +65,13 @@ export class AccountDetailsSelectedContainer {
     }
 
     private onPersonOfInterestAdded(payload: {account: Account, person: AccountPersonOfInterest}) {
-        if(payload && payload.person) {
+        if(payload && payload.account && payload.person) {
             this.store.dispatch(new accountsStore.actions.AddPersonOfInterestAction(payload));
         }
     }
 
     private onPersonOfInterestDeleted(payload: {account: Account, person: AccountPersonOfInterest}) {
-        if(payload && payload.person) {
+        if(payload && payload.account && payload.person) {
             this.store.dispatch(new accountsStore.actions.DeletePersonOfInterestAction(payload));
         }
     }
