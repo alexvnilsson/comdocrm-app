@@ -7,7 +7,7 @@ import 'rxjs/add/observable/from';
 
 import { UiState } from 'app/common/interfaces/ui-state.interface';
 
-import { Account, AccountSource } from '../../models/accounts';
+import { AccountLead, AccountSource } from '../../models/accounts';
 
 export interface AccountListState {
     accountSource?: AccountSource;
@@ -27,22 +27,18 @@ export const USER_STATE = {
     }
 })
 export class ListLeadsViewComponent implements OnInit {
-    @Input() accounts: Account[];
+    @Input() leads: Observable<AccountLead[]>;
     
-    selectedAccount$: Observable<Account>;
+    selectedLead$: Observable<AccountLead>;
+
+    @Output() onAccountImported: EventEmitter<AccountLead> = new EventEmitter();
 
     @Output() onModalOpen: EventEmitter<string> = new EventEmitter();
     @Input() modalOpen$: string = null;
 
-    uiState: UiState = new UiState(true);
-
     listState: AccountListState = {
         accountSource: null
     };
-
-    onAccountSourceChange: EventEmitter<AccountSource> = new EventEmitter();
-
-    private onAccountSourceChangeListener: Subscription;
 
     constructor(
         private router: Router,
@@ -58,15 +54,11 @@ export class ListLeadsViewComponent implements OnInit {
     }
 
     uiOnError(error: Error) {
-        this.uiState.onError(error);
+        
     }
 
-    onCreateAccount() {
-        this.router.navigate([{ outlets: { 'account': [ 'create' ] } } ], { relativeTo: this.route });
-    }
-
-    onAccountClicked(account: Account, event: Event) {
-        this.selectedAccount$ = Observable.of(account);
+    onLeadClicked(lead: AccountLead, event: Event) {
+        this.selectedLead$ = this.leads.map(a => a.find(b => b.id == lead.id));
 
         this.onModalOpen.emit('accounts_leads_leadCard');
 

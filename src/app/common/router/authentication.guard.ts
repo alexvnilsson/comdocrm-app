@@ -11,8 +11,10 @@ export class AuthenticationGuard implements CanActivate {
         if (this.authService.isAuthenticated())
             return true;
         else {
-            if (localStorage.getItem('auth:returnUrl') == null)
-                localStorage.setItem('auth:returnUrl', state.url);
+            let stateUrlSnapshot = state.url;
+            console.log('requested route', stateUrlSnapshot);
+
+            localStorage.setItem('auth:returnUrl', stateUrlSnapshot);
 
             this.authService.login();
             return false;

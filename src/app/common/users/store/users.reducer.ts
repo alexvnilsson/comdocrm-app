@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 import { ActionReducer, Action } from '@ngrx/store';
 import { createSelector } from 'reselect';
 import { state } from '@angular/animations';
-import { AccountPersonOfInterest } from "app/sales/accounts/models";
+import { AccountPersonOfInterest } from "app/sales/accounts/models/accounts";
 
 import * as userActions from './users.actions';
 import { User } from "app/common/users/user";

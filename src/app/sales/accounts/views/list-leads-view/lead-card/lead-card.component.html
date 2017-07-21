@@ -1,21 +1,70 @@
-<div class="modal-header" *ngIf="account">
-	<h5 class="modal-title" i18n>{{ account.customer?.legalName }}</h5>
-	<button type="button" class="close" (click)="onClosed.emit()" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-		</button>
-</div>
+<ng-container *ngIf="lead">
+    <div class="modal-header">
+        <h5 class="modal-title" i18n>Importera kontakt</h5>
+        <button type="button" class="close" (click)="onClosed.emit()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+            </button>
+    </div>
 
-<div class="modal-body p-0">
-	<div class="container p-0">
-		<div class="container bg-faded p-3">
-			<div class="row">
-				<div class="col-md-6">
-					<p>Massa info</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="modal-footer">
-	<button class="btn btn-link" role="button">Importera</button>
-</div>
+    <div class="modal-body p-0">
+        <div class="container p-0">
+            <div class="container bg-faded p-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="font-weight-bold mb-0">Namn</p>
+                        <p>{{ lead.customer?.legalName }}</p>
+                    </div>
+                </div>
+
+                <div class="row mb-2" *ngIf="lead.statuses && lead.statuses.length > 0">
+                    <div class="col-md-12">
+                        <p class="font-weight-bold mb-1">Händelser</p>
+
+                        <div class="list-group">
+                            <div class="list-group-item flex-column align-items-start" *ngFor="let status of lead.statuses">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{ status.messageHeader }}</h5>
+
+                                    <span class="text-muted">{{ status.publicationDate | amDateFormat:'YYYY-MM-DD' }}</span>
+                                </div>
+
+                                <div>
+                                    <p>{{ status.messageBody }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" *ngIf="lead.peopleOfInterest && lead.peopleOfInterest.length > 0">
+                    <div class="col-md-12">
+                        <p class="font-weight-bold mb-1">Kontaktpersoner</p>
+
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let person of lead.peopleOfInterest">
+                                {{ person.fullName }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer" >
+        <button
+            [@fadeInOut]
+            *ngIf="!lead.isImported"
+            class="btn btn-link"
+            role="button"
+            (click)="onImported.emit(lead)">
+            Importera</button>
+
+        <span
+            [@fadeInOut]
+            *ngIf="lead.isImported"
+            class="text-success">
+            Importerad</span>
+    </div>
+
+</ng-container>

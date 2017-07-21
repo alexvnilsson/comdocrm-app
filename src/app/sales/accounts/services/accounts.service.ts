@@ -111,6 +111,16 @@ export class AccountsService {
         });
     }
 
+    import(account: Account): Observable<AccountUpdateResult> {
+        return new Observable(observer => {
+            this.http.post(`${this.baseAddr}/accounts/import/lead`, account)
+            .map(res => res.json() as AccountUpdateResult || null)
+            .subscribe(result => {
+                observer.next(result);
+            })
+        })
+    }
+
     addStatus(account: Account, status: AccountStatus): Observable<AccountUpdateResult> {
         return new Observable(observer => {
             this.http.post(`${this.baseAddr}/accounts/${account.alias}/statuses`, status).subscribe((res: Response) => {

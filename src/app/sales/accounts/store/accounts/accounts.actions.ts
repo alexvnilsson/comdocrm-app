@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
 import { Account, AccountStatus } from '../../models/accounts';
-import { AccountPersonOfInterest } from "app/sales/accounts/models";
+import { AccountPersonOfInterest } from "app/sales/accounts/models/accounts";
 import { UserTask } from "app/user-tasks";
 import { User } from "app/common/users/user";
+import { AccountLead } from '../../models/accounts/account-lead';
 
 export const ActionTypes = {
     LOAD: 'ACCOUNTS_LOAD',
@@ -13,6 +14,9 @@ export const ActionTypes = {
     SELECT: 'ACCOUNTS_SELECT',
 
     UPDATE: 'ACCOUNTS_UPDATE',
+
+    IMPORT: 'ACCOUNTS_IMPORT',
+    IMPORT_RESULT: 'ACCOUNTS_IMPORT_RESULT',
 
     ADD: 'ACCOUNTS_ADD',
     ADD_SUCCESS: 'ACCOUNTS_ADD_SUCCESS',
@@ -77,6 +81,18 @@ export class AddAction implements Action {
     readonly type = ActionTypes.ADD;
 
     constructor(public payload: Account) {}
+}
+
+export class ImportAction implements Action {
+    readonly type = ActionTypes.IMPORT;
+
+    constructor(public payload: AccountLead) {}
+}
+
+export class ImportResult implements Action {
+    readonly type = ActionTypes.IMPORT_RESULT;
+
+    constructor(public payload: { account: Account, lead: AccountLead }) {}
 }
 
 export class UpdateManagerAction implements Action {

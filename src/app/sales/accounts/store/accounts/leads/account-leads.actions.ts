@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Account, AccountStatus } from '../../../models/accounts';
-import { AccountPersonOfInterest } from "app/sales/accounts/models";
+import { AccountPersonOfInterest, AccountLead } from "app/sales/accounts/models/accounts";
 import { UserTask } from "app/user-tasks";
 import { User } from "app/common/users/user";
 
@@ -22,7 +22,7 @@ export class LoadResult implements Action {
 
     constructor(public payload: {
         success: boolean,
-        accounts: Account[]
+        leads: AccountLead[]
     }) {}
 }
 

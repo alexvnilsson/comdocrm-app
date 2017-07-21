@@ -6,12 +6,14 @@ import { AccountStatus } from '../../../models/accounts';
 
 @Component({
     selector: 'ccrm-sales-accounts-list-view-all-statuses',
-    template: `<ccrm-sales-accounts-status-item
-        *ngFor="let account of accounts"
-        [account]="account"
-        [status]="account.statuses[0]"
-        [light]="true">
-    </ccrm-sales-accounts-status-item>`
+    template: `<ng-container *ngIf="accounts && accounts.length > 0">
+        <ccrm-sales-accounts-status-item
+            *ngFor="let account of accounts"
+            [account]="account"
+            [status]="account.statuses[0]"
+            [light]="true">
+        </ccrm-sales-accounts-status-item>
+    </ng-container>`
 })
 export class AllStatusesComponent implements OnInit {
     private apiBaseAddr: string = '/api/sales/accounts/statuses';

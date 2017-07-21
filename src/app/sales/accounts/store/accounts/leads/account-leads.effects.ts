@@ -17,7 +17,7 @@ import 'rxjs/add/observable/of';
 import * as fromRoot from 'app/app.store';
 
 import { AccountLeadsService } from '../../../services';
-import { Account } from '../../../models/accounts';
+import { Account, AccountLead } from '../../../models/accounts';
 import * as fromAccountLeads from './account-leads.reducer';
 import * as accountLeadActions from './account-leads.actions';
 
@@ -33,9 +33,9 @@ export class AccountLeadsEffects {
             const nextLoad$ = this.actions$.ofType(accountLeadActions.ActionTypes.LOAD).skip(1);
 
             return this.accountLeadsService.getAll()
-                .map((accounts: Account[]) => new accountLeadActions.LoadResult({
+                .map((leads: AccountLead[]) => new accountLeadActions.LoadResult({
                     success: true,
-                    accounts: accounts
+                    leads: leads
                 }));
         });
 

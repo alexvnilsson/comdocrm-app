@@ -15,12 +15,13 @@ export class AuthenticationService implements OnDestroy {
     private apiBase = `/api/users`;
 
     private Auth0: Auth0.WebAuth = new Auth0.WebAuth({
-        domain: envOptions.auth0.domain,
         clientID: envOptions.auth0.clientId,
-        redirectUri: envOptions.auth0.redirectUrl,
+        domain: envOptions.auth0.domain,
+        responseType: 'token id_token',
         audience: envOptions.auth0.audience,
+        redirectUri: envOptions.auth0.redirectUrl,
         scope: 'openid profile',
-        responseType: 'token id_token'
+        
     });
     userProfile: Auth0.Auth0UserProfile = null;
     _userProfiles: { [id: string]: Auth0.Auth0UserProfile } = {};

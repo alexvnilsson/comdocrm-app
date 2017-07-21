@@ -2,15 +2,19 @@ import { Component, OnInit, Input, EventEmitter, ElementRef, ViewChild, ContentC
 import { ModalDirective } from "ngx-bootstrap";
 import { Subscription } from "rxjs/Subscription";
 
+import { Store } from '@ngrx/store';
+import * as fromRoot from 'app/app.store';
+
+import * as fromLayout from 'app/common-ui/layout/layout.reducers';
+import * as layoutActions from 'app/common-ui/layout/layout.actions';
+
 @Component({
     selector: 'modal-container',
-    template: `<div class="modal fade" bsModal #modal="bs-modal" config="{ autoShow: false }">
+    template: `<div class="modal fade" bsModal #modal="bs-modal" config="{ autoShow: false }" (onHidden)="onModalClosed($event)">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <ng-container *ngIf="enabled">
-                    <ng-content
-                        (onClosed)="onClosed.emit()">
-                    </ng-content>
+                    <ng-content></ng-content>
                 </ng-container>
             </div>
         </div>
@@ -18,7 +22,7 @@ import { Subscription } from "rxjs/Subscription";
     `
 })
 
-export class ModalContainerComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ModalContainerComponent implements OnInit, OnDestroy {
     @ViewChild('modal') contentModal: ModalDirective;
 
     @Input() id: string = 'modalIdentifier';
@@ -29,47 +33,39 @@ export class ModalContainerComponent implements OnInit, AfterViewInit, OnDestroy
     @Output() onClosed: EventEmitter<any> = new EventEmitter();
 
     enabled: boolean = false;
-    @Input('state') set state(id:string) {
-        if(this.id) {
-            if(this.id == id){
+    @Input('state') set state(id: string) {
+        if (this.id) {
+            if (this.id == id) {
                 this.enabled = true;
 
-                if(this.contentModal)
+                if (this.contentModal && !this.contentModal.isShown)
                     this.contentModal.show();
             }
             else {
                 this.enabled = false;
 
-                if(this.contentModal)
+                if (this.contentModal && this.contentModal.isShown)
                     this.contentModal.hide();
             }
         }
     }
-    
-    constructor(private renderer: Renderer, private elRef: ElementRef) { }
+
+    constructor(private renderer: Renderer, private elRef: ElementRef, private store$: Store<fromRoot.State>) { }
 
     private onDisabledSubscription: Subscription;
     ngOnInit() {
         this.onDisabledSubscription = this.onDisabled.subscribe(event => {
-            if(this.contentModal)
+            if (this.contentModal && this.contentModal.isShown)
                 this.contentModal.hide();
         });
-     }
+    }
 
-     private onModalHiddenSubscription: Subscription;
-     ngAfterViewInit() {
-         if(this.contentModal) {
-            this.onModalHiddenSubscription = this.contentModal.onHidden.subscribe(event => {
-                this.onClosed.emit();
-            });    
-         }
-     }
+    private onModalClosed(event: Event) {
+        this.store$.dispatch(new layoutActions.CloseModalAction());
+    }
 
-     ngOnDestroy() {
-         if(this.onDisabledSubscription)
+    ngOnDestroy() {
+        if (this.onDisabledSubscription)
             this.onDisabledSubscription.unsubscribe();
-
-         if(this.onModalHiddenSubscription)
-            this.onModalHiddenSubscription.unsubscribe();
-     }
+    }
 }

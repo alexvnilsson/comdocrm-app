@@ -4,7 +4,7 @@ import { ActionReducer, Action } from '@ngrx/store';
 import { AccountStatus, Account } from '../../models/accounts';
 import { createSelector } from 'reselect';
 import { state } from '@angular/animations';
-import { AccountPersonOfInterest } from "app/sales/accounts/models";
+import { AccountPersonOfInterest } from "app/sales/accounts/models/accounts";
 
 import * as accountsStore from './accounts.actions';
 
@@ -53,6 +53,17 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
                 return Object.assign({}, state, {
                     entities: state.entities.map(account => account.id === action.payload.id ? action.payload : account)
                 })
+            }
+        }
+
+        case accountsStore.ActionTypes.IMPORT_RESULT: {
+            if(action instanceof accountsStore.ImportResult) {
+                console.log(action);
+                if(action.payload && action.payload.account && action.payload.lead) {
+                    return Object.assign({}, state, {
+                        entities: state.entities.concat(action.payload.account)
+                    })
+                }
             }
         }
 

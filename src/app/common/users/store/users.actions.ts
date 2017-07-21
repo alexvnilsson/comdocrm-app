@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { AccountPersonOfInterest } from "app/sales/accounts/models";
+import { AccountPersonOfInterest } from "app/sales/accounts/models/accounts";
 import { UserTask } from "app/user-tasks";
 import { User } from "app/common/users/user";
 

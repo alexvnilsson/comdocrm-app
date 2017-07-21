@@ -12,14 +12,20 @@
         </thead>
 
         <tbody>
-            <tr *ngFor="let account of accounts" (click)="onAccountClicked(account, $event)" role="button">
-                <td>{{ account.customer?.legalName || "okänt" }}</td>
-                <td>{{ account.dateModified | amCalendar }}</td>
+            <tr *ngFor="let lead of leads | async" (click)="onLeadClicked(lead, $event)" role="button">
+                <ng-container *ngIf="!lead.isImported">
+                    <td>{{ lead.customer?.legalName || "okänt" }}</td>
+                    <td>{{ lead.dateModified | amCalendar }}</td>
+                </ng-container>
             </tr>  
         </tbody>
     </table>
 </div>
 
 <modal-container id="accounts_leads_leadCard" [state]="modalOpen$">
-    <ccrm-sales-accounts-lead-card [account]="selectedAccount$ | async" (onClosed)="onModalOpen.emit(null)"></ccrm-sales-accounts-lead-card>
+    <ccrm-sales-accounts-lead-card 
+        [lead]="selectedLead$ | async"
+        (onImported)="onAccountImported.emit($event)"
+        (onClosed)="onModalOpen.emit(null)">
+    </ccrm-sales-accounts-lead-card>
 </modal-container>

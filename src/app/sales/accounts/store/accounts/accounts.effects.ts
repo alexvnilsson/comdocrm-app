@@ -17,9 +17,10 @@ import 'rxjs/add/observable/of';
 import * as fromRoot from 'app/app.store';
 
 import { AccountsService, AccountUpdateResult } from '../../services/accounts.service';
-import { Account } from '../../models/accounts';
+import { Account, AccountLead } from '../../models/accounts';
 import * as fromAccounts from './accounts.reducer';
 import * as accountsActions from './accounts.actions';
+import { ActionTypes, ImportAction } from './accounts.actions';
 
 @Injectable()
 export class AccountsEffects {
@@ -44,6 +45,20 @@ export class AccountsEffects {
             this.accountsService.add(_account)
             .switchMap(result => 
                 Observable.of({ type: '', payload: result })
+            )
+        );
+
+    @Effect()
+    import$: Observable<Action> = this.actions$
+        .ofType(accountsActions.ActionTypes.IMPORT)
+        .map((action: accountsActions.ImportAction) => action.payload)
+        .mergeMap(lead => 
+            this.accountsService.import(lead)
+            .map(result => 
+                new accountsActions.ImportResult({ 
+                    account: Object.assign({}, lead, { id: result.id, alias: result.alias }),
+                    lead: lead
+                })
             )
         );
 

@@ -1,17 +1,18 @@
 import 'rxjs/add/operator/map';
 
 import { ActionReducer, Action } from '@ngrx/store';
-import { AccountStatus, Account } from '../../../models/accounts';
+import { AccountStatus, Account, AccountLead } from '../../../models/accounts';
 import { createSelector } from 'reselect';
 import { state } from '@angular/animations';
-import { AccountPersonOfInterest } from "app/sales/accounts/models";
+import { AccountPersonOfInterest } from "app/sales/accounts/models/accounts";
 
+import * as accountsStore from '../';
 import * as accountLeadsActions from './account-leads.actions';
 
 export interface State {
     loading: boolean;
-    entities: Account[];
-    selected: Account | null;
+    entities: AccountLead[];
+    selected: AccountLead | null;
 }
 
 export const initialState: State = {
@@ -33,7 +34,7 @@ export function reducer(state = initialState, action: accountLeadsActions.Accoun
                 if(action.payload.success) {
                     return Object.assign({}, state, {
                         loading: false,
-                        entities: action.payload.accounts
+                        entities: action.payload.leads
                     })
                 }
                 else {
@@ -72,6 +73,34 @@ export function reducer(state = initialState, action: accountLeadsActions.Accoun
                 return Object.assign({}, state, {
                         selected: null
                     });
+            }
+        }
+
+        // case accountsStore.actions.ActionTypes.IMPORT: {
+        //     if(action instanceof accountsStore.actions.ImportAction) {
+        //         if(action.payload && action.payload instanceof AccountLead) {
+        //             return Object.assign({}, state, {
+        //                 entities: state.entities.map(e => e.id == action.payload.alias ?
+        //                     Object.assign({}, e, {
+        //                         leadId: e.id
+        //                     })
+        //                 : e)
+        //             })
+        //         }
+        //     }
+        // }
+
+        case accountsStore.actions.ActionTypes.IMPORT_RESULT: {
+            if(action instanceof accountsStore.actions.ImportResult) {
+                if (action.payload && action.payload.account && action.payload.lead) {
+                    return Object.assign({}, state, {
+                        entities: state.entities.map(e => e.id == action.payload.lead.id ?
+                            Object.assign({}, e, {
+                                isImported: true
+                            })
+                        : e)
+                    })
+                }
             }
         }
 

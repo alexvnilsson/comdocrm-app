@@ -49,7 +49,7 @@ export class AccountDetailsSelectedContainer {
         if(name)
             this.store.dispatch(new Layout.OpenModalAction(name));
         else
-            this.store.dispatch(new Layout.CloseModalAction());   
+            this.store.dispatch(new Layout.CloseModalAction());
     }
 
     private onStatusAdded(payload: { account: Account, status: AccountStatus }) {

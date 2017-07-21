@@ -14,7 +14,7 @@
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody *ngIf="accounts && accounts.length > 0">
                 <tr *ngFor="let account of accounts" (click)="onAccountClicked(account, $event)" role="button">
                     <td>{{ account.customer?.legalName || "okänt" }}</td>
                     <td>{{ account.dateModified | amCalendar }}</td>
