@@ -10,8 +10,8 @@ import * as layoutActions from 'app/common-ui/layout/layout.actions';
 
 @Component({
     selector: 'modal-container',
-    template: `<div class="modal fade" bsModal #modal="bs-modal" config="{ autoShow: false }" (onHidden)="onModalClosed($event)">
-        <div class="modal-dialog" role="document">
+    template: `<div class="modal fade" bsModal #modal="bs-modal" [config]="config" (onHidden)="onModalClosed($event)">
+        <div [class]="'modal-dialog ' + modalClass" role="document">
             <div class="modal-content">
                 <ng-container *ngIf="enabled">
                     <ng-content></ng-content>
@@ -26,6 +26,8 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
     @ViewChild('modal') contentModal: ModalDirective;
 
     @Input() id: string = 'modalIdentifier';
+    @Input() config: any;
+    @Input('class') modalClass: string;
 
     @Output() onEnabled: EventEmitter<boolean> = new EventEmitter();
     @Output() onDisabled: EventEmitter<boolean> = new EventEmitter();
@@ -54,6 +56,10 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
 
     private onDisabledSubscription: Subscription;
     ngOnInit() {
+        this.config = Object.assign({}, this.config, {
+            autoShow: false
+        });
+
         this.onDisabledSubscription = this.onDisabled.subscribe(event => {
             if (this.contentModal && this.contentModal.isShown)
                 this.contentModal.hide();

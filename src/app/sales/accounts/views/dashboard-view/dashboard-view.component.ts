@@ -2,6 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AccountsService } from '../../services/accounts.service';
 import { Account } from '../../models/accounts';
 import { UiState } from 'app/common/interfaces';
+import { Observable } from "rxjs/Observable";
+import { Store } from "@ngrx/store";
+
+import * as fromRoot from 'app/app.store';
+import * as accountsStore from 'app/sales/accounts/store/accounts';
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'ccrm-dashboard-accounts',
@@ -9,26 +15,25 @@ import { UiState } from 'app/common/interfaces';
     styleUrls: ['./dashboard-view.component.scss']
 })
 export class DashboardViewComponent implements OnInit, OnDestroy {
-    accounts: Array<Account> = [];
-
-    uiState: UiState = new UiState(true);
+    accounts$: Observable<Array<Account>>;
 
     constructor(
-        private accountsService: AccountsService
+        private store$: Store<fromRoot.State>,
+        private router: Router
     ) {}
 
     ngOnInit() {
-        this.accountsService.getAll().subscribe(this.onAccountsLoad.bind(this), this.onAccountsLoadFailure.bind(this));
+        this.accounts$ = this.store$
+        .select(fromRoot.accountsState)
+        .select(accountsStore.fromAccounts.allEntities)
+        .map(a => 
+            a.filter(_a => _a.isManager));
     }
 
-    onAccountsLoad(accounts: Account[]){
-        this.accounts = accounts;
-
-        this.uiState.onComplete();
-    }
-
-    onAccountsLoadFailure(error: any) {
-        this.uiState.onError(error);
+    onAccountClicked(account: Account) {
+        if(account && account.alias) {
+            this.router.navigate([ '/', 'sales', 'accounts', account.alias ]);
+        }
     }
 
     ngOnDestroy() {

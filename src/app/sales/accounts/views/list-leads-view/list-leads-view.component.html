@@ -1,28 +1,38 @@
-<navbar>
-    <a navbarItem routerLink="/sales/accounts"><fa name="address-card"></fa> Återgå till kontakter</a>
-</navbar>
+<toolbar>
+    <ng-container dropdown>
+        <toolbar-item [dropdown]="true" link="/sales/accounts" icon="address-card" text="Återgå till kontakter"></toolbar-item>
+    </ng-container>
+
+    <ng-container not-dropdown>
+        <toolbar-item [dropdown]="false" link="/sales/accounts" icon="address-card" text="Återgå till kontakter"></toolbar-item>
+    </ng-container>
+</toolbar>
 
 <div class="container-fluid pl-0 pr-0">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Namn</th>
-                <th>Hämtad</th>
-            </tr>
-        </thead>
+    <div class="list-group">
+        <div 
+            *ngFor="let lead of leads | async"                
+            class="list-group-item list-group-item-action flex-column align-items-start"
+            (click)="onLeadClicked(lead, $event)"
+            role="button">
+            <div class="d-flex flex-row flex-wrap w-100 justify-content-between">
+                <h6 class="mb-1">
+                    {{ lead.customer?.legalName || "Okänt" }}
+                </h6>
 
-        <tbody>
-            <tr *ngFor="let lead of leads | async" (click)="onLeadClicked(lead, $event)" role="button">
-                <ng-container *ngIf="!lead.isImported">
-                    <td>{{ lead.customer?.legalName || "okänt" }}</td>
-                    <td>{{ lead.dateModified | amCalendar }}</td>
-                </ng-container>
-            </tr>  
-        </tbody>
-    </table>
+                <span class="text-muted">{{ lead.dateCreated | amCalendar }}</span>
+            </div>
+
+            <div class="d-flex flex-row justify-space-between" *ngIf="lead.source">
+                <div>
+                    <span class="text-muted">Hämtades från</span> {{ lead.source.displayName }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<modal-container id="accounts_leads_leadCard" [state]="modalOpen$">
+<modal-container id="accounts_leads_leadCard" [state]="modalOpen$" class="modal-lg">
     <ccrm-sales-accounts-lead-card 
         [lead]="selectedLead$ | async"
         (onImported)="onAccountImported.emit($event)"

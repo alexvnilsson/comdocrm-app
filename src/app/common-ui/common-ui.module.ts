@@ -16,6 +16,8 @@ import { NavbarComponent, NavbarItemDirective } from './navbar';
 
 import { ModalContainerComponent } from './modal/modal.component';
 import { StateContainerComponent } from "app/common-ui/containers/state-container";
+import { ToolbarComponent } from "app/common-ui/toolbar/toolbar.component";
+import { ToolbarItemComponent } from "app/common-ui/toolbar/item/toolbar-item.component";
 
 @NgModule({
     imports: [
@@ -24,6 +26,7 @@ import { StateContainerComponent } from "app/common-ui/containers/state-containe
         TooltipModule,
         PopoverModule,
         ModalModule.forRoot(),
+        BsDropdownModule.forRoot(),
         AngularFontAwesomeModule
     ],
     declarations: [
@@ -35,6 +38,9 @@ import { StateContainerComponent } from "app/common-ui/containers/state-containe
         NavigationItemDirective,
         NavbarComponent,
         NavbarItemDirective,
+
+        ToolbarComponent,
+        ToolbarItemComponent,
 
         ModalContainerComponent,
         StateContainerComponent
@@ -50,6 +56,9 @@ import { StateContainerComponent } from "app/common-ui/containers/state-containe
         NavigationItemDirective,
         NavbarComponent,
         NavbarItemDirective,
+
+        ToolbarComponent,
+        ToolbarItemComponent,
 
         ModalContainerComponent,
         StateContainerComponent

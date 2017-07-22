@@ -1,27 +1,40 @@
-<navbar>
-    <a navbarItem (click)="onModalOpen.emit('modal_accounts_initialEditor')"><fa name="plus"></fa> Skapa</a>
-    <a navbarItem routerLink="/sales/accounts/import"><fa name="search"></fa> Importera</a>
-</navbar>
+<toolbar>
+    <ng-container dropdown>
+        <toolbar-item [dropdown]="true" (click)="onModalOpen.emit('modal_accounts_initialEditor')" icon="plus" text="Skapa"></toolbar-item>
+        <toolbar-item [dropdown]="true" link="/sales/accounts/import" icon="search" text="Importera"></toolbar-item>
+    </ng-container>
+
+    <ng-container not-dropdown>
+        <toolbar-item [dropdown]="false" (click)="onModalOpen.emit('modal_accounts_initialEditor')" icon="plus" text="Skapa"></toolbar-item>
+        <toolbar-item [dropdown]="false" link="/sales/accounts/import" icon="search" text="Importera"></toolbar-item>
+    </ng-container>
+</toolbar>
 
 <ccrm-tabs>
     <ccrm-tabs-tab header="Alla kontakter">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Namn</th>
-                    <th>Senast uppdaterad</th>
-                    <th>Ansvarig</th>
-                </tr>
-            </thead>
+        <div class="list-group" *ngIf="accounts && accounts.length > 0">
+            <div 
+                *ngFor="let account of accounts"                
+                class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex flex-row flex-wrap w-100 justify-content-between">
+                    <h6
+                        class="mb-1">
+                        <a 
+                            href="#" 
+                            [routerLink]="['/', 'sales', 'accounts', account.alias]">
+                            {{ account.customer?.legalName || "Okänt" }}</a>
+                    </h6>
 
-            <tbody *ngIf="accounts && accounts.length > 0">
-                <tr *ngFor="let account of accounts" (click)="onAccountClicked(account, $event)" role="button">
-                    <td>{{ account.customer?.legalName || "okänt" }}</td>
-                    <td>{{ account.dateModified | amCalendar }}</td>
-                    <td>{{ account.manager?.user?.fullName || "-" }}</td>
-                </tr>  
-            </tbody>
-        </table>
+                    <span class="text-muted">{{ account.dateModified | amCalendar }}</span>
+                </div>
+
+                <div class="d-flex flex-row justify-space-between">
+                    <div>
+                        <span class="text-muted">Kundansvarig</span> {{ account.manager?.user?.fullName || "Inte tilldelad" }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </ccrm-tabs-tab>
 
     <ccrm-tabs-tab header="Aktivitet">

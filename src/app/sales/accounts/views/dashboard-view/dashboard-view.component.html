@@ -1,5 +1,15 @@
-<div *ngFor="let account of accounts" class="mt-2 mb-2">
-    <a [routerLink]="[ 'sales/accounts', account.alias ]">{{ account.customer?.legalName }}</a>
-    <ng-template #popoverDateModified></ng-template>
-    <span class="small" popover="Senast uppdaterad"><fa name="clock-o"></fa> {{ account.dateModified | amCalendar }}</span>
+<div class="list-group">
+    <div 
+        *ngFor="let account of accounts$ | async"                
+        class="list-group-item list-group-item-action flex-column align-items-start"
+        role="button"
+        (click)="onAccountClicked(account)">
+        <div class="d-flex flex-row flex-wrap w-100 justify-content-between">
+            <h6 class="mb-1">
+                {{ account.customer?.legalName || "Okänt" }}
+            </h6>
+
+            <span class="text-muted">{{ account.dateModified | amCalendar }}</span>
+        </div>
+    </div>
 </div>

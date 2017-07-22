@@ -4,10 +4,29 @@
 $nav-item-hover-bg-color: #1565C0;
 $nav-item-active-bg-color: #0D47A1;
 
+.navbar-main {
+    background: #37474F;
+
+    .navbar-nav {
+        .nav-item {
+            border-radius: 2px;
+
+            &.active {
+                background: #263237;
+            }
+
+            .nav-link {
+                padding-left: .75rem;
+                padding-right: .75rem;
+            }
+        }
+    }
+}
+
 .sidebar-nav {
     z-index: 1;
 
-    background: #37474F;
+    
     
     .nav-heading {
         display: block;
