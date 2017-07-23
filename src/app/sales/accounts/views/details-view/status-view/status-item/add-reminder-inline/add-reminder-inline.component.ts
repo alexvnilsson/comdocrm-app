@@ -13,8 +13,8 @@ import { DatepickerDirective } from 'app/common/ui/components/datepicker/datepic
     template: `
     <form #userTaskForm="ngForm" (ngSubmit)="saveUserTask(userTaskForm)">                    
         <ng-container *ngIf="editorState.isEditing">
-            <div [@editorTransition]="editorState.isEditing" class="row mt-3 d-flex flex-row align-items-center">
-                <div class="col-md-1">
+            <div [@editorTransition]="editorState.isEditing" class="row mt-3 d-flex flex-row flex-nowrap align-items-center">
+                <div class="col-1">
                     <a
                         ccrmUiDatepicker
                         autoOpen="true"
@@ -33,7 +33,7 @@ import { DatepickerDirective } from 'app/common/ui/components/datepicker/datepic
 
                 <div class="col-md hidden-lg-up mt-2"></div>
 
-                <div class="col-md-10">
+                <div class="col-9">
                     <input
                         (focus)="onInputFocused()"
                         (blur)="onInputBlurred()"
@@ -45,7 +45,7 @@ import { DatepickerDirective } from 'app/common/ui/components/datepicker/datepic
                         placeholder="Sammanfatta påminnelsen" />
                 </div>
 
-                <div class="col-md-1 p-0 m-0 d-flex flex-column justify-content-center align-items-center">
+                <div class="col-1 p-0 m-0 d-flex flex-column justify-content-center align-items-center">
                     <a 
                         class="no-underline color-black ml-2"
                         (click)="clickDismiss()"

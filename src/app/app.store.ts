@@ -6,24 +6,26 @@ import { environment } from '.environments/environment';
 import { compose } from '@ngrx/core/compose';
 import { storeFreeze } from 'ngrx-store-freeze';
 
-import * as fromLayout from 'app/common-ui/layout/layout.reducers';
-
+import * as layoutStore from 'app/common-ui/layout/layout.reducers';
 import * as usersStore from 'app/common/users/store';
 import * as accountsStore from 'app/sales/accounts/store/accounts';
 import * as accountLeadsStore from 'app/sales/accounts/store/accounts/leads';
+import * as productsStore from 'app/sales/products/store';
 
 export interface State {
-    layout: fromLayout.State;
+    layout: layoutStore.State;
     users: usersStore.fromUsers.State;
     accounts: accountsStore.fromAccounts.State;
     leads: accountLeadsStore.fromAccountLeads.State;
+    products: productsStore.fromProducts.State;
 }
 
 const reducers = {
-    layout: fromLayout.reducer,
+    layout: layoutStore.reducer,
     users: usersStore.fromUsers.reducer,
     accounts: accountsStore.fromAccounts.reducer,
-    leads: accountLeadsStore.fromAccountLeads.reducer
+    leads: accountLeadsStore.fromAccountLeads.reducer,
+    products: productsStore.fromProducts.reducer
 }
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -57,4 +59,6 @@ export const leadsState = (state: State) => state.leads;
 
 export const layoutState = (state: State) => state.layout;
 
-export const getModalOpen = createSelector(layoutState, fromLayout.openedModalName);
+export const productsState = (state: State) => state.products;
+
+export const getModalOpen = createSelector(layoutState, layoutStore.openedModalName);

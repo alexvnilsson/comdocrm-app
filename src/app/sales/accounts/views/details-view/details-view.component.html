@@ -1,13 +1,6 @@
 <toolbar>
-    <ng-container dropdown>
-        <toolbar-item [dropdown]="true" link="/sales/accounts" icon="address-card" text="Återgå till kontakter"></toolbar-item>
-        <toolbar-item [dropdown]="true" (click)="onComposeLogMessageClick()" icon="calendar-o" text="Registrera händelse"></toolbar-item>
-    </ng-container>
-
-    <ng-container not-dropdown>
-        <toolbar-item [dropdown]="false" link="/sales/accounts" icon="address-card" text="Återgå till kontakter"></toolbar-item>
-        <toolbar-item [dropdown]="false" (click)="onComposeLogMessageClick()" icon="calendar-o" text="Registrera händelse"></toolbar-item>
-    </ng-container>
+    <toolbar-item link="/sales/accounts" icon="address-card" text="Återgå till kontakter"></toolbar-item>
+    <toolbar-item (click)="onComposeLogMessageClick()" icon="calendar-o" text="Registrera händelse"></toolbar-item>
 </toolbar>
 
 <ng-container *ngIf="account">

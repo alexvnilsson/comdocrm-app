@@ -26,7 +26,7 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
     @ViewChild('modal') contentModal: ModalDirective;
 
     @Input() id: string = 'modalIdentifier';
-    @Input() config: any;
+    @Input() config: any = {};
     @Input('class') modalClass: string;
 
     @Output() onEnabled: EventEmitter<boolean> = new EventEmitter();
@@ -40,7 +40,7 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
             if (this.id == id) {
                 this.enabled = true;
 
-                if (this.contentModal && !this.contentModal.isShown)
+                if (this.contentModal && this.contentModal.config && !this.contentModal.isShown)
                     this.contentModal.show();
             }
             else {

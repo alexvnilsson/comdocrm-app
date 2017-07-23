@@ -1,0 +1,35 @@
+.toolbar-wrapper {
+    &.overflown {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+
+        .toolbar-nav {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+
+            width: 2.5rem;
+
+            display: flex; flex-direction: row; justify-content: center; align-items: center;
+
+            background: #ECEFF1;
+
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .toolbar-nav-left {
+            left: 0;
+        }
+
+        .toolbar-nav-right {
+            right: 0;
+        }
+    }
+
+    &:not(.overflown) {
+        .toolbar-nav-left, .toolbar-nav-right {
+            display: none;
+        }
+    }
+}

@@ -1,10 +1,5 @@
-<ng-container *ngIf="dropdown">
-    <a *ngIf="link" [routerLink]="link" class="dropdown-item" role="button">{{ text }}</a>
-    <a *ngIf="!link" class="dropdown-item" role="button">{{ text }}</a>
-</ng-container>
-
-<a *ngIf="!dropdown"
-    class="btn page-navbar-item"
+<a
+    class="btn toolbar-item"
     [routerLink]="link">
     <fa [name]="icon" *ngIf="icon"></fa> {{ text }}
 </a>

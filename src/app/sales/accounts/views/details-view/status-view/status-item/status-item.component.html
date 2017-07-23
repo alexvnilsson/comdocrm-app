@@ -30,17 +30,10 @@
                             <a *ngIf="lightMode" class="small mt-1 ml-1" [routerLink]="[ '/', 'sales', 'accounts', account.alias ]">{{ account.customer?.legalName }}</a>
 
                             <ng-container *ngIf="!lightMode">
-                                <ng-container *ngIf="status.isDelayed">
-                                    <span class="ml-2 small">
-                                        <fa name="eye"></fa>
-                                        <span>only you</span>
-                                    </span>
-                                </ng-container>
-
-                                <span class="ml-2 small">
+                                <span class="ml-2 small" *ngIf="status.publishedBy">
                                     <fa name="user"></fa>
 
-                                    <span>{{ status.publishedBy?.fullName || "okänt" }}</span>
+                                    <span>{{ status.publishedBy?.fullName }}</span>
                                 </span>
                             </ng-container>
                         </p>
@@ -71,7 +64,7 @@
                 <p [@messageTextTransitions]="statusMessage?.messageText" class="card-text">
                     {{ statusMessage.messageText }} 
                     
-                    <a href="#" *ngIf="statusMessage.canTrim && statusMessage.trimmed" role="button" (click)="showAllStatusMessageText($event)">(more)</a>
+                    <a href="#" *ngIf="statusMessage.canTrim && statusMessage.trimmed" role="button" (click)="showAllStatusMessageText($event)">(läs hela)</a>
                 </p>
 
                 <div class="d-flex flex-column align-items-start" *ngIf="!lightMode">

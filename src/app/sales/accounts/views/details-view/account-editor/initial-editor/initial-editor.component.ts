@@ -1,3 +1,11 @@
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/withLatestFrom';
+
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, EventEmitter, Output } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -6,6 +14,12 @@ import { AccountsService } from '../../../../services/accounts.service';
 import { Account, AccountStates, AccountCustomer } from '../../../../models/accounts';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common';
+
+import * as fromRoot from 'app/app.store';
+import * as accountsStore from 'app/sales/accounts/store/accounts';
+import { Store, Action, Dispatcher } from "@ngrx/store";
+import { Effect, Actions, toPayload } from '@ngrx/effects';
+import { Observable } from "rxjs/Observable";
 
 @Component({
     selector: 'ccrm-sales-accounts-details-initial-editor',
@@ -24,6 +38,9 @@ export class InitialEditorComponent implements OnInit, AfterViewInit {
         private route: ActivatedRoute,
         private location: Location,
         private http: AuthHttpExtended,
+        private actions$: Actions,
+        private store: Store<fromRoot.State>,
+        private dispatcher: Dispatcher,
         private accountsService: AccountsService
     ) { }
 
@@ -42,20 +59,17 @@ export class InitialEditorComponent implements OnInit, AfterViewInit {
         if(form.invalid)
             return;
 
-        this.account.state = AccountStates.Published;
+        this.dispatcher.subscribe(action => {
+            if(action instanceof accountsStore.actions.AddResult) {
+                if(action.payload.success) {
+                    this.close();
 
-        this.accountsService.add(this.account)
-        .subscribe(account => {
-            if(account.id){
-                this.account = account;
-
-                this.close();
-
-                this.router.navigateByUrl(`/sales/accounts/${this.account.alias}`);
+                    this.router.navigateByUrl(`/sales/accounts/${action.payload.account.alias}`);
+                }
             }
-            else
-                this.close();
         });
+
+        this.store.dispatch(new accountsStore.actions.AddAction(this.account));
     }
 
     close() {

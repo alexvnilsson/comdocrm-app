@@ -4,7 +4,7 @@ import { Product } from '../../models/products';
 import { RouteTransitionAnimation } from 'app/common/ui/animations';
 
 @Component({
-    selector: 'products-list-view',
+    selector: 'ccrm-sales-products-list-view',
     templateUrl: './list-view.component.html',
     animations: [
         RouteTransitionAnimation

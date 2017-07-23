@@ -17,7 +17,7 @@ import 'rxjs/add/observable/of';
 import * as fromRoot from 'app/app.store';
 
 import { AccountsService, AccountUpdateResult } from '../../services/accounts.service';
-import { Account, AccountLead } from '../../models/accounts';
+import { Account, AccountLead, AccountStates } from '../../models/accounts';
 import * as fromAccounts from './accounts.reducer';
 import * as accountsActions from './accounts.actions';
 import { ActionTypes, ImportAction } from './accounts.actions';
@@ -42,9 +42,14 @@ export class AccountsEffects {
         .ofType(accountsActions.ActionTypes.ADD)
         .map((action: accountsActions.AddAction) => action.payload)
         .mergeMap(_account => 
-            this.accountsService.add(_account)
-            .switchMap(result => 
-                Observable.of({ type: '', payload: result })
+            this.accountsService.add(Object.assign({}, _account, {
+                state: AccountStates.Published
+            }))
+            .map(result => 
+                new accountsActions.AddResult({
+                    success: true,
+                    account: result
+                })
             )
         );
 

@@ -45,6 +45,16 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
             });
         }
 
+        case accountsStore.ActionTypes.ADD_RESULT: {
+            if(action instanceof accountsStore.AddResult) {
+                if(action.payload && action.payload.success) {
+                    return Object.assign({}, state, {
+                        entities: state.entities.concat(action.payload.account)
+                    })
+                }
+            }
+        }
+
         case accountsStore.ActionTypes.UPDATE: {
             if(action.payload instanceof Array) {
                 // TODO: Update Array of Accounts.

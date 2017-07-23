@@ -1,16 +1,8 @@
-<div class="page-navbar container-fluid d-flex flex-row" style="overflow:visible">
-    <div class="dropdown" *ngIf="dropdown">
-        <button class="btn btn-link" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-            <fa name="bars" size="2x"></fa>
-        </button>
+<div #wrapper class="toolbar-wrapper" [class.overflown]="isOverflown">
+    <a #navLeft class="toolbar-nav toolbar-nav-left" (click)="onToolbarScrollClicked('left')"><fa name="caret-left"></fa></a>
+    <a #navRight class="toolbar-nav toolbar-nav-right" (click)="onToolbarScrollClicked('right')"><fa name="caret-right"></fa></a>
 
-        <div class="dropdown-menu" aria-labelledby="dropdownToolbar">
-            <ng-content select="[dropdown]"></ng-content>
-        </div>
+    <div #toolbar class="toolbar" [style.left.px]="getPositionLeft()">
+        <ng-content></ng-content>
     </div>
-
-    <ng-container *ngIf="!dropdown">
-        <ng-content select="[not-dropdown]"></ng-content>
-    </ng-container>
 </div>
-

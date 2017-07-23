@@ -1,13 +1,6 @@
 <toolbar>
-    <ng-container dropdown>
-        <toolbar-item [dropdown]="true" (click)="onModalOpen.emit('modal_accounts_initialEditor')" icon="plus" text="Skapa"></toolbar-item>
-        <toolbar-item [dropdown]="true" link="/sales/accounts/import" icon="search" text="Importera"></toolbar-item>
-    </ng-container>
-
-    <ng-container not-dropdown>
-        <toolbar-item [dropdown]="false" (click)="onModalOpen.emit('modal_accounts_initialEditor')" icon="plus" text="Skapa"></toolbar-item>
-        <toolbar-item [dropdown]="false" link="/sales/accounts/import" icon="search" text="Importera"></toolbar-item>
-    </ng-container>
+    <toolbar-item (click)="onModalOpen.emit('modal_accounts_initialEditor')" icon="plus" text="Skapa"></toolbar-item>
+    <toolbar-item link="/sales/accounts/import" icon="search" text="Importera"></toolbar-item>
 </toolbar>
 
 <ccrm-tabs>

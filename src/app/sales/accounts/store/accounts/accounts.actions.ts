@@ -19,8 +19,7 @@ export const ActionTypes = {
     IMPORT_RESULT: 'ACCOUNTS_IMPORT_RESULT',
 
     ADD: 'ACCOUNTS_ADD',
-    ADD_SUCCESS: 'ACCOUNTS_ADD_SUCCESS',
-    ADD_FAIL: 'ACCOUNTS_ADD_FAIL',
+    ADD_RESULT: 'ACCOUNTS_ADD_RESULT',
 
     UPDATE_MANAGER: 'ACCOUNTS_UPDATE_MANAGER',
     UPDATE_MANAGER_RESULT: 'ACCOUNTS_UPDATE_MANAGER_RESULT',
@@ -81,6 +80,15 @@ export class AddAction implements Action {
     readonly type = ActionTypes.ADD;
 
     constructor(public payload: Account) {}
+}
+
+export class AddResult implements Action {
+    readonly type = ActionTypes.ADD_RESULT;
+
+    constructor(public payload: {
+        success: boolean,
+        account: Account
+    }) {}
 }
 
 export class ImportAction implements Action {

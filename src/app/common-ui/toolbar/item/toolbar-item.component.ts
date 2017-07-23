@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ElementRef, HostBinding, ViewEncapsulation } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { ToolbarService } from "app/common-ui/toolbar/toolbar.service";
 
@@ -8,8 +8,6 @@ import { ToolbarService } from "app/common-ui/toolbar/toolbar.service";
 })
 
 export class ToolbarItemComponent implements OnInit {
-    @Input() dropdown: boolean;
-
     @Input() link: string = null;
     @Input() text: string = '';
     @Input() icon: string = null;

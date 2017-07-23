@@ -25,8 +25,6 @@ $nav-item-active-bg-color: #0D47A1;
 
 .sidebar-nav {
     z-index: 1;
-
-    
     
     .nav-heading {
         display: block;
@@ -135,47 +133,100 @@ $nav-item-active-bg-color: #0D47A1;
     background: $blue;
 }
 
-.page-navbar {
-  margin: 0;
-  padding: 0.5rem 1rem;
+.toolbar-wrapper {
+    display: flex; flex-direction: row; align-items: center;
+    overflow: hidden;
 
-  background: #ECEFF1;
+    margin: 0;
+    padding: 0.5rem 0px;
 
-  .page-navbar-item {
-    padding: 0.5em 1em;
-    border: 0;
-    border-radius: 0;
-    flex: 0;
+    background: #ECEFF1;
 
-    font-size: 0.90rem;
-    color: #333;
+    white-space: nowrap;
 
-    .fa {
-      margin-right: 0.25em;
-      color: #111;
-      font-size: 12px;
-      vertical-align: middle;
+    position: relative;
 
-      transition: .25s ease-in-out;
+    height: 50px;
 
-      &:after {
-        vertical-align: middle;
-      }
+    .toolbar {
+        display: flex; flex-direction: row; align-items: center;
+        position: absolute;
+
+        transition: left 1s ease-in-out;
+
+        
+        padding: 0;
+
+        height: 40px;
     }
 
-    &:hover, &:focus {
-        background: #d2d2d2;
-        color: #111;
+    .toolbar-item {
+        display: inline-block;
+        position: relative;
+        padding: 0.5em 1em;
+        border: 0;
+        border-radius: 0;
 
-      .fa {
-        color: #000;
-      }
+        color: #333;
+
+        .fa {
+            margin-right: 0.25em;
+            color: #111;
+            font-size: 12px;
+            vertical-align: middle;
+
+            transition: .25s ease-in-out;
+
+            &:after {
+                vertical-align: middle;
+            }
+        }
+
+        &:hover, &:focus {
+            background: #d2d2d2;
+            color: #111;
+
+            .fa {
+                color: #000;
+            }
+        }
     }
-  }
 
-  .page-navbar-separator {
-    flex: 1;
-  }
+    .page-navbar-separator {
+        flex: 1;
+    }
+
+    &.overflown {
+        .toolbar {
+            margin: 0 2.5rem;
+        }
+    }
+
+    &:not(.overflown) {
+        .toolbar {
+            margin: 0 1rem;
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .toolbar-wrapper {
+        .toolbar {
+            .toolbar-item {
+                font-size: 0.85rem;
+            }
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .toolbar-wrapper {
+        .toolbar {
+            .toolbar-item {
+                font-size: 0.90rem;
+            }
+        }
+    }
 }
 
 .tab-bar {

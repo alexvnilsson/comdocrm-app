@@ -21,6 +21,7 @@ import * as fromRoot from './app.store';
 
 import * as usersStore from 'app/common/users/store';
 import * as accountsStore from 'app/sales/accounts/store/accounts';
+import * as productsStore from 'app/sales/products/store';
 
 import { AuthenticationModule, AuthenticationService, AuthHttpExtended, authHttpExtendedFactory } from 'app/common/authentication';
 import { CustomRoute, AuthenticationGuard } from 'app/common/router';
@@ -30,6 +31,7 @@ import { SalesModule } from 'app/sales';
 import { UserTasksModule } from 'app/user-tasks';
 
 import { AccountsService } from './sales/accounts/services';
+import { ProductsService } from './sales/products/services/products.service';
 
 import { AppComponent } from './app.component';
 
@@ -91,6 +93,7 @@ const routes: CustomRoute[] = [
         StoreDevtoolsModule.instrumentOnlyWithExtension(),
         EffectsModule.run(accountsStore.effects.AccountsEffects),
         EffectsModule.run(usersStore.effects.UsersEffects),
+        EffectsModule.run(productsStore.effects.ProductsEffects),
         CommonUiModule.forRoot(),
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
@@ -106,7 +109,8 @@ const routes: CustomRoute[] = [
         CallbackComponent
     ],
     providers: [
-        AccountsService
+        AccountsService,
+        ProductsService
     ],
     bootstrap: [ AppComponent ],
     exports: [

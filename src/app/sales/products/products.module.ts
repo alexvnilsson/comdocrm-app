@@ -3,7 +3,6 @@ import { ComdoCrmCommonModule } from '../../common/common.module';
 import { CommonModule } from '@angular/common';
 import { Route, RouterModule } from '@angular/router';
 import { ListViewComponent } from './views/list-view/list-view.component';
-import { ProductsService } from './services/products.service';
 
 const routes: Route[] = [
     {
@@ -22,7 +21,7 @@ const routes: Route[] = [
         ListViewComponent
     ],
     providers: [
-        ProductsService
+        
     ],
     exports: [
 
