@@ -103,7 +103,9 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
                     entities: state.entities.map(account => account.id === action.payload.account.id ? 
                         Object.assign({}, account, {
                             dateModified: new Date(),
-                            statuses: account.statuses.concat(action.payload.status).sort((a, b) => b.publicationDate < a.publicationDate ? -1 : 1)
+                            statuses: account.statuses.concat(Object.assign({}, action.payload.status, {
+                                userTasks: []
+                            })).sort((a, b) => b.publicationDate < a.publicationDate ? -1 : 1)
                         })
                         : account
                     )

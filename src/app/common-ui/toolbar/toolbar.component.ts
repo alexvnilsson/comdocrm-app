@@ -51,6 +51,8 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
 
         this.resized$.subscribe(this.getToolbarUiState.bind(this));
         this.scrolled$.subscribe(this.onToolbarScrolled.bind(this));
+
+        this.resized.next();
     }
 
     @HostListener('window:resize', ['$event'])

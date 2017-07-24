@@ -37,6 +37,7 @@ export class ProductsEffects {
                     success: true,
                     products: products
                 }));
+                
         });
 
     // @Effect()

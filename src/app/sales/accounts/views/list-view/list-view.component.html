@@ -6,27 +6,24 @@
 <ccrm-tabs>
     <ccrm-tabs-tab header="Alla kontakter">
         <div class="list-group" *ngIf="accounts && accounts.length > 0">
-            <div 
-                *ngFor="let account of accounts"                
+            <a 
+                *ngFor="let account of accounts"
+                [routerLink]="['/', 'sales', 'accounts', account.alias]"            
                 class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex flex-row flex-wrap w-100 justify-content-between">
-                    <h6
-                        class="mb-1">
-                        <a 
-                            href="#" 
-                            [routerLink]="['/', 'sales', 'accounts', account.alias]">
-                            {{ account.customer?.legalName || "Okänt" }}</a>
+                    <h6 class="mb-1">
+                        {{ account.customer?.legalName || "Okänt" }}
                     </h6>
 
                     <span class="text-muted">{{ account.dateModified | amCalendar }}</span>
                 </div>
 
                 <div class="d-flex flex-row justify-space-between">
-                    <div>
+                    <div class="small">
                         <span class="text-muted">Kundansvarig</span> {{ account.manager?.user?.fullName || "Inte tilldelad" }}
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </ccrm-tabs-tab>
 

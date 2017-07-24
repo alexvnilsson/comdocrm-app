@@ -7,6 +7,9 @@ import { AccountsService } from '../../../../../services/accounts.service';
 import { UserTasksService } from 'app/user-tasks';
 import { NgForm } from '@angular/forms';
 import { DatepickerDirective } from 'app/common/ui/components/datepicker/datepicker.directive';
+import { Dispatcher } from "@ngrx/store";
+
+import * as accountsStore from 'app/sales/accounts/store/accounts';
 
 @Component({
     selector: 'ccrm-sales-accounts-status-add-reminder-inline',
@@ -117,7 +120,8 @@ export class AddReminderInlineComponent implements OnInit {
     };
 
     constructor(
-        private accountsService: AccountsService
+        private accountsService: AccountsService,
+        private dispatcher: Dispatcher
     ) {}
 
     ngOnInit() {
@@ -126,6 +130,15 @@ export class AddReminderInlineComponent implements OnInit {
     
     saveUserTask(form: NgForm) {
         if(!form.invalid) {
+            let dispatcherListener = this.dispatcher.subscribe(action => {
+                if(action instanceof accountsStore.actions.AddStatusUserTaskResultAction) {
+                    if (action.payload.account.id === this.account.alias && action.payload.status.id === this.status.id) {
+                        dispatcherListener.unsubscribe();
+                        this.setEditorDisabled();
+                    }
+                }
+            })
+
             this.onUserTaskAdded.emit({
                 account: this.account,
                 status: this.status,

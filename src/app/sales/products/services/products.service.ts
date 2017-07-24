@@ -15,7 +15,7 @@ export class ProductsService {
         return new Observable(observer => {
             this.http.get(`${this.apiBaseAddr}`)
             .map(res => res.json() as Array<Product> || null)
-            .subscribe(products => observer.next(products), error => observer.error(error));
+            .subscribe(products => observer.next(products), error => {});
         });
     }
 }
