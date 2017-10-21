@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthHttpExtended } from 'app/common/authentication/auth-http-extended';
 
-import { AccountStatus } from '../../../models/accounts';
+import { Account, AccountStatus } from '../../../models/accounts';
 
 
 @Component({
@@ -16,8 +16,8 @@ import { AccountStatus } from '../../../models/accounts';
     </ng-container>`
 })
 export class AllStatusesComponent implements OnInit {
-    private apiBaseAddr: string = '/api/sales/accounts/statuses';
-    
+    private apiBaseAddr = '/api/sales/accounts/statuses';
+
     accounts: Array<Account> = [];
 
     constructor(

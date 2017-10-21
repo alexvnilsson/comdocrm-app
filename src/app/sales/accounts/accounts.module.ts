@@ -4,7 +4,7 @@ import { RouterModule, Route } from '@angular/router';
 import { Http } from '@angular/http';
 import { AuthHttpExtended } from 'app/common/authentication';
 import { ComdoCrmCommonModule } from 'app/common';
-import { CommonUiModule } from '../../common-ui/common-ui.module';
+import { CommonUiModule } from 'app/common-ui';
 import { UserTasksModule } from 'app/user-tasks';
 import { EffectsModule, Effect } from '@ngrx/effects';
 

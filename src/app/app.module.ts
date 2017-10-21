@@ -13,7 +13,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { ModalModule, TooltipModule, PopoverModule, BsDropdownModule, DatepickerModule } from 'ngx-bootstrap';
 import { ComdoCrmCommonModule } from 'app/common';
-import { CommonUiModule } from 'app/common-ui/common-ui.module';
+import { CommonUiModule } from 'app/common-ui';
 
 import { ConfigurationService } from 'app/common/configuration';
 
@@ -69,12 +69,6 @@ const routes: CustomRoute[] = [
         faIcon: 'shopping-cart',
         canActivate: [ AuthenticationGuard ]
     },
-    {
-        path: 'test',
-        children: [
-            
-        ]
-    },
     // {
     //     path: '**',
     //     component: PageNotFoundComponent
@@ -99,7 +93,7 @@ const routes: CustomRoute[] = [
         TooltipModule.forRoot(),
         PopoverModule.forRoot(),
         BsDropdownModule.forRoot(),
-        DatepickerModule.forRoot(),        
+        DatepickerModule.forRoot(),
         ComdoCrmCommonModule.forRoot()
     ],
     declarations: [

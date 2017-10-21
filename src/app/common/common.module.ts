@@ -8,7 +8,7 @@ import { DatepickerModule, ModalModule, TooltipModule, PopoverModule, BsDropdown
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { SelectModule } from 'ng2-select';
 import { MomentModule } from 'angular2-moment';
-import { CommonUiModule } from '../common-ui/common-ui.module';
+import { CommonUiModule } from 'app/common-ui';
 import 'moment/locale/sv';
 
 import { AuthenticationModule, AuthenticationService } from './authentication';
