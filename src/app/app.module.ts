@@ -1,4 +1,5 @@
-﻿import { BrowserModule } from '@angular/platform-browser';
+﻿import { MomentModule } from 'angular2-moment';
+import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -96,7 +97,8 @@ const routes: CustomRoute[] = [
         PopoverModule.forRoot(),
         BsDropdownModule.forRoot(),
         DatepickerModule.forRoot(),
-        ComdoCrmCommonModule.forRoot()
+        ComdoCrmCommonModule.forRoot(),
+        MomentModule
     ],
     declarations: [
         AppComponent,

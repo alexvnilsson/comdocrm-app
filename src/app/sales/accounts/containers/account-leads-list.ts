@@ -23,10 +23,10 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
     selector: 'ccrm-sales-account-leads-list',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `   
+    template: `
         <ccrm-ui-spinner *ngIf="loading$ | async"></ccrm-ui-spinner>
-    
-        <ccrm-sales-accounts-list-leads-view 
+
+        <ccrm-sales-accounts-list-leads-view
         [leads]="leadsSorted$"
         [modalOpen$]="modalOpen$ | async"
         (onAccountImported)="onAccountImported($event)"
@@ -50,34 +50,32 @@ export class AccountLeadsListContainer implements OnInit, OnDestroy {
         this.leads$ = this.store.select(fromRoot.leadsState).select(accountLeadsStore.fromAccountLeads.allEntities);
 
         this.leadsSorted$ = Observable.from(this.leads$).map(accounts => {
-                if(accounts && accounts.length > 0) {
-                    return accounts.slice().sort((a, b) => b.dateModified < a.dateModified ? -1 : 1)
-                }
-                else {
+                if (accounts && accounts.length > 0) {
+                    return accounts.slice().sort((a, b) => b.dateModified < a.dateModified ? -1 : 1);
+                } else {
                     return null;
                 }
             }
         );
-        
+
         this.loading$ = this.store.select(fromRoot.leadsState).select(accountLeadsStore.fromAccountLeads.getLoading);
 
         this.modalOpen$ = this.store.select(fromRoot.layoutState).select(fromLayout.openedModalName);
     }
 
     onAccountImported(account: Account) {
-        if(account) {
+        if (account) {
             this.store.dispatch(new accountsStore.actions.ImportAction(account));
         }
     }
 
     onModalOpen(name: string) {
-        if(name)
+        if (name) {
             this.store.dispatch(new layout.OpenModalAction(name));
-        else
+        } else {
             this.store.dispatch(new layout.CloseModalAction());
+        }
     }
 
-    ngOnDestroy() {
-        
-    }
+    ngOnDestroy() {}
 }

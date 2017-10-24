@@ -1,29 +1,35 @@
-<toolbar>
-    <toolbar-item link="/sales/accounts" icon="address-card" text="Återgå till kontakter"></toolbar-item>
-    <toolbar-item (click)="onComposeLogMessageClick()" icon="calendar-o" text="Registrera händelse"></toolbar-item>
-</toolbar>
+<div class="d-flex flex-row align-items-center p-2">
+  <button type="button" class="btn btn-outline-primary btn-sm" role="button" routerLink="/sales/accounts"><fa name="caret-left"></fa> Kontakter</button>
+  <h4 class="mb-0 ml-3">{{ account?.customer?.legalName }}</h4>
+</div>
 
 <ng-container *ngIf="account">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-9 bg-white pl-0 pr-0">
-                <div class="pl-4 pr-4 bg-faded">
+            <div class="col-9 col-sm-12 bg-white pl-0 pr-0">
+                <div class="pl-4 pr-4">
                     <ccrm-sales-accounts-status-composer-log
-                        *ngIf="composeLogOpen$ | async"
+                        [isOpen]="composeLog.Open"
                         [account]="account"
                         (onSaved)="onStatusAdded.emit($event)"
-                        (onClosed)="onComposeLogMessageClosed()">
+                        (onClosed)="composeLog.close()">
                     </ccrm-sales-accounts-status-composer-log>
                 </div>
 
-                <div class="bg-faded" >
-                    <div class="p-4">
-                        <h5 class="small lead"><span class="small text-muted">Kontakt</span></h5>
-                        <h6 class="mt-0 mb-0">{{ account.customer?.legalName }}</h6>
-                    </div>
-                </div>
-
                 <div class="pl-4 pr-4 mt-2">
+                  <div class="d-flex flex-row align-items-center">
+                    <h6 class="mb-0 text-muted">Flöde</h6>
+
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary btn-sm ml-3"
+                      role="button"
+                      [class.active]="composeLog.Open === true"
+                      (click)="composeLog.open()">
+                      <fa name="plus"></fa>
+                    </button>
+                  </div>
+
                     <ng-container *ngIf="account.statuses">
                         <ccrm-sales-accounts-status-item *ngFor="let status of account.statuses" [account]="account" [status]="status"
                             (onStatusDeleted)="onStatusDeleted.emit($event)"
@@ -37,9 +43,9 @@
                 </div>
             </div>
 
-            <div class="col-lg-12 hidden-xl-up mb-2"></div>
+            <div class="col-sm-12 hidden-xl-up mb-2"></div>
 
-            <div class="col-lg-3 bg-faded pl-4 pr-4 pt-3">
+            <div class="col-3 col-sm-12 bg-faded pl-4 pr-4 pt-3">
                 <div class="row mb-3">
                     <div class="col-12">
                         <h5 class="text-muted">Ansvarig</h5>
@@ -59,7 +65,7 @@
                     <div class="col-md-12">
                         <div class="d-flex flex-row">
                             <h5 class="text-muted">Kontaktpersoner</h5>
-                            <span class="ml-2 text-muted" 
+                            <span class="ml-2 text-muted"
                                 tooltip="Kontaktuppgifter till personer inom företaget/sekundära kontaktuppgifter"
                                 container="body">
                                 <fa name="info-circle"></fa>
@@ -90,7 +96,7 @@
 </ng-container>
 
 <modal-container id="modal_accounts_addPersonOfInterest" [state]="modalOpen$">
-    <ccrm-accounts-add-person-of-interest [account]="account" 
+    <ccrm-accounts-add-person-of-interest [account]="account"
         (onSaved)="onPersonOfInterestAdded.emit($event)"
         (onClosed)="onModalOpen.emit(null)"></ccrm-accounts-add-person-of-interest>
 </modal-container>

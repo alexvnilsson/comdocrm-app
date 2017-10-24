@@ -1,3 +1,4 @@
+import { ComposeLog } from './compose-log';
 import { Component, OnInit, OnDestroy, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -46,6 +47,8 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
 
     composeLogOpen$: EventEmitter<boolean> = new EventEmitter();
 
+    composeLog: ComposeLog = new ComposeLog();
+
     users$: Observable<User[]>;
     usersAsSelect$: Observable<SelectItem[]>;
 
@@ -79,20 +82,6 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
         this.users$.subscribe(users => {
             this.usersAsSelect$ = Observable.of(users.map(user => new SelectItem(user.id, user.fullName)));
         });
-    }
-
-    onComposeLogMessageClick() {
-        this.composeLogOpen$.emit(true);
-    }
-
-    onComposeLogMessageClosed() {
-        this.composeLogOpen$.emit(false);
-    }
-
-    onLogComposerSubmit(logStatus: AccountStatus) {
-        // this.accountsService.addStatus(this.account, logStatus).subscribe(result => {
-
-        // });
     }
 
     onPersonDeleted(payload: { account: Account, person: AccountPersonOfInterest }) {
@@ -151,6 +140,6 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        
+
     }
 }

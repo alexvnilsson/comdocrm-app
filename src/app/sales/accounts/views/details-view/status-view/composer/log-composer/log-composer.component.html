@@ -1,9 +1,9 @@
-<div class="row bg-faded">
-    <div [@slideDownTransition] class="col-md-12 pt-4 pb-4" *ngIf="account">
+<div class="row">
+    <div [@editorTransition]="isOpen" (@editorTransition.done)="onTransitionFinished($event)" class="col-md-12 pt-4 pb-4" *ngIf="account">
         <form #logForm="ngForm" (ngSubmit)="onFormSubmit(logForm)">
             <div class="row mb-3">
                 <div class="col-10">
-                    <h3 class="lead">Registrera händelse</h3>
+                    <h3 class="lead">Ny händelse...</h3>
                 </div>
 
                 <div class="col-2 text-right">
@@ -16,7 +16,7 @@
             <div class="row mb-2">
                 <div class="col-md-8">
                     <div class="form-group mb-2">
-                        <input 
+                        <input
                             #logHeaderText
                             id="logHeaderText"
                             required
@@ -24,7 +24,7 @@
                             maxlength="128"
                             class="form-control"
                             i18n-placeholder
-                            placeholder="Sammanfatta händelsen"
+                            placeholder="Kort sammanfattning"
                             [(ngModel)]="status.messageHeader"
                             name="headerText"
                             autocomplete="off"/>
@@ -34,28 +34,27 @@
                 <div class="col-md-4">
                     <div class="form-group mb-0 d-flex flex-row">
                         <a
-                            #logDelayDate="ccrmUiDatepicker"
+                            #publicationDate="ccrmUiDatepicker"
                             id="logDelayDate"
                             ccrmUiDatepicker
-                            (onDateChanged)="onLogDelayed($event)"
+                            (onDateChanged)="onDateChanged($event)"
                             autoClose="true"
-                            [startDate]="dateNextDay"
-                            [(ngModel)]="status.delayDate"
-                            name="delayDate"
+                            [(ngModel)]="status.publicationDate"
+                            name="publicationDate"
                             class="no-underline color-black"
                             role="button">
                             <fa name="calendar"></fa>
 
-                            <ng-container *ngIf="!status.isDelayed">
-                                <span class="small text-muted">Publicera direkt</span>
+                            <ng-container *ngIf="isDateToday()">
+                                <span class="small text-muted">Idag</span>
                             </ng-container>
                         </a>
 
-                        <p *ngIf="status.isDelayed" class="pl-1 mb-0 small d-flex flex-row align-items-center">
+                        <p *ngIf="!isDateToday()" class="pl-1 mb-0 small d-flex flex-row align-items-center">
                             <span>
-                                <span class="text-muted">Publiceras den</span> {{ status.delayDate | date }}
+                                {{ status.publicationDate | date }}
                             </span>
-                            <a 
+                            <a
                                 class="no-underline color-black ml-2"
                                 (click)="onLogDelayCancel()"
                                 role="button">
@@ -77,7 +76,7 @@
                                 maxlength="1024"
                                 class="form-control input-text-resize-none"
                                 i18n-placeholder
-                                placeholder="Beskrivning av händelsen"
+                                placeholder="Detaljer om händelsen"
                                 [(ngModel)]="status.messageBody"
                                 name="messageText">
                             </textarea>
@@ -104,5 +103,5 @@
                 </div>
             </div>
         </form>
-    </div>        
+    </div>
 </div>

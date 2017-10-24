@@ -17,14 +17,14 @@
 
             <ul class="nav nav-pills mr-auto">
                 <li class="nav-item align-self-start" *ngFor="let route of routeItems">
-                    <a navItem class="nav-link" routerLinkActive="active" [routerLink]="route.href">
+                    <a navItem class="nav-link" routerLinkActive="active" [routerLink]="route.href" role="button">
                         <fa *ngIf="route.faIcon" [name]="route.faIcon"></fa> {{ route.text }}
                     </a>
                 </li>
             </ul>
 
             <div>
-                Test
+                <!-- Right-hand content -->
             </div>
         </div>
     </nav>
