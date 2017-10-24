@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule, Router, RouterOutlet, Route } from '@angular/router';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { StoreModule } from '@ngrx/store';
 import { RouterStoreModule } from '@ngrx/router-store';
@@ -81,6 +82,7 @@ const routes: CustomRoute[] = [
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,
+        FlexLayoutModule,
         RouterModule.forRoot(routes),
         StoreModule.provideStore(fromRoot.reducer),
         RouterStoreModule.connectRouter(),

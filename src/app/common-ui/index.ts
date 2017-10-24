@@ -1,3 +1,6 @@
+import { VerticalNavigationViewComponent } from './vertical-nav/nav-view/nav-view.component';
+import { VerticalNavigationItemComponent } from './vertical-nav/nav-item/nav-item.component';
+import { VerticalNavigationComponent } from './vertical-nav';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -33,7 +36,11 @@ import { ToolbarItemComponent } from "app/common-ui/toolbar/item/toolbar-item.co
         PopoverConfirm,
         TabsComponent,
         TabComponent,
-        
+
+        VerticalNavigationComponent,
+        VerticalNavigationItemComponent,
+        VerticalNavigationViewComponent,
+
         NavigationDirective,
         NavigationItemDirective,
         NavbarComponent,
@@ -51,6 +58,10 @@ import { ToolbarItemComponent } from "app/common-ui/toolbar/item/toolbar-item.co
         PopoverConfirm,
         TabsComponent,
         TabComponent,
+
+        VerticalNavigationComponent,
+        VerticalNavigationItemComponent,
+        VerticalNavigationViewComponent,
 
         NavigationDirective,
         NavigationItemDirective,

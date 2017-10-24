@@ -1,0 +1,9 @@
+<button
+  type="button"
+  role="button"
+  class="d-flex justify-content-between align-items-center pt-2 pb-2 list-group-item list-group-item-action border-0"
+  [class.active]="active"
+  (click)="activate()">
+  <span>{{ options.title }}</span>
+  <span *ngIf="options.counter !== null" class="badge badge-primary badge-pill">{{ options.counter }}</span>
+</button>

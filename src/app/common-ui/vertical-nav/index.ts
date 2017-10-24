@@ -20,34 +20,34 @@ import { Subscription } from 'rxjs/Subscription';
     ]
 })
 export class VerticalNavigationComponent implements AfterContentInit, OnDestroy {
-    @ContentChildren(VerticalNavigationItemComponent) tabs: QueryList<VerticalNavigationItemComponent>;
+    @ContentChildren(VerticalNavigationItemComponent) items: QueryList<VerticalNavigationItemComponent>;
 
-    @Input('default') defaultIndex: number = 0;
+    @Input('default') default = 0;
 
-    private tabListener: Array<Subscription> = [];
+    private itemListener: Array<Subscription> = [];
 
     ngAfterContentInit() {
-        if(this.tabs && this.tabs.length > 0) {
-            this.getTabItems();
+        if (this.items && this.items.length > 0) {
+            this.getItems();
         }
     }
 
-    public onTabClicked(tab: TabComponent, event: Event) {
-        tab.onTabClick(event);
+    public onItemClicked(item: VerticalNavigationItemComponent, event: Event) {
+        item.onItemClick(event);
     }
 
-    private onTabActivated(tab: TabComponent) {
-        this.tabs.forEach(_tab => {
-            _tab.deactivate(false);
+    private onItemActivated(item: VerticalNavigationItemComponent) {
+        this.items.forEach(_item => {
+            _item.deactivate(false);
         });
 
-        tab.active = true;
+        item.active = true;
     }
 
-    private getTabItems() {
-        this.tabs.forEach((tab, index) => {
-            this.tabListener[index] = tab.onTabActivated.subscribe(activated => {
-                this.onTabActivated(tab);
+    private getItems() {
+        this.items.forEach((item, index) => {
+            this.itemListener[index] = item.Activated.subscribe(activated => {
+                this.onItemActivated(item);
             });
         });
 
@@ -55,13 +55,14 @@ export class VerticalNavigationComponent implements AfterContentInit, OnDestroy 
     }
 
     private getDefaultItem() {
-        this.tabs.first.activate();
+        this.items.first.activate();
     }
 
     ngOnDestroy() {
-        this.tabListener.forEach(listener => {
-            if(!listener.closed)
+        this.itemListener.forEach(listener => {
+            if (!listener.closed) {
                 listener.unsubscribe();
-        })
+            }
+        });
     }
 }
