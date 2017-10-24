@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h5 class="modal-title" i18n>Välj användare</h5>
+    <button type="button" class="close" (click)="onClosed.emit()" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form #selectUserForm="ngForm" (ngSubmit)="onFormSubmit(selectUserForm)">
+    <div class="modal-body p-0">
+        <div class="container p-0">
+            <div class="container bg-faded p-3">
+                <div class="row">
+                    <div class="list-group">
+                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
+                        <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
+                        <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
+                        <button type="button" class="list-group-item list-group-item-action" disabled>Vestibulum at eros</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="selectUserForm.form.invalid">Välj</button>
+    </div>
+</form>

@@ -5,7 +5,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { AccountsService, AccountUpdateResult } from '../../../../services/accounts.service';
 import { Account, AccountPersonOfInterest } from '../../../../models/accounts';
-import { NgForm } from "@angular/forms/forms";
+import { NgForm } from '@angular/forms/forms';
 
 @Component({
     selector: 'ccrm-accounts-add-person-of-interest',
@@ -33,32 +33,34 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private accountsService: AccountsService
-    ){
-        
+    ) {
+
     }
 
     ngOnInit() {
-        
+
     }
 
     ngAfterViewInit() {
-        if(this.contactFullNameInput && this.contactFullNameInput.nativeElement)
+        if (this.contactFullNameInput && this.contactFullNameInput.nativeElement) {
             this.contactFullNameInput.nativeElement.focus();
+        }
     }
 
     ngAfterContentInit() {
-        
+
     }
 
     savePersonOfInterest(form: NgForm) {
-        if(form.form.invalid)
+        if (form.form.invalid) {
             return false;
+        }
 
         this.onSaved.emit({
             account: this.account,
             person: this.person
         });
-        
+
         this.onClosed.emit();
     }
 
@@ -67,13 +69,15 @@ export class AddPersonOfInterestComponent implements OnInit, AfterViewInit, Afte
     }
 
     public open() {
-        if(this.modal)
+        if (this.modal) {
             this.modal.show();
+        }
     }
 
     public close() {
-        if(this.modal)
+        if (this.modal) {
             this.modal.hide();
+        }
     }
 
     ngOnDestroy() {

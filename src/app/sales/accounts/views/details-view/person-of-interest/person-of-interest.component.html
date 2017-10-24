@@ -1,0 +1,39 @@
+<ng-container *ngIf="person">
+  <div class="card card-block border-0 pt-1 pb-1">
+    <div class="row flex-row person-card pt-1 pb-1">
+      <div class="col-10">
+        <ccrm-ui-inline-editor placeholder="För- och efternamn" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.fullName"
+          name="fullName">
+          <span class="lead">{{ person.fullName }}</span>
+          <span *ngIf="!person.fullName" class="lead text-muted">För- och efternamn</span>
+        </ccrm-ui-inline-editor>
+      </div>
+
+      <div class="col-2 justify-content-end">
+        <a class="no-underline color-black ml-2" (click)="onRemovePersonOfInterest()" role="button">
+          &times;
+        </a>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column person-card pt-1 pb-1">
+      <div class="text-nowrap mr-1">
+        <span class="text-muted mr-2 mb-3"><fa name="at"></fa></span>
+        <ccrm-ui-inline-editor placeholder="E-postadress" [(ngModel)]="person.emailAddress"
+          name="contact_emailAddress">
+          <a [href]="'mailto:' + person.emailAddress" rel="noopener">{{ person.emailAddress }}</a>
+          <span *ngIf="!person.emailAddress" class="small text-muted">E-postadress</span>
+        </ccrm-ui-inline-editor>
+      </div>
+
+      <div class="text-nowrap mr-1">
+        <span class="text-muted mr-2"><fa name="phone"></fa></span>
+        <ccrm-ui-inline-editor placeholder="Telefonnummer" [(ngModel)]="person.phoneNumber"
+          name="contact_phoneNumber">
+          {{ person.phoneNumber }}
+          <span *ngIf="!person.phoneNumber" class="small text-muted">Telefonnummer</span>
+        </ccrm-ui-inline-editor>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -38,9 +38,7 @@ export class VerticalNavigationItemComponent {
 
     constructor(
         private elRef: ElementRef
-    ) {
-      console.log(this.options);
-    }
+    ) {}
 
     public activate() {
         if (this.active || this.disabled) {

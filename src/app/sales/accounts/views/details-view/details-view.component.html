@@ -6,7 +6,7 @@
 <ng-container *ngIf="account">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-9 col-sm-12 bg-white pl-0 pr-0">
+            <div class="col-8 bg-white pl-0 pr-0">
                 <div class="pl-4 pr-4">
                     <ccrm-sales-accounts-status-composer-log
                         [isOpen]="composeLog.Open"
@@ -38,14 +38,12 @@
                     </ng-container>
 
                     <ng-container *ngIf="!account.statuses.length">
-                        <h2 class="display-4 text-muted align-self-center text-center mt-3">Här finns ingenting</h2>
+                        <h2 class="display-4 text-muted align-self-center text-center mt-3">...</h2>
                     </ng-container>
                 </div>
             </div>
 
-            <div class="col-sm-12 hidden-xl-up mb-2"></div>
-
-            <div class="col-3 col-sm-12 bg-faded pl-4 pr-4 pt-3">
+            <div class="col-4 pl-4 pr-4 pt-3" style="border-left: 1px solid #d8d8d8">
                 <div class="row mb-3">
                     <div class="col-12">
                         <h5 class="text-muted">Ansvarig</h5>
@@ -56,20 +54,24 @@
                             [allowClear]="true"
                             [items]="usersAsSelect$ | async"
                             (selected)="onSelectManager($event)"
-                            placeholder="Kundansvarig">
+                            placeholder="Välj...">
                         </ng-select>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="d-flex flex-row">
+                        <div class="d-flex flex-row justify-content-between mb-2">
+                          <div class="d-flex flex-row">
                             <h5 class="text-muted">Kontaktpersoner</h5>
                             <span class="ml-2 text-muted"
                                 tooltip="Kontaktuppgifter till personer inom företaget/sekundära kontaktuppgifter"
                                 container="body">
                                 <fa name="info-circle"></fa>
                             </span>
+                          </div>
+
+                          <button (click)="onModalOpen.emit('modal_accounts_addPersonOfInterest')" class="btn btn-outline-primary btn-sm" role="button"><fa name="plus"></fa></button>
                         </div>
 
                         <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
@@ -82,12 +84,6 @@
                                 </ccrm-sales-accounts-person-of-interest>
                              </div>
                         </ng-container>
-
-                        <div class="row person-card pt-1 pb-1">
-                            <div class="col">
-                                <button (click)="onModalOpen.emit('modal_accounts_addPersonOfInterest')" class="btn btn-link pl-0 pr-0" role="button"><fa name="plus"></fa>Lägg till kontaktperson</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -100,6 +96,11 @@
         (onSaved)="onPersonOfInterestAdded.emit($event)"
         (onClosed)="onModalOpen.emit(null)"></ccrm-accounts-add-person-of-interest>
 </modal-container>
+
+<!-- <modal-container id="modal_accounts_select-account-manager" [state]="modalOpen$">
+    <ccrm-select-user
+        (onClosed)="onModalOpen.emit(null)"></ccrm-select-user>
+</modal-container> -->
 
 <router-outlet name="editor"></router-outlet>
 <router-outlet name="contacts"></router-outlet>
