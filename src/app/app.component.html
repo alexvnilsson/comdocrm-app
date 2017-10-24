@@ -1,35 +1,37 @@
 <div class="workspace-wrapper">
-    <nav class="navbar navbar-expand-md navbar-light bg-light navbar-main d-flex">
+    <nav class="navbar navbar-expand-md navbar-light bg-light navbar-main d-flex flex-column">
         <div class="d-flex flex-row">
             <button class="navbar-toggler border-0 align-self-center pt-0 pb-0 mr-3" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
                 aria-expanded="false" aria-label="Öppna/stäng navigation">
                 <fa name="bars" size="1x"></fa>
             </button>
 
-            <a class="navbar-brand display-4 pt-0 pb-0 align-self-center d-flex flex-row align-items-center" routerLink="/">
+            <a class="navbar-brand display-4 pt-0 pb-0 align-self-center d-flex flex-column justify-content-center" routerLink="/">
                 <img src="assets/media/brand.svg" alt="ComdoCRM brand" width="48px" />
                 <h5 class="ml-2 mb-0">ComdoCRM</h5>
             </a>
         </div>
 
-        <div class="collapse navbar-collapse align-self-center ml-4" id="navbarNav">
-            <div class="hidden-lg-up mt-4"></div>
+        <div class="container">
+          <div class="collapse navbar-collapse align-self-center" id="navbarNav">
+              <div class="hidden-lg-up mt-4"></div>
 
-            <ul class="nav nav-pills mr-auto">
-                <li class="nav-item align-self-start" *ngFor="let route of routeItems">
-                    <a navItem class="nav-link" routerLinkActive="active" [routerLink]="route.href" role="button">
-                        <i *ngIf="route.faIcon" aria-hidden="true" [class]="'fa fa-' + route.faIcon + ' nav-link-icon'"></i> <span class="ml-2">{{ route.text }}</span>
-                    </a>
-                </li>
-            </ul>
+              <ul class="nav nav-pills mr-auto">
+                  <li class="nav-item align-self-start" *ngFor="let route of routeItems">
+                      <a navItem class="nav-link" routerLinkActive="active" [routerLink]="route.href" role="button">
+                          <i *ngIf="route.faIcon" aria-hidden="true" [class]="'fa fa-' + route.faIcon + ' nav-link-icon'"></i> <span class="ml-2">{{ route.text }}</span>
+                      </a>
+                  </li>
+              </ul>
 
-            <div>
-                <!-- Right-hand content -->
-            </div>
+              <div>
+                  <!-- Right-hand content -->
+              </div>
+          </div>
         </div>
     </nav>
 
-    <div class="container-fluid pl-2 pr-2 mt-2">
+    <div class="container mt-2">
       <router-outlet></router-outlet>
     </div>
 </div>

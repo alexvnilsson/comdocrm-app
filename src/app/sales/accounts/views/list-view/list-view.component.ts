@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouteTransitionAnimation, DoneLoadingTransitionAnimation } from 'app/common/ui/animations';
 import { Subscription } from 'rxjs/Subscription';
@@ -26,11 +26,13 @@ export const USER_STATE = {
     styleUrls: ['./list-view.component.scss'],
     animations: [RouteTransitionAnimation, DoneLoadingTransitionAnimation]
 })
-export class ListViewComponent implements OnInit {
+export class ListViewComponent implements OnInit, AfterContentInit {
     @Input() accounts: Account[];
     accountSources: Array<AccountSource>;
 
     @Input() leads: AccountLead[];
+    leadSources: { [key: string]: LeadSource } = {};
+
 
     @Output() onModalOpen: EventEmitter<string> = new EventEmitter();
     @Input() modalOpen$: string = null;
@@ -59,6 +61,10 @@ export class ListViewComponent implements OnInit {
 
     }
 
+    ngAfterContentInit() {
+
+    }
+
     uiOnComplete() {
 
     }
@@ -84,6 +90,23 @@ export class ListViewComponent implements OnInit {
     }
 
     /* End Account events */
+
+    protected getLeadSources() {
+      let sources: { [key:string]: LeadSource } = {};
+      let sourcesUnsorted = [...this.leads.map(item => item.source)];
+
+      sourcesUnsorted.forEach(source => {
+        if (typeof sources[source.slug] === 'undefined') {
+          sources[source.slug] = { slug: source.slug, label: source.displayName, count: 0 };
+        }
+
+        sources[source.slug].count++;
+      });
+
+      this.leadSources = sources;
+
+      return sources;
+    }
 
     /* Account source events */
 
@@ -162,4 +185,10 @@ export class ListViewComponent implements OnInit {
     }
 
     /* End Account source methods */
+}
+
+export interface LeadSource {
+  slug: string;
+  label: string;
+  count: number;
 }
