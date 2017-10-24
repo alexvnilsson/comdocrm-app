@@ -4,7 +4,7 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/mergeMap';
 
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -36,7 +36,6 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class AccountLeadsListContainer implements OnInit, OnDestroy {
     leads$: Observable<AccountLead[]>;
-    leadsSorted$: Observable<AccountLead[]>;
 
     loading$: Observable<boolean>;
 
@@ -47,9 +46,9 @@ export class AccountLeadsListContainer implements OnInit, OnDestroy {
     ngOnInit() {
         this.store.dispatch(new accountLeadsStore.actions.SelectAction(null));
 
-        this.leads$ = this.store.select(fromRoot.leadsState).select(accountLeadsStore.fromAccountLeads.allEntities);
+        let leadsUnsorted = this.store.select(fromRoot.leadsState).select(accountLeadsStore.fromAccountLeads.allEntities);
 
-        this.leadsSorted$ = Observable.from(this.leads$).map(accounts => {
+        this.leads$ = Observable.from(leadsUnsorted).map(accounts => {
                 if (accounts && accounts.length > 0) {
                     return accounts.slice().sort((a, b) => b.dateModified < a.dateModified ? -1 : 1);
                 } else {

@@ -1,16 +1,16 @@
-<div class="d-flex flex-row" style="flex: 1; width: 100%; height: 100vh">
+<div class="d-flex flex-row" style="flex: 1;">
     <div class="p-2" style="flex: 0.25">
         <button
           type="button"
           role="button"
-          class="btn btn-outline-primary mb-2"
+          class="btn btn-outline-primary btn-sm mb-2"
           (click)="onModalOpen.emit('modal_accounts_initialEditor')">
           <fa name="plus"></fa> Ny
         </button>
 
         <ccrm-vertical-nav>
-          <ccrm-vertical-nav-item #vItemContacts [options]="{ title: 'Kontakter', counter: accounts.length || 0 }"></ccrm-vertical-nav-item>
-          <ccrm-vertical-nav-item #vItemRecommended [options]="{ title: 'Rekommendationer' }"></ccrm-vertical-nav-item>
+          <ccrm-vertical-nav-item #vItemContacts [options]="{ title: 'Kontakter', counter: accounts?.length || 0 }"></ccrm-vertical-nav-item>
+          <ccrm-vertical-nav-item #vItemRecommended [options]="{ title: 'Rekommendationer', counter: leads?.length || 0 }"></ccrm-vertical-nav-item>
         </ccrm-vertical-nav>
     </div>
 
@@ -39,41 +39,14 @@
       </ccrm-nav-view>
 
       <ccrm-nav-view [ref]="vItemRecommended">
-        <ccrm-sales-account-leads-list #accountLeadsList></ccrm-sales-account-leads-list>
+        <ccrm-sales-accounts-list-leads-view
+          [modalOpen$]="modalOpen$"
+          [leads]="leads"
+          (onModalOpen)="onModalOpen.emit($event)"
+          (onAccountImported)="onAccountImported.emit($event)"></ccrm-sales-accounts-list-leads-view>
       </ccrm-nav-view>
     </div>
 </div>
-
-<!-- <ccrm-tabs>
-    <ccrm-tabs-tab header="Alla kontakter">
-        <div class="list-group" *ngIf="accounts && accounts.length > 0">
-            <a
-                *ngFor="let account of accounts"
-                [routerLink]="['/', 'sales', 'accounts', account.alias]"
-                class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex flex-row flex-wrap w-100 justify-content-between">
-                    <h6 class="mb-1">
-                        {{ account.customer?.legalName || "Okänt" }}
-                    </h6>
-
-                    <span class="text-muted">{{ account.dateModified | amCalendar }}</span>
-                </div>
-
-                <div class="d-flex flex-row justify-space-between">
-                    <div class="small">
-                        <span class="text-muted">Kundansvarig</span> {{ account.manager?.user?.fullName || "Inte tilldelad" }}
-                    </div>
-                </div>
-            </a>
-        </div>
-    </ccrm-tabs-tab>
-
-    <ccrm-tabs-tab header="Aktivitet">
-        <div class="container pt-2">
-            <ccrm-sales-accounts-list-view-all-statuses></ccrm-sales-accounts-list-view-all-statuses>
-        </div>
-    </ccrm-tabs-tab>
-</ccrm-tabs> -->
 
 <modal-container id="modal_accounts_initialEditor" [state]="modalOpen$">
     <ccrm-sales-accounts-details-initial-editor (onClosed)="onModalOpen.emit(null)"></ccrm-sales-accounts-details-initial-editor>

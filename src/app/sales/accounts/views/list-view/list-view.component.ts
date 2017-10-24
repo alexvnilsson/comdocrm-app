@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouteTransitionAnimation, DoneLoadingTransitionAnimation } from 'app/common/ui/animations';
@@ -9,7 +10,7 @@ import { AccountsService } from '../../services/accounts.service';
 import { AccountSourcesService } from '../../services/account-sources.service';
 import { UsersService } from 'app/common/users';
 
-import { Account, AccountSource } from '../../models/accounts';
+import { Account, AccountLead, AccountSource } from '../../models/accounts';
 
 export interface AccountListState {
     accountSource?: AccountSource;
@@ -23,17 +24,18 @@ export const USER_STATE = {
     selector: 'ccrm-sales-accounts-list-view',
     templateUrl: './list-view.component.html',
     styleUrls: ['./list-view.component.scss'],
-    animations: [RouteTransitionAnimation, DoneLoadingTransitionAnimation],
-    host: {
-        '[@routeTransition]': ''
-    }
+    animations: [RouteTransitionAnimation, DoneLoadingTransitionAnimation]
 })
 export class ListViewComponent implements OnInit {
     @Input() accounts: Account[];
     accountSources: Array<AccountSource>;
 
+    @Input() leads: AccountLead[];
+
     @Output() onModalOpen: EventEmitter<string> = new EventEmitter();
     @Input() modalOpen$: string = null;
+
+    @Output() onAccountImported: EventEmitter<AccountLead> = new EventEmitter();
 
     uiState: UiState = new UiState(true);
 
@@ -54,7 +56,7 @@ export class ListViewComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        
+
     }
 
     uiOnComplete() {
@@ -70,8 +72,9 @@ export class ListViewComponent implements OnInit {
     }
 
     onAccountClicked(account: Account, event: Event) {
-        if(account)
+        if (account) {
             this.accountsService.navigateTo(account);
+        }
 
         return false;
     }
@@ -85,10 +88,11 @@ export class ListViewComponent implements OnInit {
     /* Account source events */
 
     onUserStateLoaded(state: any) {
-        if(state[USER_STATE.ACCOUNT_SOURCE]) {
+        if (state[USER_STATE.ACCOUNT_SOURCE]) {
             this.accountSources.forEach((source: AccountSource) => {
-                if(source.id == state[USER_STATE.ACCOUNT_SOURCE])
+                if (source.id === state[USER_STATE.ACCOUNT_SOURCE]) {
                     this.listState.accountSource = source;
+                }
             })
         }
     }
@@ -98,33 +102,38 @@ export class ListViewComponent implements OnInit {
     /* Account source methods */
 
     isFilterAccepting(account: Account) {
-        if(this.listState.accountSource)
-            if(account.source && account.source.id)
-                if(this.listState.accountSource.id == account.source.id)
+        if (this.listState.accountSource) {
+            if (account.source && account.source.id) {
+                if (this.listState.accountSource.id === account.source.id) {
                     return true;
-                else
+                } else {
                     return false;
-            else
+                }
+            } else {
                 return false;
+            }
+        }
 
         return true;
     }
 
     setAccountSource(source?: AccountSource, reset?: boolean) {
-        let shouldEmit: boolean = false;
+        let shouldEmit = false;
 
-        if(this.listState.accountSource && this.listState.accountSource != source)
+        if(this.listState.accountSource && this.listState.accountSource !== source) {
             shouldEmit = true;
+        }
 
-        if(source && source.id) {
+        if (source && source.id) {
             this.listState.accountSource = source;
 
             this.usersService.setState(USER_STATE.ACCOUNT_SOURCE, source.id);
 
-            if(shouldEmit)
+            if (shouldEmit) {
                 this.onAccountSourceChange.next(source);
+            }
         }
-        
+
         if (reset) {
             this.listState.accountSource = null;
             this.usersService.setState(USER_STATE.ACCOUNT_SOURCE, null);
@@ -139,13 +148,14 @@ export class ListViewComponent implements OnInit {
     }
 
     getAccountSourceName(noTrim?: boolean) {
-        if(this.listState.accountSource) {
-            let source: AccountSource = this.listState.accountSource;
+        if (this.listState.accountSource) {
+            const source: AccountSource = this.listState.accountSource;
 
-            if(source.displayName.length > 16 && noTrim !== true)
+            if (source.displayName.length > 16 && noTrim !== true) {
                 return `${source.displayName.substr(0, 16)}...`;
-            else
+            } else {
                 return source.displayName;
+            }
         }
 
         return null;

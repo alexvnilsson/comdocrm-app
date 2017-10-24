@@ -21,15 +21,12 @@ export const USER_STATE = {
     selector: 'ccrm-sales-accounts-list-leads-view',
     templateUrl: './list-leads-view.component.html',
     styleUrls: ['./list-leads-view.component.scss'],
-    animations: [RouteTransitionAnimation, DoneLoadingTransitionAnimation],
-    host: {
-        '[@routeTransition]': ''
-    }
+    animations: [RouteTransitionAnimation, DoneLoadingTransitionAnimation]
 })
 export class ListLeadsViewComponent implements OnInit {
-    @Input() leads: Observable<AccountLead[]>;
-    
-    selectedLead$: Observable<AccountLead>;
+    @Input() leads: AccountLead[];
+
+    selectedLead: AccountLead;
 
     @Output() onAccountImported: EventEmitter<AccountLead> = new EventEmitter();
 
@@ -46,7 +43,7 @@ export class ListLeadsViewComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        
+
     }
 
     uiOnComplete() {
@@ -54,11 +51,11 @@ export class ListLeadsViewComponent implements OnInit {
     }
 
     uiOnError(error: Error) {
-        
+
     }
 
     onLeadClicked(lead: AccountLead, event: Event) {
-        this.selectedLead$ = this.leads.map(a => a.find(b => b.id == lead.id));
+        this.selectedLead = this.leads.find(l => l.id === lead.id);
 
         this.onModalOpen.emit('accounts_leads_leadCard');
 

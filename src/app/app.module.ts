@@ -26,7 +26,6 @@ import * as accountsStore from 'app/sales/accounts/store/accounts';
 import * as productsStore from 'app/sales/products/store';
 
 import { AuthenticationModule, AuthenticationService, AuthHttpExtended, authHttpExtendedFactory } from 'app/common/authentication';
-import { CustomRoute, AuthenticationGuard } from 'app/common/router';
 import { AuthHttp } from 'angular2-jwt';
 
 import { SalesModule } from 'app/sales';
@@ -44,39 +43,7 @@ import { DashboardViewComponent } from './sales/accounts/views/dashboard-view/da
 import { PageNotFoundComponent } from 'app/common-ui/containers/page-not-found';
 import { SelectUserComponent } from './core/components/select-user/select-user.component';
 
-const routes: CustomRoute[] = [
-    {
-        path: 'auth/callback',
-        component: CallbackComponent
-    },
-    {
-        path: '',
-        component: DashboardComponent,
-        canActivate: [ AuthenticationGuard ]
-    },
-    {
-        mainNav: true,
-        path: 'sales/accounts',
-        href: '/sales/accounts',
-        text: 'Kontakter',
-        loadChildren: 'app/sales/accounts/accounts.module#AccountsModule',
-        faIcon: 'user-circle-o',
-        canActivate: [ AuthenticationGuard ]
-    },
-    {
-        mainNav: true,
-        path: 'sales/products',
-        href: '/sales/products',
-        text: 'Produkter',
-        loadChildren: 'app/sales/products/products.module#ProductsModule',
-        faIcon: 'shopping-cart',
-        canActivate: [ AuthenticationGuard ]
-    },
-    // {
-    //     path: '**',
-    //     component: PageNotFoundComponent
-    // }
-];
+import { AppRoutes } from './app.routes';
 
 @NgModule({
     imports: [
@@ -85,7 +52,7 @@ const routes: CustomRoute[] = [
         FormsModule,
         HttpModule,
         FlexLayoutModule,
-        RouterModule.forRoot(routes),
+        RouterModule.forRoot(AppRoutes),
         StoreModule.provideStore(fromRoot.reducer),
         RouterStoreModule.connectRouter(),
         StoreDevtoolsModule.instrumentOnlyWithExtension(),

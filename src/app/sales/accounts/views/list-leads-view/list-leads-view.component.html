@@ -1,7 +1,7 @@
 <div class="container-fluid pl-0 pr-0">
     <div class="list-group">
         <div
-            *ngFor="let lead of leads | async"
+            *ngFor="let lead of leads"
             class="list-group-item list-group-item-action border-0 flex-column align-items-start"
             (click)="onLeadClicked(lead, $event)"
             role="button">
@@ -24,7 +24,7 @@
 
 <modal-container id="accounts_leads_leadCard" [state]="modalOpen$" class="modal-lg">
     <ccrm-sales-accounts-lead-card
-        [lead]="selectedLead$ | async"
+        [lead]="selectedLead"
         (onImported)="onAccountImported.emit($event)"
         (onClosed)="onModalOpen.emit(null)">
     </ccrm-sales-accounts-lead-card>

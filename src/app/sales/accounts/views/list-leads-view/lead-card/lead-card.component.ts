@@ -19,15 +19,13 @@ import { Observable } from 'rxjs/Observable';
   ]
 })
 export class LeadCardComponent implements OnInit {
-  @Input('lead') lead: AccountLead;
+  @Input() lead: AccountLead;
 
   @Output() onImported: EventEmitter<AccountLead> = new EventEmitter();
   @Output() onClosed: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
-  ngOnInit() {
-      
-  }
+  ngOnInit() { }
 
 }
