@@ -1,112 +1,66 @@
-<div class="row" *ngIf="status && !status.isRemoved">
-    <div class="" style="display: none">
-        <div class="row d-flex flex-row justify-content-center min-max-width-1-5 minh-100">
-            <div class="col d-flex flex-column justify-content-center align-items-center minh-100 position-relative">                
-                <div class="h-100 bg-gray-light shape-border-vh-max margin-invert-left-1"></div>
+<div class="card border-light status-item-container" *ngIf="status && !status.isRemoved">
+  <div [@slideDownTransition] [class.opacity-70]="status.isDelayed">
+    <div class="card-header bg-light d-flex flex-row justify-content-between">
+      <h4 class="card-title mb-0">{{ status.messageHeader }}</h4>
+      <ng-template #removeStatusConfirmation>
+          <span class="small" i18n>Är du säker?
+            <button (click)="onStatusDeleted.emit({ account: account, status: status })" class="btn btn-danger btn-sm" role="button">Ta bort</button>
+          </span>
+        </ng-template>
 
-                <div class="position-absolute pt-2 size-absolute-fill d-flex justify-content-center align-items-start">
-                    <i 
-                        class="mt-2 shape-circle shape-border-2 timeline-circle border-color-light-dark bg-white"></i>
-                </div>
-            </div>
-        </div>
+        <a class="close-link no-underline color-black ml-2" [popover]="removeStatusConfirmation" placement="left" container="body"
+          role="button">
+          &times;
+        </a>
     </div>
 
-    <div [@slideDownTransition] class="status-item-container col-12 pt-2 mb-4" [class.opacity-70]="status.isDelayed">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col">
-                        <p
-                            [style.margin-top]="'!lightMode ? \'0.1rem\''">
-                            <span 
-                                    class="mt-1 small text-muted"
-                                    [class.text-warning]="status.isDelayed"
-                                    [tooltip]="status.publicationDate | amDateFormat:'YYYY-MM-DD HH:mm'"
-                                    placement="right"
-                                    container="body">
-                                    {{ status.publicationDate | amTimeAgo }}
-                            </span>
-                            <a *ngIf="lightMode" class="small mt-1 ml-1" [routerLink]="[ '/', 'sales', 'accounts', account.alias ]">{{ account.customer?.legalName }}</a>
+    <div class="card-body">
+      <p [@messageTextTransitions]="statusMessage?.messageText" class="card-text">
+        {{ statusMessage.messageText }}
 
-                            <ng-container *ngIf="!lightMode">
-                                <span class="ml-2 small" *ngIf="status.publishedBy">
-                                    <fa name="user"></fa>
+        <a href="#" *ngIf="statusMessage.canTrim && statusMessage.trimmed" role="button" (click)="showAllStatusMessageText($event)">(läs hela)</a>
+      </p>
 
-                                    <span>{{ status.publishedBy?.fullName }}</span>
-                                </span>
-                            </ng-container>
-                        </p>
-                    </div>
+      <div class="d-flex flex-column align-items-start" *ngIf="!lightMode">
+        <span class="text-muted">{{ status.messageFooter }}</span>
+        <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
+      </div>
 
-                    <ng-container *ngIf="!lightMode">
-                        <div class="col-2 d-flex justify-content-end">
-                            <ng-template #removeStatusConfirmation>
-                                <span class="small" i18n>Är du säker?
-                                    <button (click)="onStatusDeleted.emit({ account: account, status: status })" class="btn btn-danger btn-sm" role="button">Ta bort</button>
-                                </span>
-                            </ng-template>
+      <p class="card-text">
+        <small class="mt-1 small text-muted" [class.text-warning]="status.isDelayed">
+            <span [tooltip]="status.publicationDate | amDateFormat:'YYYY-MM-DD HH:mm'"
+            placement="top" container="body">{{ status.publicationDate | amTimeAgo }}</span> av <span class="text-dark">{{ status.publishedBy?.fullName }}</span>
+        </small>
+      </p>
 
-                            <a 
-                                class="close-link no-underline color-black ml-2"
-                                [popover]="removeStatusConfirmation"
-                                placement="left"
-                                container="body"
-                                role="button">
-                                &times;
-                            </a>
-                        </div>
-                    </ng-container>
-                </div>
+      <!-- <ng-container *ngIf="!lightMode">
+        <ng-container *ngIf="status.userTasks">
+          <div class="mt-4"></div>
 
-                <h4 class="card-title">{{ status.messageHeader }}</h4>
+          <ng-container *ngFor="let userTask of status.userTasks">
+            <div class="small">
+              <span class="text-muted">
+                <fa name="calendar"></fa>
+                <span *ngIf="userTask.reminderDate" [tooltip]="userTask.reminderDate | date:'y-MM-dd'">{{ userTask.reminderDate | amCalendar }}</span>
+              </span>
+              <span *ngIf="userTask.displayName">{{ userTask.displayName }}
 
-                <p [@messageTextTransitions]="statusMessage?.messageText" class="card-text">
-                    {{ statusMessage.messageText }} 
-                    
-                    <a href="#" *ngIf="statusMessage.canTrim && statusMessage.trimmed" role="button" (click)="showAllStatusMessageText($event)">(läs hela)</a>
-                </p>
+                <ng-template #removeStatusUserTaskConfirmation>
+                  <span class="small" i18n>Är du säker?
+                    <button class="btn btn-danger btn-sm" role="button" (click)="onUserTaskDeleted.emit({ account: account, status: status, userTask: userTask })">Ta bort</button>
+                  </span>
+                </ng-template>
 
-                <div class="d-flex flex-column align-items-start" *ngIf="!lightMode">
-                    <span class="text-muted">{{ status.messageFooter }}</span>
-                    <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
-                </div>
-                
-                <ng-container *ngIf="!lightMode">
-                    <ng-container *ngIf="status.userTasks">
-                        <div class="mt-4"></div>
-
-                        <ng-container *ngFor="let userTask of status.userTasks">
-                            <div class="small">
-                            <span class="text-muted">    
-                                <fa name="calendar"></fa> <span *ngIf="userTask.reminderDate" [tooltip]="userTask.reminderDate | date:'y-MM-dd'">{{ userTask.reminderDate | amCalendar }}</span>
-                            </span>
-                            <span *ngIf="userTask.displayName">{{ userTask.displayName }}
-
-                            <ng-template #removeStatusUserTaskConfirmation>
-                                <span class="small" i18n>Är du säker?
-                                    <button class="btn btn-danger btn-sm" role="button" 
-                                        (click)="onUserTaskDeleted.emit({ account: account, status: status, userTask: userTask })">Ta bort</button>
-                                </span>
-                            </ng-template>
-
-                            <a 
-                                class="no-underline color-black ml-2"
-                                [popover]="removeStatusUserTaskConfirmation"
-                                placement="right"
-                                role="button">
-                                &times;
-                            </a>
-                            </span>
-                            </div>
-                        </ng-container>
-                    </ng-container>
-
-                    
-                    <ccrm-sales-accounts-status-add-reminder-inline [account]="account" [status]="status"
-                        (onUserTaskAdded)="onUserTaskAdded.emit($event)"></ccrm-sales-accounts-status-add-reminder-inline>
-                </ng-container>
+                <a class="no-underline color-black ml-2" [popover]="removeStatusUserTaskConfirmation" placement="right" role="button">
+                  &times;
+                </a>
+              </span>
             </div>
-        </div>
-    </div>        
+          </ng-container>
+        </ng-container> -->
+
+        <!-- <ccrm-sales-accounts-status-add-reminder-inline [account]="account" [status]="status" (onUserTaskAdded)="onUserTaskAdded.emit($event)"></ccrm-sales-accounts-status-add-reminder-inline> -->
+      <!-- </ng-container> -->
+    </div>
+  </div>
 </div>

@@ -1,5 +1,4 @@
-@import "./bootstrap/_variables";
-@import "bootstrap/mixins/breakpoints";
+@import "../../../node_modules/bootstrap/scss/mixins/breakpoints";
 
 $nav-item-hover-bg-color: #1565c0;
 $nav-item-active-bg-color: #0d47a1;

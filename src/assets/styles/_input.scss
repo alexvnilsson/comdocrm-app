@@ -20,4 +20,10 @@ input, textarea {
   &.disabled, &:disabled {
     cursor: default;
   }
+
+  &[type="button"] {
+    &:not(.disabled), &:not(:disabled) {
+      cursor: pointer;
+    }
+  }
 }
