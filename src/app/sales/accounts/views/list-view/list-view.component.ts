@@ -28,6 +28,7 @@ export const USER_STATE = {
 })
 export class ListViewComponent implements OnInit, AfterContentInit {
     @Input() accounts: Account[];
+    @Input() accountsMine: Account[];
     accountSources: Array<AccountSource>;
 
     @Input() leads: AccountLead[];

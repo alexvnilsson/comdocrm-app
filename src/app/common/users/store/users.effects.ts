@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/startWith';
@@ -11,7 +12,6 @@ import 'rxjs/add/operator/takeUntil';
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 import * as fromRoot from 'app/app.store';
@@ -30,6 +30,16 @@ export class UsersEffects {
         .mergeMap(payload => {
             return this.usersService.getUsers()
             .map(users => new userActions.LoadResultAction(users));
+        });
+
+    @Effect()
+    myProfile$: Observable<Action> = this.actions$
+        .ofType(userActions.ActionTypes.MY_PROFILE)
+        .startWith(new userActions.MyProfileAction(null))
+        .map(toPayload)
+        .mergeMap(payload => {
+            return this.usersService.getProfile()
+            .map(profile => new userActions.MyProfileResult(profile));
         });
 
     constructor(

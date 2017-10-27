@@ -22,14 +22,15 @@
       </p>
 
       <div class="d-flex flex-column align-items-start" *ngIf="!lightMode">
-        <span class="text-muted">{{ status.messageFooter }}</span>
+        <span class="text-muted" [innerHTML]="status.messageFooter"></span>
         <a *ngIf="status.metadata" [href]="status.metadata.sourceUrl" target="_blank" class="small">{{ status.metadata.sourceUrl }}</a>
       </div>
 
       <p class="card-text">
         <small class="mt-1 small text-muted" [class.text-warning]="status.isDelayed">
             <span [tooltip]="status.publicationDate | amDateFormat:'YYYY-MM-DD HH:mm'"
-            placement="top" container="body">{{ status.publicationDate | amTimeAgo }}</span> av <span class="text-dark">{{ status.publishedBy?.fullName }}</span>
+            placement="top" container="body">{{ status.publicationDate | amTimeAgo }}</span>
+            <span *ngIf="status.publishedBy"> av <span class="text-dark">{{ status.publishedBy?.fullName }}</span></span>
         </small>
       </p>
 

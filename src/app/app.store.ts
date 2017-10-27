@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { ActionReducer, combineReducers } from '@ngrx/store';
+import { ActionReducer, combineReducers, Store } from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
 import { environment } from '.environments/environment';
 
@@ -20,7 +20,7 @@ export interface State {
     products: productsStore.fromProducts.State;
 }
 
-const reducers = {
+export const reducers = {
     layout: layoutStore.reducer,
     users: usersStore.fromUsers.reducer,
     accounts: accountsStore.fromAccounts.reducer,

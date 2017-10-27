@@ -42,7 +42,7 @@
           <div class="col-12">
             <h5 class="text-muted">Ansvarig</h5>
 
-            <ng-container *ngIf="!account.manager.user">
+            <ng-container *ngIf="!account.manager?.user">
               <button
                 type="button"
                 class="btn btn-light btn-block"
@@ -51,7 +51,7 @@
               </button>
             </ng-container>
 
-            <ng-container *ngIf="account.manager.user">
+            <ng-container *ngIf="account.manager && account.manager.user">
               <div class="d-flex flex-row align-items-center justify-content-between">
                 <span>{{ account.manager.user.fullName }}</span>
                 <button

@@ -1,12 +1,17 @@
+import { User } from './../../../../common/users/user';
 import 'rxjs/add/operator/map';
 
-import { ActionReducer, Action } from '@ngrx/store';
+import { ActionReducer, Action, Store } from '@ngrx/store';
 import { AccountStatus, Account } from '../../models/accounts';
 import { createSelector } from 'reselect';
 import { state } from '@angular/animations';
 import { AccountPersonOfInterest } from "app/sales/accounts/models/accounts";
 
 import * as accountsStore from './accounts.actions';
+import * as usersStore from 'app/common/users/store';
+
+import * as rootStore from 'app/app.store';
+import { select } from '@ngrx/core';
 
 export interface State {
     loading: boolean;
