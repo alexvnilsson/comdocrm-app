@@ -1,3 +1,4 @@
+import { ModalWrapperDirective } from './modal/modal-wrapper.directive';
 import { VerticalNavigationViewComponent } from './vertical-nav/nav-view/nav-view.component';
 import { VerticalNavigationItemComponent } from './vertical-nav/nav-item/nav-item.component';
 import { VerticalNavigationComponent } from './vertical-nav';
@@ -18,14 +19,16 @@ import { NavigationItemDirective } from './navigation/navigation-item.directive'
 import { NavbarComponent, NavbarItemDirective } from './navbar';
 
 import { ModalContainerComponent } from './modal/modal.component';
-import { StateContainerComponent } from "app/common-ui/containers/state-container";
-import { ToolbarComponent } from "app/common-ui/toolbar/toolbar.component";
-import { ToolbarItemComponent } from "app/common-ui/toolbar/item/toolbar-item.component";
+import { StateContainerComponent } from 'app/common-ui/containers/state-container';
+import { ToolbarComponent } from 'app/common-ui/toolbar/toolbar.component';
+import { ToolbarItemComponent } from 'app/common-ui/toolbar/item/toolbar-item.component';
+import { SelectUserComponent } from './select-user/select-user.component';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
+        FormsModule,
         TooltipModule,
         PopoverModule,
         ModalModule.forRoot(),
@@ -49,7 +52,10 @@ import { ToolbarItemComponent } from "app/common-ui/toolbar/item/toolbar-item.co
         ToolbarComponent,
         ToolbarItemComponent,
 
+        SelectUserComponent,
+
         ModalContainerComponent,
+        ModalWrapperDirective,
         StateContainerComponent
     ],
     exports: [
@@ -71,7 +77,10 @@ import { ToolbarItemComponent } from "app/common-ui/toolbar/item/toolbar-item.co
         ToolbarComponent,
         ToolbarItemComponent,
 
+        SelectUserComponent,
+
         ModalContainerComponent,
+        ModalWrapperDirective,
         StateContainerComponent
     ]
 })

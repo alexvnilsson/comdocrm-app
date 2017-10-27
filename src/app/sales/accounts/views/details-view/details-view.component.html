@@ -15,13 +15,13 @@
         </div>
 
         <div class="pl-4 pr-4 mt-2">
-          <h6 class="mb-0 text-muted">Flöde</h6>
+          <h6 class="mb-0 font-weight-light text-muted">Flöde</h6>
 
-          <div class="mt-2 mb-2">
+          <div class="bg-light d-flex flex-row justify-content-center mt-2 mb-2 p-2">
             <button
               type="button"
               role="button"
-              class="btn btn-light btn-block text-muted"
+              class="btn btn-link text-muted"
               [class.disabled]="composeLog.Open"
               (click)="composeLog.open()">Lägg till</button>
           </div>
@@ -42,9 +42,26 @@
           <div class="col-12">
             <h5 class="text-muted">Ansvarig</h5>
 
-            <ng-select #accountManagerSelector [active]="getManagerSelectItem()" [allowClear]="true" [items]="usersAsSelect$ | async"
-              (selected)="onSelectManager($event)" placeholder="Välj...">
-            </ng-select>
+            <ng-container *ngIf="!account.manager.user">
+              <button
+                type="button"
+                class="btn btn-light btn-block"
+                (click)="onModalOpen.emit('modal_accounts_select-account-manager')">
+                Välj
+              </button>
+            </ng-container>
+
+            <ng-container *ngIf="account.manager.user">
+              <div class="d-flex flex-row align-items-center justify-content-between">
+                <span>{{ account.manager.user.fullName }}</span>
+                <button
+                  type="button"
+                  class="btn btn-link"
+                  (click)="onModalOpen.emit('modal_accounts_select-account-manager')">
+                  <fa name="pencil-square"></fa>
+                </button>
+              </div>
+            </ng-container>
           </div>
         </div>
 
@@ -80,10 +97,11 @@
   <ccrm-accounts-add-person-of-interest [account]="account" (onSaved)="onPersonOfInterestAdded.emit($event)" (onClosed)="onModalOpen.emit(null)"></ccrm-accounts-add-person-of-interest>
 </modal-container>
 
-<!-- <modal-container id="modal_accounts_select-account-manager" [state]="modalOpen$">
-    <ccrm-select-user
-        (onClosed)="onModalOpen.emit(null)"></ccrm-select-user>
-</modal-container> -->
+<modal-container id="modal_accounts_select-account-manager" [state]="modalOpen$">
+    <ccrm-select-user [users]="users" title="Välj kundansvarig"
+      (onUsersSelected)="onAccountManagerSelected($event)"
+      (onClosed)="onModalOpen.emit(null)"></ccrm-select-user>
+</modal-container>
 
 <router-outlet name="editor"></router-outlet>
 <router-outlet name="contacts"></router-outlet>

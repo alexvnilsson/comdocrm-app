@@ -92,8 +92,8 @@ export class ListViewComponent implements OnInit, AfterContentInit {
     /* End Account events */
 
     protected getLeadSources() {
-      let sources: { [key:string]: LeadSource } = {};
-      let sourcesUnsorted = [...this.leads.map(item => item.source)];
+      const sources: { [key: string]: LeadSource } = {};
+      const sourcesUnsorted = [...this.leads.map(item => item.source)];
 
       sourcesUnsorted.forEach(source => {
         if (typeof sources[source.slug] === 'undefined') {
@@ -116,7 +116,7 @@ export class ListViewComponent implements OnInit, AfterContentInit {
                 if (source.id === state[USER_STATE.ACCOUNT_SOURCE]) {
                     this.listState.accountSource = source;
                 }
-            })
+            });
         }
     }
 
@@ -143,7 +143,7 @@ export class ListViewComponent implements OnInit, AfterContentInit {
     setAccountSource(source?: AccountSource, reset?: boolean) {
         let shouldEmit = false;
 
-        if(this.listState.accountSource && this.listState.accountSource !== source) {
+        if (this.listState.accountSource && this.listState.accountSource !== source) {
             shouldEmit = true;
         }
 

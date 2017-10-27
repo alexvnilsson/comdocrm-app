@@ -29,7 +29,7 @@ export class UsersEffects {
         .map(toPayload)
         .mergeMap(payload => {
             return this.usersService.getUsers()
-            .map(users => new userActions.LoadResultAction(users))
+            .map(users => new userActions.LoadResultAction(users));
         });
 
     constructor(

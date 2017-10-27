@@ -41,6 +41,7 @@ import * as usersStore from 'app/common/users/store';
 })
 export class DetailsViewComponent implements OnInit, OnDestroy {
     @Input() account: Account;
+    @Input() users: Array<User>;
     @Input() modalOpen$: string;
 
     @Output() onModalOpen: EventEmitter<string> = new EventEmitter();
@@ -49,7 +50,6 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
 
     composeLog: ComposeLog = new ComposeLog();
 
-    users$: Observable<User[]>;
     usersAsSelect$: Observable<SelectItem[]>;
 
     userState: any;
@@ -72,16 +72,10 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
 
     public isDraft = AccountStates.Draft;
 
-    constructor(
-        private store$: Store<fromRoot.State>
-    ) { }
+    constructor() { }
 
     ngOnInit() {
-        this.users$ = this.store$.select(fromRoot.usersState).select(usersStore.fromUsers.all);
 
-        this.users$.subscribe(users => {
-            this.usersAsSelect$ = Observable.of(users.map(user => new SelectItem(user.id, user.fullName)));
-        });
     }
 
     onPersonDeleted(payload: { account: Account, person: AccountPersonOfInterest }) {
@@ -94,45 +88,61 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
         console.log('onUserTaskDeleted', event);
     }
 
-    onSelectManager(user: SelectItem) {
-        this.store$.select(fromRoot.usersState).select(usersStore.fromUsers.all).subscribe(users => {
-            let _user: User = users.find(u => u.id === user.id);
+    onAccountManagerSelected(users: Array<User>) {
+        if (users.length > 1) {
+            throw 'Invalid User-count (greater than 1).';
+        }
 
-            if(_user) {
-                this.store$.dispatch(new accountsStore.actions.UpdateManagerAction({
-                    account: this.account,
-                    user: _user
-                }));
+        if (users[0]) {
+            let user = users[0];
+
+            if (user) {
+                this.onManagerUpdated.emit({ account: this.account, user: user });
             }
-        })
-
-        // if(user) {
-        //     if(user.id) {
-        //         this.accountsService.setManager(this.account, user.id).subscribe(result => {
-        //             if(result.updated){
-        //                 var _user = this.allUsers.find((value: User) => { return value.id == user.id });
-
-        //                 if(_user) {
-        //                     let accountManager = new AccountManager();
-
-        //                     accountManager.active = true;
-        //                     accountManager.user = _user;
-        //                     accountManager.assigned = new Date();
-
-        //                     this.account.manager = accountManager;
-        //                 }
-        //             }
-        //         })
-        //     }
-        // }
+        }
     }
 
+    // onSelectManager(user: SelectItem) {
+    //     this.store$.select(fromRoot.usersState).select(usersStore.fromUsers.all).subscribe(users => {
+    //         let _user: User = users.find(u => u.id === user.id);
+
+    //         if(_user) {
+    //             this.store$.dispatch(new accountsStore.actions.UpdateManagerAction({
+    //                 account: this.account,
+    //                 user: _user
+    //             }));
+    //         }
+    //     })
+
+    //     // if(user) {
+    //     //     if(user.id) {
+    //     //         this.accountsService.setManager(this.account, user.id).subscribe(result => {
+    //     //             if(result.updated){
+    //     //                 var _user = this.allUsers.find((value: User) => { return value.id == user.id });
+
+    //     //                 if(_user) {
+    //     //                     let accountManager = new AccountManager();
+
+    //     //                     accountManager.active = true;
+    //     //                     accountManager.user = _user;
+    //     //                     accountManager.assigned = new Date();
+
+    //     //                     this.account.manager = accountManager;
+    //     //                 }
+    //     //             }
+    //     //         })
+    //     //     }
+    //     // }
+    // }
+
     getSortedAccountStatuses(statuses: Array<AccountStatus>) {
-        return statuses.sort((a: AccountStatus, b: AccountStatus) => { return +(b.publicationDate > a.publicationDate) || +(b.publicationDate == a.publicationDate) - 1; })
+      return statuses.sort((a: AccountStatus, b: AccountStatus) => {
+        return +(b.publicationDate > a.publicationDate) || +(b.publicationDate == a.publicationDate) - 1;
+      });
     }
 
     getManagerSelectItem(): SelectItem[] {
-        if(this.account && this.account.manager){
+        if (this.account && this.account.manager){
             return [new SelectItem(this.account.manager.user.id, this.account.manager.user.fullName)];
         }
 

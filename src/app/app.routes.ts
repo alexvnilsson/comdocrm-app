@@ -5,7 +5,6 @@ import { CallbackComponent } from 'app/common/authentication/callback/callback.c
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardViewComponent } from './sales/accounts/views/dashboard-view/dashboard-view.component';
 import { PageNotFoundComponent } from 'app/common-ui/containers/page-not-found';
-import { SelectUserComponent } from './core/components/select-user/select-user.component';
 
 export const AppRoutes: CustomRoute[] = [
   {

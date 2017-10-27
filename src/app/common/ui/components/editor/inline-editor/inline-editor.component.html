@@ -5,7 +5,7 @@
 
 
 <ng-template #isEditingBlock>
-    <form #inlineEditorForm class="form-inline" (ngSubmit)="onEditorInputSubmit(inlineEditorInput.value)">
+    <form #inlineEditorForm class="form" (ngSubmit)="onEditorInputSubmit(inlineEditorInput.value)">
         <div [@fadeIn]="isEditing" class="input-group">
             <input #inlineEditorInput autocomplete="off" class="form-control p-1" type="text" [placeholder]="placeholder" (blur)="onEditorInputSubmit(inlineEditorInput.value)" [(ngModel)]="model" name="model" />
         </div>

@@ -30,7 +30,7 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
 
         case accountsStore.ActionTypes.LOAD_SUCCESS: {
             const accounts: Account[] = action.payload as Account[];
-            const newAccounts =  accounts.filter(account => !state.entities[account.alias]);
+            const newAccounts = accounts.filter(account => !state.entities[account.alias]);
 
             return {
                 entities: [ ...state.entities, ...newAccounts ],
