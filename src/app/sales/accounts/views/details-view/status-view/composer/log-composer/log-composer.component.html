@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-
+<!-- 
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group mb-0 d-flex flex-row">
@@ -85,7 +85,7 @@
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="row">
                 <div class="col-md-8">
@@ -96,11 +96,20 @@
 
                 <div class="col-md-4">
                     <div class="form-group d-flex justify-content-end">
+                      <div>
                         <button
                             type="submit"
                             class="btn btn-primary"
                             role="button"
                             i18n>Spara</button>
+
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          role="button"
+                          (click)="onComposingFinished()"
+                          i18n>Avbryt</button>
+                      </div>
                     </div>
                 </div>
             </div>

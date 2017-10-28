@@ -1,28 +1,33 @@
-<div class="workspace-wrapper">
-  <nav class="navbar navbar-expand-md navbar-light bg-light navbar-main">
+<div class="workspace-wrapper d-flex flex-column">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-main">
     <button class="navbar-toggler border-0 align-self-start mr-auto pt-0 pb-0" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Öppna/stäng navigation">
       <fa name="bars" size="1x"></fa>
     </button>
 
     <a class="navbar-brand display-4 pt-0 pb-0" routerLink="/">
-      <img src="assets/media/brand.svg" alt="ComdoCRM brand" width="48px" />
-      <h5 class="ml-2 mb-0 font-weight-light">ComdoCRM</h5>
+      <img src="assets/media/brand.svg" alt="ComdoCRM brand" width="32px" />
+      <h5 class="navbar-brand-text ml-2 mb-0 font-weight-light">ComdoCRM</h5>
     </a>
+  </nav>
 
-    <div #navMain class="collapse navbar-collapse align-self-end" id="navbarNav">
-      <div class="navbar-backdrop"></div>
-
+  <div class="row no-gutters" style="flex: 1">
+    <div #navMain class="navbar-main-container collapse navbar-collapse p-0" id="navbarNav">
       <div class="navbar-header">
-        <button class="navbar-toggler border-0 pt-0 pb-0 d-sm-block d-md-none" type="button" data-toggle="collapse" data-target="#navbarNav"
+        <button class="navbar-toggler border-0 pt-0 pb-0 " type="button" data-toggle="collapse" data-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Öppna/stäng navigation">
           <fa name="times" size="1x"></fa>
         </button>
       </div>
 
-      <div class="hidden-lg-up mt-4"></div>
+      <div class="navbar-header-brand">
+          <a class="navbar-brand display-4 pt-0 pb-0" routerLink="/" (click)="onNavigationItemClicked$.emit(null)">
+            <img src="assets/media/brand.svg" alt="ComdoCRM brand" width="48px" />
+            <h5 class="mb-0 font-weight-light">ComdoCRM</h5>
+          </a>
+      </div>
 
-      <ul class="nav nav-pills mr-auto">
+      <ul class="navbar-main-nav nav nav-pills nav-fill">
         <li class="nav-item align-self-start" *ngFor="let route of routeItems" (click)="onNavigationItemClicked$.emit(null)">
           <a navItem class="nav-link" routerLinkActive="active" [routerLink]="route.href" role="button">
             <i *ngIf="route.faIcon" aria-hidden="true" [class]="'fa fa-' + route.faIcon + ' nav-link-icon'"></i>
@@ -35,10 +40,12 @@
         <!-- Right-hand content -->
       </div>
     </div>
-  </nav>
 
-  <div class="container mt-2">
-    <router-outlet></router-outlet>
+    <div class="col">
+      <div class="container workspace-action-bar-padding mt-3 ml-auto mr-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
 </div>
 

@@ -13,7 +13,7 @@ export class SelectUserComponent implements OnInit {
   @ViewChild('selectUserForm') ngForm: NgForm;
   @Input() users: usersStore.fromUsers.State;
   
-  @Input() title: string;
+  @Input() header: string;
   @Input() multiple = false;
 
   form: {
@@ -29,6 +29,10 @@ export class SelectUserComponent implements OnInit {
 
   ngOnInit() {
     
+  }
+
+  shouldShowSubmitButton(): boolean {
+    return this.multiple === true;
   }
 
   onUserClicked(user: User) {

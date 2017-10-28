@@ -10,11 +10,11 @@
                     {{ lead.customer?.legalName || "Okänt" }}
                 </h6>
 
-                <span class="text-muted">{{ lead.dateCreated | amCalendar }}</span>
+                <span class="small text-muted">{{ lead.dateCreated | amCalendar }}</span>
             </div>
 
             <div class="d-flex flex-row justify-space-between" *ngIf="lead.source">
-                <div>
+                <div class="small">
                     <span class="text-muted">Hämtades från</span> {{ lead.source.displayName }}
                 </div>
             </div>

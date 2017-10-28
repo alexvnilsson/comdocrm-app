@@ -22,7 +22,6 @@ export const AppRoutes: CustomRoute[] = [
       href: '/sales/accounts',
       text: 'Kunder',
       loadChildren: 'app/sales/accounts/accounts.module#AccountsModule',
-      faIcon: 'user-circle-o',
       canActivate: [ AuthenticationGuard ]
   },
   {

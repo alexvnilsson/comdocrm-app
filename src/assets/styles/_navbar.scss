@@ -2,20 +2,34 @@
 
 $nav-transition-duration: 250ms;
 
-$nav-mobile-wrapper-backdrop-opacity: 0.66;
-$nav-mobile-wrapper-bg-color: #fafafa;
-$nav-mobile-wrapper-border-color: #d8d8d8;
+$nav-width: 75%;
 
-$nav-mobile-wrapper-width: 75%;
+//
+//  Light theme, mobile side navigation.
+//
 
-$nav-item-bg-color: #f8f8f8;
-$nav-item-hover-bg-color: #1565c0;
-$nav-item-active-bg-color: #e8e8e8;
+$nav-bg-color: #fafafa;
+$nav-border-color: $gray-200;
 
+$nav-item-bg-color: $gray-300;
+$nav-item-text-color: #222;
 
-.navbar-backdrop {
-  display: none;
-}
+$nav-item-hover-bg-color: $gray-400;
+
+$nav-item-active-bg-color: $gray-700;
+$nav-item-active-text-color: #fefefe;
+
+//
+//  Dark theme, desktop side navigation.
+//
+
+$nav-dark-bg-color: $gray-900;
+
+$nav-item-dark-bg-color: $gray-800;
+$nav-item-dark-text-color: #fefefe;
+
+$nav-item-dark-active-bg-color: #fefefe;
+$nav-item-dark-active-text-color: #222;
 
 .navbar-main {
   display: flex;
@@ -24,33 +38,11 @@ $nav-item-active-bg-color: #e8e8e8;
 
   .navbar-brand {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 
     align-self: center;
-  }
-
-  .nav {
-    .nav-item {
-      .nav-link {
-        color: #333;
-
-        &.active {
-          color: #444;
-
-          background-color: $nav-item-active-bg-color;
-        }
-
-        .nav-link-icon {
-          font-size: 1rem;
-        }
-      }
-
-      &:not(:last-child) {
-        border-right: 1px solid #e2e2e2;
-      }
-    }
   }
 }
 
@@ -60,20 +52,154 @@ $nav-item-active-bg-color: #e8e8e8;
   }
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-up(lg) {
+  .navbar-main-container {
+    display: block;
+    flex: 0 0 16.66666667%;
+  
+    min-width: 8rem;
+    max-width: 10rem;
+  
+    background-color: $nav-dark-bg-color;
+
+    .navbar-header {
+      display: none;
+    }
+
+    .navbar-header-brand {
+      display: none;
+    }
+  
+    .navbar-main-nav.nav {
+      margin-top: .5rem;
+
+      .nav-item {
+        .nav-link {
+          background-color: $nav-item-dark-bg-color;
+          color: $nav-item-dark-text-color;
+  
+          &.active {
+            background-color: $nav-item-dark-active-bg-color;
+            color: $nav-item-dark-active-text-color;
+          }
+  
+          .nav-link-icon {
+            font-size: 1rem;
+          }
+        }
+  
+        &:not(:last-child) {
+          border-right: 1px solid #e2e2e2;
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .navbar-main-container {
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+
+    min-width: initial;
+    max-width: 24rem;
+    width: $nav-width;    
+
+    background-color: $nav-bg-color;
+    border-right: 1px solid $nav-border-color;
+
+    transition: left $nav-transition-duration, opacity $nav-transition-duration, height 0s ease-in-out 0ms;
+
+    z-index: 99;
+
+    .navbar-header {
+      display: block;
+      padding: 0.9rem 1rem;
+
+      .navbar-toggler {
+        color: $gray-600;
+
+        transition: opacity $nav-transition-duration ease-in $nav-transition-duration * 0.4;
+      }
+    }
+
+    .navbar-header-brand {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      padding: .5rem 0;
+
+      .navbar-brand {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        margin: 0;
+
+        color: #666;
+      }
+    }
+
+    .collapse {
+      display: block;
+    }
+
+    &:not(.show) {
+      left: -25%;
+      opacity: 0;
+
+      & > .navbar-header .navbar-toggler {
+        opacity: 0;
+      }
+    }
+
+    &.show {
+      left: 0px;
+      opacity: 1.0;
+
+      & > .navbar-header .navbar-toggler {
+        opacity: 1;
+      }
+    }
+
+    .nav {
+      padding-top: 0.75rem;
+
+      .nav-item {
+        flex: 1;
+
+        .nav-link {
+          padding: 0.66rem 1rem;
+
+          &:not(.active) {
+            background-color: $nav-item-bg-color;
+            color: $nav-item-text-color;
+
+            &:hover {
+              background-color: $nav-item-hover-bg-color;
+            }
+          }
+
+          &.active {
+            background-color: $nav-item-active-bg-color;
+            color: $nav-item-active-text-color;
+          }
+        }
+      }
+    }
+  }
+
   .navbar-main {
     display: flex;
     flex-direction: row;
     justify-content: center;
 
     .navbar-brand {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-  
-      align-self: center;
-
-      margin-right: auto;
+      display: none;
     }
 
     .collapse {
@@ -83,80 +209,10 @@ $nav-item-active-bg-color: #e8e8e8;
     .navbar-toggler {
       margin: .5rem 0rem;
     }
-
-    #navbarNav {
-      position: fixed;
-      top: 0px;
-      width: $nav-mobile-wrapper-width;
-      bottom: 0px;
-
-      transition: all $nav-transition-duration ease-in-out;
-
-      background-color: $nav-mobile-wrapper-bg-color;
-      border-right: 1px solid $nav-mobile-wrapper-border-color;
-
-      z-index: 99;
-
-      .navbar-header {
-        padding: 0.5rem 1rem;
-      }
-
-      .collapse {
-        display: block;
-      }
-
-      &:not(.show) {
-        left: -50%;
-        opacity: 0;
-
-        & > .navbar-backdrop {
-          opacity: 0;
-        }
-      }
-
-      &.show {
-        left: 0px;
-        opacity: 1.0;
-
-        & > .navbar-backdrop {
-          display: block;
-          opacity: $nav-mobile-wrapper-backdrop-opacity;
-        }
-      }
-
-      .nav {
-        .nav-item {
-          flex: 1;
-
-          .nav-link {
-            padding: 1rem 1rem;
-
-            &:not(.active) {
-              background-color: $nav-item-bg-color;
-            }
-
-            &.active {
-              background-color: $nav-item-active-bg-color;
-            }
-          }
-        }
-      }
-
-      .navbar-backdrop {
-        position: fixed;
-        top: 0px;
-        right: 0px;
-        bottom: 0px;
-        left: $nav-mobile-wrapper-width;
-    
-        background-color: #222;
-    
-        opacity: 0;
-    
-        transition: $nav-transition-duration * 2 !important;
-    
-        z-index: 98;
-      }
-    }
   }
+}
+
+.collapsing {
+  height: initial !important;
+  transition: left $nav-transition-duration, opacity $nav-transition-duration, height 0s ease-in-out 0ms !important;
 }

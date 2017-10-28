@@ -4,7 +4,8 @@ import { AccountsService } from '../../../services/accounts.service';
 
 @Component({
     selector: 'ccrm-sales-accounts-person-of-interest',
-    templateUrl: './person-of-interest.component.html'
+    templateUrl: './person-of-interest.component.html',
+    styleUrls: [ './person-of-interest.component.scss' ]
 })
 export class PersonOfInterestComponent implements OnInit {
     @Input('account') account: Account;

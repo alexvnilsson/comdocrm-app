@@ -1,13 +1,5 @@
 <div class="row" style="flex: 1;">
     <div class="col-sm-4 p-2">
-        <button
-          type="button"
-          role="button"
-          class="btn btn-outline-primary btn-sm mb-2"
-          (click)="onModalOpen.emit('modal_accounts_initialEditor')">
-          <fa name="plus"></fa> Ny
-        </button>
-
         <ccrm-vertical-nav>
             <ccrm-vertical-nav-item #vItemMyContacts [options]="{ title: 'Mina kontakter', counter: accountsMine?.length || 0 }"></ccrm-vertical-nav-item>
             <ccrm-vertical-nav-item #vItemContacts [options]="{ title: 'Kontakter', counter: accounts?.length || 0 }"></ccrm-vertical-nav-item>
@@ -27,7 +19,7 @@
                             {{ account.customer?.legalName || "Okänt" }}
                         </h6>
     
-                        <span class="text-muted">{{ account.dateModified | amCalendar }}</span>
+                        <span class="small text-muted">{{ account.dateModified | amCalendar }}</span>
                     </div>
     
                     <div class="d-flex flex-row justify-space-between">
@@ -71,6 +63,13 @@
       </ccrm-nav-view>
     </div>
 </div>
+
+<div #actionBar class="action-bar-wrapper">
+    <button
+      type="button"
+      class="btn btn-link action-bar-item"
+      (click)="onModalOpen.emit('modal_accounts_initialEditor')"><fa name="user-plus"></fa> Skapa kund</button>
+  </div>
 
 <modal-container id="modal_accounts_initialEditor" [state]="modalOpen$">
     <ccrm-sales-accounts-details-initial-editor (onClosed)="onModalOpen.emit(null)"></ccrm-sales-accounts-details-initial-editor>

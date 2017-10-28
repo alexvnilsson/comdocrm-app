@@ -18,9 +18,10 @@ export class AuthHttpExtended extends AuthHttp {
     constructor(http: Http, options: RequestOptions) {
         super(
             new AuthConfig({
-                tokenGetter: (() => {
-                    return localStorage.getItem('id_token')
-                })
+              tokenGetter: (() => {
+                  return sessionStorage.getItem('id_token')
+              }),
+              noJwtError: true
             }), http, options
         );
     }

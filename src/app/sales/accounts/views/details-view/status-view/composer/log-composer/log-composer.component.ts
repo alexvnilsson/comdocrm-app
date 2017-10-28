@@ -43,6 +43,8 @@ import { User } from 'app/common/users/user';
 export class LogComposerComponent implements OnInit, OnChanges {
     @Input() isOpen: boolean;
 
+    @ViewChild('logForm') logForm: NgForm;
+
     @ViewChild('logHeaderText') logHeaderText: ElementRef;
     @ViewChild('publicationDate') publicationDate: DatepickerDirective;
 
@@ -116,6 +118,10 @@ export class LogComposerComponent implements OnInit, OnChanges {
 
     onComposingFinished() {
         this.onClosed.emit();
+
+        if (this.logForm) {
+          this.logForm.resetForm();
+        }
     }
 
     isDateToday(): boolean {

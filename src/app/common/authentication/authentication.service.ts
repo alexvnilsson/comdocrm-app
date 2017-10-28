@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import * as Auth0 from 'auth0-js';
+import { JwtHelper } from 'angular2-jwt';
 
 import { Subscription } from 'rxjs/Subscription';
 import { AuthHttpExtended } from './auth-http-extended';
@@ -30,7 +31,11 @@ export class AuthenticationService implements OnDestroy {
 
     private routerEventListener: Subscription;
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: AuthHttpExtended) {}
+    constructor(
+      private router: Router,
+      private route: ActivatedRoute,
+      private http: AuthHttpExtended,
+      private jwtHelper: JwtHelper) {}
 
     public login() {
         this.Auth0.authorize(null);
@@ -50,9 +55,9 @@ export class AuthenticationService implements OnDestroy {
 
                     let returnUrl: string = '/';
 
-                    if(localStorage.getItem('auth:returnUrl').length > 0) {
-                        returnUrl = localStorage.getItem('auth:returnUrl');
-                        localStorage.removeItem('auth:returnUrl');
+                    if(sessionStorage.getItem('auth:returnUrl').length > 0) {
+                        returnUrl = sessionStorage.getItem('auth:returnUrl');
+                        sessionStorage.removeItem('auth:returnUrl');
                     }
 
                     this.router.navigate([returnUrl]);
@@ -69,7 +74,7 @@ export class AuthenticationService implements OnDestroy {
 
     public getProfile(): Observable<Auth0.Auth0UserProfile> {
         return new Observable(observer => {
-            const accessToken = localStorage.getItem('access_token');
+            const accessToken = sessionStorage.getItem('access_token');
             if (!accessToken)
                 return observer.error('Could not fetch Auth0 UserProfile');
 
@@ -90,23 +95,27 @@ export class AuthenticationService implements OnDestroy {
     private setSession(authResult): void {
         const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
 
-        localStorage.setItem('access_token', authResult.accessToken);
-        localStorage.setItem('id_token', authResult.idToken);
-        localStorage.setItem('expires_at', expiresAt);
+        sessionStorage.setItem('access_token', authResult.accessToken);
+        sessionStorage.setItem('id_token', authResult.idToken);
+        sessionStorage.setItem('expires_at', expiresAt);
     }
 
     public logout(): void {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('id_token');
-        localStorage.removeItem('expires_at');
+        sessionStorage.removeItem('access_token');
+        sessionStorage.removeItem('id_token');
+        sessionStorage.removeItem('expires_at');
 
         this.router.navigate(['/']);
     }
 
     public isAuthenticated(): boolean {
-        const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+        const token = sessionStorage.getItem('id_token');
 
-        return new Date().getTime() < expiresAt;
+        if (token != null && token.length > 0) {
+          return this.jwtHelper.isTokenExpired(token) === false;
+        } else {
+          return false;
+        }
     }
 
     ngOnDestroy() {

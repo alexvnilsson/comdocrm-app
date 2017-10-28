@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
 
@@ -26,6 +27,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   routeItems: CustomRoute[] = [];
 
   @ViewChild('navMain') navigationBar: ElementRef;
+  @ViewChild('actionBar') actionBar: ElementRef;
+
+  layout = {
+    actionBar: {
+      height: 0
+    }
+  };
 
   onNavigationItemClicked$: EventEmitter<any> = new EventEmitter();
 
@@ -36,6 +44,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
       this.authService.getProfile().subscribe(profile => this.userProfile = profile);
+    } else {
+      this.authService.login();
     }
 
     this.onUserAuthenticated = this.authService.onAuthenticatedHandler.subscribe(profile => {

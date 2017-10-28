@@ -1,110 +1,106 @@
 <div class="d-flex flex-row align-items-center">
   <button type="button" class="btn btn-link btn-sm mb-2" role="button" routerLink="/sales/accounts">
-    <fa name="caret-left"></fa> Kontakter
+    <fa name="caret-left"></fa> Kunder
   </button>
 </div>
 
 <ng-container *ngIf="account">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <h4>{{ account.customer?.legalName }}</h4>
+  <div class="row">
+    <div class="col-md-12">
+      <h4>{{ account.customer?.legalName }}</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8 bg-white">
+        <h4 class="font-weight-light text-muted">Flöde</h4>
+
+      <ccrm-sales-accounts-status-composer-log [isOpen]="composeLog.Open" [account]="account" (onSaved)="onStatusAdded.emit($event)"
+        (onClosed)="composeLog.close()">
+      </ccrm-sales-accounts-status-composer-log>
+
+      <div class="mt-2">
+        <ng-container *ngIf="account.statuses">
+          <ccrm-sales-accounts-status-item *ngFor="let status of account.statuses" [account]="account" [status]="status" (onStatusDeleted)="onStatusDeleted.emit($event)"
+            (onUserTaskAdded)="onUserTaskAdded.emit($event)" (onUserTaskDeleted)="onUserTaskDeleted.emit($event)"></ccrm-sales-accounts-status-item>
+        </ng-container>
+
+        <ng-container *ngIf="!account.statuses.length">
+          <h2 class="display-4 text-muted align-self-center text-center mt-3">...</h2>
+        </ng-container>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-sm-8 bg-white">
-        <ccrm-sales-accounts-status-composer-log [isOpen]="composeLog.Open" [account]="account" (onSaved)="onStatusAdded.emit($event)"
-          (onClosed)="composeLog.close()">
-        </ccrm-sales-accounts-status-composer-log>
+    <div class="col-sm-4 border-sm-0" style="border-left: 1px solid #d8d8d8">
+      <div class="row mb-3">
+        <div class="col-12">
+          <h4 class="text-muted font-weight-light mb-0">Kundansvarig</h4>
 
-        <div class="mt-2">
-          <h6 class="mb-0 font-weight-light text-muted">Flöde</h6>
-
-          <div class="bg-light d-flex flex-row justify-content-center mt-2 mb-2 p-2">
-            <button
-              type="button"
-              role="button"
-              class="btn btn-link text-muted"
-              [class.disabled]="composeLog.Open"
-              (click)="composeLog.open()">Lägg till</button>
-          </div>
-
-          <ng-container *ngIf="account.statuses">
-            <ccrm-sales-accounts-status-item *ngFor="let status of account.statuses" [account]="account" [status]="status" (onStatusDeleted)="onStatusDeleted.emit($event)"
-              (onUserTaskAdded)="onUserTaskAdded.emit($event)" (onUserTaskDeleted)="onUserTaskDeleted.emit($event)"></ccrm-sales-accounts-status-item>
+          <ng-container *ngIf="!account.manager?.user">
+            <div class="pt-2 pb-2">
+              <button
+                type="button"
+                role="button"
+                class="btn btn-block btn-light btn-sm p-2 text-dark"
+                [class.disabled]="composeLog.Open"
+                (click)="onModalOpen.emit('modal_accounts_select-account-manager')">Tilldela</button>
+            </div>
           </ng-container>
 
-          <ng-container *ngIf="!account.statuses.length">
-            <h2 class="display-4 text-muted align-self-center text-center mt-3">...</h2>
+          <ng-container *ngIf="account.manager && account.manager.user">
+            <div class="d-flex flex-row align-items-center justify-content-between">
+              <span>{{ account.manager.user.fullName }}</span>
+              <button
+                type="button"
+                class="btn btn-link"
+                (click)="onModalOpen.emit('modal_accounts_select-account-manager')">
+                <fa name="pencil-square"></fa>
+              </button>
+            </div>
           </ng-container>
         </div>
       </div>
 
-      <div class="col-sm-4 border-sm-0" style="border-left: 1px solid #d8d8d8">
-        <div class="row mb-3">
-          <div class="col-12">
-            <div class="p-2 bg-light">
-              <h5 class="text-muted mb-0">Ansvarig</h5>
-            </div>
-
-            <ng-container *ngIf="!account.manager?.user">
-              <button
-                type="button"
-                class="btn btn-light btn-block"
-                (click)="onModalOpen.emit('modal_accounts_select-account-manager')">
-                Välj
-              </button>
-            </ng-container>
-
-            <ng-container *ngIf="account.manager && account.manager.user">
-              <div class="d-flex flex-row align-items-center justify-content-between">
-                <span>{{ account.manager.user.fullName }}</span>
-                <button
-                  type="button"
-                  class="btn btn-link"
-                  (click)="onModalOpen.emit('modal_accounts_select-account-manager')">
-                  <fa name="pencil-square"></fa>
-                </button>
-              </div>
-            </ng-container>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="d-flex flex-row justify-content-between align-items-center">
+            <h4 class="text-muted font-weight-light mb-0">Kontaktpersoner</h4>
+            <span class="ml-2 text-muted" tooltip="Kontaktuppgifter till personer inom företaget/sekundära kontaktuppgifter" container="body">
+              <fa name="info-circle"></fa>
+            </span>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-md-12">
-            <div class="d-flex flex-row justify-content-between p-2 bg-light mb-2">
-              <div class="d-flex flex-row align-items-center">
-                <h5 class="text-muted mb-0">Kontaktpersoner</h5>
-                <span class="ml-2 text-muted" tooltip="Kontaktuppgifter till personer inom företaget/sekundära kontaktuppgifter" container="body">
-                  <fa name="info-circle"></fa>
-                </span>
-              </div>
-
-              <button type="button" (click)="onModalOpen.emit('modal_accounts_addPersonOfInterest')" class="btn btn-link btn-sm" role="button">
-                <fa name="plus"></fa>
-              </button>
+          <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
+            <div *ngFor="let person of account.peopleOfInterest" class="mb-2">
+              <ccrm-sales-accounts-person-of-interest [account]="account" [person]="person" (onPersonDeleted)="onPersonDeleted($event)">
+              </ccrm-sales-accounts-person-of-interest>
             </div>
-
-            <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
-              <div *ngFor="let person of account.peopleOfInterest" class="mb-2">
-                <ccrm-sales-accounts-person-of-interest [account]="account" [person]="person" (onPersonDeleted)="onPersonDeleted($event)">
-                </ccrm-sales-accounts-person-of-interest>
-              </div>
-            </ng-container>
-          </div>
+          </ng-container>
         </div>
       </div>
     </div>
   </div>
 </ng-container>
 
+<div #actionBar class="action-bar-wrapper">
+  <button
+    type="button"
+    class="btn btn-link action-bar-item"
+    [class.disabled]="composeLog.Open"
+    (click)="composeLog.open()"><span class="text-light">+</span> <fa name="sticky-note"></fa> Händelse</button>
+
+  <button
+    type="button"
+    class="btn btn-link action-bar-item"
+    (click)="onModalOpen.emit('modal_accounts_addPersonOfInterest')"><span class="text-light">+</span> <fa name="address-card"></fa> Kontakt</button>
+</div>
+
 <modal-container id="modal_accounts_addPersonOfInterest" [state]="modalOpen$">
   <ccrm-accounts-add-person-of-interest [account]="account" (onSaved)="onPersonOfInterestAdded.emit($event)" (onClosed)="onModalOpen.emit(null)"></ccrm-accounts-add-person-of-interest>
 </modal-container>
 
 <modal-container id="modal_accounts_select-account-manager" [state]="modalOpen$">
-    <ccrm-select-user [users]="users" title="Välj kundansvarig"
+    <ccrm-select-user [users]="users" [multiple]="false" header="Välj kundansvarig"
       (onUsersSelected)="onAccountManagerSelected($event)"
       (onClosed)="onModalOpen.emit(null)"></ccrm-select-user>
 </modal-container>

@@ -16,7 +16,7 @@ import { AuthenticationGuard } from './router/authentication.guard';
 import { UsersService } from './users/users.service';
 import { ClientService, ClientServiceInitFactory } from '../clients/client.service';
 
-import { AuthHttp } from 'angular2-jwt';
+import { AuthHttp, JwtHelper } from 'angular2-jwt';
 import { AuthHttpExtended, authHttpExtendedFactory } from './authentication/auth-http-extended';
 
 import { TabDirective } from './ui/directives/tab';
@@ -59,7 +59,7 @@ import { NavbarComponent, NavbarItemDirective } from 'app/common-ui/navbar';
         
     ],
     providers: [
-        
+        JwtHelper
     ],
     exports: [
         ModalModule,

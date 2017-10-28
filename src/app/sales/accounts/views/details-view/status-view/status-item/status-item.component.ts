@@ -9,6 +9,7 @@ import { UserTask } from 'app/user-tasks/user-task/user-task';
 import { SlideDownTransitionAnimation } from 'app/common/ui/animations/route-transition.animation';
 
 export const STATUS_MESSAGE_TRIMMED_MAX_LENGTH = 64;
+export const STATUS_MESSAGE_TRIMMED_MARGIN_LENGTH = 16;
 
 @Component({
     selector: 'ccrm-sales-accounts-status-item',
@@ -105,8 +106,13 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.status && this.status.messageBody && noTrim !== true) {
             var statusWords = this.status.messageBody.split(' ');
 
-            if (statusWords.length >= STATUS_MESSAGE_TRIMMED_MAX_LENGTH)
+            if (statusWords.length >= STATUS_MESSAGE_TRIMMED_MAX_LENGTH) {
+              if (statusWords.length - STATUS_MESSAGE_TRIMMED_MAX_LENGTH >= STATUS_MESSAGE_TRIMMED_MARGIN_LENGTH) {
                 return `${statusWords.splice(0, STATUS_MESSAGE_TRIMMED_MAX_LENGTH).join(' ')}...`;
+              } else {
+                return this.status.messageBody;
+              }
+            }
         }
 
         return this.status.messageBody;
@@ -116,7 +122,13 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
         if(this.status && this.status.messageBody) {
             var statusWordLength = this.status.messageBody.split(' ').length;
 
-            return statusWordLength >= STATUS_MESSAGE_TRIMMED_MAX_LENGTH;
+            if (statusWordLength >= STATUS_MESSAGE_TRIMMED_MAX_LENGTH) {
+              if (statusWordLength - STATUS_MESSAGE_TRIMMED_MAX_LENGTH >= STATUS_MESSAGE_TRIMMED_MARGIN_LENGTH) {
+                return true;
+              } else {
+                return false;
+              }
+            }
         }
 
         return null;
