@@ -5,9 +5,8 @@ import { trigger, state, style, animate, transition, keyframes } from '@angular/
 @Component({
     selector: 'ccrm-vertical-nav-item',
     templateUrl: './vertical-nav-item.component.html',
-    styles: [
-        `
-        `
+    styleUrls: [
+        './vertical-nav-item.component.scss'
     ],
     animations: [
         trigger('v-itemTransition', [

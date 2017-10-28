@@ -1,4 +1,8 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/delay';
+
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, EventEmitter, ElementRef } from '@angular/core';
 import { AuthenticationService } from 'app/common/authentication';
 import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
 
@@ -10,41 +14,56 @@ import * as Auth0 from 'auth0-js';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-    selector: 'ccrm-root',
-    animations: [
-        RouteTransitionAnimation
-    ],
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+  selector: 'ccrm-root',
+  animations: [
+    RouteTransitionAnimation
+  ],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
-    userProfile: Auth0.Auth0UserProfile = null;
-    routeItems: CustomRoute[] = [];
+  userProfile: Auth0.Auth0UserProfile = null;
+  routeItems: CustomRoute[] = [];
 
-    private onUserAuthenticated: Subscription;
+  @ViewChild('navMain') navigationBar: ElementRef;
 
-    constructor(private router: Router, private client: ClientService, private authService: AuthenticationService) { }
+  onNavigationItemClicked$: EventEmitter<any> = new EventEmitter();
 
-    ngOnInit() {
-        if (this.authService.isAuthenticated()) {
-            this.authService.getProfile().subscribe(profile => this.userProfile = profile);
-        }
+  private onUserAuthenticated: Subscription;
 
-        this.onUserAuthenticated = this.authService.onAuthenticatedHandler.subscribe(profile => {
-            this.userProfile = profile;
-        });
+  constructor(private router: Router, private client: ClientService, private authService: AuthenticationService) { }
 
-        this.router.config.forEach((route: CustomRoute) => {
-            if (route.mainNav && this.routeItems.indexOf(route) === -1) {
-                this.routeItems.push(route);
-            }
-        });
+  ngOnInit() {
+    if (this.authService.isAuthenticated()) {
+      this.authService.getProfile().subscribe(profile => this.userProfile = profile);
     }
 
-    ngAfterViewInit() {
-    }
+    this.onUserAuthenticated = this.authService.onAuthenticatedHandler.subscribe(profile => {
+      this.userProfile = profile;
+    });
 
-    ngOnDestroy() {
-        this.onUserAuthenticated.unsubscribe();
+    this.router.config.forEach((route: CustomRoute) => {
+      if (route.mainNav && this.routeItems.indexOf(route) === -1) {
+        this.routeItems.push(route);
+      }
+    });
+
+    this.onNavigationItemClicked$.delay(250).subscribe(() => {
+      this.onNavigationItemClicked();
+    });
+  }
+
+  ngAfterViewInit() {
+    
+  }
+
+  onNavigationItemClicked() {
+    if (this.navigationBar.nativeElement.classList.contains('show')) {
+      this.navigationBar.nativeElement.classList.remove('show');
     }
+  }
+
+  ngOnDestroy() {
+    this.onUserAuthenticated.unsubscribe();
+  }
 }

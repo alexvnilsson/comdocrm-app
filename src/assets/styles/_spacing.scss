@@ -1,0 +1,13 @@
+@include media-breakpoint-down(sm) {
+  .col-gutter {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .col-gutter {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}

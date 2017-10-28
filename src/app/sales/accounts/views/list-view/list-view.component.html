@@ -1,5 +1,5 @@
-<div class="d-flex flex-row" style="flex: 1;">
-    <div class="p-2" style="flex: 0.25">
+<div class="row" style="flex: 1;">
+    <div class="col-sm-4 p-2">
         <button
           type="button"
           role="button"
@@ -15,7 +15,7 @@
         </ccrm-vertical-nav>
     </div>
 
-    <div class="p-2" style="flex: 0.75">
+    <div class="col-sm-8 p-2">
         <ccrm-nav-view [ref]="vItemMyContacts">
             <div class="list-group" *ngIf="accountsMine && accountsMine.length > 0">
                 <a

@@ -1,20 +1,20 @@
-<div class="d-flex flex-row align-items-center p-2">
-  <button type="button" class="btn btn-link btn-sm" role="button" routerLink="/sales/accounts">
-    <fa name="caret-left"></fa> Kontakter</button>
-  <h4 class="mb-0 ml-3">{{ account?.customer?.legalName }}</h4>
+<div class="d-flex flex-row align-items-center">
+  <button type="button" class="btn btn-link btn-sm mb-2" role="button" routerLink="/sales/accounts">
+    <fa name="caret-left"></fa> Kontakter
+  </button>
 </div>
 
 <ng-container *ngIf="account">
+  <h4 class="mb-0">{{ account.customer?.legalName }}</h4>
+
   <div class="container-fluid">
     <div class="row">
-      <div class="col-8 bg-white pl-0 pr-0">
-        <div class="pl-4 pr-4">
-          <ccrm-sales-accounts-status-composer-log [isOpen]="composeLog.Open" [account]="account" (onSaved)="onStatusAdded.emit($event)"
-            (onClosed)="composeLog.close()">
-          </ccrm-sales-accounts-status-composer-log>
-        </div>
+      <div class="col-sm-8 bg-white col-gutter">
+        <ccrm-sales-accounts-status-composer-log [isOpen]="composeLog.Open" [account]="account" (onSaved)="onStatusAdded.emit($event)"
+          (onClosed)="composeLog.close()">
+        </ccrm-sales-accounts-status-composer-log>
 
-        <div class="pl-4 pr-4 mt-2">
+        <div class="mt-2">
           <h6 class="mb-0 font-weight-light text-muted">Flöde</h6>
 
           <div class="bg-light d-flex flex-row justify-content-center mt-2 mb-2 p-2">
@@ -37,10 +37,12 @@
         </div>
       </div>
 
-      <div class="col-4 pl-4 pr-4 pt-3" style="border-left: 1px solid #d8d8d8">
+      <div class="col-sm-4 col-gutter border-sm-0" style="border-left: 1px solid #d8d8d8">
         <div class="row mb-3">
           <div class="col-12">
-            <h5 class="text-muted">Ansvarig</h5>
+            <div class="p-2 bg-light">
+              <h5 class="text-muted mb-0">Ansvarig</h5>
+            </div>
 
             <ng-container *ngIf="!account.manager?.user">
               <button
@@ -67,15 +69,15 @@
 
         <div class="row">
           <div class="col-md-12">
-            <div class="d-flex flex-row justify-content-between mb-2">
-              <div class="d-flex flex-row">
-                <h5 class="text-muted">Kontaktpersoner</h5>
+            <div class="d-flex flex-row justify-content-between p-2 bg-light mb-2">
+              <div class="d-flex flex-row align-items-center">
+                <h5 class="text-muted mb-0">Kontaktpersoner</h5>
                 <span class="ml-2 text-muted" tooltip="Kontaktuppgifter till personer inom företaget/sekundära kontaktuppgifter" container="body">
                   <fa name="info-circle"></fa>
                 </span>
               </div>
 
-              <button (click)="onModalOpen.emit('modal_accounts_addPersonOfInterest')" class="btn btn-outline-primary btn-sm" role="button">
+              <button type="button" (click)="onModalOpen.emit('modal_accounts_addPersonOfInterest')" class="btn btn-link btn-sm" role="button">
                 <fa name="plus"></fa>
               </button>
             </div>

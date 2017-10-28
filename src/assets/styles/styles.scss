@@ -7,6 +7,8 @@ html, body {
     height: 100%;
 
     cursor: default;
+
+    touch-action: manipulation;
 }
 
 body {
@@ -60,3 +62,4 @@ body {
 @import 'position';
 @import 'transitions';
 @import 'borders';
+@import 'spacing';

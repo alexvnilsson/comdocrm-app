@@ -1,39 +1,43 @@
 <div class="workspace-wrapper">
-    <nav class="navbar navbar-expand-md navbar-light bg-light navbar-main d-flex flex-column">
-        <div class="d-flex flex-row">
-            <button class="navbar-toggler border-0 align-self-center pt-0 pb-0 mr-3" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-                aria-expanded="false" aria-label="Öppna/stäng navigation">
-                <fa name="bars" size="1x"></fa>
-            </button>
+  <nav class="navbar navbar-expand-md navbar-light bg-light navbar-main">
+    <button class="navbar-toggler border-0 align-self-start mr-auto pt-0 pb-0" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Öppna/stäng navigation">
+      <fa name="bars" size="1x"></fa>
+    </button>
 
-            <a class="navbar-brand display-4 pt-0 pb-0 mb-3 align-self-center d-flex flex-column justify-content-center" routerLink="/">
-                <img src="assets/media/brand.svg" alt="ComdoCRM brand" width="48px" />
-                <h5 class="ml-2 mb-0 font-weight-light">ComdoCRM</h5>
-            </a>
-        </div>
+    <a class="navbar-brand display-4 pt-0 pb-0" routerLink="/">
+      <img src="assets/media/brand.svg" alt="ComdoCRM brand" width="48px" />
+      <h5 class="ml-2 mb-0 font-weight-light">ComdoCRM</h5>
+    </a>
 
-        <div class="container">
-          <div class="collapse navbar-collapse align-self-center" id="navbarNav">
-              <div class="hidden-lg-up mt-4"></div>
+    <div #navMain class="collapse navbar-collapse align-self-end" id="navbarNav">
+      <div class="navbar-header">
+        <button class="navbar-toggler border-0 pt-0 pb-0 d-sm-block d-md-none" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Öppna/stäng navigation">
+          <fa name="times" size="1x"></fa>
+        </button>
+      </div>
 
-              <ul class="nav nav-pills mr-auto">
-                  <li class="nav-item align-self-start" *ngFor="let route of routeItems">
-                      <a navItem class="nav-link" routerLinkActive="active" [routerLink]="route.href" role="button">
-                          <i *ngIf="route.faIcon" aria-hidden="true" [class]="'fa fa-' + route.faIcon + ' nav-link-icon'"></i> <span class="ml-2">{{ route.text }}</span>
-                      </a>
-                  </li>
-              </ul>
+      <div class="hidden-lg-up mt-4"></div>
 
-              <div>
-                  <!-- Right-hand content -->
-              </div>
-          </div>
-        </div>
-    </nav>
+      <ul class="nav nav-pills mr-auto">
+        <li class="nav-item align-self-start" *ngFor="let route of routeItems" (click)="onNavigationItemClicked$.emit(null)">
+          <a navItem class="nav-link" routerLinkActive="active" [routerLink]="route.href" role="button">
+            <i *ngIf="route.faIcon" aria-hidden="true" [class]="'fa fa-' + route.faIcon + ' nav-link-icon'"></i>
+            <span class="ml-2">{{ route.text }}</span>
+          </a>
+        </li>
+      </ul>
 
-    <div class="container mt-2">
-      <router-outlet></router-outlet>
+      <div>
+        <!-- Right-hand content -->
+      </div>
     </div>
+  </nav>
+
+  <div class="container mt-2">
+    <router-outlet></router-outlet>
+  </div>
 </div>
 
 <router-outlet name="account"></router-outlet>
