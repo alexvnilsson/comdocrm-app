@@ -5,11 +5,15 @@
 </div>
 
 <ng-container *ngIf="account">
-  <h4 class="mb-0">{{ account.customer?.legalName }}</h4>
-
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-8 bg-white col-gutter">
+      <div class="col-md-12">
+        <h4>{{ account.customer?.legalName }}</h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-8 bg-white">
         <ccrm-sales-accounts-status-composer-log [isOpen]="composeLog.Open" [account]="account" (onSaved)="onStatusAdded.emit($event)"
           (onClosed)="composeLog.close()">
         </ccrm-sales-accounts-status-composer-log>
@@ -37,7 +41,7 @@
         </div>
       </div>
 
-      <div class="col-sm-4 col-gutter border-sm-0" style="border-left: 1px solid #d8d8d8">
+      <div class="col-sm-4 border-sm-0" style="border-left: 1px solid #d8d8d8">
         <div class="row mb-3">
           <div class="col-12">
             <div class="p-2 bg-light">

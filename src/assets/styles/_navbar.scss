@@ -1,11 +1,21 @@
 @import "../../../node_modules/bootstrap/scss/mixins/breakpoints";
 
+$nav-transition-duration: 250ms;
+
+$nav-mobile-wrapper-backdrop-opacity: 0.66;
 $nav-mobile-wrapper-bg-color: #fafafa;
 $nav-mobile-wrapper-border-color: #d8d8d8;
+
+$nav-mobile-wrapper-width: 75%;
 
 $nav-item-bg-color: #f8f8f8;
 $nav-item-hover-bg-color: #1565c0;
 $nav-item-active-bg-color: #e8e8e8;
+
+
+.navbar-backdrop {
+  display: none;
+}
 
 .navbar-main {
   display: flex;
@@ -77,10 +87,10 @@ $nav-item-active-bg-color: #e8e8e8;
     #navbarNav {
       position: fixed;
       top: 0px;
-      width: 75%;
+      width: $nav-mobile-wrapper-width;
       bottom: 0px;
 
-      transition: 250ms;
+      transition: all $nav-transition-duration ease-in-out;
 
       background-color: $nav-mobile-wrapper-bg-color;
       border-right: 1px solid $nav-mobile-wrapper-border-color;
@@ -98,11 +108,20 @@ $nav-item-active-bg-color: #e8e8e8;
       &:not(.show) {
         left: -50%;
         opacity: 0;
+
+        & > .navbar-backdrop {
+          opacity: 0;
+        }
       }
 
       &.show {
         left: 0px;
         opacity: 1.0;
+
+        & > .navbar-backdrop {
+          display: block;
+          opacity: $nav-mobile-wrapper-backdrop-opacity;
+        }
       }
 
       .nav {
@@ -121,6 +140,22 @@ $nav-item-active-bg-color: #e8e8e8;
             }
           }
         }
+      }
+
+      .navbar-backdrop {
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: $nav-mobile-wrapper-width;
+    
+        background-color: #222;
+    
+        opacity: 0;
+    
+        transition: $nav-transition-duration * 2 !important;
+    
+        z-index: 98;
       }
     }
   }
