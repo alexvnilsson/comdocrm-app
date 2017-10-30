@@ -81,7 +81,7 @@ export class AccountDateOfInterest {
 }
 
 export class AccountStatus {
-    accountId?: string;
+    accountAlias?: string;
     id?: string;
     publishedBy?: User;
     isDelayed?: boolean;

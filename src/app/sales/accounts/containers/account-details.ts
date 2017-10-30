@@ -6,9 +6,11 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from 'app/app.store';
-import * as accountsStore from '../store/accounts';
+import * as fromAccounts from '../store/accounts/accounts.reducer';
 import * as usersStore from 'app/common/users/store';
 import { Account } from '../models/accounts';
+
+import * as accountActions from '../store/accounts/accounts.actions';
 
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -30,10 +32,10 @@ export class AccountDetailsContainer implements OnInit, OnDestroy {
       private route: ActivatedRoute) {}
 
     ngOnInit() {
-        this.actionsSubscription = this.route.params
-            .select<string>('slug')
-            .map(alias => new accountsStore.actions.SelectAction(alias))
-            .subscribe(this.store);
+      this.actionsSubscription = this.route.params
+        .select<string>('slug')
+        .map(alias => this.store.dispatch(new accountActions.SelectAction(alias)))
+        .subscribe(() => this.store);
 
         this.users$ = this.userStore.select(usersStore.fromUsers.all);
     }

@@ -6,7 +6,7 @@ import { Observable } from "rxjs/Observable";
 import { Store } from "@ngrx/store";
 
 import * as fromRoot from 'app/app.store';
-import * as accountsStore from 'app/sales/accounts/store/accounts';
+import * as fromAccounts from 'app/sales/accounts/store/accounts/accounts.reducer';
 import { Router } from "@angular/router";
 
 @Component({
@@ -25,7 +25,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.accounts$ = this.store$
         .select(fromRoot.accountsState)
-        .select(accountsStore.fromAccounts.allEntities)
+        .select(fromAccounts.allaccounts)
         .map(a => 
             a.filter(_a => _a.isManager));
     }

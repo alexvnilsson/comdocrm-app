@@ -15,14 +15,22 @@ import { select } from '@ngrx/core';
 
 export interface State {
     loading: boolean;
-    entities: Account[];
-    selectedAccount: string | null;
+    
+    accounts: Account[];
+    statuses: AccountStatus[];
+    peopleOfInterest: AccountPersonOfInterest[];
+
+    selectedAccount: string;
 }
 
 export const initialState: State = {
-    loading: null,
-    entities: [],
-    selectedAccount: null
+  loading: null,
+  
+  accounts: [],
+  statuses: [],
+  peopleOfInterest: [],
+
+  selectedAccount: null
 };
 
 export function reducer(state = initialState, action: accountsStore.AccountsActions) {
@@ -35,13 +43,13 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
 
         case accountsStore.ActionTypes.LOAD_SUCCESS: {
             const accounts: Account[] = action.payload as Account[];
-            const newAccounts = accounts.filter(account => !state.entities[account.alias]);
+            const newAccounts = accounts.filter(account => !state.accounts[account.alias]);
 
-            return {
-                entities: [ ...state.entities, ...newAccounts ],
+            return Object.assign({}, state, {
+                accounts: [ ...state.accounts, ...newAccounts ],
                 selectedAccount: state.selectedAccount,
                 loading: false
-            };
+            });
         }
 
         case accountsStore.ActionTypes.SELECT: {
@@ -50,11 +58,42 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
             });
         }
 
+        case accountsStore.ActionTypes.LOAD_DETAILS_RESULT: {
+          if (action && action.payload) {
+            let account: Account = action.payload;
+
+            let accountsUpdated = state.accounts.map(a => {
+              if (account.id === a.id) {
+                return account;
+              } else {
+                return a;
+              }
+            });
+
+            return Object.assign({}, state, {
+              accounts: accountsUpdated
+            });
+          } else {
+            return state;
+          }
+        }
+
+        case accountsStore.ActionTypes.LOAD_STATUSES_RESULT: {
+          if (action && action.payload) {
+            let statuses: AccountStatus[] = action.payload;
+            let newStatuses = statuses.filter(s => !state.statuses[s.id]);
+
+            return Object.assign({}, state, {
+              statuses: [ ...state.statuses, ...newStatuses ]
+            });
+          }
+        }
+
         case accountsStore.ActionTypes.ADD_RESULT: {
             if(action instanceof accountsStore.AddResult) {
                 if(action.payload && action.payload.success) {
                     return Object.assign({}, state, {
-                        entities: state.entities.concat(action.payload.account)
+                        accounts: state.accounts.concat(action.payload.account)
                     })
                 }
             }
@@ -66,17 +105,16 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
             }
             else if (action.payload instanceof Account) {
                 return Object.assign({}, state, {
-                    entities: state.entities.map(account => account.id === action.payload.id ? action.payload : account)
+                    accounts: state.accounts.map(account => account.id === action.payload.id ? action.payload : account)
                 })
             }
         }
 
         case accountsStore.ActionTypes.IMPORT_RESULT: {
             if(action instanceof accountsStore.ImportResult) {
-                console.log(action);
                 if(action.payload && action.payload.account && action.payload.lead) {
                     return Object.assign({}, state, {
-                        entities: state.entities.concat(action.payload.account)
+                        accounts: state.accounts.concat(action.payload.account)
                     })
                 }
             }
@@ -85,7 +123,7 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
         case accountsStore.ActionTypes.UPDATE_MANAGER_RESULT: {
             if(action.payload.account && action.payload.user) {
                 return Object.assign({}, state, {
-                    entities: state.entities.map(account => account.id === action.payload.account.id ?
+                    accounts: state.accounts.map(account => account.id === action.payload.account.id ?
                         Object.assign({}, account, {
                             manager: {
                                 user: action.payload.user,
@@ -105,7 +143,7 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
 
             if(action.payload.status && action.payload.success) {
                 return Object.assign({}, state, {
-                    entities: state.entities.map(account => account.id === action.payload.account.id ? 
+                    accounts: state.accounts.map(account => account.id === action.payload.account.id ? 
                         Object.assign({}, account, {
                             dateModified: new Date(),
                             statuses: account.statuses.concat(Object.assign({}, action.payload.status, {
@@ -122,11 +160,11 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
 
         case accountsStore.ActionTypes.DELETE_STATUS_RESULT: {
             if(!action.payload.account)
-                throw 'No workign Account has been sleected.';
+                throw 'No working Account has been sleected.';
 
             if(action.payload.status && action.payload.success) {
                 return Object.assign({}, state, {
-                    entities: state.entities.map(account => account.id === action.payload.account.id ?
+                    accounts: state.accounts.map(account => account.id === action.payload.account.id ?
                         Object.assign({}, account, {
                             statuses: account.statuses.filter(status => status.id !== action.payload.status.id).sort((a, b) => b.publicationDate < a.publicationDate ? -1 : 1)
                         })
@@ -140,13 +178,13 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
             if(!action.payload.account)
                 throw 'No working Account has been selected.';
 
-            let account = state.entities.find(account => account.id === action.payload.account.id);
+            let account = state.accounts.find(account => account.id === action.payload.account.id);
 
             if(!account)
                 throw 'Account was not found.';
 
             return Object.assign({}, state, {
-                entities: state.entities.map(account => 
+                accounts: state.accounts.map(account => 
                     account.id == action.payload.account.id
                         ? Object.assign({}, account, {
                             dateModified: new Date(),
@@ -160,7 +198,7 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
             if(!action.payload.account)
                 throw 'No working Account has been selected.';
 
-            let account = state.entities.find(account => account.id == action.payload.account.id);
+            let account = state.accounts.find(account => account.id == action.payload.account.id);
 
             if (!account)
                 throw 'Account was not found.';
@@ -171,7 +209,7 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
             let removePersonOfInterest = account.peopleOfInterest.filter(person => person.id !== action.payload.person.id);
 
             return Object.assign({}, state, {
-                entities: state.entities.map(account => account.id == action.payload.account.id ?
+                accounts: state.accounts.map(account => account.id == action.payload.account.id ?
                     Object.assign({}, account, { peopleOfInterest: removePersonOfInterest })
                     : account)
             });
@@ -186,7 +224,7 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
 
             if(action.payload.success) {
                 return Object.assign({}, state, {
-                    entities: state.entities.map(account => account.id == action.payload.account.id ?
+                    accounts: state.accounts.map(account => account.id == action.payload.account.id ?
                         Object.assign({}, account, {
                             statuses: 
                                 account.statuses.map(status => status.id == action.payload.status.id ?
@@ -215,7 +253,7 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
                 let deleteUserTask = status.userTasks.filter(userTask => userTask.id != action.payload.userTask.id);
 
                 return Object.assign({}, state, {
-                    entities: state.entities.map(account => account.id == action.payload.account.id ?
+                    accounts: state.accounts.map(account => account.id == action.payload.account.id ?
                         Object.assign({}, account, { 
                             statuses:
                                 account.statuses.map(status => status.id == action.payload.status.id ?
@@ -236,12 +274,18 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
     }
 }
 
-export const allEntities = (state: State) => state.entities;
+export const allaccounts = (state: State) => state.accounts;
+
+export const statuses = (state: State) => state.statuses;
 
 export const selectedAlias = (state: State) => state.selectedAccount;
 
-export const selected = createSelector(allEntities, selectedAlias, (entities, selectedAlias) => {
-    return entities.find(account => account.alias == selectedAlias) || null;
+export const selected = createSelector(allaccounts, selectedAlias, (accounts, selectedAlias) => {
+  return accounts.filter(account => account.alias == selectedAlias)[0] || null;
+});
+
+export const statusesOfSelected = createSelector(statuses, selectedAlias, (statuses, selectedAlias) => {
+  return statuses.filter(s => s.accountAlias === selectedAlias) || null;
 });
 
 export const getLoading = (state: State) => state.loading;

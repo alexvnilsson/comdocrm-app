@@ -8,9 +8,11 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from 'app/app.store';
-import * as fromAccounts from '../store/accounts';
+import * as fromAccounts from '../store/accounts/accounts.reducer';
 import * as fromAccountLeads from '../store/accounts/leads';
 import * as fromUsers from 'app/common/users/store';
+
+import * as accountActions from '../store/accounts/accounts.actions';
 
 import { Account, AccountLead } from '../models/accounts';
 import * as fromLayout from 'app/common-ui/layout/layout.reducers';
@@ -50,15 +52,15 @@ export class AccountsListContainer implements OnInit, OnDestroy {
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
-    this.store.dispatch(new fromAccounts.actions.SelectAction(null));
+    this.store.dispatch(new accountActions.SelectAction(null));
 
     this.profile$ = this.store.select(fromRoot.usersState).select(fromUsers.fromUsers.profile);
 
-    this.accounts$ = Observable.from(this.store.select(fromRoot.getAccountsAll)).map(accounts =>
+    this.accounts$ = Observable.from(this.store.select(fromRoot.accountsState).select(fromAccounts.allaccounts).map(accounts =>
       accounts
         .slice()
         .sort((a, b) => (b.dateModified < a.dateModified ? -1 : 1))
-    );
+    ));
 
     this.accountsMine$ = this.accounts$.mergeMap(a => 
       this.profile$.map(p => 
@@ -101,7 +103,7 @@ export class AccountsListContainer implements OnInit, OnDestroy {
       }
     });
 
-    this.loading$ = this.store.select(fromRoot.getAccountsLoading);
+    this.loading$ = this.store.select(fromRoot.accountsState).select(fromAccounts.getLoading);
 
     this.modalOpen$ = this.store
       .select(fromRoot.layoutState)
@@ -110,7 +112,7 @@ export class AccountsListContainer implements OnInit, OnDestroy {
 
   onAccountImported(account: Account) {
     if (account) {
-      this.store.dispatch(new fromAccounts.actions.ImportAction(account));
+      this.store.dispatch(new accountActions.ImportAction(account));
     }
   }
 

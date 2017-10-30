@@ -41,6 +41,7 @@ import * as usersStore from 'app/common/users/store';
 })
 export class DetailsViewComponent implements OnInit, OnDestroy {
     @Input() account: Account;
+    @Input() statuses: Array<AccountStatus>;
     @Input() users: Array<User>;
     @Input() modalOpen$: string;
 

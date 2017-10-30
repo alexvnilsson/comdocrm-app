@@ -87,7 +87,7 @@ export class AccountsService {
                 if(account) {
                     observer.next(account);
                 }
-            }, (error: any) => { observer.error(error); });
+            }, (error: any) => observer.error(error));
         });
     }
 
@@ -97,6 +97,18 @@ export class AccountsService {
 
     getByAlias(alias: string): Observable<Account> {
         return this.getByAny(alias);
+    }
+
+    getStatuses(alias: string): Observable<Array<AccountStatus>> {
+      return new Observable(observer => {
+        this.http.get(`${this.baseAddr}/accounts/${alias}/statuses`)
+        .map(res => res.json() as Array<AccountStatus> || null)
+        .subscribe(people => {
+          if (people && people.length > 0) {
+            observer.next(people);
+          } 
+        }, (error: any) => observer.error(error));
+      });
     }
 
     getByStatus(statusId: string): Observable<Account> {

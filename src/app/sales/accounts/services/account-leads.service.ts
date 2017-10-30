@@ -43,7 +43,8 @@ export class AccountLeadsService {
 
     getAll(): Observable<Array<Account>> {
         return this.http.get(`${this.baseAddr}/leads`)
-                .map(res => res.json() as Account[] || null);
+          .filter(res => res.text().length > 0)
+          .map(res => res.json() as Account[] || null);
     }
 
     getByAny(accountQuery: string, open?: boolean): Observable<Account> {

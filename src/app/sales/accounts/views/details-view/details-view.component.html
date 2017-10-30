@@ -18,12 +18,12 @@
       </ccrm-sales-accounts-status-composer-log>
 
       <div class="mt-2">
-        <ng-container *ngIf="account.statuses">
-          <ccrm-sales-accounts-status-item *ngFor="let status of account.statuses" [account]="account" [status]="status" (onStatusDeleted)="onStatusDeleted.emit($event)"
+        <ng-container *ngIf="statuses">
+          <ccrm-sales-accounts-status-item *ngFor="let status of statuses" [account]="account" [status]="status" (onStatusDeleted)="onStatusDeleted.emit($event)"
             (onUserTaskAdded)="onUserTaskAdded.emit($event)" (onUserTaskDeleted)="onUserTaskDeleted.emit($event)"></ccrm-sales-accounts-status-item>
         </ng-container>
 
-        <ng-container *ngIf="!account.statuses.length">
+        <ng-container *ngIf="!statuses.length">
           <h2 class="display-4 text-muted align-self-center text-center mt-3">...</h2>
         </ng-container>
       </div>

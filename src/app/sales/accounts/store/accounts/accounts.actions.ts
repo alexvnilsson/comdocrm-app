@@ -13,6 +13,8 @@ export const ActionTypes = {
 
     SELECT: 'ACCOUNTS_SELECT',
 
+    LOAD_DETAILS_RESULT: 'ACCOUNTS_LOAD_DETAILS_RESULT',
+
     UPDATE: 'ACCOUNTS_UPDATE',
 
     IMPORT: 'ACCOUNTS_IMPORT',
@@ -52,6 +54,12 @@ export class SelectAction implements Action {
     constructor(public payload: string) {}
 }
 
+export class LoadDetailsResult implements Action {
+  readonly type = ActionTypes.LOAD_DETAILS_RESULT;
+
+  constructor(public payload: Account) {}
+}
+
 export class LoadSuccessAction implements Action {
     readonly type = ActionTypes.LOAD_SUCCESS;
 
@@ -61,10 +69,10 @@ export class LoadSuccessAction implements Action {
 export class LoadStatusesAction implements Action {
     readonly type = ActionTypes.LOAD_STATUSES;
 
-    constructor(public payload: null) {}
+    constructor(public payload: string) {}
 }
 
-export class LoadStatusesResultAction implements Action {
+export class LoadStatusesResult implements Action {
     readonly type = ActionTypes.LOAD_STATUSES_RESULT;
 
     constructor(public payload: AccountStatus[]) {}
