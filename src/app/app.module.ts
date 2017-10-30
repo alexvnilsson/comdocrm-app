@@ -28,7 +28,7 @@ import * as productsStore from 'app/sales/products/store';
 import { AuthenticationModule, AuthenticationService, AuthHttpExtended, authHttpExtendedFactory } from 'app/common/authentication';
 import { AuthHttp } from 'angular2-jwt';
 
-import { SalesModule } from 'app/sales';
+import { AccountsModule } from 'app/sales/accounts/accounts.module';
 import { UserTasksModule } from 'app/user-tasks';
 
 import { AccountsService } from './sales/accounts/services';
@@ -70,7 +70,6 @@ import { AppRoutes } from './app.routes';
     declarations: [
         AppComponent,
         DashboardComponent,
-        DashboardViewComponent,
         CallbackComponent
     ],
     providers: [

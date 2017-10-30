@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 
+import { NavigationState } from './states/navigation';
+
 export const LayoutActionTypes = {
     OPEN_MODAL: 'LAYOUT_OPEN_MODAL',
     CLOSE_MODAL: 'LAYOUT_CLOSE_MODAL'

@@ -24,7 +24,7 @@
                             maxlength="128"
                             class="form-control"
                             i18n-placeholder
-                            placeholder="Kort sammanfattning"
+                            placeholder="Rubrik"
                             [(ngModel)]="status.messageHeader"
                             name="headerText"
                             autocomplete="off"/>
@@ -42,6 +42,7 @@
                                 minlength="8"
                                 maxlength="1024"
                                 class="form-control input-text-resize-none"
+                                rows="8"
                                 i18n-placeholder
                                 placeholder="Detaljer om händelsen"
                                 [(ngModel)]="status.messageBody"

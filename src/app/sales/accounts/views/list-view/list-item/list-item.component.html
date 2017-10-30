@@ -1,15 +1,13 @@
-<div class="card card-block">
-    <h4 class="card-title mb-1">{{ account.customer?.legalName }}</h4>
+<div class="account-list-item d-flex flex-row flex-wrap w-100 justify-content-between">
+  <h6 class="mb-1">
+    {{ account.customer?.legalName || "Okänt" }}
+  </h6>
 
-    <p class="card-text mb-3">
-        <span class="mb-2 small text-muted" tooltip="Senast uppdaterad">
-            <ng-container *ngIf="account.dateModified">
-                <fa name="clock-o"></fa> {{ account.dateModified | date }}
-            </ng-container>
-        </span>
+  <span class="small text-muted">{{ account.dateModified | amCalendar }}</span>
+</div>
 
-        <span *ngIf="account.manager?.isMe" class="badge badge-primary">Hanteras av mig</span>
-    </p>
-
-    <a href="#" class="card-link" role="button" (click)="clickAccount()">Öppna</a>
+<div class="d-flex flex-row justify-space-between">
+  <div class="small">
+    <span class="text-muted">Kundansvarig</span> {{ account.manager?.user?.fullName || "Inte tilldelad" }}
+  </div>
 </div>

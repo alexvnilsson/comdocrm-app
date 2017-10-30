@@ -1,6 +1,6 @@
 <ng-container *ngIf="lead">
   <div class="modal-header">
-    <h5 class="modal-title" i18n>Importera kontakt</h5>
+    <h5 class="modal-title" i18n>Försäljnings-/kundförslag</h5>
     <button type="button" class="close" (click)="onClosed.emit()" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -54,11 +54,11 @@
   </div>
 
   <div class="modal-footer">
-    <button [@fadeInOut] *ngIf="!lead.isImported" class="btn btn-link" role="button" (click)="onImported.emit(lead)">
-      Importera</button>
+    <button [@fadeInOut] *ngIf="!lead.isImported" class="btn btn-primary" role="button" (click)="onImported.emit(lead)">
+      Påbörja</button>
 
     <span [@fadeInOut] *ngIf="lead.isImported" class="text-success">
-      Importerad</span>
+      Påbörjad</span>
   </div>
 
 </ng-container>

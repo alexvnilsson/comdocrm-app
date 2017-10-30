@@ -9,6 +9,8 @@ import { DatepickerModule, ModalModule, TooltipModule, PopoverModule, BsDropdown
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { FormsModule } from '@angular/forms';
 
+import { LayoutService } from './layout/layout.service';
+
 import { TabsComponent } from './tabs/tabs.component';
 import { TabComponent } from './tabs/tab.component';
 
@@ -89,7 +91,7 @@ export class CommonUiModule {
         return {
             ngModule: CommonUiModule,
             providers: [
-
+              LayoutService
             ]
         };
     }

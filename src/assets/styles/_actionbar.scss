@@ -1,12 +1,12 @@
-$action-bar-bg-color: #283593;
-$action-bar-opacity: 0.85;
+$action-bar-bg-color: $blue-gray-50;
+$action-bar-opacity: 1.0;
 
-$action-bar-item-border-color: #141b49;
-$action-bar-item-text-color: #fefefe;
+$action-bar-item-border-color: $blue-gray-100;
+$action-bar-item-text-color: $gray-900;
 $action-bar-item-margin: 2pt;
 
-$action-bar-item-hover-bg-color: #1A237E;
-$action-bar-item-active-bg-color: rgb(17, 23, 80);
+$action-bar-item-hover-bg-color: $blue-gray-100;
+$action-bar-item-active-bg-color: $blue-gray-200;
 
 @include media-breakpoint-up(lg) {
   .action-bar-wrapper {
@@ -21,6 +21,10 @@ $action-bar-item-active-bg-color: rgb(17, 23, 80);
     bottom: 0px;
     left: 0px;
     right: 0px;
+
+    .action-bar-item {
+      padding: 1.25rem 1.50rem;
+    }
   }
 }
 
@@ -31,7 +35,6 @@ $action-bar-item-active-bg-color: rgb(17, 23, 80);
 .action-bar-wrapper {
   position: fixed;
   
-
   display: inline-flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -41,7 +44,7 @@ $action-bar-item-active-bg-color: rgb(17, 23, 80);
   background-color: $action-bar-bg-color;
   opacity: $action-bar-opacity;
 
-  box-shadow: 0px 0px 4px 1px #1A237E;
+  box-shadow: 0px 0px 3px 1px #666;
 
   overflow-x: auto;
 
@@ -50,9 +53,9 @@ $action-bar-item-active-bg-color: rgb(17, 23, 80);
   .action-bar-item {
     position: relative;
 
-    padding: .75rem 1.25rem;
+    padding: 1rem 1.25rem;
 
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     text-decoration: none;
 
     color: $action-bar-item-text-color;

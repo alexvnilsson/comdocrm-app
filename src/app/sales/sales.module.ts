@@ -5,6 +5,7 @@ import { Http } from '@angular/http';
 import { ComdoCrmCommonModule } from 'app/common';
 
 import { AccountsModule } from './accounts/accounts.module';
+
 import { DashboardComponent } from './dashboard/views/dashboard/dashboard.component';
 
 const routes: Route[] = [
@@ -22,12 +23,15 @@ const routes: Route[] = [
   imports: [
     CommonModule,
     ComdoCrmCommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    AccountsModule
   ],
-  declarations: [DashboardComponent],
+  declarations: [
+    DashboardComponent
+  ],
   providers: [],
   exports: [
-    RouterModule
+    DashboardComponent
   ]
 })
 export class SalesModule {}

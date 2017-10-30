@@ -149,7 +149,7 @@ $nav-item-dark-active-text-color: #222;
     }
 
     &:not(.show) {
-      left: -25%;
+      left: -100%;
       opacity: 0;
 
       & > .navbar-header .navbar-toggler {

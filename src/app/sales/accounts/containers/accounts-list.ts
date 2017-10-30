@@ -26,7 +26,7 @@ import { Subscription } from 'rxjs/Subscription';
         <ccrm-ui-spinner *ngIf="loading$ | async"></ccrm-ui-spinner>
 
         <ccrm-sales-accounts-list-view
-          [accounts]="accountsSorted$ | async"
+          [accountsOther]="accountsOther$ | async"
           [accountsMine]="accountsMine$ | async"
           [leads]="leads$ | async"
           [modalOpen$]="modalOpen$ | async"
@@ -36,8 +36,8 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class AccountsListContainer implements OnInit, OnDestroy {
   accounts$: Observable<Account[]>;
-  accountsSorted$: Observable<Account[]>;
   accountsMine$: Observable<Account[]>;
+  accountsOther$: Observable<Account[]>;
 
   profile$: Observable<User>;
 
@@ -52,15 +52,13 @@ export class AccountsListContainer implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(new fromAccounts.actions.SelectAction(null));
 
-    this.accounts$ = this.store.select(fromRoot.getAccountsAll);
+    this.profile$ = this.store.select(fromRoot.usersState).select(fromUsers.fromUsers.profile);
 
-    this.accountsSorted$ = Observable.from(this.accounts$).map(accounts =>
+    this.accounts$ = Observable.from(this.store.select(fromRoot.getAccountsAll)).map(accounts =>
       accounts
         .slice()
         .sort((a, b) => (b.dateModified < a.dateModified ? -1 : 1))
     );
-
-    this.profile$ = this.store.select(fromRoot.usersState).select(fromUsers.fromUsers.profile);
 
     this.accountsMine$ = this.accounts$.mergeMap(a => 
       this.profile$.map(p => 
@@ -74,7 +72,20 @@ export class AccountsListContainer implements OnInit, OnDestroy {
       )
     );
 
-    this.accountsMine$.subscribe(mine => console.log(mine));
+    this.accountsOther$ = this.accounts$.mergeMap(a => 
+      this.profile$.map(p => 
+        a.filter(account => {
+          if (account.manager && account.manager.user) {
+            if (account.manager.user.id !== p.id) {
+              return account;
+            }
+          }
+          else if (!account.manager || !account.manager.user) {
+            return account;
+          }
+        })
+      )
+    );
 
     const leadsUnsorted = this.store
       .select(fromRoot.leadsState)

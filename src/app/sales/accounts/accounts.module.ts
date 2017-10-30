@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { DashboardViewComponent } from './views/dashboard-view/dashboard-view.component';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { Http } from '@angular/http';
@@ -63,12 +64,17 @@ import { routes } from './accounts.routes';
         PersonOfInterestComponent,
         AddReminderInlineComponent,
         InitialEditorComponent,
-        LeadCardComponent
+        LeadCardComponent,
+        DashboardViewComponent
     ],
     providers: [
         AccountLeadsService,
         AccountSourcesService
     ],
-    bootstrap: [ListViewComponent]
+    bootstrap: [ListViewComponent],
+    exports: [
+      ListItemComponent,
+      DashboardViewComponent
+    ]
 })
 export class AccountsModule {}

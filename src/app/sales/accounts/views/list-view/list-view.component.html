@@ -1,76 +1,40 @@
 <div class="row" style="flex: 1;">
-    <div class="col-sm-4 p-2">
-        <ccrm-vertical-nav>
-            <ccrm-vertical-nav-item #vItemMyContacts [options]="{ title: 'Mina kontakter', counter: accountsMine?.length || 0 }"></ccrm-vertical-nav-item>
-            <ccrm-vertical-nav-item #vItemContacts [options]="{ title: 'Kontakter', counter: accounts?.length || 0 }"></ccrm-vertical-nav-item>
-            <ccrm-vertical-nav-item #vItemRecommended [options]="{ title: 'Rekommendationer', counter: leads?.length || 0 }"></ccrm-vertical-nav-item>
-        </ccrm-vertical-nav>
-    </div>
+  <div class="col-sm-3">
+    <ccrm-vertical-nav stateId="sales-accounts-list-view-1">
+      <ccrm-vertical-nav-item #vItemMyContacts id="1" [counter]="accountsMine?.length || 0">Anförtrodda</ccrm-vertical-nav-item>
+      <ccrm-vertical-nav-item #vItemContacts id="2" [counter]="accountsOther?.length || 0 ">Andra kunder</ccrm-vertical-nav-item>
+      <ccrm-vertical-nav-item #vItemRecommended id="3" [counter]="leads?.length || 0">Förslag</ccrm-vertical-nav-item>
+    </ccrm-vertical-nav>
+  </div>
 
-    <div class="col-sm-8 p-2">
-        <ccrm-nav-view [ref]="vItemMyContacts">
-            <div class="list-group" *ngIf="accountsMine && accountsMine.length > 0">
-                <a
-                    *ngFor="let account of accountsMine"
-                    [routerLink]="['/', 'sales', 'accounts', account.alias]"
-                    class="list-group-item list-group-item-action border-0 flex-column align-items-start">
-                    <div class="d-flex flex-row flex-wrap w-100 justify-content-between">
-                        <h6 class="mb-1">
-                            {{ account.customer?.legalName || "Okänt" }}
-                        </h6>
-    
-                        <span class="small text-muted">{{ account.dateModified | amCalendar }}</span>
-                    </div>
-    
-                    <div class="d-flex flex-row justify-space-between">
-                        <div class="small">
-                            <span class="text-muted">Kundansvarig</span> {{ account.manager?.user?.fullName || "Inte tilldelad" }}
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </ccrm-nav-view>
+  <div class="col-sm-9">
+    <ccrm-nav-view [ref]="vItemMyContacts">
+      <div class="list-group" *ngIf="accountsMine && accountsMine.length > 0">
+        <a *ngFor="let account of accountsMine" [routerLink]="['/', 'sales', 'accounts', account.alias]" class="list-group-item list-group-item-action border-0 flex-column align-items-start">
+          <ccrm-sales-accounts-list-view-item [account]="account"></ccrm-sales-accounts-list-view-item>
+        </a>
+      </div>
+    </ccrm-nav-view>
 
-      <ccrm-nav-view [ref]="vItemContacts">
-        <div class="list-group" *ngIf="accounts && accounts.length > 0">
-            <a
-                *ngFor="let account of accounts"
-                [routerLink]="['/', 'sales', 'accounts', account.alias]"
-                class="list-group-item list-group-item-action border-0 flex-column align-items-start">
-                <div class="d-flex flex-row flex-wrap w-100 justify-content-between">
-                    <h6 class="mb-1">
-                        {{ account.customer?.legalName || "Okänt" }}
-                    </h6>
+    <ccrm-nav-view [ref]="vItemContacts">
+      <div class="list-group" *ngIf="accountsOther && accountsOther.length > 0">
+        <a *ngFor="let account of accountsOther" [routerLink]="['/', 'sales', 'accounts', account.alias]" class="list-group-item list-group-item-action border-0 flex-column align-items-start">
+          <ccrm-sales-accounts-list-view-item [account]="account"></ccrm-sales-accounts-list-view-item>
+        </a>
+      </div>
+    </ccrm-nav-view>
 
-                    <span class="text-muted">{{ account.dateModified | amCalendar }}</span>
-                </div>
-
-                <div class="d-flex flex-row justify-space-between">
-                    <div class="small">
-                        <span class="text-muted">Kundansvarig</span> {{ account.manager?.user?.fullName || "Inte tilldelad" }}
-                    </div>
-                </div>
-            </a>
-        </div>
-      </ccrm-nav-view>
-
-      <ccrm-nav-view [ref]="vItemRecommended">
-        <ccrm-sales-accounts-list-leads-view
-          [modalOpen$]="modalOpen$"
-          [leads]="leads"
-          (onModalOpen)="onModalOpen.emit($event)"
-          (onAccountImported)="onAccountImported.emit($event)"></ccrm-sales-accounts-list-leads-view>
-      </ccrm-nav-view>
-    </div>
+    <ccrm-nav-view [ref]="vItemRecommended">
+      <ccrm-sales-accounts-list-leads-view [modalOpen$]="modalOpen$" [leads]="leads" (onModalOpen)="onModalOpen.emit($event)" (onAccountImported)="onAccountImported.emit($event)"></ccrm-sales-accounts-list-leads-view>
+    </ccrm-nav-view>
+  </div>
 </div>
 
 <div #actionBar class="action-bar-wrapper">
-    <button
-      type="button"
-      class="btn btn-link action-bar-item"
-      (click)="onModalOpen.emit('modal_accounts_initialEditor')"><fa name="user-plus"></fa> Skapa kund</button>
-  </div>
+  <button type="button" class="btn btn-link action-bar-item" (click)="onModalOpen.emit('modal_accounts_initialEditor')">
+    <fa name="user-plus"></fa> Skapa kund</button>
+</div>
 
 <modal-container id="modal_accounts_initialEditor" [state]="modalOpen$">
-    <ccrm-sales-accounts-details-initial-editor (onClosed)="onModalOpen.emit(null)"></ccrm-sales-accounts-details-initial-editor>
+  <ccrm-sales-accounts-details-initial-editor (onClosed)="onModalOpen.emit(null)"></ccrm-sales-accounts-details-initial-editor>
 </modal-container>

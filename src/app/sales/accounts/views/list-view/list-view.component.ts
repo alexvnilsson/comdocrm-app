@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RouteTransitionAnimation, DoneLoadingTransitionAnimation } from 'app/common/ui/animations';
 import { Subscription } from 'rxjs/Subscription';
 
+import { LayoutService } from 'app/common-ui/layout/layout.service';
+
 import { UiState } from 'app/common/interfaces/ui-state.interface';
 
 import { AccountsService } from '../../services/accounts.service';
@@ -27,13 +29,12 @@ export const USER_STATE = {
     animations: [RouteTransitionAnimation, DoneLoadingTransitionAnimation]
 })
 export class ListViewComponent implements OnInit, AfterContentInit {
-    @Input() accounts: Account[];
+    @Input() accountsOther: Account[];
     @Input() accountsMine: Account[];
     accountSources: Array<AccountSource>;
 
     @Input() leads: AccountLead[];
     leadSources: { [key: string]: LeadSource } = {};
-
 
     @Output() onModalOpen: EventEmitter<string> = new EventEmitter();
     @Input() modalOpen$: string = null;
@@ -53,6 +54,7 @@ export class ListViewComponent implements OnInit, AfterContentInit {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
+        private layoutService: LayoutService,
         private accountsService: AccountsService,
         private accountSourcesService: AccountSourcesService,
         private usersService: UsersService

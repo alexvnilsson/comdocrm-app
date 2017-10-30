@@ -1,10 +1,8 @@
-<div class="d-flex flex-row align-items-center">
-  <button type="button" class="btn btn-link btn-sm mb-2" role="button" routerLink="/sales/accounts">
-    <fa name="caret-left"></fa> Kunder
-  </button>
-</div>
-
 <ng-container *ngIf="account">
+  <div class="pt-2 pb-2">
+    <button type="button" class="btn btn-link pl-0 pr-0" routerLink="/sales/accounts"><fa name="caret-left"></fa> Kunder</button>
+  </div>
+  
   <div class="row">
     <div class="col-md-12">
       <h4>{{ account.customer?.legalName }}</h4>
@@ -87,12 +85,16 @@
     type="button"
     class="btn btn-link action-bar-item"
     [class.disabled]="composeLog.Open"
-    (click)="composeLog.open()"><span class="text-light">+</span> <fa name="sticky-note"></fa> Händelse</button>
+    (click)="composeLog.open()">
+      <span class="text-dark">+</span> <fa name="sticky-note"></fa> Händelse
+    </button>
 
   <button
     type="button"
     class="btn btn-link action-bar-item"
-    (click)="onModalOpen.emit('modal_accounts_addPersonOfInterest')"><span class="text-light">+</span> <fa name="address-card"></fa> Kontakt</button>
+    (click)="onModalOpen.emit('modal_accounts_addPersonOfInterest')">
+      <span class="text-dark">+</span> <fa name="address-card"></fa> Kontakt
+    </button>
 </div>
 
 <modal-container id="modal_accounts_addPersonOfInterest" [state]="modalOpen$">
