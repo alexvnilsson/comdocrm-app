@@ -16,7 +16,7 @@
 
     <div class="card-body">
       <p [@messageTextTransitions]="statusMessage?.messageText" class="card-text">
-        {{ statusMessage.messageText }}
+        <span [innerHTML]="statusMessage.messageText"></span>
 
         <a href="#" *ngIf="statusMessage.canTrim && statusMessage.trimmed" role="button" (click)="showAllStatusMessageText($event)">(läs hela)</a>
       </p>

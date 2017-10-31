@@ -11,7 +11,7 @@ import * as usersStore from 'app/common/users/store';
 })
 export class SelectUserComponent implements OnInit {
   @ViewChild('selectUserForm') ngForm: NgForm;
-  @Input() users: usersStore.fromUsers.State;
+  @Input() users: Array<User>;
   
   @Input() header: string;
   @Input() multiple = false;
@@ -48,7 +48,7 @@ export class SelectUserComponent implements OnInit {
       let users: Array<User> = [];
       for (let id of Object.getOwnPropertyNames(this.form.ids)) {
         if (this.form.ids[id] === true) {
-          let user = this.users.users.find(u => u.id === id);
+          let user = this.users.find(u => u.id === id);
 
           if (typeof user !== 'undefined') {
             users.push(user);

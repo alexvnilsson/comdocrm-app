@@ -81,7 +81,7 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
         case accountsStore.ActionTypes.LOAD_STATUSES_RESULT: {
           if (action && action.payload) {
             let statuses: AccountStatus[] = action.payload;
-            let newStatuses = statuses.filter(s => !state.statuses[s.id]);
+            let newStatuses = statuses.filter(s => !state.statuses.filter(s2 => s.id === s2.id).length);
 
             return Object.assign({}, state, {
               statuses: [ ...state.statuses, ...newStatuses ]

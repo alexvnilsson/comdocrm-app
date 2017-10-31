@@ -15,23 +15,21 @@
           </form>
         </div>
         <div class="d-flex flex-column align-items-start">
-          <ng-container *ngIf="!users.loading">
-              <ng-container *ngFor="let user of users.users">
-                  <button
-                    type="button"
-                    class="btn btn-block btn-light btn-sm border-0 mt-0 p-2 text-left"
-                    data-toggle="button"
-                    aria-pressed="false"
-                    (click)="onUserClicked(user)">
-                    <i 
-                      *ngIf="multiple"
-                      class="fa mr-2"
-                      [class.fa-square-o]="!form.ids[user.id]"
-                      [class.fa-check-square]="form.ids[user.id]"></i>
-                    {{ user.fullName }}
-                  </button>
-              </ng-container>
-          </ng-container>
+            <ng-container *ngFor="let user of users">
+                <button
+                  type="button"
+                  class="btn btn-block btn-light btn-sm border-0 mt-0 p-2 text-left"
+                  data-toggle="button"
+                  aria-pressed="false"
+                  (click)="onUserClicked(user)">
+                  <i 
+                    *ngIf="multiple"
+                    class="fa mr-2"
+                    [class.fa-square-o]="!form.ids[user.id]"
+                    [class.fa-check-square]="form.ids[user.id]"></i>
+                  {{ user.fullName }}
+                </button>
+            </ng-container>
         </div>
       </div>
     </div>
