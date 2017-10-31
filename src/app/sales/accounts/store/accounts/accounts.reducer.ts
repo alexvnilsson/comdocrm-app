@@ -142,17 +142,22 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
                 throw 'No working Account has been selected.';
 
             if(action.payload.status && action.payload.success) {
-                return Object.assign({}, state, {
-                    accounts: state.accounts.map(account => account.id === action.payload.account.id ? 
-                        Object.assign({}, account, {
-                            dateModified: new Date(),
-                            statuses: account.statuses.concat(Object.assign({}, action.payload.status, {
-                                userTasks: []
-                            })).sort((a, b) => b.publicationDate < a.publicationDate ? -1 : 1)
-                        })
-                        : account
-                    )
-                });
+              let newStatus: AccountStatus = Object.assign({}, action.payload.status, {
+                accountAlias: action.payload.account.alias
+              });
+
+              return Object.assign({}, state, {
+                accounts: state.accounts.map(account => {
+                  if (account.id === action.payload.account.id) {
+                    return Object.assign({}, account, {
+                      dateModified: new Date()
+                    });
+                  } else {
+                    return account;
+                  }
+                }),
+                statuses: [ ...state.statuses, newStatus ]
+              });
             }
 
             return state;
@@ -163,14 +168,9 @@ export function reducer(state = initialState, action: accountsStore.AccountsActi
                 throw 'No working Account has been sleected.';
 
             if(action.payload.status && action.payload.success) {
-                return Object.assign({}, state, {
-                    accounts: state.accounts.map(account => account.id === action.payload.account.id ?
-                        Object.assign({}, account, {
-                            statuses: account.statuses.filter(status => status.id !== action.payload.status.id).sort((a, b) => b.publicationDate < a.publicationDate ? -1 : 1)
-                        })
-                        : account
-                    )
-                })
+              return Object.assign({}, state, {
+                statuses: state.statuses.filter(status => status.id !== action.payload.status.id)
+              });
             }
         }
 
@@ -285,7 +285,13 @@ export const selected = createSelector(allaccounts, selectedAlias, (accounts, se
 });
 
 export const statusesOfSelected = createSelector(statuses, selectedAlias, (statuses, selectedAlias) => {
-  return statuses.filter(s => s.accountAlias === selectedAlias) || null;
+  let _statuses = statuses.filter(s => s.accountAlias === selectedAlias) || null;
+
+  if (_statuses === null) {
+    return [];
+  }
+
+  return _statuses.sort((a, b) => (b.publicationDate < a.publicationDate ? -1 : 1));
 });
 
 export const getLoading = (state: State) => state.loading;
