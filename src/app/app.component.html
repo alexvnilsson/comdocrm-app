@@ -1,7 +1,10 @@
 <div class="workspace-wrapper d-flex flex-column">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-main">
-    <button class="navbar-toggler border-0 align-self-start mr-auto pt-0 pb-0" type="button" data-toggle="collapse" data-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Öppna/stäng navigation">
+  <nav class="navbar navbar-dark bg-dark navbar-main">
+    <button 
+      class="navbar-toggler text-white border-0 align-self-start mr-auto pt-0 pb-0"
+      type="button"
+      aria-label="Öppna/stäng navigation"
+      (click)="onNavigationToggle()">
       <fa name="bars" size="1x"></fa>
     </button>
 
@@ -12,10 +15,13 @@
   </nav>
 
   <div class="row no-gutters" style="flex: 1">
-    <div #navMain class="navbar-main-container collapse navbar-collapse p-0" id="navbarNav">
+    <div #navMain [class.expanded]="layout.navigation.expanded" class="navbar-main-container p-0" id="navbarNav">
       <div class="navbar-header">
-        <button class="navbar-toggler border-0 pt-0 pb-0 " type="button" data-toggle="collapse" data-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Öppna/stäng navigation">
+        <button
+          class="navbar-toggler text-dark border-0 pt-0 pb-0"
+          type="button"
+          aria-label="Öppna/stäng navigation"
+          (click)="onNavigationToggle()">
           <fa name="times" size="1x"></fa>
         </button>
       </div>
@@ -42,7 +48,7 @@
     </div>
 
     <div class="col">
-      <div class="container workspace-action-bar-padding pt-2 ml-auto mr-auto">
+      <div class="container workspace-body pt-2 ml-auto mr-auto">
         <router-outlet></router-outlet>
       </div>
     </div>

@@ -1,38 +1,40 @@
 <ng-container *ngIf="person">
-  <div class="card card-block pt-1 pb-1">
-    <div class="row flex-row person-card pt-1 pb-1">
-      <div class="col-10">
-        <ccrm-ui-inline-editor placeholder="För- och efternamn" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.fullName"
-          name="fullName">
-          <h5 class="d-inline-block font-weight-light mb-0">{{ person.fullName }}</h5>
-          <span *ngIf="!person.fullName" class="lead text-muted">För- och efternamn</span>
-        </ccrm-ui-inline-editor>
+  <div class="card">
+    <div class="card-body pt-1 pb-1">
+      <div class="row flex-row person-card pt-1 pb-1">
+        <div class="col-10">
+          <ccrm-ui-inline-editor placeholder="För- och efternamn" (onModelUpdated)="onModelUpdated($event)" [(ngModel)]="person.fullName"
+            name="fullName">
+            <h5 class="d-inline-block font-weight-light mb-0">{{ person.fullName }}</h5>
+            <span *ngIf="!person.fullName" class="lead text-muted">För- och efternamn</span>
+          </ccrm-ui-inline-editor>
+        </div>
+
+        <div class="col-2 justify-content-end">
+          <a class="no-underline color-black ml-2" (click)="onRemovePersonOfInterest()" role="button">
+            &times;
+          </a>
+        </div>
       </div>
 
-      <div class="col-2 justify-content-end">
-        <a class="no-underline color-black ml-2" (click)="onRemovePersonOfInterest()" role="button">
-          &times;
-        </a>
-      </div>
-    </div>
+      <div class="d-flex flex-column person-card">
+        <div class="text-nowrap mr-1 d-flex flex-row align-items-center">
+          <i class="fa fa-at mr-2" aria-hidden="true"></i>
+          <ccrm-ui-inline-editor placeholder="E-postadress" [(ngModel)]="person.emailAddress"
+            name="contact_emailAddress" (onModelUpdated)="onModelUpdated($event)">
+            <a [href]="'mailto:' + person.emailAddress" rel="noopener">{{ person.emailAddress }}</a>
+            <span *ngIf="!person.emailAddress" class="small text-muted">E-postadress</span>
+          </ccrm-ui-inline-editor>
+        </div>
 
-    <div class="d-flex flex-column person-card">
-      <div class="text-nowrap mr-1 d-flex flex-row align-items-center">
-        <i class="fa fa-at mr-2" aria-hidden="true"></i>
-        <ccrm-ui-inline-editor placeholder="E-postadress" [(ngModel)]="person.emailAddress"
-          name="contact_emailAddress">
-          <a [href]="'mailto:' + person.emailAddress" rel="noopener">{{ person.emailAddress }}</a>
-          <span *ngIf="!person.emailAddress" class="small text-muted">E-postadress</span>
-        </ccrm-ui-inline-editor>
-      </div>
-
-      <div class="text-nowrap mr-1 d-flex flex-row align-items-center">
-        <i class="fa fa-phone mr-2" aria-hidden="true"></i>
-        <ccrm-ui-inline-editor placeholder="Telefonnummer" [(ngModel)]="person.phoneNumber"
-          name="contact_phoneNumber">
-          {{ person.phoneNumber }}
-          <span *ngIf="!person.phoneNumber" class="small text-muted">Telefonnummer</span>
-        </ccrm-ui-inline-editor>
+        <div class="text-nowrap mr-1 d-flex flex-row align-items-center">
+          <i class="fa fa-phone mr-2" aria-hidden="true"></i>
+          <ccrm-ui-inline-editor placeholder="Telefonnummer" [(ngModel)]="person.phoneNumber"
+            name="contact_phoneNumber">
+            {{ person.phoneNumber }}
+            <span *ngIf="!person.phoneNumber" class="small text-muted">Telefonnummer</span>
+          </ccrm-ui-inline-editor>
+        </div>
       </div>
     </div>
   </div>

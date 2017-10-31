@@ -17,6 +17,10 @@ export class PersonOfInterestComponent implements OnInit {
 
     }
 
+    onModelUpdated(any) {
+      console.log(any);
+    }
+
     onRemovePersonOfInterest() {
         this.onPersonDeleted.emit({
             account: this.account,

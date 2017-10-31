@@ -30,6 +30,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('actionBar') actionBar: ElementRef;
 
   layout = {
+    navigation: {
+      expanded: false
+    },
     actionBar: {
       height: 0
     }
@@ -65,6 +68,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     
+  }
+
+  onNavigationToggle() {
+    this.layout.navigation.expanded = !this.layout.navigation.expanded;
   }
 
   onNavigationItemClicked() {

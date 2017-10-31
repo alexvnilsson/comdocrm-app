@@ -1,0 +1,35 @@
+//
+//  
+//
+
+.workspace-wrapper {
+  flex: 1;
+  min-height: 100vh;
+  padding: 0px;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  .workspace-columns {
+      height: 100%;
+
+      overflow-y: hidden;
+  }
+
+  .workspace-main-wrapper {
+      overflow-y: auto;
+  }
+
+  .workspace-body {
+      overflow-y: auto;
+
+      padding-bottom: 4rem;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .workspace-wrapper {
+    
+  }
+}
