@@ -1,26 +1,25 @@
 import { Injectable, OnDestroy, EventEmitter, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { Response } from '@angular/http';
-import { envOptions } from '.environments/options'
+import { HttpClient } from '@angular/common/http';
+import { environment } from '.env'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import * as Auth0 from 'auth0-js';
-import { JwtHelper } from 'angular2-jwt';
+
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { Subscription } from 'rxjs/Subscription';
-import { AuthHttpExtended } from './auth-http-extended';
 
 @Injectable()
 export class AuthenticationService implements OnDestroy {
-  private apiBase = `/api/users`;
-
   private Auth0: Auth0.WebAuth = new Auth0.WebAuth({
-    clientID: envOptions.auth0.clientId,
-    domain: envOptions.auth0.domain,
+    clientID: environment.auth0.clientId,
+    domain: environment.auth0.domain,
     responseType: 'token id_token',
-    audience: envOptions.auth0.audience,
-    redirectUri: envOptions.auth0.redirectUrl,
+    audience: environment.auth0.audience,
+    redirectUri: environment.auth0.redirectUrl,
     scope: 'openid profile',
 
   });
@@ -36,8 +35,8 @@ export class AuthenticationService implements OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private http: AuthHttpExtended,
-    private jwtHelper: JwtHelper) {
+    private http: HttpClient,
+    private jwtHelper: JwtHelperService) {
     this.setExpirationTimeout();
   }
 
@@ -46,7 +45,7 @@ export class AuthenticationService implements OnDestroy {
       return false;
     }
 
-    let token = sessionStorage.getItem('id_token');
+    let token = sessionStorage.getItem('access_token');
 
     if (!this.jwtHelper.isTokenExpired(token)) {
       let timeUntil = this.jwtHelper.getTokenExpirationDate(token).getTime() - Date.now();
@@ -107,13 +106,12 @@ export class AuthenticationService implements OnDestroy {
       if (this.userProfile !== null)
         return observer.next(this.userProfile);
 
-      this.http.get(`${this.apiBase}/me/profile`).subscribe(res => {
-        let profile: Auth0.Auth0UserProfile = res.json() || null;
-
-        if (profile) {
-          this.userProfile = profile;
-          observer.next(this.userProfile);
-        }
+      this.http.get('/api/users/me/profile')
+      .filter(res => res != null && res != {})
+      .map(res => res as Auth0.Auth0UserProfile)
+      .subscribe(profile => {
+        this.userProfile = profile;
+        observer.next(this.userProfile);
       });
     });
   }
@@ -137,7 +135,7 @@ export class AuthenticationService implements OnDestroy {
   }
 
   public isAuthenticated(): boolean {
-    const token = sessionStorage.getItem('id_token');
+    const token = sessionStorage.getItem('access_token');
 
     if (token != null && token.length > 0) {
       return this.jwtHelper.isTokenExpired(token) === false;

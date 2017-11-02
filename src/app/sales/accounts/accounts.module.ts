@@ -4,7 +4,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { Http } from '@angular/http';
-import { AuthHttpExtended } from 'app/common/authentication';
 import { ComdoCrmCommonModule } from 'app/common';
 import { CommonUiModule } from 'app/common-ui';
 import { UserTasksModule } from 'app/user-tasks';
@@ -40,51 +39,50 @@ import { routes } from './accounts.routes';
 
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ComdoCrmCommonModule,
-        CommonUiModule,
-        RouterModule.forChild(routes),
-        UserTasksModule,
-        EffectsModule.run(accountLeadsStore.effects.AccountLeadsEffects)
-    ],
-    declarations: [
-        AccountsListContainer,
-        AccountLeadsListContainer,
-        AccountDetailsContainer,
-        AccountDetailsSelectedContainer,
+  imports: [
+    CommonModule,
+    ComdoCrmCommonModule,
+    CommonUiModule,
+    RouterModule.forChild(routes),
+    UserTasksModule
+  ],
+  declarations: [
+    AccountsListContainer,
+    AccountLeadsListContainer,
+    AccountDetailsContainer,
+    AccountDetailsSelectedContainer,
 
-        /* Account components */
-        ListViewComponent,
-        ListItemComponent,
-        DetailsViewComponent,
-        ComposerComponent,
-        AddPersonOfInterestComponent,
-        StatusItemComponent,
-        LogComposerComponent,
-        PersonOfInterestComponent,
-        AddReminderInlineComponent,
+    /* Account components */
+    ListViewComponent,
+    ListItemComponent,
+    DetailsViewComponent,
+    ComposerComponent,
+    AddPersonOfInterestComponent,
+    StatusItemComponent,
+    LogComposerComponent,
+    PersonOfInterestComponent,
+    AddReminderInlineComponent,
 
 
-        /* Lead components */
-        ListLeadsViewComponent,
-        LeadCardComponent,
-        LeadDetailsViewComponent,
+    /* Lead components */
+    ListLeadsViewComponent,
+    LeadCardComponent,
+    LeadDetailsViewComponent,
 
-        AllStatusesComponent,
-        
-        InitialEditorComponent,
-        
-        DashboardViewComponent
-    ],
-    providers: [
-        AccountLeadsService,
-        AccountSourcesService
-    ],
-    bootstrap: [ListViewComponent],
-    exports: [
-      ListItemComponent,
-      DashboardViewComponent
-    ]
+    AllStatusesComponent,
+
+    InitialEditorComponent,
+
+    DashboardViewComponent
+  ],
+  providers: [
+    AccountLeadsService,
+    AccountSourcesService
+  ],
+  bootstrap: [ListViewComponent],
+  exports: [
+    ListItemComponent,
+    DashboardViewComponent
+  ]
 })
-export class AccountsModule {}
+export class AccountsModule { }

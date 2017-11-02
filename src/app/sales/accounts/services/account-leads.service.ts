@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { AuthHttpExtended } from 'app/common/authentication';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { UsersService } from 'app/common/users';
@@ -26,8 +26,6 @@ export class StatusUserTaskAddedEvent {
 
 @Injectable()
 export class AccountLeadsService {
-    private baseAddr: string = "/api/sales";
-
     accounts$: Observable<Account[]>;
 
     public onAccountUpdate: EventEmitter<Account> = new EventEmitter();
@@ -36,21 +34,20 @@ export class AccountLeadsService {
     _userState: any = null;
 
     constructor(
-        private http: AuthHttpExtended,
+        private http: HttpClient,
         private router: Router,
         private usersService: UsersService
     ) { }
 
     getAll(): Observable<Array<Account>> {
-        return this.http.get(`${this.baseAddr}/leads`)
-          .filter(res => res.text().length > 0)
-          .map(res => res.json() as Account[] || null);
+        return this.http.get('/api/sales/leads')
+          .map(res => res as Account[] || null);
     }
 
     getByAny(accountQuery: string, open?: boolean): Observable<Account> {
         return new Observable(observer => {
-            this.http.get(`${this.baseAddr}/leads/${accountQuery}`)
-            .map(res => res.json() as Account || null)
+            this.http.get(`/api/sales/leads/${accountQuery}`)
+            .map(res => res as Account || null)
             .subscribe(account => {
                 if(account) {
                     observer.next(account);

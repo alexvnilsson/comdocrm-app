@@ -4,33 +4,38 @@ import { UserTask } from "app/user-tasks";
 import { User } from "app/common/users/user";
 
 export const ActionTypes = {
-    LOAD: 'USERS_LOAD',
-    LOAD_RESULT: 'USERS_LOAD_RESULT',
+  LOAD: 'USERS_LOAD',
+  LOAD_RESULT: 'USERS_LOAD_RESULT',
 
-    MY_PROFILE: 'USERS_MY_PROFILE',
-    MY_PROFILE_RESULT: 'USERS_MY_PROFILE_RESULT'
+  MY_PROFILE: 'USERS_MY_PROFILE',
+  MY_PROFILE_RESULT: 'USERS_MY_PROFILE_RESULT'
 };
 
-export class LoadAction implements Action {
-    readonly type = ActionTypes.LOAD;
-
-    constructor(public payload: null) {}
+export interface UserAction extends Action {
+  type: string;
+  payload?: any;
 }
 
-export class LoadResultAction implements Action {
-    readonly type = ActionTypes.LOAD_RESULT;
+export class LoadAction implements UserAction {
+  readonly type = ActionTypes.LOAD;
 
-    constructor(public payload: User[]) {}
+  constructor(public payload: null) { }
 }
 
-export class MyProfileAction implements Action {
-    readonly type = ActionTypes.MY_PROFILE;
+export class LoadResultAction implements UserAction {
+  readonly type = ActionTypes.LOAD_RESULT;
 
-    constructor(public payload: null) {}
+  constructor(public payload: User[]) { }
 }
 
-export class MyProfileResult implements Action {
-    readonly type = ActionTypes.MY_PROFILE_RESULT;
+export class MyProfileAction implements UserAction {
+  readonly type = ActionTypes.MY_PROFILE;
 
-    constructor(public payload: User) {}
+  constructor(public payload: null) { }
+}
+
+export class MyProfileResult implements UserAction {
+  readonly type = ActionTypes.MY_PROFILE_RESULT;
+
+  constructor(public payload: User) { }
 }

@@ -21,7 +21,7 @@ import { AccountsService, AccountUpdateResult } from '../../services/accounts.se
 import { Account, AccountLead, AccountStates } from '../../models/accounts';
 import * as fromAccounts from './accounts.reducer';
 import * as accountsActions from './accounts.actions';
-import { ActionTypes, ImportAction } from './accounts.actions';
+import { AccountAction, ActionTypes } from './accounts.actions';
 
 @Injectable()
 export class AccountsEffects {
@@ -203,7 +203,7 @@ export class AccountsEffects {
 
   constructor(
     private store$: Store<fromAccounts.State>,
-    private actions$: Actions,
+    private actions$: Actions<AccountAction>,
     private accountsService: AccountsService
   ) { }
 }

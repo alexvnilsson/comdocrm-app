@@ -7,18 +7,19 @@ export const LayoutActionTypes = {
     CLOSE_MODAL: 'LAYOUT_CLOSE_MODAL'
 };
 
-export class OpenModalAction implements Action {
+export interface LayoutAction extends Action {
+  type: string;
+  payload?: any;
+}
+
+export class OpenModalAction implements LayoutAction {
     readonly type = LayoutActionTypes.OPEN_MODAL;
 
     constructor(public payload: string) {}
 }
 
-export class CloseModalAction implements Action {
+export class CloseModalAction implements LayoutAction {
     readonly type = LayoutActionTypes.CLOSE_MODAL;
 
     constructor() {}
 }
-
-export type LayoutActions = 
-    OpenModalAction
-    | CloseModalAction

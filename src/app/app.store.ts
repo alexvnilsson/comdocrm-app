@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
-import { ActionReducer, combineReducers, Store } from '@ngrx/store';
+import { ActionReducer, combineReducers, Store, MetaReducer } from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
-import { environment } from '.environments/environment';
+import { environment } from '.env';
 
-import { compose } from '@ngrx/core/compose';
+import { RouterStateUrl } from 'common/ngrx/utils';
+
 import { storeFreeze } from 'ngrx-store-freeze';
 
 import * as layoutStore from 'app/common-ui/layout/layout.reducers';
@@ -18,6 +19,7 @@ export interface State {
     accounts: accountsStore.fromAccounts.State;
     leads: accountLeadsStore.fromAccountLeads.State;
     products: productsStore.fromProducts.State;
+    routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
 export const reducers = {
@@ -25,19 +27,17 @@ export const reducers = {
     users: usersStore.fromUsers.reducer,
     accounts: accountsStore.fromAccounts.reducer,
     leads: accountLeadsStore.fromAccountLeads.reducer,
-    products: productsStore.fromProducts.reducer
+    products: productsStore.fromProducts.reducer,
+    routerReducer: fromRouter.routerReducer
 }
-
-const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
-const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
 export function reducer(state: State, action: any) {
-  if (environment.production) {
-    return productionReducer(state, action);
-  } else {
-    return developmentReducer(state, action);
-  }
+  return reducer(state, action);
 }
+
+export const metaReducers: MetaReducer<State>[] = !environment.production
+  ? [storeFreeze]
+  : [];
 
 export const usersState = (state: State) => state.users;
 

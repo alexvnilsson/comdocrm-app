@@ -5,7 +5,6 @@ import { RouterModule, Router, Route, ActivatedRoute, RouterOutlet } from '@angu
 import { Http, RequestOptions } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { DatepickerModule, ModalModule, TooltipModule, PopoverModule, BsDropdownModule } from 'ngx-bootstrap';
-import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { SelectModule } from 'ng2-select';
 import { MomentModule } from 'angular2-moment';
 import { CommonUiModule } from 'app/common-ui';
@@ -16,8 +15,9 @@ import { AuthenticationGuard } from './router/authentication.guard';
 import { UsersService } from './users/users.service';
 import { ClientService, ClientServiceInitFactory } from '../clients/client.service';
 
-import { AuthHttp, JwtHelper } from 'angular2-jwt';
-import { AuthHttpExtended, authHttpExtendedFactory } from './authentication/auth-http-extended';
+import { RouterHelperService } from 'common/router/router-helper.service';
+
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { TabDirective } from './ui/directives/tab';
 
@@ -37,79 +37,74 @@ import { NavbarComponent, NavbarItemDirective } from 'app/common-ui/navbar';
 
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        CommonUiModule,
-        AngularFontAwesomeModule,
-        SelectModule,
-        FormsModule,
-        MomentModule,
-        DatepickerModule
-    ],
-    declarations: [
-        TabDirective,
-        SpinnerComponent,
-        WordSplicePipe,
-        TrimPipe,
-        InlineEditorComponent,
-        DatepickerComponent,
-        DatepickerDirective,
-        LoadingComponent,
-        
-    ],
-    providers: [
-        JwtHelper
-    ],
-    exports: [
-        ModalModule,
-        TooltipModule,
-        PopoverModule,
-        BsDropdownModule,
-        AngularFontAwesomeModule,
-        SelectModule,
-        FormsModule,
-        RouterModule,
-        MomentModule,
-        DatepickerModule,
-        TabDirective,
-        SpinnerComponent,
-        WordSplicePipe,
-        TrimPipe,
-        InlineEditorComponent,
-        DatepickerComponent,
-        DatepickerDirective,
-        LoadingComponent,
-        NavbarComponent,
-        NavbarItemDirective
-    ]
+  imports: [
+    CommonModule,
+    RouterModule,
+    CommonUiModule,
+    SelectModule,
+    FormsModule,
+    MomentModule,
+    DatepickerModule
+  ],
+  declarations: [
+    TabDirective,
+    SpinnerComponent,
+    WordSplicePipe,
+    TrimPipe,
+    InlineEditorComponent,
+    DatepickerComponent,
+    DatepickerDirective,
+    LoadingComponent,
+
+  ],
+  providers: [
+    
+  ],
+  exports: [
+    ModalModule,
+    TooltipModule,
+    PopoverModule,
+    BsDropdownModule,
+    SelectModule,
+    FormsModule,
+    RouterModule,
+    MomentModule,
+    DatepickerModule,
+    TabDirective,
+    SpinnerComponent,
+    WordSplicePipe,
+    TrimPipe,
+    InlineEditorComponent,
+    DatepickerComponent,
+    DatepickerDirective,
+    LoadingComponent,
+    NavbarComponent,
+    NavbarItemDirective
+  ]
 })
 export class ComdoCrmCommonModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: ComdoCrmCommonModule,
-            providers: [
-                RouterOutlet,
-                AuthenticationService,
-                {
-                    provide: AuthenticationGuard,
-                    useClass: AuthenticationGuard,
-                    deps: [ AuthenticationService, Router ]
-                },
-                {
-                    provide: AuthHttpExtended,
-                    useFactory: authHttpExtendedFactory,
-                    deps: [ Http, RequestOptions ]
-                },
-                ClientService,
-                {
-                    provide: APP_INITIALIZER,
-                    useFactory: ClientServiceInitFactory,
-                    deps: [ ClientService ],
-                    multi: true
-                },
-                UsersService
-            ]
-        }
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: ComdoCrmCommonModule,
+      providers: [
+        RouterOutlet,
+        RouterHelperService,
+        JwtHelperService,
+        AuthenticationService,
+        {
+          provide: AuthenticationGuard,
+          useClass: AuthenticationGuard,
+          deps: [AuthenticationService, Router]
+        },
+        ClientService,
+        {
+          provide: APP_INITIALIZER,
+          useFactory: ClientServiceInitFactory,
+          deps: [ClientService],
+          multi: true
+        },
+        UsersService
+      ]
     }
- }
+  }
+}

@@ -1,8 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-
-import { AuthHttpExtended } from 'app/common/authentication';
 
 import { UserTask } from './user-task';
 import { UserTaskException } from './user-task/user-task-exception';
@@ -14,7 +13,7 @@ export class UserTasksService {
     private OnUserTaskAdded: EventEmitter<UserTask> = new EventEmitter();
 
     constructor(
-        private http: AuthHttpExtended
+        private http: HttpClient
     ) {
 
     }

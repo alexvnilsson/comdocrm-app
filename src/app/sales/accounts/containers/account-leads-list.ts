@@ -1,4 +1,3 @@
-import '@ngrx/core/add/operator/select';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/of';

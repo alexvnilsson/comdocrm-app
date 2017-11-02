@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AuthHttpExtended } from 'app/common/authentication/auth-http-extended';
 
 import { Account, AccountStatus } from '../../../models/accounts';
 
@@ -21,7 +20,7 @@ export class AllStatusesComponent implements OnInit {
     accounts: Array<Account> = [];
 
     constructor(
-        private http: AuthHttpExtended
+        
     ) {}
 
     ngOnInit() {
@@ -29,8 +28,6 @@ export class AllStatusesComponent implements OnInit {
     }
 
     private getAllTop() {
-        this.http.get(`${this.apiBaseAddr}/all/top`)
-        .map(response => response.json() as Array<Account> || null)
-        .subscribe(accounts => this.accounts = accounts);
+      
     }
 }

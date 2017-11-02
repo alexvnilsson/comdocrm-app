@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { NavigationState } from './states/navigation';
 import * as routerStore from '@ngrx/router-store'
-import { LayoutActions, LayoutActionTypes } from './layout.actions';
+import { LayoutAction, LayoutActionTypes } from './layout.actions';
 import * as fromLayout from './layout.actions';
 
 export interface State {
@@ -14,14 +14,8 @@ export const initialState = {
   navigation: []
 };
 
-export function reducer(state: State = initialState, action: LayoutActions): State {
+export function reducer(state: State = initialState, action: LayoutAction): State {
   switch (action.type) {
-    case routerStore.routerActions.UPDATE_LOCATION: {
-      return Object.assign({}, state, {
-        openedModal: null
-      });
-    }
-
     case LayoutActionTypes.OPEN_MODAL: {
       if (action instanceof fromLayout.OpenModalAction) {
         return Object.assign({}, state, {

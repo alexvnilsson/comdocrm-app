@@ -5,65 +5,66 @@ import { UserTask } from "app/user-tasks";
 import { User } from "app/common/users/user";
 
 export const ActionTypes = {
-    LOAD: 'ACCOUNT_LEADS_LOAD',
-    LOAD_RESULT: 'ACCOUNTS_LEAD_LOAD_RESULT',
+  LOAD: 'ACCOUNT_LEADS_LOAD',
+  LOAD_RESULT: 'ACCOUNTS_LEAD_LOAD_RESULT',
 
-    SELECT: 'ACCOUNT_LEADSS_SELECT'
+  SELECT: 'ACCOUNT_LEADSS_SELECT'
 }
 
-export class LoadAction implements Action {
-    readonly type = ActionTypes.LOAD;
-
-    constructor() {}
+export interface AccountLeadAction extends Action {
+  type: string;
+  payload?: any;
 }
 
-export class LoadResult implements Action {
-    readonly type = ActionTypes.LOAD_RESULT;
+export class LoadAction implements AccountLeadAction {
+  readonly type = ActionTypes.LOAD;
 
-    constructor(public payload: {
-        success: boolean,
-        leads: AccountLead[]
-    }) {}
+  constructor() { }
 }
 
-export class SelectAction implements Action {
-    readonly type = ActionTypes.SELECT;
+export class LoadResult implements AccountLeadAction {
+  readonly type = ActionTypes.LOAD_RESULT;
 
-    constructor(public payload: {
-        result: boolean,
-        success?: boolean,
-        accountAlias?: string,
-        account?: Account
-    }) {}
-
-    public static Found(account: Account, alias?: string): SelectAction {
-        return new SelectAction({
-            result: true,
-            success: true,
-            account: account,
-            accountAlias: alias
-        });
-    }
-
-    public static NoResult(): SelectAction {
-        return new SelectAction({
-            result: true,
-            success: true,
-            accountAlias: null,
-            account: null
-        });
-    }
-
-    public static NotFound(): SelectAction {
-        return new SelectAction({
-            result: true,
-            success: false,
-            account: null,
-            accountAlias: null
-        });
-    }
+  constructor(public payload: {
+    success: boolean,
+    leads: AccountLead[]
+  }) { }
 }
 
-export type AccountLeadsActions = 
-    LoadAction
-    | SelectAction
+export class SelectAction implements AccountLeadAction {
+  readonly type = ActionTypes.SELECT;
+
+  constructor(public payload: {
+    result: boolean,
+    success?: boolean,
+    accountAlias?: string,
+    account?: Account
+  }) { }
+
+  public static Found(account: Account, alias?: string): SelectAction {
+    return new SelectAction({
+      result: true,
+      success: true,
+      account: account,
+      accountAlias: alias
+    });
+  }
+
+  public static NoResult(): SelectAction {
+    return new SelectAction({
+      result: true,
+      success: true,
+      accountAlias: null,
+      account: null
+    });
+  }
+
+  public static NotFound(): SelectAction {
+    return new SelectAction({
+      result: true,
+      success: false,
+      account: null,
+      accountAlias: null
+    });
+  }
+}

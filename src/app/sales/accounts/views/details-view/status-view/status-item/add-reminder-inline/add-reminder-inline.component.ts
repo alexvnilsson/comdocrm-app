@@ -7,13 +7,13 @@ import { AccountsService } from '../../../../../services/accounts.service';
 import { UserTasksService } from 'app/user-tasks';
 import { NgForm } from '@angular/forms';
 import { DatepickerDirective } from 'app/common/ui/components/datepicker/datepicker.directive';
-import { Dispatcher } from "@ngrx/store";
+import { ReducerManagerDispatcher } from "@ngrx/store";
 
 import * as accountsStore from 'app/sales/accounts/store/accounts';
 
 @Component({
-    selector: 'ccrm-sales-accounts-status-add-reminder-inline',
-    template: `
+  selector: 'ccrm-sales-accounts-status-add-reminder-inline',
+  template: `
     <form #userTaskForm="ngForm" (ngSubmit)="saveUserTask(userTaskForm)">                    
         <ng-container *ngIf="editorState.isEditing">
             <div [@editorTransition]="editorState.isEditing" class="row mt-3 d-flex flex-row flex-nowrap align-items-center">
@@ -81,109 +81,109 @@ import * as accountsStore from 'app/sales/accounts/store/accounts';
         </ng-container>
     </form>
     `,
-    animations: [
-        trigger('editorTransition', [
-            transition('void => *', [
-                style({ opacity: 0 }),
-                animate('200ms 100ms', keyframes([
-                    style({ opacity: 0, offset: 0 }),
-                    style({ opacity: 0, offset: 0.5 }),
-                    style({ opacity: 1, offset: 1 })
-                ]))
-            ]),
-            transition('* => void', [
-                animate('100ms', keyframes([
-                    style({ opacity: 1, offset: 0 }),
-                    style({ opacity: 0, offset: 1 })
-                ]))
-            ])
-        ])
-    ]
+  animations: [
+    trigger('editorTransition', [
+      transition('void => *', [
+        style({ opacity: 0 }),
+        animate('200ms 100ms', keyframes([
+          style({ opacity: 0, offset: 0 }),
+          style({ opacity: 0, offset: 0.5 }),
+          style({ opacity: 1, offset: 1 })
+        ]))
+      ]),
+      transition('* => void', [
+        animate('100ms', keyframes([
+          style({ opacity: 1, offset: 0 }),
+          style({ opacity: 0, offset: 1 })
+        ]))
+      ])
+    ])
+  ]
 })
 export class AddReminderInlineComponent implements OnInit {
-    @Input() account: Account;
-    @Input() status: AccountStatus;
+  @Input() account: Account;
+  @Input() status: AccountStatus;
 
-    @Output() onUserTaskAdded: EventEmitter<{ account: Account, status: AccountStatus, userTask: UserTask }> = new EventEmitter();
+  @Output() onUserTaskAdded: EventEmitter<{ account: Account, status: AccountStatus, userTask: UserTask }> = new EventEmitter();
 
-    private waitBlurTimer = null;
+  private waitBlurTimer = null;
 
-    userTask: UserTask = {
-        displayName: null,
-        summaryText: null,
-        hasReminder: true,
-    }
+  userTask: UserTask = {
+    displayName: null,
+    summaryText: null,
+    hasReminder: true,
+  }
 
-    editorState = {
-        isEditing: false,
-        isWaitingExit: false
-    };
+  editorState = {
+    isEditing: false,
+    isWaitingExit: false
+  };
 
-    constructor(
-        private accountsService: AccountsService,
-        private dispatcher: Dispatcher
-    ) {}
+  constructor(
+    private accountsService: AccountsService,
+    private dispatcher: ReducerManagerDispatcher
+  ) { }
 
-    ngOnInit() {
-        
-    }
-    
-    saveUserTask(form: NgForm) {
-        if(!form.invalid) {
-            let dispatcherListener = this.dispatcher.subscribe(action => {
-                if(action instanceof accountsStore.actions.AddStatusUserTaskResultAction) {
-                    if (action.payload.account.id === this.account.alias && action.payload.status.id === this.status.id) {
-                        dispatcherListener.unsubscribe();
-                        this.setEditorDisabled();
-                    }
-                }
-            })
+  ngOnInit() {
 
-            this.onUserTaskAdded.emit({
-                account: this.account,
-                status: this.status,
-                userTask: this.userTask
-            });
+  }
+
+  saveUserTask(form: NgForm) {
+    if (!form.invalid) {
+      let dispatcherListener = this.dispatcher.subscribe(action => {
+        if (action instanceof accountsStore.actions.AddStatusUserTaskResultAction) {
+          if (action.payload.account.id === this.account.alias && action.payload.status.id === this.status.id) {
+            dispatcherListener.unsubscribe();
+            this.setEditorDisabled();
+          }
         }
+      })
+
+      this.onUserTaskAdded.emit({
+        account: this.account,
+        status: this.status,
+        userTask: this.userTask
+      });
     }
+  }
 
-    clickAdd() {
-        this.setEditorEnabled();
-    }
+  clickAdd() {
+    this.setEditorEnabled();
+  }
 
-    clickDismiss() {
-        this.clearBlurTimeout();
+  clickDismiss() {
+    this.clearBlurTimeout();
 
+    this.setEditorDisabled();
+  }
+
+  setEditorEnabled() {
+    this.editorState.isEditing = true;
+  }
+
+  setEditorDisabled() {
+    this.editorState.isEditing = false;
+  }
+
+  onInputFocused() {
+    this.editorState.isWaitingExit = false;
+
+    if (this.waitBlurTimer)
+      clearTimeout(this.waitBlurTimer);
+  }
+
+  onInputBlurred() {
+    this.editorState.isWaitingExit = true;
+    this.clearBlurTimeout();
+
+    this.waitBlurTimer = setTimeout(() => {
+      if (this.editorState.isWaitingExit)
         this.setEditorDisabled();
-    }
+    }, 10000);
+  }
 
-    setEditorEnabled() {
-        this.editorState.isEditing = true;
-    }
-
-    setEditorDisabled() {
-        this.editorState.isEditing = false;
-    }
-
-    onInputFocused() {
-        this.editorState.isWaitingExit = false;
-
-        if(this.waitBlurTimer)
-            clearTimeout(this.waitBlurTimer);
-    }
-
-    onInputBlurred() {
-        this.editorState.isWaitingExit = true;
-        this.clearBlurTimeout();
-
-        this.waitBlurTimer = setTimeout(() => {
-            if(this.editorState.isWaitingExit)
-                this.setEditorDisabled();
-        }, 10000);
-    }
-
-    private clearBlurTimeout() {
-        if(this.waitBlurTimer)
-            clearTimeout(this.waitBlurTimer);
-    }
+  private clearBlurTimeout() {
+    if (this.waitBlurTimer)
+      clearTimeout(this.waitBlurTimer);
+  }
 }

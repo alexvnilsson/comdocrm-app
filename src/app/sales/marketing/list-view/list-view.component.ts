@@ -6,41 +6,33 @@ import { RouteTransitionAnimation, DoneLoadingTransitionAnimation } from 'app/co
 import 'rxjs/add/operator/catch';
 
 @Component({
-    selector: 'ccrm-sales-marketing-list-view',
-    templateUrl: './list-view.component.html',
-    animations: [ RouteTransitionAnimation, DoneLoadingTransitionAnimation ],
-    host: { '[@routeTransition]': 'true' }
+  selector: 'ccrm-sales-marketing-list-view',
+  templateUrl: './list-view.component.html',
+  animations: [RouteTransitionAnimation, DoneLoadingTransitionAnimation],
+  host: { '[@routeTransition]': 'true' }
 })
 export class ListViewComponent implements OnInit {
-    plannerContainers: Array<PlannerContainer> = [];
+  plannerContainers: Array<PlannerContainer> = [];
 
-    uiState: UiState = new UiState(true);
+  uiState: UiState = new UiState(true);
 
-    constructor(
-        private marketingService: MarketingService
-    ) {}
+  constructor(
 
-    ngOnInit() {
-        this.marketingService.getPlannerContainers().subscribe(
-            plannerContainers => {
-                this.plannerContainers = plannerContainers;            
-            }, 
-            error => {
-                this.uiState.onError(error);
-            },
-            () => console.log('done')
-        );
-    }
+  ) { }
 
-    uiOnDoneLoading(event: Event) {
-        console.log('on done loading');
-    }
+  ngOnInit() {
 
-    uiOnComplete() {
-        this.uiState.isComplete = true;
-    }
+  }
 
-    uiOnError() {
-        
-    }
+  uiOnDoneLoading(event: Event) {
+    console.log('on done loading');
+  }
+
+  uiOnComplete() {
+    this.uiState.isComplete = true;
+  }
+
+  uiOnError() {
+
+  }
 }

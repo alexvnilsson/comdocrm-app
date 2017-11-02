@@ -2,18 +2,30 @@ import { Observable } from 'rxjs/Observable';
 
 import { Store } from '@ngrx/store';
 
+import * as fromRoot from 'app/app.store';
 import * as fromLayout from './layout.reducers';
-import * as fromLayoutActions from './layout.actions';
+
+import * as LayoutActions from './layout.actions';
 
 import { NavigationState } from './states/navigation';
 
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
+import { RouterHelperService } from 'common/router/router-helper.service';
 
 @Injectable()
-export class LayoutService {
+export class LayoutService implements OnInit {
   protected navigation: NavigationState[] = [];
 
-  constructor() {}
+  constructor(
+    private store: Store<fromRoot.State>,
+    private routerHelper: RouterHelperService
+  ) {}
+
+  ngOnInit() {
+    this.routerHelper.onRouteChanged.subscribe(event => {
+      this.store.dispatch(new LayoutActions.CloseModalAction());
+    });
+  }
 
   getNavigationState(id: string): Observable<NavigationState> {
     return new Observable(observer => {

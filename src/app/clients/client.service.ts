@@ -1,74 +1,68 @@
 import { Injectable, OnInit } from '@angular/core';
-import { AuthHttpExtended } from '../common/authentication/auth-http-extended';
+import { HttpClient } from '@angular/common/http';
 import { ClientInformation } from './client';
 import { Observable } from 'rxjs/Observable';
 
 export function ClientServiceInitFactory(clientService: ClientService): Function {
-    return () => clientService.load();
+  return () => clientService.load();
 }
 
 @Injectable()
 export class ClientService {
-    private apiBaseAddr: string = '/api/client';
+  private apiBaseAddr: string = '/api/client';
 
-    private _clientInformation: ClientInformation = null;
-    private _users: Array<any> = [];
+  private _clientInformation: ClientInformation = null;
+  private _users: Array<any> = [];
 
-    constructor(
-        private http: AuthHttpExtended
-    ) {
-        
-    }
+  constructor(
+    private http: HttpClient
+  ) {
 
-    load(): Promise<any> {
-        return new Promise<any>((resolve, reject) => {
-            this.getClientInformation().subscribe(() => {
-                this.getAllUsers().subscribe(() => {
-                    resolve();
-                },
-                error => { resolve(); });
-            },
-            error => { resolve(); });
-        });
-    }
+  }
 
-    private getClientInformation(): Observable<any> {
-        return new Observable(observer => {
-            this.http.get(`${this.apiBaseAddr}`)
-            .map(response => response.json() as ClientInformation || null)
-            .subscribe(client => {
-                this._clientInformation = client;
+  load(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      resolve();
+    });
+  }
 
-                observer.next(true);
-            },
-            error => observer.error(error));
-        });
-    }
+  private getClientInformation(): Observable<any> {
+    return new Observable(observer => {
+      this.http.get('/api/client')
+        .map(response => response as ClientInformation)
+        .subscribe(client => {
+          this._clientInformation = client;
 
-    get clientInformation(): ClientInformation {
-        if(this._clientInformation)
-            return this._clientInformation;
+          observer.next(true);
+        },
+        error => observer.error(error));
+    });
+  }
 
-        return null;
-    }
+  get clientInformation(): ClientInformation {
+    if (this._clientInformation)
+      return this._clientInformation;
 
-    private getAllUsers(): Observable<Array<any>> {
-        return new Observable(observer => {
-            this.http.get('/api/users')
-            .map(response => response.json() as Array<any> || null)
-            .subscribe(users => {
-                this._users = users;
+    return null;
+  }
 
-                observer.next(true);
-            },
-            error => observer.error(error))
-        });
-    }
+  private getAllUsers(): Observable<Array<any>> {
+    return new Observable(observer => {
+      this.http.get('/api/users')
+        .map(response => response as Array<any>)
+        .subscribe(users => {
+          this._users = users;
 
-    get users(): Array<any> {
-        if(this._users)
-            return this._users;
+          observer.next();
+        },
+        error => observer.error(error))
+    });
+  }
 
-        return null;
-    }
+  get users(): Array<any> {
+    if (this._users)
+      return this._users;
+
+    return null;
+  }
 }

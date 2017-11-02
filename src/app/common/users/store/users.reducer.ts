@@ -20,7 +20,7 @@ export const initialState: State = {
   users: []
 };
 
-export function reducer(state = initialState, action: Action) {
+export function reducer(state = initialState, action: userActions.UserAction) {
   switch (action.type) {
     case userActions.ActionTypes.LOAD: {
       return Object.assign({}, state, {

@@ -1,5 +1,4 @@
 import { User } from './../../../common/users/user';
-import '@ngrx/core/add/operator/select';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/observable/combineLatest';
 

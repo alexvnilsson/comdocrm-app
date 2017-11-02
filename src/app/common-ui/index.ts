@@ -6,7 +6,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DatepickerModule, ModalModule, TooltipModule, PopoverModule, BsDropdownModule } from 'ngx-bootstrap';
-import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { FormsModule } from '@angular/forms';
 
 import { LayoutService } from './layout/layout.service';
@@ -27,72 +26,69 @@ import { ToolbarItemComponent } from 'app/common-ui/toolbar/item/toolbar-item.co
 import { SelectUserComponent } from './select-user/select-user.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        TooltipModule,
-        PopoverModule,
-        ModalModule.forRoot(),
-        BsDropdownModule.forRoot(),
-        AngularFontAwesomeModule
-    ],
-    declarations: [
-        PopoverConfirm,
-        TabsComponent,
-        TabComponent,
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    TooltipModule,
+    PopoverModule,
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot()
+  ],
+  declarations: [
+    PopoverConfirm,
+    TabsComponent,
+    TabComponent,
 
-        VerticalNavigationComponent,
-        VerticalNavigationItemComponent,
-        VerticalNavigationViewComponent,
+    VerticalNavigationComponent,
+    VerticalNavigationItemComponent,
+    VerticalNavigationViewComponent,
 
-        NavigationDirective,
-        NavigationItemDirective,
-        NavbarComponent,
-        NavbarItemDirective,
+    NavigationDirective,
+    NavigationItemDirective,
+    NavbarComponent,
+    NavbarItemDirective,
 
-        ToolbarComponent,
-        ToolbarItemComponent,
+    ToolbarComponent,
+    ToolbarItemComponent,
 
-        SelectUserComponent,
+    SelectUserComponent,
 
-        ModalContainerComponent,
-        ModalWrapperDirective,
-        StateContainerComponent
-    ],
-    exports: [
-        AngularFontAwesomeModule,
+    ModalContainerComponent,
+    ModalWrapperDirective,
+    StateContainerComponent
+  ],
+  exports: [
+    PopoverConfirm,
+    TabsComponent,
+    TabComponent,
 
-        PopoverConfirm,
-        TabsComponent,
-        TabComponent,
+    VerticalNavigationComponent,
+    VerticalNavigationItemComponent,
+    VerticalNavigationViewComponent,
 
-        VerticalNavigationComponent,
-        VerticalNavigationItemComponent,
-        VerticalNavigationViewComponent,
+    NavigationDirective,
+    NavigationItemDirective,
+    NavbarComponent,
+    NavbarItemDirective,
 
-        NavigationDirective,
-        NavigationItemDirective,
-        NavbarComponent,
-        NavbarItemDirective,
+    ToolbarComponent,
+    ToolbarItemComponent,
 
-        ToolbarComponent,
-        ToolbarItemComponent,
+    SelectUserComponent,
 
-        SelectUserComponent,
-
-        ModalContainerComponent,
-        ModalWrapperDirective,
-        StateContainerComponent
-    ]
+    ModalContainerComponent,
+    ModalWrapperDirective,
+    StateContainerComponent
+  ]
 })
 export class CommonUiModule {
-    public static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: CommonUiModule,
-            providers: [
-              LayoutService
-            ]
-        };
-    }
+  public static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: CommonUiModule,
+      providers: [
+        LayoutService
+      ]
+    };
+  }
 }

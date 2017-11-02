@@ -45,6 +45,6 @@ export class UsersEffects {
     constructor(
         private usersService: UsersService,
         private store$: Store<fromRoot.State>,
-        private actions$: Actions
+        private actions$: Actions<userActions.UserAction>
     ) {}
 }

@@ -42,55 +42,60 @@ export const ActionTypes = {
     DELETE_STATUS_USER_TASK_RESULT: 'ACCOUNTS_DELETE_STATUS_USER_TASK_RESULT' 
 }
 
-export class LoadAction implements Action {
+export interface AccountAction extends Action {
+  type: string;
+  payload?: any;
+}
+
+export class LoadAction implements AccountAction {
     readonly type = ActionTypes.LOAD;
 
     constructor(public payload?: any) {}
 }
 
-export class SelectAction implements Action {
+export class SelectAction implements AccountAction {
     readonly type = ActionTypes.SELECT;
 
     constructor(public payload: string) {}
 }
 
-export class LoadDetailsResult implements Action {
+export class LoadDetailsResult implements AccountAction {
   readonly type = ActionTypes.LOAD_DETAILS_RESULT;
 
   constructor(public payload: Account) {}
 }
 
-export class LoadSuccessAction implements Action {
+export class LoadSuccessAction implements AccountAction {
     readonly type = ActionTypes.LOAD_SUCCESS;
 
     constructor(public payload: Account[]) {}
 }
 
-export class LoadStatusesAction implements Action {
+export class LoadStatusesAction implements AccountAction {
     readonly type = ActionTypes.LOAD_STATUSES;
 
     constructor(public payload: string) {}
 }
 
-export class LoadStatusesResult implements Action {
+export class LoadStatusesResult implements AccountAction {
     readonly type = ActionTypes.LOAD_STATUSES_RESULT;
 
     constructor(public payload: AccountStatus[]) {}
 }
 
-export class UpdateAction implements Action {
+export class UpdateAction implements AccountAction {
     readonly type = ActionTypes.UPDATE;
 
     constructor(public payload: Account | Account[]) {}
 }
 
-export class AddAction implements Action {
+export class AddAction implements AccountAction {
     readonly type = ActionTypes.ADD;
 
     constructor(public payload: Account) {}
 }
 
-export class AddResult implements Action {
+export class AddResult implements AccountAction {
     readonly type = ActionTypes.ADD_RESULT;
 
     constructor(public payload: {
@@ -99,31 +104,31 @@ export class AddResult implements Action {
     }) {}
 }
 
-export class ImportAction implements Action {
+export class ImportAction implements AccountAction {
     readonly type = ActionTypes.IMPORT;
 
     constructor(public payload: AccountLead) {}
 }
 
-export class ImportResult implements Action {
+export class ImportResult implements AccountAction {
     readonly type = ActionTypes.IMPORT_RESULT;
 
     constructor(public payload: { account: Account, lead: AccountLead }) {}
 }
 
-export class UpdateManagerAction implements Action {
+export class UpdateManagerAction implements AccountAction {
     readonly type = ActionTypes.UPDATE_MANAGER;
 
     constructor(public payload: { account: Account, user: User}) {}
 }
 
-export class UpdateManagerResultAction implements Action {
+export class UpdateManagerResultAction implements AccountAction {
     readonly type = ActionTypes.UPDATE_MANAGER_RESULT;
 
     constructor(public payload: { success: boolean, account: Account, user: User}) {}
 }
 
-export class AddStatusAction implements Action {
+export class AddStatusAction implements AccountAction {
     readonly type = ActionTypes.ADD_STATUS;
 
     constructor(public payload: {
@@ -132,7 +137,7 @@ export class AddStatusAction implements Action {
     }) {}
 }
 
-export class AddStatusResultAction implements Action {
+export class AddStatusResultAction implements AccountAction {
     readonly type = ActionTypes.ADD_STATUS_RESULT;
 
     constructor(public payload: {
@@ -142,7 +147,7 @@ export class AddStatusResultAction implements Action {
     }) {}
 }
 
-export class DeleteStatusAction implements Action {
+export class DeleteStatusAction implements AccountAction {
     readonly type = ActionTypes.DELETE_STATUS;
 
     constructor(public payload: {
@@ -151,7 +156,7 @@ export class DeleteStatusAction implements Action {
     }) {}
 }
 
-export class DeleteStatusResultAction implements Action {
+export class DeleteStatusResultAction implements AccountAction {
     readonly type = ActionTypes.DELETE_STATUS_RESULT;
 
     constructor(public payload: {
@@ -161,7 +166,7 @@ export class DeleteStatusResultAction implements Action {
     }) {}
 }
 
-export class AddPersonOfInterestAction implements Action {
+export class AddPersonOfInterestAction implements AccountAction {
     readonly type = ActionTypes.ADD_PERSON_OF_INTEREST;
 
     constructor(public payload: {
@@ -170,7 +175,7 @@ export class AddPersonOfInterestAction implements Action {
     }) {}
 }
 
-export class AddPersonOfInterestSuccess implements Action {
+export class AddPersonOfInterestSuccess implements AccountAction {
     readonly type = ActionTypes.ADD_PERSON_OF_INTEREST_SUCCESS;
 
     constructor(public payload: {
@@ -179,7 +184,7 @@ export class AddPersonOfInterestSuccess implements Action {
     }) {}
 }
 
-export class DeletePersonOfInterestAction implements Action {
+export class DeletePersonOfInterestAction implements AccountAction {
     readonly type = ActionTypes.DELETE_PERSON_OF_INTEREST;
 
     constructor(public payload: {
@@ -188,7 +193,7 @@ export class DeletePersonOfInterestAction implements Action {
     }) {}
 }
 
-export class DeletePersonOfInterestSuccessAction implements Action {
+export class DeletePersonOfInterestSuccessAction implements AccountAction {
     readonly type = ActionTypes.DELETE_PERSON_OF_INTEREST_SUCCESS;
 
     constructor(public payload: {
@@ -197,7 +202,7 @@ export class DeletePersonOfInterestSuccessAction implements Action {
     }) {}
 }
 
-export class AddStatusUserTaskAction implements Action {
+export class AddStatusUserTaskAction implements AccountAction {
     readonly type = ActionTypes.ADD_STATUS_USER_TASK;
 
     constructor(public payload: {
@@ -207,7 +212,7 @@ export class AddStatusUserTaskAction implements Action {
     }) {}
 }
 
-export class AddStatusUserTaskResultAction implements Action {
+export class AddStatusUserTaskResultAction implements AccountAction {
     readonly type = ActionTypes.ADD_STATUS_USER_TASK_RESULT;
 
     constructor(public payload: {
@@ -218,7 +223,7 @@ export class AddStatusUserTaskResultAction implements Action {
     }) {}
 }
 
-export class DeleteStatusUserTaskAction implements Action {
+export class DeleteStatusUserTaskAction implements AccountAction {
     readonly type = ActionTypes.DELETE_STATUS_USER_TASK;
 
     constructor(public payload: {
@@ -228,7 +233,7 @@ export class DeleteStatusUserTaskAction implements Action {
     }) {}
 }
 
-export class DeleteStatusUserTaskResultAction implements Action {
+export class DeleteStatusUserTaskResultAction implements AccountAction {
     readonly type = ActionTypes.DELETE_STATUS_USER_TASK_RESULT;
 
     constructor(public payload: {
@@ -238,9 +243,3 @@ export class DeleteStatusUserTaskResultAction implements Action {
         userTask: UserTask
     }) {}
 }
-
-export type AccountsActions = 
-    LoadAction
-    | SelectAction
-    | LoadSuccessAction
-    | AddAction
