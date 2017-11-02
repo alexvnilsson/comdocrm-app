@@ -1,6 +1,6 @@
 <div #wrapper class="toolbar-wrapper" [class.overflown]="isOverflown">
-    <a #navLeft class="toolbar-nav toolbar-nav-left" (click)="onToolbarScrollClicked('left')"><fa name="caret-left"></fa></a>
-    <a #navRight class="toolbar-nav toolbar-nav-right" (click)="onToolbarScrollClicked('right')"><fa name="caret-right"></fa></a>
+    <a #navLeft class="toolbar-nav toolbar-nav-left" (click)="onToolbarScrollClicked('left')"><i class="fa fa-caret-left"></i></a>
+    <a #navRight class="toolbar-nav toolbar-nav-right" (click)="onToolbarScrollClicked('right')"><i class="fa fa-caret-right"></i></a>
 
     <div #toolbar class="toolbar" [style.left.px]="getPositionLeft()">
         <ng-content></ng-content>

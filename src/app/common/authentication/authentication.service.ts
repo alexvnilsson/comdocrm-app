@@ -8,7 +8,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import * as Auth0 from 'auth0-js';
 
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtHelper } from 'angular2-jwt';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -20,8 +20,7 @@ export class AuthenticationService implements OnDestroy {
     responseType: 'token id_token',
     audience: environment.auth0.audience,
     redirectUri: environment.auth0.redirectUrl,
-    scope: 'openid profile',
-
+    scope: 'openid profile'
   });
   userProfile: Auth0.Auth0UserProfile = null;
   _userProfiles: { [id: string]: Auth0.Auth0UserProfile } = {};
@@ -34,49 +33,30 @@ export class AuthenticationService implements OnDestroy {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private http: HttpClient,
-    private jwtHelper: JwtHelperService) {
-    this.setExpirationTimeout();
-  }
-
-  setExpirationTimeout() {
-    if (!this.isAuthenticated()) {
-      return false;
-    }
-
-    let token = sessionStorage.getItem('access_token');
-
-    if (!this.jwtHelper.isTokenExpired(token)) {
-      let timeUntil = this.jwtHelper.getTokenExpirationDate(token).getTime() - Date.now();
-
-      if (timeUntil > 0) {
-        setTimeout(() => {
-          this.onAuthhenticationTokenExpired.emit();
-        }, timeUntil);
-      }
-    }
-  }
-
-  private onTokenExpiredHandler(event: Event) {
-    this.login();
+    private route: ActivatedRoute) {
+    
   }
 
   public login() {
-    this.Auth0.authorize(null);
+    //this.Auth0.authorize(null);
+  }
+
+  public getToken() {
+    if (this.isAuthenticated() !== true) {
+      return null;
+    }
+
+    return sessionStorage.getItem('id_token');
   }
 
   public handleAuthentication(): Observable<any> {
     return new Observable(observer => {
-      this.Auth0.parseHash(null, (err, authResult) => {
+      this.Auth0.parseHash({ hash: window.location.hash }, (err, authResult) => {
+        console.log(authResult, err);
+
         if (authResult) {
           window.location.hash = '';
           this.setSession(authResult);
-
-          this.getProfile().subscribe(profile => {
-            this.userProfile = profile;
-            this.onAuthenticatedHandler.next(profile);
-          });
 
           let returnUrl: string = '/';
 
@@ -105,14 +85,6 @@ export class AuthenticationService implements OnDestroy {
 
       if (this.userProfile !== null)
         return observer.next(this.userProfile);
-
-      this.http.get('/api/users/me/profile')
-      .filter(res => res != null && res != {})
-      .map(res => res as Auth0.Auth0UserProfile)
-      .subscribe(profile => {
-        this.userProfile = profile;
-        observer.next(this.userProfile);
-      });
     });
   }
 
@@ -122,8 +94,6 @@ export class AuthenticationService implements OnDestroy {
     sessionStorage.setItem('access_token', authResult.accessToken);
     sessionStorage.setItem('id_token', authResult.idToken);
     sessionStorage.setItem('expires_at', expiresAt);
-
-    this.setExpirationTimeout();
   }
 
   public logout(): void {
@@ -135,13 +105,9 @@ export class AuthenticationService implements OnDestroy {
   }
 
   public isAuthenticated(): boolean {
-    const token = sessionStorage.getItem('access_token');
+    const expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
 
-    if (token != null && token.length > 0) {
-      return this.jwtHelper.isTokenExpired(token) === false;
-    } else {
-      return false;
-    }
+    return new Date().getTime() < expiresAt;
   }
 
   ngOnDestroy() {

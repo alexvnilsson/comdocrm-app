@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import { UserTask } from 'app/user-tasks';
 import { AuthenticationService } from '../authentication/authentication.service';
 import * as Auth0 from 'auth0-js';
-import { ClientService } from '../../clients/client.service';
 import { SelectItem } from '../select/select-item';
 import { User } from './user';
 
@@ -14,7 +13,6 @@ import { User } from './user';
 export class UsersService {
   constructor(
     private http: HttpClient,
-    private clientService: ClientService,
     private authService: AuthenticationService
   ) { }
 
@@ -75,11 +73,7 @@ export class UsersService {
   getUsersAsSelect(): Array<SelectItem> {
     var users: Array<SelectItem> = [];
 
-    if (this.clientService.users && this.clientService.users.length > 0) {
-      this.clientService.users.forEach((user: User) => {
-        users.push(new SelectItem(user.id, user.fullName));
-      })
-    }
+    
 
     return users;
   }

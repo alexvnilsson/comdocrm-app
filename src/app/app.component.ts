@@ -10,7 +10,6 @@ import { trigger, state, style, animate, transition, keyframes } from '@angular/
 import { RouteTransitionAnimation } from 'app/common/ui/animations';
 import { Router } from '@angular/router';
 import { CustomRoute } from 'app/common/router';
-import { ClientService } from './clients/client.service';
 import * as Auth0 from 'auth0-js';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -40,7 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private onUserAuthenticated: Subscription;
 
-  constructor(private router: Router, private client: ClientService, private authService: AuthenticationService) { }
+  constructor(private router: Router, private authService: AuthenticationService) { }
 
   ngOnInit() {
     if (this.authService.isAuthenticated()) {

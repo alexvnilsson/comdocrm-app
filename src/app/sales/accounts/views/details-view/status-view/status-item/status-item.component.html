@@ -41,7 +41,7 @@
           <ng-container *ngFor="let userTask of status.userTasks">
             <div class="small">
               <span class="text-muted">
-                <fa name="calendar"></fa>
+                <i class="fa fa-calendar"></i>
                 <span *ngIf="userTask.reminderDate" [tooltip]="userTask.reminderDate | date:'y-MM-dd'">{{ userTask.reminderDate | amCalendar }}</span>
               </span>
               <span *ngIf="userTask.displayName">{{ userTask.displayName }}

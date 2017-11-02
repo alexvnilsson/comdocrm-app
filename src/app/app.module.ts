@@ -1,4 +1,7 @@
-﻿import { environment } from '.env';
+﻿import { AuthenticationGuard } from 'app/common/router';
+import { JwtInterceptorService } from 'common/http/jwt.interceptor';
+import { HttpClient, HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { environment } from '.env';
 
 import { MomentModule } from 'angular2-moment';
 import { BrowserModule } from '@angular/platform-browser';
@@ -8,8 +11,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule, Router, RouterOutlet, Route } from '@angular/router';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { JwtModule, jwtModuleFactory } from 'common/http/jwt-module.factory';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule, Effect } from '@ngrx/effects';
@@ -37,6 +39,7 @@ import { AccountsModule } from 'app/sales/accounts/accounts.module';
 import { UserTasksModule } from 'app/user-tasks';
 
 import { AccountsService } from './sales/accounts/services';
+import { AccountLeadsService } from 'app/sales/accounts/services/account-leads.service';
 import { ProductsService } from './sales/products/services/products.service';
 
 import { AppComponent } from './app.component';
@@ -55,12 +58,13 @@ import { AppRoutes } from './app.routes';
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
-    FlexLayoutModule,
-    JwtModule.forRoot(jwtModuleFactory()),
+    HttpClientModule,
     RouterModule.forRoot(AppRoutes),
     StoreModule.forRoot(fromRoot.reducer),
     StoreRouterConnectingModule,
-    !environment.production ? StoreDevtoolsModule.instrumentOnlyWithExtension() : [],
+    !environment.production ? StoreDevtoolsModule.instrument({
+      maxAge: 5 
+    }) : [],
     EffectsModule.forRoot([
       accountsStore.AccountsEffects,
       accountLeadsStore.AccountLeadsEffects,
@@ -81,7 +85,19 @@ import { AppRoutes } from './app.routes';
     CallbackComponent
   ],
   providers: [
+    AuthenticationService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptorService,
+      multi: true,
+    },
+    {
+      provide: AuthenticationGuard,
+      useClass: AuthenticationGuard,
+      deps: [AuthenticationService, Router]
+    },  
     AccountsService,
+    AccountLeadsService,
     {
       provide: RouterStateSerializer,
       useClass: CustomRouterStateSerializer
@@ -89,8 +105,7 @@ import { AppRoutes } from './app.routes';
   ],
   bootstrap: [AppComponent],
   exports: [
-    ComdoCrmCommonModule,
-    RouterModule
+    
   ]
 })
 export class AppModule { }

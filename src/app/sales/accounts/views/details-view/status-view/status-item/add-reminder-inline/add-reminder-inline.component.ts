@@ -30,7 +30,7 @@ import * as accountsStore from 'app/sales/accounts/store/accounts';
                         required
                         name="reminderDate"
                         class="pt-2 pb-2 no-underline color-black">
-                        <fa name="calendar"></fa>
+                        <i class="fa fa-calendar"></i>
                     </a>
                 </div>
 
@@ -75,7 +75,7 @@ import * as accountsStore from 'app/sales/accounts/store/accounts';
                     i18n-tooltip
                     placement="right" 
                     container="body">
-                    + <fa name="calendar"></fa>
+                    + <i class="fa fa-calendar"></i>
                 </span>
             </div>
         </ng-container>

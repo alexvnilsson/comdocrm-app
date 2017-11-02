@@ -1,5 +1,5 @@
 <a
     class="btn toolbar-item"
     [routerLink]="link">
-    <fa [name]="icon" *ngIf="icon"></fa> {{ text }}
+    <i [class]="'fa fa-' + icon" *ngIf="icon"></i> {{ text }}
 </a>

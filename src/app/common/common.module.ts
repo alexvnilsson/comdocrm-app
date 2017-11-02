@@ -1,3 +1,4 @@
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule, ModuleWithProviders, APP_INITIALIZER } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +9,10 @@ import { DatepickerModule, ModalModule, TooltipModule, PopoverModule, BsDropdown
 import { SelectModule } from 'ng2-select';
 import { MomentModule } from 'angular2-moment';
 import { CommonUiModule } from 'app/common-ui';
+import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 import 'moment/locale/sv';
+
+import { JwtInterceptorService } from 'common/http/jwt.interceptor';
 
 import { AuthenticationModule, AuthenticationService } from './authentication';
 import { AuthenticationGuard } from './router/authentication.guard';
@@ -16,8 +20,6 @@ import { UsersService } from './users/users.service';
 import { ClientService, ClientServiceInitFactory } from '../clients/client.service';
 
 import { RouterHelperService } from 'common/router/router-helper.service';
-
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { TabDirective } from './ui/directives/tab';
 
@@ -35,11 +37,11 @@ import { DatepickerDirective } from './ui/components/datepicker/datepicker.direc
 import { LoadingComponent } from './ui/components/loading/loading.component';
 import { NavbarComponent, NavbarItemDirective } from 'app/common-ui/navbar';
 
-
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    HttpClientModule,
     CommonUiModule,
     SelectModule,
     FormsModule,
@@ -89,20 +91,6 @@ export class ComdoCrmCommonModule {
       providers: [
         RouterOutlet,
         RouterHelperService,
-        JwtHelperService,
-        AuthenticationService,
-        {
-          provide: AuthenticationGuard,
-          useClass: AuthenticationGuard,
-          deps: [AuthenticationService, Router]
-        },
-        ClientService,
-        {
-          provide: APP_INITIALIZER,
-          useFactory: ClientServiceInitFactory,
-          deps: [ClientService],
-          multi: true
-        },
         UsersService
       ]
     }

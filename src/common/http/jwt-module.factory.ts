@@ -4,11 +4,8 @@ export function jwtModuleFactory() {
   return {
     config: {
       tokenGetter: () => {
-        return localStorage.getItem('access_token');
-      },
-      whitelistedDomains: environment.auth0.whitelist
+        return localStorage.getItem('id_token');
+      }
     }
   }
 }
-
-export { JwtModule } from '@auth0/angular-jwt';

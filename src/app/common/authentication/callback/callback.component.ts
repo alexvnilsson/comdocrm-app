@@ -8,11 +8,10 @@ import { AuthenticationService } from '../authentication.service';
   styleUrls: ['./callback.component.scss']
 })
 export class CallbackComponent implements OnInit, AfterViewInit {
-
   constructor (
-        private router: Router,
-        private authService: AuthenticationService
-    ) {
+    private router: Router,
+    private authService: AuthenticationService
+  ) {
       
    }
 
@@ -21,9 +20,9 @@ export class CallbackComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-      this.authService.handleAuthentication().subscribe(result => {
+    this.authService.handleAuthentication().subscribe(result => {
 
-      });
+    });
   }
 
 }
