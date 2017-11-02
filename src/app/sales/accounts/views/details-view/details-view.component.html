@@ -1,6 +1,6 @@
 <ng-container *ngIf="account">
   <div class="pt-2 pb-2">
-    <button type="button" class="btn btn-link pl-0 pr-0" routerLink="/sales/accounts"><fa name="caret-left"></fa> Kunder</button>
+    <button type="button" class="btn btn-link pl-0 pr-0" routerLink="/sales/accounts"><i class="fa fa-caret-left"></i> Kunder</button>
   </div>
   
   <div class="row">
@@ -52,7 +52,7 @@
                 type="button"
                 class="btn btn-link"
                 (click)="onModalOpen.emit('modal_accounts_select-account-manager')">
-                <fa name="pencil-square"></fa>
+                <i class="fa fa-pencil-square"></i>
               </button>
             </div>
           </ng-container>
@@ -64,7 +64,7 @@
           <div class="d-flex flex-row justify-content-between align-items-center">
             <h4 class="text-muted font-weight-light">Kontaktpersoner</h4>
             <span class="ml-2 text-muted" tooltip="Kontaktuppgifter till personer inom företaget/sekundära kontaktuppgifter" container="body">
-              <fa name="info-circle"></fa>
+              <i class="fa fa-info-circle"></i>
             </span>
           </div>
 
@@ -86,14 +86,14 @@
     class="btn btn-link action-bar-item"
     [class.disabled]="composeLog.Open"
     (click)="composeLog.open()">
-      <span class="text-dark">+</span> <fa name="sticky-note"></fa> Händelse
+      <span class="text-dark">+</span> <i class="fa fa-sticky-note"></i> Händelse
     </button>
 
   <button
     type="button"
     class="btn btn-link action-bar-item"
     (click)="onModalOpen.emit('modal_accounts_addPersonOfInterest')">
-      <span class="text-dark">+</span> <fa name="address-card"></fa> Kontakt
+      <span class="text-dark">+</span> <i class="fa fa-address-card"></i> Kontakt
     </button>
 </div>
 

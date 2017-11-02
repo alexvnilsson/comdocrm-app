@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from 'app/app.store';
 import * as fromAccounts from '../store/accounts/accounts.reducer';
-import * as usersStore from 'app/common/users/store';
+import * as fromUsers from 'app/common/users/store/users.reducer';
 import { Account } from '../models/accounts';
 
 import * as accountActions from '../store/accounts/accounts.actions';
@@ -27,7 +27,6 @@ export class AccountDetailsContainer implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromRoot.State>,
-    private userStore: Store<usersStore.fromUsers.State>,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -37,7 +36,7 @@ export class AccountDetailsContainer implements OnInit, OnDestroy {
       }
     });
 
-    this.users$ = this.userStore.select(usersStore.fromUsers.all);
+    this.users$ = this.store.select(fromRoot.fromUsers).select(fromUsers.all);
   }
 
   ngOnDestroy() {

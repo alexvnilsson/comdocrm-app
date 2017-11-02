@@ -1,5 +1,10 @@
-import { createSelector } from 'reselect';
-import { ActionReducer, combineReducers, Store, MetaReducer } from '@ngrx/store';
+import {
+  ActionReducerMap,
+  createSelector,
+  createFeatureSelector,
+  ActionReducer,
+  MetaReducer,
+} from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
 import { environment } from '.env';
 
@@ -39,12 +44,12 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
   ? [storeFreeze]
   : [];
 
-export const usersState = (state: State) => state.users;
+export const fromUsers = (state: State) => state.users;
 
-export const accountsState = (state: State) => state.accounts;
+export const fromAccounts = (state: State) => state.accounts;
 
-export const leadsState = (state: State) => state.leads;
+export const fromLeads = (state: State) => state.leads;
 
-export const layoutState = (state: State) => state.layout;
+export const fromLayout = (state: State) => state.layout;
 
-export const productsState = (state: State) => state.products;
+export const fromProducts = (state: State) => state.products;

@@ -27,7 +27,7 @@ import { ModalModule, TooltipModule, PopoverModule, BsDropdownModule, Datepicker
 import { ComdoCrmCommonModule } from 'app/common';
 import { CommonUiModule } from 'app/common-ui';
 
-import * as fromRoot from './app.store';
+import { reducers, metaReducers } from './app.store';
 import * as usersStore from 'app/common/users/store';
 import * as accountsStore from 'app/sales/accounts/store/accounts';
 import * as accountLeadsStore from 'app/sales/accounts/store/accounts/leads';
@@ -60,7 +60,7 @@ import { AppRoutes } from './app.routes';
     HttpModule,
     HttpClientModule,
     RouterModule.forRoot(AppRoutes),
-    StoreModule.forRoot(fromRoot.reducer),
+    StoreModule.forRoot(reducers, { metaReducers } ),
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument({
       maxAge: 5 

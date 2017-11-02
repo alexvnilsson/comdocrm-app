@@ -38,11 +38,11 @@ export class AuthenticationService implements OnDestroy {
   }
 
   public login() {
-    //this.Auth0.authorize(null);
+    this.Auth0.authorize(null);
   }
 
   public getToken() {
-    if (this.isAuthenticated() !== true) {
+    if (!this.isAuthenticated()) {
       return null;
     }
 
@@ -52,8 +52,6 @@ export class AuthenticationService implements OnDestroy {
   public handleAuthentication(): Observable<any> {
     return new Observable(observer => {
       this.Auth0.parseHash({ hash: window.location.hash }, (err, authResult) => {
-        console.log(authResult, err);
-
         if (authResult) {
           window.location.hash = '';
           this.setSession(authResult);

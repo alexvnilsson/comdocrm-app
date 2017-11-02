@@ -51,11 +51,11 @@ export class AccountDetailsSelectedContainer {
 
   constructor(
     private store: Store<fromRoot.State>) {
-    this.account$ = store.select(fromRoot.accountsState).select(fromAccounts.selected);
-    this.statuses$ = store.select(fromRoot.accountsState).select(fromAccounts.statusesOfSelected);
-    this.users$ = store.select(fromRoot.usersState).select(fromUsers.all);
+    this.account$ = store.select(fromRoot.fromAccounts).select(fromAccounts.selected);
+    this.statuses$ = store.select(fromRoot.fromAccounts).select(fromAccounts.statusesOfSelected);
+    this.users$ = store.select(fromRoot.fromUsers).select(fromUsers.all);
 
-    this.modalOpen$ = store.select(fromRoot.layoutState).select(fromLayout.openedModalName);
+    this.modalOpen$ = store.select(fromRoot.fromLayout).select(fromLayout.openedModalName);
   }
 
   private onModalOpened(name: string) {

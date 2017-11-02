@@ -2,6 +2,7 @@ import { User } from './../../../../common/users/user';
 import 'rxjs/add/operator/map';
 
 import { ActionReducer, Action, Store } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { AccountStatus, Account } from '../../models/accounts';
 import { createSelector } from 'reselect';
 import { state } from '@angular/animations';

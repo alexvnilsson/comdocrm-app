@@ -53,9 +53,9 @@ export class AccountsListContainer implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(new accountActions.SelectAction(null));
 
-    this.profile$ = this.store.select(fromRoot.usersState).select(fromUsers.fromUsers.profile);
+    this.profile$ = this.store.select(fromRoot.fromUsers).select(fromUsers.fromUsers.profile);
 
-    this.accounts$ = Observable.from(this.store.select(fromRoot.accountsState).select(fromAccounts.allaccounts).map(accounts =>
+    this.accounts$ = Observable.from(this.store.select(fromRoot.fromAccounts).select(fromAccounts.allaccounts).map(accounts =>
       accounts
         .slice()
         .sort((a, b) => (b.dateModified < a.dateModified ? -1 : 1))
@@ -89,7 +89,7 @@ export class AccountsListContainer implements OnInit, OnDestroy {
     );
 
     const leadsUnsorted = this.store
-      .select(fromRoot.leadsState)
+      .select(fromRoot.fromLeads)
       .select(fromAccountLeads.fromAccountLeads.allEntities);
 
     this.leads$ = Observable.from(leadsUnsorted).map(accounts => {
@@ -102,10 +102,10 @@ export class AccountsListContainer implements OnInit, OnDestroy {
       }
     });
 
-    this.loading$ = this.store.select(fromRoot.accountsState).select(fromAccounts.getLoading);
+    this.loading$ = this.store.select(fromRoot.fromAccounts).select(fromAccounts.getLoading);
 
     this.modalOpen$ = this.store
-      .select(fromRoot.layoutState)
+      .select(fromRoot.fromLayout)
       .select(fromLayout.openedModalName);
   }
 

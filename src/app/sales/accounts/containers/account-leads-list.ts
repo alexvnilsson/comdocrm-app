@@ -45,7 +45,7 @@ export class AccountLeadsListContainer implements OnInit, OnDestroy {
     ngOnInit() {
         this.store.dispatch(new accountLeadsStore.actions.SelectAction(null));
 
-        let leadsUnsorted = this.store.select(fromRoot.leadsState).select(accountLeadsStore.fromAccountLeads.allEntities);
+        let leadsUnsorted = this.store.select('leads').select(accountLeadsStore.fromAccountLeads.allEntities);
 
         this.leads$ = Observable.from(leadsUnsorted).map(accounts => {
                 if (accounts && accounts.length > 0) {
@@ -56,9 +56,9 @@ export class AccountLeadsListContainer implements OnInit, OnDestroy {
             }
         );
 
-        this.loading$ = this.store.select(fromRoot.leadsState).select(accountLeadsStore.fromAccountLeads.getLoading);
+        this.loading$ = this.store.select('leads').select(accountLeadsStore.fromAccountLeads.getLoading);
 
-        this.modalOpen$ = this.store.select(fromRoot.layoutState).select(fromLayout.openedModalName);
+        this.modalOpen$ = this.store.select('layout').select(fromLayout.openedModalName);
     }
 
     onAccountImported(account: Account) {
