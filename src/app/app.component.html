@@ -27,14 +27,14 @@
       </div>
 
       <div class="navbar-header-brand">
-          <a class="navbar-brand display-4 pt-0 pb-0" routerLink="/" (click)="onNavigationItemClicked$.emit(null)">
+          <a class="navbar-brand display-4 pt-0 pb-0" routerLink="/" (click)="onNavigationItemClicked()">
             <img src="assets/media/brand.svg" alt="ComdoCRM brand" width="48px" />
             <h5 class="mb-0 font-weight-light">ComdoCRM</h5>
           </a>
       </div>
 
       <ul class="navbar-main-nav nav nav-pills nav-fill">
-        <li class="nav-item align-self-start" *ngFor="let route of routeItems" (click)="onNavigationItemClicked$.emit(null)">
+        <li class="nav-item align-self-start" *ngFor="let route of routeItems" (click)="onNavigationItemClicked()">
           <a navItem class="nav-link" routerLinkActive="active" [routerLink]="route.href" role="button">
             <i *ngIf="route.faIcon" aria-hidden="true" [class]="'fa fa-' + route.faIcon + ' nav-link-icon'"></i>
             <span class="ml-2">{{ route.text }}</span>

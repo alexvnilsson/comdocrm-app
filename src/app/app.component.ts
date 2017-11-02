@@ -38,8 +38,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   };
 
-  onNavigationItemClicked$: EventEmitter<any> = new EventEmitter();
-
   private onUserAuthenticated: Subscription;
 
   constructor(private router: Router, private client: ClientService, private authService: AuthenticationService) { }
@@ -60,10 +58,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.routeItems.push(route);
       }
     });
-
-    this.onNavigationItemClicked$.delay(250).subscribe(() => {
-      this.onNavigationItemClicked();
-    });
   }
 
   ngAfterViewInit() {
@@ -75,9 +69,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onNavigationItemClicked() {
-    if (this.navigationBar.nativeElement.classList.contains('show')) {
-      this.navigationBar.nativeElement.classList.remove('show');
-    }
+    this.layout.navigation.expanded = false;
   }
 
   ngOnDestroy() {
