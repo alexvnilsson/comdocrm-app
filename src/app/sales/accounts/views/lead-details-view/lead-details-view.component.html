@@ -1,0 +1,59 @@
+<ng-container *ngIf="lead">
+  <div class="pt-2 pb-2">
+    <button type="button" class="btn btn-link pl-0 pr-0" routerLink="/sales/accounts"><fa name="caret-left"></fa> Förslag</button>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <h4>{{ lead.customer?.legalName }}</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8 bg-white">
+        <h4 class="font-weight-light text-muted">Flöde</h4>
+
+      <div class="mt-2">
+        <ng-container *ngIf="lead.statuses">
+          <ccrm-sales-accounts-status-item
+            *ngFor="let status of lead.statuses"
+            [account]="lead"
+            [status]="status">
+          </ccrm-sales-accounts-status-item>
+        </ng-container>
+
+        <ng-container *ngIf="!statuses.length">
+          <h2 class="display-4 text-muted align-self-center text-center mt-3">...</h2>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-sm-4 border-sm-0" style="border-left: 1px solid #d8d8d8">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="d-flex flex-row justify-content-between align-items-center">
+            <h4 class="text-muted font-weight-light">Kontaktpersoner</h4>
+            <span class="ml-2 text-muted" tooltip="Kontaktuppgifter till personer inom företaget/sekundära kontaktuppgifter" container="body">
+              <fa name="info-circle"></fa>
+            </span>
+          </div>
+
+          <ng-container *ngIf="lead.peopleOfInterest && lead.peopleOfInterest.length > 0">
+            <div *ngFor="let person of lead.peopleOfInterest" class="mb-2">
+              <ccrm-sales-accounts-person-of-interest [account]="lead" [person]="person">
+              </ccrm-sales-accounts-person-of-interest>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div #actionBar class="action-bar-wrapper">
+  <button
+    type="button"
+    class="btn btn-link action-bar-item">
+    <span class="text-dark">+</span> <fa name="user-circle-o"></fa> Påbörja
+  </button>
+</div>

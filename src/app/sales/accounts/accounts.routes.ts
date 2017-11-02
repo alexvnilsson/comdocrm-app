@@ -9,7 +9,7 @@ export const routes: Route[] = [
         component: AccountsListContainer
     },
     {
-        path: 'import',
+        path: 'lead/:slug',
         component: AccountLeadsListContainer
     },
     {

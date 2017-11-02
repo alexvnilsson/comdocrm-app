@@ -27,10 +27,10 @@ import { Subscription } from 'rxjs/Subscription';
         <ccrm-ui-spinner *ngIf="loading$ | async"></ccrm-ui-spinner>
 
         <ccrm-sales-accounts-list-leads-view
-        [leads]="leadsSorted$"
+        [leads]="leads$ | async"
         [modalOpen$]="modalOpen$ | async"
         (onAccountImported)="onAccountImported($event)"
-        (onModalOpen)="onModalOpen($event, name)">
+        (onModalOpen)="onModalOpen($event)">
         </ccrm-sales-accounts-list-leads-view>
     `
 })

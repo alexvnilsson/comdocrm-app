@@ -1,31 +1,38 @@
 <div class="container-fluid pl-0 pr-0">
-    <div class="list-group">
-        <div
-            *ngFor="let lead of leads"
-            class="list-group-item list-group-item-action border-0 flex-column align-items-start"
-            (click)="onLeadClicked(lead, $event)"
-            role="button">
-            <div class="d-flex flex-row flex-wrap w-100 justify-content-between">
-                <h6 class="mb-1">
-                    {{ lead.customer?.legalName || "Okänt" }}
-                </h6>
+  <div class="container-fluid bg-light p-4 pt-2" style="border-bottom: 1px solid #d8d8d8">
+    <h5 class="text-muted">Filtrera förslag</h5>
 
-                <span class="small text-muted">{{ lead.dateCreated | amCalendar }}</span>
-            </div>
+    <label class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input">
+      <span class="custom-control-indicator"></span>
+      <span class="custom-control-description">Endast giltiga (enligt giltighetstid)</span>
+    </label>
+  </div>
 
-            <div class="d-flex flex-row justify-space-between" *ngIf="lead.source">
-                <div class="small">
-                    <span class="text-muted">Hämtades från</span> {{ lead.source.displayName }}
-                </div>
-            </div>
+  <div class="list-group">
+    <div *ngFor="let lead of leads" class="list-group-item list-group-item-action border-0 flex-column align-items-start" (click)="onLeadClicked(lead, $event)"
+      role="button">
+      <div class="d-flex flex-row flex-wrap w-100 justify-content-between">
+        <h6 class="mb-1">
+          {{ lead.customer?.legalName || "Okänt" }}
+        </h6>
+
+        <span class="small text-muted">{{ lead.dateCreated | amCalendar }}</span>
+      </div>
+
+      <div class="d-flex flex-column" *ngIf="lead.source">
+        <div class="small">
+          <span class="text-muted">Hämtades från</span> {{ lead.source.displayName }}
         </div>
+        <div class="small" *ngIf="lead.dateValidUntil">
+          <span class="text-muted">Gilltig t.o.m.</span> {{ lead.dateValidUntil | amLocal | amDateFormat:'YYYY-MM-DD' }}
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <modal-container id="accounts_leads_leadCard" [state]="modalOpen$" class="modal-lg">
-    <ccrm-sales-accounts-lead-card
-        [lead]="selectedLead"
-        (onImported)="onAccountImported.emit($event)"
-        (onClosed)="onModalOpen.emit(null)">
-    </ccrm-sales-accounts-lead-card>
+  <ccrm-sales-accounts-lead-card [lead]="selectedLead" (onImported)="onAccountImported.emit($event)" (onClosed)="onModalOpen.emit(null)">
+  </ccrm-sales-accounts-lead-card>
 </modal-container>

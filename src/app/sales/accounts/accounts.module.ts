@@ -1,3 +1,4 @@
+import { LeadDetailsViewComponent } from './views/lead-details-view/lead-details-view.component';
 import { DashboardViewComponent } from './views/dashboard-view/dashboard-view.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -52,10 +53,10 @@ import { routes } from './accounts.routes';
         AccountLeadsListContainer,
         AccountDetailsContainer,
         AccountDetailsSelectedContainer,
+
+        /* Account components */
         ListViewComponent,
         ListItemComponent,
-        ListLeadsViewComponent,
-        AllStatusesComponent,
         DetailsViewComponent,
         ComposerComponent,
         AddPersonOfInterestComponent,
@@ -63,8 +64,17 @@ import { routes } from './accounts.routes';
         LogComposerComponent,
         PersonOfInterestComponent,
         AddReminderInlineComponent,
-        InitialEditorComponent,
+
+
+        /* Lead components */
+        ListLeadsViewComponent,
         LeadCardComponent,
+        LeadDetailsViewComponent,
+
+        AllStatusesComponent,
+        
+        InitialEditorComponent,
+        
         DashboardViewComponent
     ],
     providers: [
