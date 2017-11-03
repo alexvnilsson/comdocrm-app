@@ -81,3 +81,5 @@ export const usersState = (state: State) => state;
 export const all = (state: State) => state.users;
 
 export const profile = (state: State) => state.me;
+
+export const auth0Profile = (state: State) => state.auth0Profile;

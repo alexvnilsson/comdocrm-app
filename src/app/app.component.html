@@ -43,7 +43,12 @@
       </ul>
 
       <div class="navbar-bottom-bar">
-        
+        <ng-container *ngIf="auth0Profile">
+          <div class="d-flex flex-row justify-content-left align-items-start">
+            <img *ngIf="auth0Profile.picture" [src]="auth0Profile.picture" height="32px" />
+            <span class="ml-auto">{{ auth0Profile.name }}</span>
+          </div>
+        </ng-container>
       </div>
     </div>
 

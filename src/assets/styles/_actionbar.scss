@@ -11,8 +11,8 @@ $action-bar-item-active-bg-color: $blue-gray-200;
 @include media-breakpoint-up(lg) {
   .action-bar-wrapper {
     bottom: 0rem;
-    left: 50%;
-    transform: translateX(-50%);
+    left: $nav-dark-width;
+    right: 0px;
   }
 }
 
@@ -51,7 +51,7 @@ $action-bar-item-active-bg-color: $blue-gray-200;
 
     padding: 1rem 1.25rem;
 
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-decoration: none;
 
     color: $action-bar-item-text-color;
