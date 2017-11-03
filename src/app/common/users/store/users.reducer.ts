@@ -10,12 +10,22 @@ import { User } from "app/common/users/user";
 
 export interface State {
   loading: boolean;
+  auth0Profile: Auth0ProfileState;
   me: User;
   users: User[];
 }
 
+export interface Auth0ProfileState {
+  loading: boolean;
+  profile: auth0.Auth0UserProfile;
+}
+
 export const initialState: State = {
   loading: null,
+  auth0Profile: {
+    loading: null,
+    profile: null 
+  },
   me: null,
   users: []
 };
@@ -40,6 +50,23 @@ export function reducer(state = initialState, action: userActions.UserAction) {
     case userActions.ActionTypes.MY_PROFILE_RESULT: {
       return Object.assign({}, state, {
         me: action.payload
+      });
+    }
+
+    case userActions.ActionTypes.MY_AUTH0_PROFILE: {
+      return Object.assign({}, state, {
+        auth0Profile: Object.assign({}, state.auth0Profile, {
+          loading: true
+        })
+      });
+    }
+
+    case userActions.ActionTypes.MY_AUTH0_PROFILE_RESULT: {
+      return Object.assign({}, state, {
+        auth0Profile: Object.assign({}, state.auth0Profile, {
+          loading: false,
+          profile: action.payload
+        })
       });
     }
 

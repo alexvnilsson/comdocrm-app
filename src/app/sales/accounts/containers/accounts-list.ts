@@ -53,12 +53,18 @@ export class AccountsListContainer implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(new accountActions.SelectAction(null));
 
-    this.profile$ = this.store.select(fromRoot.fromUsers).select(fromUsers.fromUsers.profile);
+    this.profile$ = this.store
+      .select(fromRoot.fromUsers)
+      .select(fromUsers.fromUsers.profile);
 
-    this.accounts$ = Observable.from(this.store.select(fromRoot.fromAccounts).select(fromAccounts.allaccounts).map(accounts =>
-      accounts
-        .slice()
-        .sort((a, b) => (b.dateModified < a.dateModified ? -1 : 1))
+    this.accounts$ = Observable.from(this.store
+      .select(fromRoot.fromAccounts)
+      .select(fromAccounts.allaccounts)
+      .filter(accounts => accounts && accounts.length > 0)
+      .map(accounts =>
+        accounts
+          .slice()
+          .sort((a, b) => (b.dateModified < a.dateModified ? -1 : 1))
     ));
 
     this.accountsMine$ = this.accounts$.mergeMap(a => 
@@ -92,17 +98,17 @@ export class AccountsListContainer implements OnInit, OnDestroy {
       .select(fromRoot.fromLeads)
       .select(fromAccountLeads.fromAccountLeads.allEntities);
 
-    this.leads$ = Observable.from(leadsUnsorted).map(accounts => {
-      if (accounts && accounts.length > 0) {
-        return accounts
-          .slice()
-          .sort((a, b) => (b.dateModified < a.dateModified ? -1 : 1));
-      } else {
-        return null;
-      }
-    });
+    this.leads$ = Observable.from(leadsUnsorted)
+    .filter(accounts => accounts && accounts.length > 0)
+    .map(accounts => 
+      accounts
+        .slice()
+        .sort((a, b) => (b.dateModified < a.dateModified ? -1 : 1))
+    );
 
-    this.loading$ = this.store.select(fromRoot.fromAccounts).select(fromAccounts.getLoading);
+    this.loading$ = this.store
+      .select(fromRoot.fromAccounts)
+      .select(fromAccounts.getLoading);
 
     this.modalOpen$ = this.store
       .select(fromRoot.fromLayout)

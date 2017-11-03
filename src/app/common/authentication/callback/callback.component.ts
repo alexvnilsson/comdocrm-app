@@ -16,7 +16,7 @@ export class CallbackComponent implements OnInit, AfterViewInit {
    }
 
   ngOnInit() {
-    
+    this.authService.isAuthenticating();
   }
 
   ngAfterViewInit() {

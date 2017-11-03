@@ -24,6 +24,7 @@
   .workspace-body {
       overflow-y: auto;
 
+      padding-left: $nav-dark-width + 2.5rem;
       padding-bottom: 4rem;
   }
 }

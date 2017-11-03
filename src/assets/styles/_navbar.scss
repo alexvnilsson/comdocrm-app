@@ -33,9 +33,17 @@ $nav-item-active-text-color: #222;
 //  Dark theme, desktop side navigation.
 //
 
+@mixin nav-dark-positioning() {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+}
+
 $nav-dark-toggler-color: #fafafa;
 
 $nav-dark-bg-color: $gray-900;
+$nav-dark-border-color: $gray-700;
 
 $nav-item-dark-bg-color: $gray-800;
 $nav-item-dark-text-color: #fefefe;
@@ -83,19 +91,41 @@ $nav-item-dark-active-text-color: #222;
 
   .navbar-main-container {
     display: block;
-    flex: 0 0 16.66666667%;
+
+    @include nav-dark-positioning();
   
-    min-width: 8rem;
-    max-width: 10rem;
+    width: $nav-dark-width;
   
     background-color: $nav-dark-bg-color;
 
+    z-index: 99;
+
     .navbar-header {
       display: none;
+
+      .navbar-toggler {
+        display: none;
+      }
     }
 
     .navbar-header-brand {
-      display: none;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      padding: .5rem 0;
+
+      .navbar-brand {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        margin: 0;
+
+        color: $nav-item-dark-text-color;
+      }
     }
   
     .navbar-main-nav.nav {
@@ -120,6 +150,16 @@ $nav-item-dark-active-text-color: #222;
           border-right: 1px solid #e2e2e2;
         }
       }
+    }
+
+    .navbar-bottom-bar {
+      position: absolute;
+      left: 0px; right: 0px;
+      bottom: 0px;
+
+      height: 4rem;
+
+      border-top: 1px solid $nav-dark-border-color;
     }
   }
 }

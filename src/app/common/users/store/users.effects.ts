@@ -1,3 +1,4 @@
+import { AuthenticationService } from 'app/common/authentication';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -24,27 +25,35 @@ import { UsersService } from '../users.service';
 export class UsersEffects {
     @Effect()
     load$: Observable<Action> = this.actions$
-        .ofType(userActions.ActionTypes.LOAD)
-        .startWith(new userActions.LoadAction(null))
-        .map(toPayload)
-        .mergeMap(payload => {
-            return this.usersService.getUsers()
-            .map(users => new userActions.LoadResultAction(users));
-        });
+      .ofType(userActions.ActionTypes.LOAD)
+      .startWith(new userActions.LoadAction(null))
+      .map(toPayload)
+      .mergeMap(payload => {
+          return this.usersService.getUsers()
+          .map(users => new userActions.LoadResultAction(users));
+      });
 
     @Effect()
     myProfile$: Observable<Action> = this.actions$
-        .ofType(userActions.ActionTypes.MY_PROFILE)
-        .startWith(new userActions.MyProfileAction(null))
-        .map(toPayload)
-        .mergeMap(payload => {
-            return this.usersService.getProfile()
-            .map(profile => new userActions.MyProfileResult(profile));
-        });
+      .ofType(userActions.ActionTypes.MY_PROFILE)
+      .startWith(new userActions.MyProfileAction(null))
+      .map(toPayload)
+      .mergeMap(payload => this.usersService.getProfile()
+        .map(profile => new userActions.MyProfileResult(profile))
+      );
+
+    @Effect()
+    myAuth0Profile$: Observable<Action> = this.actions$
+      .ofType(userActions.ActionTypes.MY_AUTH0_PROFILE)
+      .startWith(new userActions.MyAuth0ProfileAction())
+      .switchMap(payload => this.usersService.getAuth0Profile()
+          .map(profile => new userActions.MyAuth0ProfileResult(profile))
+      );
 
     constructor(
-        private usersService: UsersService,
-        private store$: Store<fromRoot.State>,
-        private actions$: Actions<userActions.UserAction>
+      private usersService: UsersService,
+      private authService: AuthenticationService,
+      private store$: Store<fromRoot.State>,
+      private actions$: Actions<userActions.UserAction>
     ) {}
 }

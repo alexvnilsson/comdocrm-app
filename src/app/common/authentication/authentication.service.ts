@@ -1,3 +1,4 @@
+import { Store } from '@ngrx/store';
 import { Injectable, OnDestroy, EventEmitter, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { Response } from '@angular/http';
@@ -6,11 +7,15 @@ import { environment } from '.env'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/timeout';
 import * as Auth0 from 'auth0-js';
 
 import { JwtHelper } from 'angular2-jwt';
 
 import { Subscription } from 'rxjs/Subscription';
+
+import * as fromRoot from 'app/app.store';
+import * as userActions from 'app/common/users/store/users.actions';
 
 @Injectable()
 export class AuthenticationService implements OnDestroy {
@@ -29,47 +34,79 @@ export class AuthenticationService implements OnDestroy {
 
   onAuthhenticationTokenExpired = new EventEmitter();
 
+  protected _isAuthenticating: boolean;
+
   private routerEventListener: Subscription;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute) {
-    
+    private route: ActivatedRoute,
+    private store: Store<fromRoot.State>
+  ) {
+    if (this.isAuthenticated() === true) {
+      this.getAuth0Profile();
+    }
+  }
+
+  public isAuthenticating() {
+    this._isAuthenticating = true;
   }
 
   public login() {
-    this.Auth0.authorize(null);
+    if (this._isAuthenticating !== true) {
+      this.Auth0.authorize(null);
+    }
   }
 
-  public getToken() {
+  public get idToken() {
     if (!this.isAuthenticated()) {
+      return null;
+    }
+
+    if (!sessionStorage.getItem('id_token')) {
       return null;
     }
 
     return sessionStorage.getItem('id_token');
   }
 
+  public get accessToken() {
+    if (!this.isAuthenticated()) {
+      return null;
+    }
+
+    if (!sessionStorage.getItem('access_token')) {
+      return null;
+    }
+
+    return sessionStorage.getItem('access_token');
+  }
+
   public handleAuthentication(): Observable<any> {
     return new Observable(observer => {
       this.Auth0.parseHash({ hash: window.location.hash }, (err, authResult) => {
-        if (authResult) {
-          window.location.hash = '';
+        if (err) {
+          observer.error(err);
+          this.router.navigate(['/']);
+        } else {        
           this.setSession(authResult);
 
           let returnUrl: string = '/';
 
-          if (sessionStorage.getItem('auth:returnUrl').length > 0) {
+          if (sessionStorage.getItem('auth:returnUrl')) {
             returnUrl = sessionStorage.getItem('auth:returnUrl');
             sessionStorage.removeItem('auth:returnUrl');
           }
 
-          this.router.navigate([returnUrl]);
+          setTimeout(() => {
+            window.location.hash = '';
+            this._isAuthenticating = false;
 
-          observer.next();
+            this.getAuth0Profile();
 
-        } else if (err) {
-          observer.error(err);
-          this.router.navigate(['/']);
+            this.router.navigateByUrl(returnUrl);
+            observer.complete();
+          }, 1000);
         }
       });
     });
@@ -84,6 +121,10 @@ export class AuthenticationService implements OnDestroy {
       if (this.userProfile !== null)
         return observer.next(this.userProfile);
     });
+  }
+
+  public getAuth0Profile() {
+    this.store.dispatch(new userActions.MyAuth0ProfileAction());
   }
 
   private setSession(authResult): void {
@@ -105,7 +146,11 @@ export class AuthenticationService implements OnDestroy {
   public isAuthenticated(): boolean {
     const expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
 
-    return new Date().getTime() < expiresAt;
+    if (new Date().getTime() < expiresAt) {
+      return true;
+    }
+
+    return false;
   }
 
   ngOnDestroy() {

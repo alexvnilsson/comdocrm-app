@@ -8,7 +8,10 @@ export const ActionTypes = {
   LOAD_RESULT: 'USERS_LOAD_RESULT',
 
   MY_PROFILE: 'USERS_MY_PROFILE',
-  MY_PROFILE_RESULT: 'USERS_MY_PROFILE_RESULT'
+  MY_PROFILE_RESULT: 'USERS_MY_PROFILE_RESULT',
+
+  MY_AUTH0_PROFILE: 'USERS_MY_AUTH0_PROFILE',
+  MY_AUTH0_PROFILE_RESULT: 'USERS_MY_AUTH0_PROFILE_RESULT'
 };
 
 export interface UserAction extends Action {
@@ -38,4 +41,16 @@ export class MyProfileResult implements UserAction {
   readonly type = ActionTypes.MY_PROFILE_RESULT;
 
   constructor(public payload: User) { }
+}
+
+export class MyAuth0ProfileAction implements UserAction {
+  readonly type = ActionTypes.MY_AUTH0_PROFILE;
+
+  constructor(public payload?: null) {}
+}
+
+export class MyAuth0ProfileResult implements UserAction {
+  readonly type = ActionTypes.MY_AUTH0_PROFILE_RESULT;
+
+  constructor(public payload: auth0.Auth0UserProfile) {}
 }

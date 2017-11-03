@@ -34,6 +34,14 @@ export class UsersService {
     })
   }
 
+  getAuth0Profile(): Observable<Auth0.Auth0UserProfile> {
+    return new Observable(observer => 
+      this.http.get(`https://${environment.auth0.domain}/userinfo`)
+      .map(res => res as Auth0.Auth0UserProfile)
+      .subscribe(profile => observer.next(profile), (err: any) => observer.error(err))
+    );
+  }
+
   private _getState: any = null;
   getState(): Observable<any> {
     return new Observable(observer => {
