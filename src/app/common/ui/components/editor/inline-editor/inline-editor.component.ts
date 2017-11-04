@@ -81,7 +81,17 @@ export class InlineEditorComponent implements OnInit, AfterViewInit, ControlValu
 
   registerOnTouched() { }
 
-  onEditorInputSubmit(value: any) {
+  onInputKeypress(event: KeyboardEvent) {
+    if (event.keyCode === 27) {
+      this.setEditingMode(false);
+    }
+  }
+
+  onInputBlur(event: Event) {
+    this.onEditorSubmit(this.inlineEditorInput.nativeElement.value);
+  }
+
+  onEditorSubmit(value: any) {
     this.model = value;
     this.setEditingMode(false);
 

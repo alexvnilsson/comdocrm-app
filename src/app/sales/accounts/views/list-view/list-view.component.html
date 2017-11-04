@@ -1,5 +1,5 @@
 <div class="row" style="flex: 1;">
-  <div class="col-sm-3">
+  <div class="col-md">
     <ccrm-vertical-nav stateId="sales-accounts-list-view-1">
       <ccrm-vertical-nav-item #vItemMyContacts id="1" [counter]="accountsMine?.length || 0">Anförtrodda</ccrm-vertical-nav-item>
       <ccrm-vertical-nav-item #vItemContacts id="2" [counter]="accountsOther?.length || 0 ">Andra kunder</ccrm-vertical-nav-item>
@@ -7,7 +7,7 @@
     </ccrm-vertical-nav>
   </div>
 
-  <div class="col-sm-9">
+  <div class="col-md-9">
     <ccrm-nav-view [ref]="vItemMyContacts">
       <div class="list-group" *ngIf="accountsMine && accountsMine.length > 0">
         <a *ngFor="let account of accountsMine" [routerLink]="['/', 'sales', 'accounts', account.alias]" class="list-group-item list-group-item-action border-0 flex-column align-items-start">

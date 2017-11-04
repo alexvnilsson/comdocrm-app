@@ -1,13 +1,25 @@
-.edit-link {
-    visibility: hidden;
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-    &.force {
-        visibility: visible;
+  flex: 1;
+
+  .form {
+    flex: 1;
+  }
+
+  &:hover {
+    .edit-link {
+      visibility: visible;
     }
+  }
 }
 
-:host:hover {
-    .edit-link {
-        visibility: visible;
-    }
+.edit-link {
+  margin-left: 0.25rem;
+  visibility: hidden;
+  &.force {
+    visibility: visible;
+  }
 }

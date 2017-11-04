@@ -1,13 +1,31 @@
 <ng-container *ngIf="!isEditing; else isEditingBlock">
+  <ng-container *ngIf="_model; else placeholderTemplate">
     <ng-content></ng-content>
-    <a href="#" (click)="clickEditLink($event)"><i class="fa fa-pencil edit-link"></i></a>
+
+    <a href="#" (click)="clickEditLink($event)">
+      <i class="fa fa-pencil edit-link"></i>
+    </a>
+  </ng-container>
+  
+  <ng-template #placeholderTemplate>
+    <span class="inline-editor-placeholder" (click)="clickEditLink($event)">{{ placeholder }}</span>
+  </ng-template>
 </ng-container>
 
 
 <ng-template #isEditingBlock>
-    <form #inlineEditorForm class="form" (ngSubmit)="onEditorInputSubmit(inlineEditorInput.value)">
-        <div [@fadeIn]="isEditing" class="input-group">
-            <input #inlineEditorInput autocomplete="off" class="form-control p-1" type="text" [placeholder]="placeholder" (blur)="onEditorInputSubmit(inlineEditorInput.value)" [(ngModel)]="model" name="model" />
-        </div>
-    </form>
+  <form #inlineEditorForm class="form" (ngSubmit)="onEditorSubmit(inlineEditorInput.value)">
+    <div [@fadeIn]="isEditing" class="input-group">
+      <input
+        #inlineEditorInput
+        autocomplete="off"
+        class="form-control inline-editor"
+        [class.expand]="isEditing"
+        type="text"
+        [placeholder]="placeholder"
+        (blur)="onInputBlur($event)"
+        (keypress)="onInputKeypress($event)"
+        [(ngModel)]="model" name="model" />
+    </div>
+  </form>
 </ng-template>

@@ -1,0 +1,22 @@
+.inline-editor-placeholder {
+  font-size: $font-size-sm;
+  color: $text-muted;
+  cursor: text;
+}
+
+.form {
+  .form-control.inline-editor {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0.1rem;
+
+    font-size: $font-size-sm - 0.1rem;
+
+    transition: all .25s;
+
+    &.expand {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+}

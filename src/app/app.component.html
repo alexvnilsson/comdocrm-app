@@ -1,7 +1,7 @@
 <div class="workspace-wrapper d-flex flex-column">
-  <nav class="navbar navbar-dark bg-dark navbar-main">
+  <nav class="navbar navbar-light bg-light navbar-main">
     <button 
-      class="navbar-toggler text-white border-0 align-self-start mr-auto pt-0 pb-0"
+      class="navbar-toggler text-dark border-0 align-self-start mr-auto pt-0 pb-0"
       type="button"
       aria-label="Öppna/stäng navigation"
       (click)="onNavigationToggle()">
@@ -46,14 +46,14 @@
         <ng-container *ngIf="auth0Profile">
           <div class="d-flex flex-row justify-content-left align-items-start">
             <img *ngIf="auth0Profile.picture" [src]="auth0Profile.picture" height="32px" />
-            <span class="ml-auto">{{ auth0Profile.name }}</span>
+            <span class="font-weight-light ml-auto">{{ auth0Profile.name }}</span>
           </div>
         </ng-container>
       </div>
     </div>
 
     <div class="col">
-      <div class="container workspace-body pt-2 ml-auto mr-auto">
+      <div class="container-fluid workspace-body ml-auto mr-auto">
         <router-outlet></router-outlet>
       </div>
     </div>
