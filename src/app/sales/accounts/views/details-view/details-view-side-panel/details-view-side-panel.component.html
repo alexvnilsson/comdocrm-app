@@ -1,0 +1,53 @@
+<div class="side-panel-container">
+  <div>
+    <h4 class="text-muted font-weight-light">Kundansvarig</h4>
+
+    <ng-container *ngIf="!account.manager?.user">
+      <div class="pt-2 pb-2">
+        <button type="button" role="button" class="btn btn-block btn-light btn-sm p-2 text-dark"
+          (click)="onModalOpen.emit('modal_accounts_select-account-manager')">Tilldela</button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="account.manager && account.manager.user">
+      <div class="d-flex flex-row align-items-center justify-content-between">
+        <span>{{ account.manager.user.fullName }}</span>
+        <button type="button" class="btn btn-link" (click)="onModalOpen.emit('modal_accounts_select-account-manager')">
+          <i class="fa fa-pencil-square"></i>
+        </button>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="mt-4">
+    <h4 class="text-muted font-weight-light">Kalendarium</h4>
+
+    <div class="bg-light text-block-container p-2">
+      <div *ngIf="account.dateCreated" class="text-block">
+        <span class="text-block-label">Skapades</span>
+        <span class="text-block-text">{{ account.dateCreated | amLocal | amDateFormat:'YYYY-MM-DD' }}</span>
+      </div>
+
+      <div *ngIf="account.dateValidUntil" class="text-block">
+        <span class="text-block-label">Sälj innan</span>
+        <span class="text-block-text">{{ account.dateValidUntil | amLocal | amDateFormat:'YYYY-MM-DD' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+      <h4 class="text-muted font-weight-light">Kontaktpersoner</h4>
+      <span class="ml-2 text-muted" tooltip="Kontaktuppgifter till personer inom företaget/sekundära kontaktuppgifter" container="body">
+        <i class="fa fa-info-circle"></i>
+      </span>
+    </div>
+
+    <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
+      <div *ngFor="let person of account.peopleOfInterest" class="mb-2">
+        <ccrm-sales-accounts-person-of-interest [account]="account" [person]="person" (onPersonDeleted)="onPersonOfInterestDeleted.emit($event)">
+        </ccrm-sales-accounts-person-of-interest>
+      </div>
+    </ng-container>
+  </div>
+</div>

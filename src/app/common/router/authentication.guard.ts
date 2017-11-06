@@ -5,18 +5,20 @@ import { AuthenticationService } from '../authentication/authentication.service'
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
 
-    constructor(private authService: AuthenticationService, private router: Router) { }
+  constructor(private authService: AuthenticationService, private router: Router) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        if (this.authService.isAuthenticated())
-            return true;
-        else {
-            let stateUrlSnapshot = state.url;
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    if (this.authService.isAuthenticated())
+      return true;
+    else {
+      console.log('AuthenticationGuard: canActivate(): false');
 
-            sessionStorage.setItem('auth:returnUrl', stateUrlSnapshot);
+      let stateUrlSnapshot = state.url;
 
-            this.authService.login();
-            return false;
-        }
+      sessionStorage.setItem('auth:returnUrl', stateUrlSnapshot);
+
+      this.authService.login();
+      return false;
     }
+  }
 }

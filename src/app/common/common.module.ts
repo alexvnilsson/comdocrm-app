@@ -12,18 +12,13 @@ import { CommonUiModule } from 'app/common-ui';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 import 'moment/locale/sv';
 
-import { JwtInterceptorService } from 'common/http/jwt.interceptor';
-
-import { AuthenticationModule, AuthenticationService } from './authentication';
-import { AuthenticationGuard } from './router/authentication.guard';
 import { UsersService } from './users/users.service';
-import { ClientService, ClientServiceInitFactory } from '../clients/client.service';
 
 import { RouterHelperService } from 'common/router/router-helper.service';
 
 import { TabDirective } from './ui/directives/tab';
 
-import { SpinnerComponent } from './ui/components/spinner/spinner.component';
+
 
 import { WordSplicePipe } from './ui/pipes/word-splice.pipe';
 import { TrimPipe } from './ui/pipes/trim.pipe';
@@ -50,7 +45,6 @@ import { NavbarComponent, NavbarItemDirective } from 'app/common-ui/navbar';
   ],
   declarations: [
     TabDirective,
-    SpinnerComponent,
     WordSplicePipe,
     TrimPipe,
     InlineEditorComponent,
@@ -73,7 +67,6 @@ import { NavbarComponent, NavbarItemDirective } from 'app/common-ui/navbar';
     MomentModule,
     DatepickerModule,
     TabDirective,
-    SpinnerComponent,
     WordSplicePipe,
     TrimPipe,
     InlineEditorComponent,

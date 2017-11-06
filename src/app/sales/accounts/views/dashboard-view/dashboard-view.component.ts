@@ -24,7 +24,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.accounts$ = this.store$
-        .select(fromRoot.accountsState)
+        .select(fromRoot.fromAccounts)
         .select(fromAccounts.allaccounts)
         .map(a => 
             a.filter(_a => _a.isManager));

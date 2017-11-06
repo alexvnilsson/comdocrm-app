@@ -22,6 +22,7 @@ export class Account {
 
     dateCreated?: Date;
     dateModified?: Date;
+    dateValidUntil?: Date;
 
     customer?: AccountCustomer;
     manager?: AccountManager;

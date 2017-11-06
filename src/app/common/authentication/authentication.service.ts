@@ -1,4 +1,3 @@
-import { Store } from '@ngrx/store';
 import { Injectable, OnDestroy, EventEmitter, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { Response } from '@angular/http';
@@ -14,8 +13,7 @@ import { JwtHelper } from 'angular2-jwt';
 
 import { Subscription } from 'rxjs/Subscription';
 
-import * as fromRoot from 'app/app.store';
-import * as userActions from 'app/common/users/store/users.actions';
+const AUTH_TIME_DELAY: number = 2500;
 
 @Injectable()
 export class AuthenticationService implements OnDestroy {
@@ -40,22 +38,21 @@ export class AuthenticationService implements OnDestroy {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private store: Store<fromRoot.State>
+    private route: ActivatedRoute
   ) {
-    if (this.isAuthenticated() === true) {
-      this.getAuth0Profile();
-    }
+    
   }
 
-  public isAuthenticating() {
-    this._isAuthenticating = true;
+  public isAuthenticating(state: boolean) {
+    this._isAuthenticating = state;
   }
 
   public login() {
-    if (this._isAuthenticating !== true) {
-      this.Auth0.authorize(null);
-    }
+    setTimeout(() => {
+      if (!this._isAuthenticating) {
+        this.Auth0.authorize(null);
+      }
+    }, AUTH_TIME_DELAY);
   }
 
   public get idToken() {
@@ -83,33 +80,40 @@ export class AuthenticationService implements OnDestroy {
   }
 
   public handleAuthentication(): Observable<any> {
+    let returnUrl = '/';
+
     return new Observable(observer => {
-      this.Auth0.parseHash({ hash: window.location.hash }, (err, authResult) => {
-        if (err) {
+      this.Auth0.parseHash({ hash: window.location.hash }, (err, result) => {
+        if (err || !result) {
           observer.error(err);
-          this.router.navigate(['/']);
+          this.router.navigateByUrl(returnUrl);
         } else {        
-          this.setSession(authResult);
-
-          let returnUrl: string = '/';
-
-          if (sessionStorage.getItem('auth:returnUrl')) {
-            returnUrl = sessionStorage.getItem('auth:returnUrl');
-            sessionStorage.removeItem('auth:returnUrl');
-          }
+          this.setSession(result);
 
           setTimeout(() => {
             window.location.hash = '';
-            this._isAuthenticating = false;
 
-            this.getAuth0Profile();
-
-            this.router.navigateByUrl(returnUrl);
-            observer.complete();
-          }, 1000);
+            window.location.reload();
+            observer.next();
+          }, AUTH_TIME_DELAY);
         }
       });
     });
+  }
+
+  public handleAuthenticationPost() {
+    let returnUrl = '/';
+    
+    if (sessionStorage.getItem('auth:returnUrl')) {
+      returnUrl = sessionStorage.getItem('auth:returnUrl');
+      sessionStorage.removeItem('auth:returnUrl');
+    }
+
+    this.isAuthenticating(false);
+
+    setTimeout(() => {
+      this.router.navigateByUrl(returnUrl);
+    }, AUTH_TIME_DELAY);
   }
 
   public getProfile(): Observable<Auth0.Auth0UserProfile> {
@@ -124,14 +128,14 @@ export class AuthenticationService implements OnDestroy {
   }
 
   public getAuth0Profile() {
-    this.store.dispatch(new userActions.MyAuth0ProfileAction());
+    throw new Error('Not implemented.');
   }
 
-  private setSession(authResult): void {
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+  private setSession(result): void {
+    const expiresAt = JSON.stringify((result.expiresIn * 1000) + new Date().getTime());
 
-    sessionStorage.setItem('access_token', authResult.accessToken);
-    sessionStorage.setItem('id_token', authResult.idToken);
+    sessionStorage.setItem('access_token', result.accessToken);
+    sessionStorage.setItem('id_token', result.idToken);
     sessionStorage.setItem('expires_at', expiresAt);
   }
 
@@ -140,7 +144,9 @@ export class AuthenticationService implements OnDestroy {
     sessionStorage.removeItem('id_token');
     sessionStorage.removeItem('expires_at');
 
-    this.router.navigate(['/']);
+    setTimeout(() => {
+      window.location.reload();
+    }, AUTH_TIME_DELAY);
   }
 
   public isAuthenticated(): boolean {

@@ -19,21 +19,21 @@ import * as accountLeadsStore from 'app/sales/accounts/store/accounts/leads';
 import * as productsStore from 'app/sales/products/store';
 
 export interface State {
-    layout: layoutStore.State;
-    users: usersStore.fromUsers.State;
-    accounts: accountsStore.fromAccounts.State;
-    leads: accountLeadsStore.fromAccountLeads.State;
-    products: productsStore.fromProducts.State;
-    routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
+  layout: layoutStore.State;
+  users: usersStore.fromUsers.State;
+  accounts: accountsStore.fromAccounts.State;
+  leads: accountLeadsStore.fromAccountLeads.State;
+  products: productsStore.fromProducts.State;
+  routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
 export const reducers = {
-    layout: layoutStore.reducer,
-    users: usersStore.fromUsers.reducer,
-    accounts: accountsStore.fromAccounts.reducer,
-    leads: accountLeadsStore.fromAccountLeads.reducer,
-    products: productsStore.fromProducts.reducer,
-    routerReducer: fromRouter.routerReducer
+  layout: layoutStore.reducer,
+  users: usersStore.fromUsers.reducer,
+  accounts: accountsStore.fromAccounts.reducer,
+  leads: accountLeadsStore.fromAccountLeads.reducer,
+  products: productsStore.fromProducts.reducer,
+  routerReducer: fromRouter.routerReducer
 }
 
 export function reducer(state: State, action: any) {

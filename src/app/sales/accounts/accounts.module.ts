@@ -36,6 +36,7 @@ import { AccountDetailsContainer } from './containers/account-details';
 import { AccountDetailsSelectedContainer } from './containers/account-details-selected';
 
 import { routes } from './accounts.routes';
+import { DetailsViewSidePanelComponent } from './views/details-view/details-view-side-panel/details-view-side-panel.component';
 
 
 @NgModule({
@@ -73,7 +74,9 @@ import { routes } from './accounts.routes';
 
     InitialEditorComponent,
 
-    DashboardViewComponent
+    DashboardViewComponent,
+
+    DetailsViewSidePanelComponent
   ],
   providers: [
     AccountLeadsService,

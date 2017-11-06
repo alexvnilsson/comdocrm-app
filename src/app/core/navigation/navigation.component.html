@@ -1,0 +1,8 @@
+<ul class="navbar-main-nav nav nav-pills nav-fill">
+  <li *ngFor="let route of routes" class="nav-item align-self-start" (click)="onItemClicked.emit()">
+    <a navItem class="nav-link" routerLinkActive="active" [routerLink]="route.href" role="button">
+      <i *ngIf="route.faIcon" aria-hidden="true" [class]="'fa fa-' + route.faIcon + ' nav-link-icon'"></i>
+      <span class="ml-2">{{ route.text }}</span>
+    </a>
+  </li>
+</ul>

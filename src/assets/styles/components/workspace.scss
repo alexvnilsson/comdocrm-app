@@ -30,8 +30,8 @@
 
 @include media-breakpoint-up(lg) {
   .workspace-wrapper {
-    .workspace-body {
-      padding-left: $nav-dark-width + 2.5rem;
+    .workspace-padding {
+      padding-left: $nav-dark-width;
     }
   }
 }
@@ -39,7 +39,7 @@
 @include media-breakpoint-down(md) {
   .workspace-wrapper {
     .workspace-body {
-      padding-top: 3rem;
+      padding-top: 4rem;
     }
   }
 }

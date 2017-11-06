@@ -1,6 +1,4 @@
-﻿import { AuthenticationGuard } from 'app/common/router';
-import { JwtInterceptorService } from 'common/http/jwt.interceptor';
-import { HttpClient, HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+﻿import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '.env';
 
 import { MomentModule } from 'angular2-moment';
@@ -33,7 +31,7 @@ import * as accountsStore from 'app/sales/accounts/store/accounts';
 import * as accountLeadsStore from 'app/sales/accounts/store/accounts/leads';
 import * as productsStore from 'app/sales/products/store';
 
-import { AuthenticationModule, AuthenticationService } from 'app/common/authentication';
+import { AuthenticationModule } from 'app/common/authentication/authentication.module';
 
 import { AccountsModule } from 'app/sales/accounts/accounts.module';
 import { UserTasksModule } from 'app/user-tasks';
@@ -51,6 +49,7 @@ import { DashboardViewComponent } from './sales/accounts/views/dashboard-view/da
 import { PageNotFoundComponent } from 'app/common-ui/containers/page-not-found';
 
 import { AppRoutes } from './app.routes';
+import { NavigationComponent } from './core/navigation/navigation.component';
 
 @NgModule({
   imports: [
@@ -77,25 +76,15 @@ import { AppRoutes } from './app.routes';
     BsDropdownModule.forRoot(),
     DatepickerModule.forRoot(),
     ComdoCrmCommonModule.forRoot(),
-    MomentModule
+    MomentModule,
+    AuthenticationModule.forRoot()
   ],
   declarations: [
     AppComponent,
     DashboardComponent,
-    CallbackComponent
+    NavigationComponent
   ],
   providers: [
-    AuthenticationService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptorService,
-      multi: true,
-    },
-    {
-      provide: AuthenticationGuard,
-      useClass: AuthenticationGuard,
-      deps: [AuthenticationService, Router]
-    },  
     AccountsService,
     AccountLeadsService,
     {

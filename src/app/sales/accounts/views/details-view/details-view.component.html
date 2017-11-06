@@ -1,23 +1,19 @@
 <ng-container *ngIf="account">
-  <div class="pt-2 pb-2">
-    <button type="button" class="btn btn-link pl-0 pr-0" routerLink="/sales/accounts"><i class="fa fa-caret-left"></i> Kunder</button>
-  </div>
-  
-  <div class="row">
-    <div class="col-md-12">
-      <h4>{{ account.customer?.legalName }}</h4>
-    </div>
-  </div>
-
   <div class="row">
     <div class="col-sm-8 bg-white">
-        <h4 class="font-weight-light text-muted">Flöde</h4>
+      <div class="pb-3">
+        <button type="button" class="btn btn-link pl-0 pr-0" routerLink="/sales/accounts"><i class="fa fa-caret-left"></i> Kunder</button>
+      </div>
 
+      <h4>{{ account.customer?.legalName }}</h4>
+      
       <ccrm-sales-accounts-status-composer-log [isOpen]="composeLog.Open" [account]="account" (onSaved)="onStatusAdded.emit($event)"
         (onClosed)="composeLog.close()">
       </ccrm-sales-accounts-status-composer-log>
 
-      <div class="mt-2">
+      <div class="mt-3">
+        <h4 class="font-weight-light text-muted">Flöde</h4>
+
         <ng-container *ngIf="statuses">
           <ccrm-sales-accounts-status-item *ngFor="let status of statuses" [account]="account" [status]="status" (onStatusDeleted)="onStatusDeleted.emit($event)"
             (onUserTaskAdded)="onUserTaskAdded.emit($event)" (onUserTaskDeleted)="onUserTaskDeleted.emit($event)"></ccrm-sales-accounts-status-item>
@@ -29,53 +25,12 @@
       </div>
     </div>
 
-    <div class="col-sm-4 border-sm-0" style="border-left: 1px solid #d8d8d8">
-      <div class="row mb-3">
-        <div class="col-12">
-          <h4 class="text-muted font-weight-light">Kundansvarig</h4>
-
-          <ng-container *ngIf="!account.manager?.user">
-            <div class="pt-2 pb-2">
-              <button
-                type="button"
-                role="button"
-                class="btn btn-block btn-light btn-sm p-2 text-dark"
-                [class.disabled]="composeLog.Open"
-                (click)="onModalOpen.emit('modal_accounts_select-account-manager')">Tilldela</button>
-            </div>
-          </ng-container>
-
-          <ng-container *ngIf="account.manager && account.manager.user">
-            <div class="d-flex flex-row align-items-center justify-content-between">
-              <span>{{ account.manager.user.fullName }}</span>
-              <button
-                type="button"
-                class="btn btn-link"
-                (click)="onModalOpen.emit('modal_accounts_select-account-manager')">
-                <i class="fa fa-pencil-square"></i>
-              </button>
-            </div>
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="d-flex flex-row justify-content-between align-items-center">
-            <h4 class="text-muted font-weight-light">Kontaktpersoner</h4>
-            <span class="ml-2 text-muted" tooltip="Kontaktuppgifter till personer inom företaget/sekundära kontaktuppgifter" container="body">
-              <i class="fa fa-info-circle"></i>
-            </span>
-          </div>
-
-          <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
-            <div *ngFor="let person of account.peopleOfInterest" class="mb-2">
-              <ccrm-sales-accounts-person-of-interest [account]="account" [person]="person" (onPersonDeleted)="onPersonDeleted($event)">
-              </ccrm-sales-accounts-person-of-interest>
-            </div>
-          </ng-container>
-        </div>
-      </div>
+    <div class="col-sm-4">
+      <ccrm-account-details-view-side-panel
+        [account]="account"
+        (onModalOpen)="onModalOpen.emit($event)"
+        (onPersonOfInterestDeleted)="onPersonOfInterestDeleted.emit($event)">
+      </ccrm-account-details-view-side-panel>
     </div>
   </div>
 </ng-container>

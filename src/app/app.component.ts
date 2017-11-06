@@ -5,7 +5,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
 
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, EventEmitter, ElementRef } from '@angular/core';
-import { AuthenticationService } from 'app/common/authentication';
+import { AuthenticationService } from 'app/common/authentication/authentication.service';
 import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
 
 import { RouteTransitionAnimation } from 'app/common/ui/animations';
@@ -30,7 +30,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   auth0Profile: Auth0.Auth0UserProfile;
 
   userProfile: Auth0.Auth0UserProfile = null;
-  routeItems: CustomRoute[] = [];
 
   @ViewChild('navMain') navigationBar: ElementRef;
   @ViewChild('actionBar') actionBar: ElementRef;
@@ -65,12 +64,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onUserAuthenticated = this.authService.onAuthenticatedHandler.subscribe(profile => {
       this.userProfile = profile;
     });
-
-    this.router.config.forEach((route: CustomRoute) => {
-      if (route.mainNav && this.routeItems.indexOf(route) === -1) {
-        this.routeItems.push(route);
-      }
-    });
   }
 
   ngAfterViewInit() {
@@ -83,6 +76,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onNavigationItemClicked() {
     this.layout.navigation.expanded = false;
+  }
+
+  onLogoutClicked() {
+    this.authService.logout();
+
+    return false;
   }
 
   ngOnDestroy() {

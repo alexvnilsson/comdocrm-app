@@ -8,21 +8,27 @@ import { AuthenticationService } from '../authentication.service';
   styleUrls: ['./callback.component.scss']
 })
 export class CallbackComponent implements OnInit, AfterViewInit {
-  constructor (
+  constructor(
     private router: Router,
     private authService: AuthenticationService
   ) {
-      
-   }
+    
+  }
 
   ngOnInit() {
-    this.authService.isAuthenticating();
+    
   }
 
   ngAfterViewInit() {
-    this.authService.handleAuthentication().subscribe(result => {
+    if (window.location.hash != '') {
+      this.authService.isAuthenticating(true);
 
-    });
+      this.authService.handleAuthentication().subscribe(result => {
+
+      });
+    } else {
+      this.authService.handleAuthenticationPost();
+    }
   }
 
 }

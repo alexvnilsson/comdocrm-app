@@ -26,7 +26,10 @@ export const USER_STATE = {
   selector: 'ccrm-sales-accounts-list-view',
   templateUrl: './list-view.component.html',
   styleUrls: ['./list-view.component.scss'],
-  animations: [RouteTransitionAnimation, DoneLoadingTransitionAnimation]
+  animations: [RouteTransitionAnimation, DoneLoadingTransitionAnimation],
+  host: {
+    '[@routeTransition]': ''
+  }
 })
 export class ListViewComponent implements OnInit, AfterContentInit {
   @Input() accountsOther: Account[];
