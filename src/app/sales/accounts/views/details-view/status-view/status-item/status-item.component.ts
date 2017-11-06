@@ -92,6 +92,14 @@ export class StatusItemComponent implements OnInit, AfterViewInit, OnDestroy {
         
     }
 
+    isDelayed(): boolean {
+      if (!this.status || !this.status.publicationDate) {
+        return false;
+      }
+
+      return ( this.status.isDelayed && new Date(this.status.publicationDate) > new Date(Date.now()) );
+    }
+
     clickAddReminder() {
         //this.router.navigate([ '.', { outlets: { 'modal': [ 'reminders-add', this.status.id, 'no-details' ] }} ], { relativeTo: this.route });
 

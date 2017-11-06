@@ -1,5 +1,5 @@
 <div class="card border-0 status-item-container mb-3" *ngIf="status && !status.isRemoved">
-  <div [@slideDownTransition] [class.opacity-70]="status.isDelayed">
+  <div [@slideDownTransition] [class.opacity-70]="isDelayed()">
     <div class="card-header bg-transparent d-flex flex-row justify-content-between">
       <h4 class="card-title mb-0">{{ status.messageHeader }}</h4>
       <ng-template #removeStatusConfirmation>
