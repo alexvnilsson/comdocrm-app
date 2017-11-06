@@ -194,6 +194,30 @@ export function reducer(state = initialState, action: accountsStore.AccountActio
       });
     }
 
+    case accountsStore.ActionTypes.UPDATE_PERSON_OF_INTEREST_RESULT: {
+      if (!action.payload.account) {
+        throw 'No working Account.';
+      }
+
+      let account = state.accounts.find(account => account.id === action.payload.account.id);
+
+      if (!account) {
+        throw 'Account was not found.';
+      }
+
+      return Object.assign({}, state, {
+        accounts: state.accounts.map(a => 
+          a.id === account.id
+            ? Object.assign({}, a, {
+              dateModified: new Date(),
+              peopleOfInterest: a.peopleOfInterest.map(p => p.id === action.payload.person.id 
+                ? action.payload.person
+                : p)
+            })
+            : a)
+      });
+    }
+
     case accountsStore.ActionTypes.DELETE_PERSON_OF_INTEREST_SUCCESS: {
       if (!action.payload.account)
         throw 'No working Account has been selected.';

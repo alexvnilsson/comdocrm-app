@@ -14,6 +14,7 @@ export class DetailsViewSidePanelComponent implements OnInit {
   @Output() onModalOpen: EventEmitter<string> = new EventEmitter();
 
   @Output() onPersonOfInterestAdded: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
+  @Output() onPersonOfInterestUpdated: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
   @Output() onPersonOfInterestDeleted: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
 
   constructor() { }

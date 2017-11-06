@@ -33,6 +33,8 @@ export const ActionTypes = {
 
     ADD_PERSON_OF_INTEREST: 'ACCOUNTS_ADD_PERSON_OF_INTEREST',
     ADD_PERSON_OF_INTEREST_SUCCESS: 'ACCOUNTS_ADD_PERSON_OF_INTEREST_SUCCESS',
+    UPDATE_PERSON_OF_INTEREST: 'ACCOUNTS_UPDATE_PERSON_OF_INTEREST',
+    UPDATE_PERSON_OF_INTEREST_RESULT: 'ACCOUNTS_UPDATE_PERSON_OF_INTEREST_RESULT',
     DELETE_PERSON_OF_INTEREST: 'ACCOUNTS_DELETE_PERSON_OF_INTEREST',
     DELETE_PERSON_OF_INTEREST_SUCCESS: 'ACCOUNTS_DELETE_PERSON_OF_INTEREST_SUCCESS',
 
@@ -182,6 +184,24 @@ export class AddPersonOfInterestSuccess implements AccountAction {
         account: Account,
         person: AccountPersonOfInterest
     }) {}
+}
+
+export class UpdatePersonOfInterestAction implements AccountAction {
+  readonly type = ActionTypes.UPDATE_PERSON_OF_INTEREST;
+
+  constructor(public payload: {
+      account: Account,
+      person: AccountPersonOfInterest
+  }) {}
+}
+
+export class UpdatePersonOfInterestResult implements AccountAction {
+  readonly type = ActionTypes.UPDATE_PERSON_OF_INTEREST_RESULT;
+
+  constructor(public payload: {
+      account: Account,
+      person: AccountPersonOfInterest
+  }) {}
 }
 
 export class DeletePersonOfInterestAction implements AccountAction {

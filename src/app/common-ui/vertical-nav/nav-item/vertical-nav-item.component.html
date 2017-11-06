@@ -4,6 +4,6 @@
   class="d-flex justify-content-between align-items-center list-group-item list-group-item-action border-0"
   [class.active]="active"
   (click)="activate()">
-  <span><ng-content></ng-content></span>
-  <span *ngIf="counter" class="badge badge-primary badge-pill">{{ counter }}</span>
+  <span class="list-item-label"><ng-content></ng-content></span>
+  <span *ngIf="counter" class="small font-weight-bold mr-2" [class.text-primary]="!active" [class.text-white]="active">{{ counter }}</span>
 </button>

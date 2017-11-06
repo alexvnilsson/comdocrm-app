@@ -25,10 +25,11 @@
       </div>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-4 min-vh-100">
       <ccrm-account-details-view-side-panel
         [account]="account"
         (onModalOpen)="onModalOpen.emit($event)"
+        (onPersonOfInterestUpdated)="onPersonOfInterestUpdated.emit($event)"
         (onPersonOfInterestDeleted)="onPersonOfInterestDeleted.emit($event)">
       </ccrm-account-details-view-side-panel>
     </div>

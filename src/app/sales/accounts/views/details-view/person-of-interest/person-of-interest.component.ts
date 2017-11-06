@@ -11,14 +11,18 @@ export class PersonOfInterestComponent implements OnInit {
     @Input('account') account: Account;
     @Input('person') person: AccountPersonOfInterest;
 
+    @Output() onPersonUpdated: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
     @Output() onPersonDeleted: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
 
     ngOnInit() {
-
+      
     }
 
-    onModelUpdated(any) {
-      console.log(any);
+    onModelUpdated(event: { field: string, value: any }) {
+      let model = Object.assign({}, this.person);
+      model[event.field] = event.value;
+
+      this.onPersonUpdated.emit({ account: this.account, person: model });
     }
 
     onRemovePersonOfInterest() {

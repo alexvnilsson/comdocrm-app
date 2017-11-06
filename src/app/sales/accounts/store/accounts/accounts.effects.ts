@@ -157,6 +157,20 @@ export class AccountsEffects {
     });
 
   @Effect()
+  updatePersonOfInterest$: Observable<Action> = this.actions$
+    .ofType(accountsActions.ActionTypes.UPDATE_PERSON_OF_INTEREST)
+    .map((action: accountsActions.UpdatePersonOfInterestAction) => action.payload)
+    .mergeMap(payload => {
+      return this.accountsService.updatePersonOfInterest(payload.account, payload.person)
+        .map((result: AccountUpdateResult) => 
+          new accountsActions.UpdatePersonOfInterestResult({
+            account: payload.account,
+            person: payload.person
+          })
+        )
+    });
+
+  @Effect()
   deletePersonOfInterest$: Observable<Action> = this.actions$
     .ofType(accountsActions.ActionTypes.DELETE_PERSON_OF_INTEREST)
     .map((action: accountsActions.DeletePersonOfInterestAction) => action.payload)

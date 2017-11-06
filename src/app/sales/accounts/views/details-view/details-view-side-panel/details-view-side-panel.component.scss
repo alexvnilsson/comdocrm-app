@@ -1,8 +1,6 @@
 .side-panel-container {
   height: 100%;
   padding: 1rem !important;
-
-  background-color: #f2f2f2;
 }
 
 .text-block-container {
@@ -12,6 +10,8 @@
 }
 
 .text-block {
+  margin: 1rem;
+
   .text-block-label {
     display: block;
 

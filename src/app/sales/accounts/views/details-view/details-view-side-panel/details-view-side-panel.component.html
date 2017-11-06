@@ -1,6 +1,6 @@
-<div class="side-panel-container">
+<div class="side-panel-container bg-secondary">
   <div>
-    <h4 class="text-muted font-weight-light">Kundansvarig</h4>
+    <h4 class="font-weight-light">Kundansvarig</h4>
 
     <ng-container *ngIf="!account.manager?.user">
       <div class="pt-2 pb-2">
@@ -20,9 +20,9 @@
   </div>
 
   <div class="mt-4">
-    <h4 class="text-muted font-weight-light">Kalendarium</h4>
+    <h4 class="font-weight-light">Kalendarium</h4>
 
-    <div class="bg-light text-block-container p-2">
+    <div class="bg-light text-block-container">
       <div *ngIf="account.dateCreated" class="text-block">
         <span class="text-block-label">Skapades</span>
         <span class="text-block-text">{{ account.dateCreated | amLocal | amDateFormat:'YYYY-MM-DD' }}</span>
@@ -36,16 +36,15 @@
   </div>
 
   <div class="mt-4">
-    <div class="d-flex flex-row justify-content-between align-items-center">
-      <h4 class="text-muted font-weight-light">Kontaktpersoner</h4>
-      <span class="ml-2 text-muted" tooltip="Kontaktuppgifter till personer inom företaget/sekundära kontaktuppgifter" container="body">
-        <i class="fa fa-info-circle"></i>
-      </span>
-    </div>
+    <h4 class="font-weight-light">Kontaktpersoner</h4>
 
     <ng-container *ngIf="account.peopleOfInterest && account.peopleOfInterest.length > 0">
       <div *ngFor="let person of account.peopleOfInterest" class="mb-2">
-        <ccrm-sales-accounts-person-of-interest [account]="account" [person]="person" (onPersonDeleted)="onPersonOfInterestDeleted.emit($event)">
+        <ccrm-sales-accounts-person-of-interest
+          [account]="account"
+          [person]="person"
+          (onPersonUpdated)="onPersonOfInterestUpdated.emit($event)"
+          (onPersonDeleted)="onPersonOfInterestDeleted.emit($event)">
         </ccrm-sales-accounts-person-of-interest>
       </div>
     </ng-container>

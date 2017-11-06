@@ -1,7 +1,13 @@
-.list-group-item {
-  padding: .75rem 0.5rem;
+.list-group-item-action {
+  padding: .33rem 0.5rem;
 
-  font-size: 0.9rem;
+  transition: all 150ms;
 
-  transition: background-color 100ms;
+  &:not(.active) {
+    cursor: pointer;
+  }
+
+  .list-item-label {
+    font-size: 0.9rem;
+  }
 }

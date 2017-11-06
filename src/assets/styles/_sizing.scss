@@ -21,6 +21,10 @@ $vertical-height-map: (
   .vh-#{map-get($map, percent)} {
     height: map-get($map, height);
   }
+
+  .min-vh-#{map-get($map, percent)} {
+    min-height: map-get($map, height);
+  }
 }
 
 @each $label, $map in $vertical-height-map {
@@ -85,30 +89,6 @@ $heading-size-map: (
         .display-#{map-get($map, key)} {
             font-size: map-get($map, font-size--lg);
             font-weight: 300;
-        }
-    }
-}
-
-.minh {
-    &-25 {
-        min-height: 25%;
-    }
-
-    &-50 {
-        min-height: 50%;
-    }
-
-    &-75 {
-        min-height: 75%;
-    }
-
-    &-100 {
-        min-height: 100%;
-    }
-
-    &-rem {
-        &-1-25 {
-            min-height: 1.25rem;
         }
     }
 }

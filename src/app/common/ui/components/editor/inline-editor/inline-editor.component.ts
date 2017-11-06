@@ -34,6 +34,7 @@ export class InlineEditorComponent implements OnInit, AfterViewInit, ControlValu
   propagateChange = (_: any) => { };
 
   @ViewChild('inlineEditorInput') inlineEditorInput: ElementRef;
+  @Input() name: string;
   @Input('model') _model: any;
   @Input() placeholder: string;
 
@@ -95,7 +96,10 @@ export class InlineEditorComponent implements OnInit, AfterViewInit, ControlValu
     this.model = value;
     this.setEditingMode(false);
 
-    this.onModelUpdated.next(this.model);
+    this.onModelUpdated.next({
+      field: this.name,
+      value: this.model 
+    });
   }
 
   setEditingMode(state: boolean) {

@@ -64,6 +64,7 @@ export class DetailsViewComponent implements OnInit, OnDestroy {
     @Output() onStatusDeleted: EventEmitter<{ account: Account, status: AccountStatus }> = new EventEmitter();
 
     @Output() onPersonOfInterestAdded: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
+    @Output() onPersonOfInterestUpdated: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
     @Output() onPersonOfInterestDeleted: EventEmitter<{ account: Account, person: AccountPersonOfInterest }> = new EventEmitter();
 
     @Output() onUserTaskAdded: EventEmitter<{ account: Account, status: AccountStatus, userTask: UserTask }> = new EventEmitter();

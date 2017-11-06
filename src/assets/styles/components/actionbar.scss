@@ -51,10 +51,9 @@ $action-bar-item-active-bg-color: $blue-gray-200;
 
     padding: 1rem 1.25rem;
 
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     text-decoration: none;
 
-    font-weight: 300;
     color: $action-bar-item-text-color;
 
     &:not(:disabled), &:not(.disabled) {

@@ -34,6 +34,7 @@ import { UserTask } from "app/user-tasks";
             (onStatusAdded)="onStatusAdded($event)"
             (onStatusDeleted)="onStatusDeleted($event)"
             (onPersonOfInterestAdded)="onPersonOfInterestAdded($event)"
+            (onPersonOfInterestUpdated)="onPersonOfInterestUpdated($event)"
             (onPersonOfInterestDeleted)="onPersonOfInterestDeleted($event)"
             (onUserTaskAdded)="onUserTaskAdded($event)"
             (onUserTaskDeleted)="onUserTaskDeleted($event)"
@@ -86,6 +87,12 @@ export class AccountDetailsSelectedContainer {
   private onPersonOfInterestAdded(payload: { account: Account, person: AccountPersonOfInterest }) {
     if (payload && payload.account && payload.person) {
       this.store.dispatch(new accountActions.AddPersonOfInterestAction(payload));
+    }
+  }
+
+  private onPersonOfInterestUpdated(payload: { account: Account, person: AccountPersonOfInterest }) {
+    if (payload && payload.account && payload.person) {
+      this.store.dispatch(new accountActions.UpdatePersonOfInterestAction(payload));
     }
   }
 
