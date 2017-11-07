@@ -29,7 +29,6 @@ import { reducers, metaReducers } from './app.store';
 import * as usersStore from 'app/common/users/store';
 import * as accountsStore from 'app/sales/accounts/store/accounts';
 import * as accountLeadsStore from 'app/sales/accounts/store/accounts/leads';
-import * as productsStore from 'app/sales/products/store';
 
 import { AuthenticationModule } from 'app/common/authentication/authentication.module';
 
@@ -38,7 +37,6 @@ import { UserTasksModule } from 'app/user-tasks';
 
 import { AccountsService } from './sales/accounts/services';
 import { AccountLeadsService } from 'app/sales/accounts/services/account-leads.service';
-import { ProductsService } from './sales/products/services/products.service';
 
 import { AppComponent } from './app.component';
 

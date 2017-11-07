@@ -11,8 +11,6 @@ export class AuthenticationGuard implements CanActivate {
     if (this.authService.isAuthenticated())
       return true;
     else {
-      console.log('AuthenticationGuard: canActivate(): false');
-
       let stateUrlSnapshot = state.url;
 
       sessionStorage.setItem('auth:returnUrl', stateUrlSnapshot);

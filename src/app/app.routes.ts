@@ -23,18 +23,5 @@ export const AppRoutes: CustomRoute[] = [
       text: 'Kunder',
       loadChildren: 'app/sales/accounts/accounts.module#AccountsModule',
       canActivate: [ AuthenticationGuard ],
-  },
-  {
-      mainNav: false,
-      path: 'sales/products',
-      href: '/sales/products',
-      text: 'Produkter',
-      loadChildren: 'app/sales/products/products.module#ProductsModule',
-      faIcon: 'shopping-cart',
-      canActivate: [ AuthenticationGuard ]
-  },
-  // {
-  //     path: '**',
-  //     component: PageNotFoundComponent
-  // }
+  }
 ];
