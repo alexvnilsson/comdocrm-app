@@ -1,59 +1,38 @@
-<div class="workspace-wrapper d-flex flex-column">
-  <nav class="navbar navbar-light bg-light navbar-main">
-    <button 
-      class="navbar-toggler text-dark border-0 align-self-start mr-auto pt-0 pb-0"
-      type="button"
-      aria-label="Öppna/stäng navigation"
-      (click)="onNavigationToggle()">
-      <i class="fa fa-bars"></i>
-    </button>
-
-    <!-- <a class="navbar-brand display-4 pt-0 pb-0" routerLink="/">
-      <img src="assets/media/brand.png" alt="ComdoCRM brand" />
-      <h5 class="navbar-brand-text ml-2 mb-0 font-weight-light">ComdoCRM</h5>
-    </a> -->
-  </nav>
-
-  <div class="row no-gutters" style="flex: 1">
-    <div #navMain [class.expanded]="layout.navigation.expanded" class="navbar-main-container p-0" id="navbarNav">
-      <div class="navbar-header">
-        <button
-          class="navbar-toggler text-dark border-0 pt-0 pb-0"
-          type="button"
-          aria-label="Öppna/stäng navigation"
-          (click)="onNavigationToggle()">
-          <i class="fa fa-times"></i>
-        </button>
-      </div>
-
-      <div class="navbar-header-brand">
-          <a class="navbar-brand display-4 pt-0 pb-0" routerLink="/" (click)="onNavigationItemClicked()">
-            <img src="assets/media/brand-48.png" alt="ComdoCRM" />
-            <h5 class="mb-0 font-weight-light">ComdoCRM</h5>
-          </a>
-      </div>
-      
-      <ccrm-navigation
-        (onItemClicked)="onNavigationItemClicked()"></ccrm-navigation>
-
-      <div class="navbar-bottom-bar">
-        <ng-container *ngIf="auth0Profile">
-          <div class="d-flex flex-row justify-content-left align-items-start">
-            <img *ngIf="auth0Profile.picture" [src]="auth0Profile.picture" height="32px" />
-            <span class="font-weight-light ml-auto">{{ auth0Profile.name }}</span>
-          </div>
-          <div class="d-flex flex-row justify-content-end">
-            <a href="#" class="bottom-bar-link" (click)="onLogoutClicked()">Logga ut</a>
-          </div>
-        </ng-container>
-      </div>
+<div class="main-container">
+  <header class="header-6">
+    <div class="branding">
+      <a routerLink="/" class="nav-link">
+        <span class="title">ComdoCRM</span>
+      </a>
     </div>
 
-    <div class="col workspace-padding">
-      <div class="container workspace-body ml-auto mr-auto">
-        <router-outlet></router-outlet>
-      </div>
+    <!-- Host classings: header-nav -->
+    <ccrm-navigation
+      (onItemClicked)="onNavigationItemClicked()"></ccrm-navigation>
+
+    <div class="header-actions">
+      <ng-container *ngIf="auth0Profile">
+        <clr-dropdown>
+          <button class="nav-text" clrDropdownTrigger>
+            {{ auth0Profile.name }}
+          </button>
+          <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+              <a href="#" clrDropdownItem (click)="onLogoutClicked()">Logga ut</a>
+          </clr-dropdown-menu>
+        </clr-dropdown>
+      </ng-container>
     </div>
+  </header>
+
+  <!-- Content -->
+  <div class="content-container">
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+
+    <nav class="sidenav">
+
+    </nav>
   </div>
 </div>
 

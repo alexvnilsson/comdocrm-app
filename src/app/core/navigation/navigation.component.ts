@@ -1,13 +1,14 @@
 import { CustomRoute } from 'app/common/router';
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'ccrm-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss']
+  templateUrl: './navigation.component.html'
 })
 export class NavigationComponent implements OnInit {
+  @HostBinding('[class.header-nav]') _class_headernav = true;
+
   @Input() routes: Array<CustomRoute> = [];
 
   @Output() onItemClicked: EventEmitter<any> = new EventEmitter();
