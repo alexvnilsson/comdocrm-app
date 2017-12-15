@@ -11,6 +11,8 @@ import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule, Router, RouterOutlet, Route } from '@angular/router';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
+import { ClarityModule } from "clarity-angular";
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule, Effect } from '@ngrx/effects';
 import {
@@ -57,10 +59,11 @@ import { NavigationComponent } from './core/navigation/navigation.component';
     HttpModule,
     HttpClientModule,
     RouterModule.forRoot(AppRoutes),
+    ClarityModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers } ),
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument({
-      maxAge: 5 
+      maxAge: 5
     }) : [],
     EffectsModule.forRoot([
       accountsStore.AccountsEffects,
@@ -92,7 +95,7 @@ import { NavigationComponent } from './core/navigation/navigation.component';
   ],
   bootstrap: [AppComponent],
   exports: [
-    
+
   ]
 })
 export class AppModule { }
