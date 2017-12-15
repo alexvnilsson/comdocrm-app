@@ -5,7 +5,7 @@
   "scripts": {
     "build": "ng build",
     "build-prod": "ng build --prod",
-    "start": "ng serve --host 192.168.1.89 --port 4201"
+    "start": "ng serve"
   },
   "repository": {
     "type": "git",
@@ -49,7 +49,7 @@
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
-    "@angular/cli": "^1.5.0",
+    "@angular/cli": "^1.6.1",
     "@angular/compiler-cli": "^5.0.0",
     "@ngrx/store-devtools": "^4.0.0",
     "@types/auth0-js": "^8.3.0",
