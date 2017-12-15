@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './navigation.component.html'
 })
 export class NavigationComponent implements OnInit {
-  @HostBinding('[class.header-nav]') _class_headernav = true;
+  @HostBinding('class.header-nav') _class_headernav = true;
 
   @Input() routes: Array<CustomRoute> = [];
 
