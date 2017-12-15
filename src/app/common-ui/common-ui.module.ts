@@ -5,6 +5,7 @@ import { VerticalNavigationComponent } from './vertical-nav';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ClarityModule } from "clarity-angular";
 import { DatepickerModule, ModalModule, TooltipModule, PopoverModule, BsDropdownModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
 
@@ -32,10 +33,11 @@ import { SpinnerComponent } from './spinner/spinner.component';
     CommonModule,
     RouterModule,
     FormsModule,
+    ClarityModule,
     TooltipModule,
     PopoverModule,
-    ModalModule.forRoot(),
-    BsDropdownModule.forRoot()
+    ModalModule,
+    BsDropdownModule
   ],
   declarations: [
     PopoverConfirm,
@@ -97,18 +99,6 @@ export class CommonUiModule {
       ngModule: CommonUiModule,
       providers: [
         LayoutService
-      ]
-    };
-  }
-
-  /**
-   * Import in featured/shared modules.
-   */
-  public static forChild(): ModuleWithProviders {
-    return {
-      ngModule: CommonUiModule,
-      providers: [
-        
       ]
     };
   }
