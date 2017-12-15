@@ -13,7 +13,11 @@ export class AuthenticationGuard implements CanActivate {
     if (this.authService.isAuthenticated())
       return true;
     else {
-      if (environment.production === true) {
+      if (!environment.production && !environment.staging) {
+        // We don't want to trigger guard in development environment.
+        return true;
+      }
+
       let stateUrlSnapshot = state.url;
 
       sessionStorage.setItem('auth:returnUrl', stateUrlSnapshot);
