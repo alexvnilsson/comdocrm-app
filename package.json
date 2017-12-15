@@ -1,16 +1,15 @@
 {
-  "name": "comdocrm",
+  "name": "@comdocrm/ngx-app",
   "version": "0.0.1",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "scripts": {
-    "config": "node .deploy/config.js",
     "build": "ng build",
     "build-prod": "ng build --prod",
     "start": "ng serve --host 192.168.1.89 --port 4201"
   },
   "repository": {
     "type": "git",
-    "url": "https://netcommando.visualstudio.com/_git/comdocrm"
+    "url": "https://bitbucket.org/comdocrm/ngx-app"
   },
   "dependencies": {
     "@angular/animations": "^5.0.0",
