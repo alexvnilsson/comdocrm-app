@@ -1,18 +1,3 @@
 {
-    "App": {
-        "Navigation": {
-            "Sales": {
-                "Sales": "Försäljning",
-                "AccountsAndProspects": "Kontakter"
-            },
-            "Ads": {
-                "Ads": "Annonser"
-            }
-        }
-    },
-    "Any": "Alla",
-    "Back": "Tillbaka",
-    "New": "Ny",
-    "Save": "Spara",
-    "Source": "Källa"
+
 }
