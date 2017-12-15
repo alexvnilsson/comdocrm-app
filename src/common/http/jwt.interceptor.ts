@@ -8,6 +8,8 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 
 import 'rxjs/add/observable/throw';
 
+import { DEBUG } from "app/debug";
+
 const SECURED_ENDPOINTS = [
   {
     type: "API",
@@ -29,16 +31,16 @@ export class JwtInterceptorService implements HttpInterceptor {
     let reqUrl = URL.parse(req.url),
       reqEndpoint = SECURED_ENDPOINTS.find(ep => ep.domain == reqUrl.host);
 
-    if (environment.production || environment.staging) {
-      if (!this.auth.isAuthenticated()) {
-        if (SECURED_ENDPOINTS.find(ep => ep.domain == reqUrl.host)) {
-          return Observable.throw(new Error('Client not authenticated to secure endpoint; aborting request.'));
-        }
-      }
-    } else {
-      console.warn(`ATTENTION! DEVELOPER MODE ENABLED, BYPASSING AUTHENTICATION!`);
+    if (DEBUG) {
+      console.warn(`ATTENTION: DEVELOPER MODE ENABLED; HttpInterceptor is skipping JWT-injection!`);
 
       return next.handle(req);
+    }
+
+    if (!this.auth.isAuthenticated()) {
+      if (SECURED_ENDPOINTS.find(ep => ep.domain == reqUrl.host)) {
+        return Observable.throw(new Error('Client not authenticated to secure endpoint; aborting request.'));
+      }
     }
 
     switch(reqEndpoint.type) {

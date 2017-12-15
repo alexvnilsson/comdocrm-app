@@ -13,6 +13,8 @@ import { JwtHelper } from 'angular2-jwt';
 
 import { Subscription } from 'rxjs/Subscription';
 
+import { DEBUG } from "app/debug";
+
 const AUTH_TIME_DELAY: number = 2500;
 
 @Injectable()
@@ -48,6 +50,12 @@ export class AuthenticationService implements OnDestroy {
   }
 
   public login() {
+    if (DEBUG) {
+      console.warn("ATTENTION: DEVELOPER MODE ACTIVE; AuthenticationService.login() was halted!");
+
+      return false;
+    }
+
     setTimeout(() => {
       if (!this._isAuthenticating) {
         this.Auth0.authorize(null);
