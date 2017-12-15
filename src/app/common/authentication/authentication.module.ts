@@ -23,7 +23,7 @@ const routes: Route[] = [
   imports: [
     HttpClientModule,
     RouterModule.forChild(routes),
-    CommonUiModule.forChild()
+    CommonUiModule
   ],
   declarations: [
     CallbackComponent,
