@@ -1,4 +1,4 @@
-import { environment } from '.env';
+import { environment } from 'environments';
 import { AuthenticationService } from 'app/common/authentication/authentication.service';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
@@ -7,7 +7,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 import 'rxjs/add/observable/throw';
 
 @Injectable()
-export class JwtInterceptorService implements HttpInterceptor {  
+export class JwtInterceptorService implements HttpInterceptor {
   constructor(
     private auth: AuthenticationService
   ) { }
@@ -41,7 +41,7 @@ export class JwtInterceptorService implements HttpInterceptor {
       }
     }
 
-    return Observable.throw(new Error('Client not authenticated, canceling.'));  
+    return Observable.throw(new Error('Client not authenticated, canceling.'));
   }
 
 }

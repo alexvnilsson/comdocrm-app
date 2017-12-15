@@ -9,11 +9,7 @@
     "assets": [
       "assets",
       "assets/i18n/translations",
-      "favicon.ico",
-      "assets/conf/auth.json",
-      "assets/scripts/tether.min.js",
-      "assets/static/oauthconstent.html",
-      "assets/static/oauthcallback.html"
+      "favicon.ico"
     ],
     "index": "index.html",
     "main": "main.ts",
@@ -25,20 +21,21 @@
     "styles": [
       "../node_modules/clarity-icons/clarity-icons.min.css",
       "../node_modules/clarity-ui/clarity-ui.min.css",
-      "assets/styles/styles.scss",
+      "./assets/styles/styles.scss",
       "../node_modules/font-awesome/css/font-awesome.min.css",
       "../node_modules/tether/dist/css/tether.min.css"
     ],
     "scripts": [
       "../node_modules/@webcomponents/custom-elements/custom-elements.min.js",
       "../node_modules/clarity-icons/clarity-icons.min.js",
-      "assets/scripts/bootstrap-datepicker/index.min.js",
+      "./assets/scripts/bootstrap-datepicker/index.min.js",
       "../node_modules/auth0-js/build/auth0.min.js"
     ],
-    "environmentSource": ".env/environment.ts",
+    "environmentSource": "environments/environment.ts",
     "environments": {
-      "dev": ".env/environment.ts",
-      "prod": ".env/environment.prod.ts"
+      "dev": "environments/environment.ts",
+      "staging": "environments/environment.staging.ts",
+      "prod": "environments/environment.prod.ts"
     }
   }],
   "e2e": {

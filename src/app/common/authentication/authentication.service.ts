@@ -2,7 +2,7 @@ import { Injectable, OnDestroy, EventEmitter, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { Response } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '.env'
+import { environment } from 'environments'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
@@ -40,7 +40,7 @@ export class AuthenticationService implements OnDestroy {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    
+
   }
 
   public isAuthenticating(state: boolean) {
@@ -87,7 +87,7 @@ export class AuthenticationService implements OnDestroy {
         if (err || !result) {
           observer.error(err);
           this.router.navigateByUrl(returnUrl);
-        } else {        
+        } else {
           this.setSession(result);
 
           setTimeout(() => {
@@ -103,7 +103,7 @@ export class AuthenticationService implements OnDestroy {
 
   public handleAuthenticationPost() {
     let returnUrl = '/';
-    
+
     if (sessionStorage.getItem('auth:returnUrl')) {
       returnUrl = sessionStorage.getItem('auth:returnUrl');
       sessionStorage.removeItem('auth:returnUrl');

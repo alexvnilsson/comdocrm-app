@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '.env';
+import { environment } from 'environments';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { UserTask } from 'app/user-tasks';
@@ -35,7 +35,7 @@ export class UsersService {
   }
 
   getAuth0Profile(): Observable<Auth0.Auth0UserProfile> {
-    return new Observable(observer => 
+    return new Observable(observer =>
       this.http.get(`https://${environment.auth0.domain}/userinfo`)
       .map(res => res as Auth0.Auth0UserProfile)
       .subscribe(profile => observer.next(profile), (err: any) => observer.error(err))
@@ -81,7 +81,7 @@ export class UsersService {
   getUsersAsSelect(): Array<SelectItem> {
     var users: Array<SelectItem> = [];
 
-    
+
 
     return users;
   }

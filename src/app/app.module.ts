@@ -1,5 +1,5 @@
 ﻿import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { environment } from '.env';
+import { environment } from 'environments';
 
 import { MomentModule } from 'angular2-moment';
 import { BrowserModule } from '@angular/platform-browser';
