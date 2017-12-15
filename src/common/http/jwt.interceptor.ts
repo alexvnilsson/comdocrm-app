@@ -1,3 +1,5 @@
+import * as URL from "url";
+
 import { environment } from 'environments';
 import { AuthenticationService } from 'app/common/authentication/authentication.service';
 import { Observable } from 'rxjs/Observable';
@@ -6,6 +8,17 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 
 import 'rxjs/add/observable/throw';
 
+const SECURED_ENDPOINTS = [
+  {
+    type: "API",
+    domain: "api.propublic.se"
+  },
+  {
+    type: "IdAuthority",
+    domain: environment.auth0.domain
+  }
+];
+
 @Injectable()
 export class JwtInterceptorService implements HttpInterceptor {
   constructor(
@@ -13,35 +26,39 @@ export class JwtInterceptorService implements HttpInterceptor {
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.auth.isAuthenticated()) {
-      if (req.url.indexOf(environment.auth0.domain) !== -1) {
-        // HTTP Request to Auth0 Authentication API.
-        const token = this.auth.accessToken;
+    let reqUrl = URL.parse(req.url),
+      reqEndpoint = SECURED_ENDPOINTS.find(ep => ep.domain == reqUrl.host);
 
-        if (token) {
-          const authReq = req.clone({
-            headers: req.headers.set('Authorization', `Bearer ${token}`)
-          });
-
-          return next.handle(authReq);
-        }
-
-      } else {
-        // HTTP Request to first-party API.
-
-        const token = this.auth.idToken;
-
-        if (token) {
-          const authReq = req.clone({
-            headers: req.headers.set('Authorization', `Bearer ${token}`)
-          });
-
-          return next.handle(authReq);
+    if (environment.production || environment.staging) {
+      if (!this.auth.isAuthenticated()) {
+        if (SECURED_ENDPOINTS.find(ep => ep.domain == reqUrl.host)) {
+          return Observable.throw(new Error('Client not authenticated to secure endpoint; aborting request.'));
         }
       }
+    } else {
+      console.warn(`ATTENTION! DEVELOPER MODE ENABLED, BYPASSING AUTHENTICATION!`);
+
+      return next.handle(req);
     }
 
-    return Observable.throw(new Error('Client not authenticated, canceling.'));
+    switch(reqEndpoint.type) {
+      case "IdAuthority":
+        return next.handle(
+          req.clone({
+            headers: req.headers.set('Authorization', `Bearer ${this.auth.accessToken}`)
+          })
+        );
+
+      case "API":
+        return next.handle(
+          req.clone({
+            headers: req.headers.set('Authorization', `Bearer ${this.auth.idToken}`)
+          })
+        )
+
+      default:
+        return next.handle(req);
+    }
   }
 
 }
